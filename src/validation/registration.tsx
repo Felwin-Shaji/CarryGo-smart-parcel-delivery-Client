@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 export const registrationSchema = Yup.object().shape({
   name: Yup.string()
-  .trim()
+    .trim()
     .matches(/^[a-zA-Z\s]+$/, "Name should only contain letters")
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must not exceed 50 characters")
@@ -13,11 +13,16 @@ export const registrationSchema = Yup.object().shape({
     .email("Invalid email address")
     .required("Email is required"),
 
+
+  role: Yup.string()
+    .oneOf(["user", "agency", "admin", "hub", "worker"], "Invalid role")
+    .required("Role is required"),
+
   mobile: Yup.string()
     .trim()
     .matches(/^[0-9]{10}$/, "Enter a valid 10-digit mobile number")
-    .min(10,"Enter a valid 10-digit mobile number")
-    .max(10,"Enter a valid 10-digit mobile number")
+    .min(10, "Enter a valid 10-digit mobile number")
+    .max(10, "Enter a valid 10-digit mobile number")
     .required("Mobile number is required"),
 
   password: Yup.string()

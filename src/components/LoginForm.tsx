@@ -1,20 +1,31 @@
-import { useState, type FormEvent } from "react";
+import { useFormik } from "formik";
+import { useState,} from "react";
+import { loginSchema } from "../validation/login";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 
 interface LoginFormProps {
     title: string;
-    onSubmit: (email: string, password: string) => void;
+    onSubmit: (data: { email: string; password: string; role: string }) => void;
+    role: string;
     loading?: boolean;
-};
+    onGoogleLogin?: () => void;
+}
 
-const LoginForm = ({ title, onSubmit, loading }: LoginFormProps) => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const LoginForm = ({ title, onSubmit, role, loading, onGoogleLogin }: LoginFormProps) => {
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        onSubmit(email, password);
-    }
+    const [showPassword, setShowPassword] = useState(false);
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        validationSchema: loginSchema,
+        onSubmit: (values) => {
+            onSubmit({ ...values, role })
+        }
+    })
 
 
     return (
@@ -33,47 +44,70 @@ const LoginForm = ({ title, onSubmit, loading }: LoginFormProps) => {
                 {/* Right Section - Login Form */}
                 <div className="bg-[#FACC15] w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center rounded-t-2xl md:rounded-t-none md:rounded-l-[60px] md:rounded-tr-[60px]">
                     <form
-                        onSubmit={handleSubmit}
+                        onSubmit={formik.handleSubmit}
                         className="w-full max-w-sm mx-auto"
                     >
                         <h2 className="text-3xl font-bold text-[#1E3A8A] mb-2 text-center md:text-left">
                             {title}
                         </h2>
                         <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
-                            Do not have an account?{" "}
-                            <a href="#" className="text-[#1E3A8A] underline font-medium">
-                                create a new one.
+                            Don’t have an account?{" "}
+                            <a href={`http://localhost:5173/registration`} className="text-[#1E3A8A] underline font-medium">
+                                Create a new one.
                             </a>
                         </p>
 
+                        {/* Email Field */}
                         <div className="mb-4">
                             <label className="block text-sm font-semibold text-[#111827] mb-2">
                                 Enter Your Email
                             </label>
                             <input
                                 type="email"
-                                className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm"
+                                name="email"
+                                className={`w-full border-none rounded-full p-3 focus:outline-none shadow-sm ${formik.touched.email && formik.errors.email ? "border-red-500" : ""
+                                    }`}
                                 placeholder="michael.joe@xmail.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                             />
+                            {formik.touched.email && formik.errors.email && (
+                                <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
+                            )}
                         </div>
 
-                        <div className="mb-6">
+                        {/* Password Field */}
+                        <div className="mb-6 relative">
                             <label className="block text-sm font-semibold text-[#111827] mb-2">
                                 Enter Your Password
                             </label>
-                            <input
-                                type="password"
-                                className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm"
-                                placeholder="••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    className={`w-full border-none rounded-full p-3 focus:outline-none shadow-sm ${formik.touched.password && formik.errors.password
+                                        ? "border-red-500"
+                                        : ""
+                                        }`}
+                                    placeholder="••••••"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                                <span
+                                    className="absolute right-4 top-3.5 cursor-pointer text-gray-600"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                                </span>
+                            </div>
+                            {formik.touched.password && formik.errors.password && (
+                                <p className="text-red-500 text-xs mt-1">{formik.errors.password}</p>
+                            )}
                         </div>
 
+                        {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={loading}
@@ -82,16 +116,39 @@ const LoginForm = ({ title, onSubmit, loading }: LoginFormProps) => {
                             {loading ? "Logging in..." : "Login"}
                         </button>
 
+                        {/* Forgot Password */}
                         <p className="text-sm text-[#102467] mt-4 text-center underline cursor-pointer hover:text-[#1E3A8A]">
-                            Forgot Your Password
+                            Forgot Your Password?
                         </p>
+
+                        {/* OR Divider */}
+                        {onGoogleLogin && (
+                            <>
+                                <div className="flex items-center my-4">
+                                    <div className="flex-grow h-px bg-gray-300"></div>
+                                    <span className="mx-2 text-gray-600 text-sm">OR</span>
+                                    <div className="flex-grow h-px bg-gray-300"></div>
+                                </div>
+
+                                {/* Google Login */}
+                                <button
+                                    type="button"
+                                    onClick={onGoogleLogin}
+                                    className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 py-3 rounded-full border border-gray-300 font-semibold hover:bg-gray-50 transition"
+                                >
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                                        alt="Google Logo"
+                                        className="w-5 h-5"
+                                    />
+                                    Continue with Google
+                                </button>
+                            </>
+                        )}
                     </form>
                 </div>
             </div>
         </div>
-
-
-    )
+    );
 }
-
 export default LoginForm;

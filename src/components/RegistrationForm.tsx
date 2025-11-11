@@ -11,7 +11,9 @@ interface RegistrationFormProps {
     email: string;
     mobile: string;
     password: string;
+    role:string;
   }) => void;
+  role: string;
   onGoogleSignUp?: () => void;
   loading?: boolean;
 }
@@ -21,6 +23,7 @@ const RegistrationForm = ({
   onSubmit,
   onGoogleSignUp,
   loading,
+  role
 }: RegistrationFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -29,14 +32,15 @@ const RegistrationForm = ({
     initialValues: {
       name: "",
       email: "",
+      role: role,
       mobile: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: registrationSchema,
     onSubmit: (values) => {
-      console.log("Form submitted:", values);
-      onSubmit(values)
+      console.log("Form submitted:", { ...values, role });
+      onSubmit({ ...values, role })
     }
   })
 
