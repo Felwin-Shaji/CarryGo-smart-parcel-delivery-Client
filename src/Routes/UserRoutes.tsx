@@ -6,6 +6,7 @@ import Home from "../pages/User/Home"
 import ProtectedRoute from "./ProtectedRoute"
 import { ROLES } from "../types/roles"
 import PublicRoute from "./PublicRoute"
+import LandingPage from "../pages/User/LangingPage"
 
 
 const UserRoutes = () => {
@@ -15,9 +16,15 @@ const UserRoutes = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="registration" element={<RegistrationPage />} />
         <Route path="verify-otp" element={<OtpVarificationpage />} />
+        <Route path="/" element={<LandingPage/>}/>
       </Route>
 
-      <Route path="" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
+
+      
+
+      <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}>
+        <Home />
+      </ProtectedRoute>} />
     </Routes>
   )
 }

@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../hooks/useAxios';
 import { useDispatch } from 'react-redux';
-import { login } from '../../store/Slice/authSlice';
+import { login } from '../../store/Slice/userSlice';
+import { API_AUTH } from '../../constants/apiRoutes';
 
 
 const OtpVarificationpage = () => {
@@ -34,7 +35,7 @@ const OtpVarificationpage = () => {
     }
 
     try {
-      const response = await axiosInstance.post("/api/user/verify-otp", { email, otp, role });
+      const response = await axiosInstance.post(API_AUTH.VERIFY_OTP, { email, otp, role });
 
       if (response.data?.success) {
         toast.success(response.data.message || "OTP verified successfully!");
@@ -53,7 +54,7 @@ const OtpVarificationpage = () => {
 
   const handleResendOtp = async () => {
     try {
-      const response = await axiosInstance.post("/api/user/send-otp", { email, role });
+      const response = await axiosInstance.post(API_AUTH.SEND_OTP, { email, role });
       if (response.data?.success) {
         localStorage.setItem("otpMeta", JSON.stringify({
           email,

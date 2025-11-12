@@ -1,8 +1,9 @@
-import axios from 'axios'
 import RegistrationForm from '../../components/RegistrationForm'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { ROLES } from '../../types/roles';
+import { useAxios } from '../../hooks/useAxios';
+import { API_AUTH } from '../../constants/apiRoutes';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -21,17 +22,15 @@ export interface OtpMeta {
 
 
 const RegistrationPage = () => {
-
+    const axiosInstance = useAxios();
     const navigate = useNavigate();
 
     async function handleRegistration(values: RegistrationFormValues) {
 
         try {
             console.log(BASE_URL)
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            const response = await axios.post((`${BASE_URL}/api/user/send-otp`), values) 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            console.log(response,"................send-otp response............");
+            const response = await axiosInstance.post(API_AUTH.SEND_OTP,values)
+            console.log(response, "................send-otp response............");
             if (response.data?.success) {
 
                 const otpData: OtpMeta = {

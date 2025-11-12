@@ -3,11 +3,9 @@ import LoginForm from "../../components/LoginForm";
 import { ROLES } from "../../types/roles";
 import { useAxios } from "../../hooks/useAxios";
 import { useDispatch } from "react-redux";
-import { login } from "../../store/Slice/authSlice";
+import { login } from "../../store/Slice/userSlice";
 import { useNavigate } from "react-router-dom";
-
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import { API_AUTH } from "../../constants/apiRoutes";
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -18,7 +16,7 @@ const LoginPage = () => {
   const handleLogin = async (data: { email: string, password: string, role: string }) => {
     console.log("Logging in with:", data.email, data.password);
     try {
-      const response = await axiosInstance.post(`${BASE_URL}/api/user/login`, data);
+      const response = await axiosInstance.post(API_AUTH.LOGIN, data);
 
       if (response.data?.success) {
         toast.success(response.data.message || "Login successfully completed");
@@ -27,8 +25,8 @@ const LoginPage = () => {
       }
 
     } catch (error: any) {
-      console.error("Registration error:", error);
-      toast.error(error.response.data?.error || "Login failed!");
+      console.error("Registration error:", error.response.data?.message ,'lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll');
+      toast.error(error.response.data?.message || "Login failed!");
     }
   };
 

@@ -1,15 +1,13 @@
 
 import { Header } from "./components/Header";
 
-export default function Home() {
+export default function LandingPage() {
   return (
     <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
 
-      <Header isLoggedIn={true} />
+      <Header isLoggedIn={false} />
 
     </div>
   );
 }
-
-
 

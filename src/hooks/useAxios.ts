@@ -28,7 +28,7 @@ export const useAxios = (): AxiosInstance => {
                 const status = error.response?.status;
 
                 if (status === 401) {
-                    toast.error("Session expired. Please log in again.");
+                    toast.error(data?.message||"Session expired. Please log in again.");
                 } else if (status === 403) {
                     toast.error("Access denied. Please check your permissions.");
                 } else if (status === 500) {

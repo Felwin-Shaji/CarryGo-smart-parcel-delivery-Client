@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux"
 import { useAxios } from "./useAxios";
 import { useEffect, useState } from "react";
-import { login, logout } from "../store/Slice/authSlice";
+import { login, userlogout } from "../store/Slice/userSlice";
+import { API_AUTH } from "../constants/apiRoutes";
 
 export const useAuthRehydration = () => {
     const dispatch = useDispatch();
@@ -11,8 +12,8 @@ export const useAuthRehydration = () => {
     useEffect(() => {
         const refreshSession = async () => {
             try {
-                const response = await axiosInstance.post("/api/user/refresh"); //"/api/auth/refresh"
-                console.log(response,'...................ccccccc.cc..............')
+                const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN);
+                
                 if (response.data?.success) {
                     dispatch(
                         login({
@@ -21,12 +22,12 @@ export const useAuthRehydration = () => {
                         })
                     )
                 } else {
-                    dispatch(logout())
+                    dispatch(userlogout())
                 }
 
             } catch (error) {
-                dispatch(logout())
-            }finally {
+                dispatch(userlogout())
+            } finally {
                 setLoading(false)
             }
         }

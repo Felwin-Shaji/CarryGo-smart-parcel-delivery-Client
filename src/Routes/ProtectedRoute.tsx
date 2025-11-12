@@ -12,7 +12,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
-    const { user } = useSelector((state: RootState) => state.auth)
+    const { user } = useSelector((state: RootState) => state.userState)
     const isAuthenticated = !!user
     if (!isAuthenticated) {
         return <Navigate to="/" replace />
@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
     if (requiredRole !== user?.role) {
         switch (user?.role) {
             case ROLES.USER:
-                return <Navigate to="/" replace />;
+                return <Navigate to="/home" replace />;
             case ROLES.AGENCY:
                 return <Navigate to="/agency/dashboard" replace />;
             case ROLES.ADMIN:

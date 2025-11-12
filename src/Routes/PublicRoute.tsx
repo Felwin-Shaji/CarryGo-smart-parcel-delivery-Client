@@ -5,13 +5,13 @@ import type { RootState } from "../store/store";
 import { ROLES } from "../types/roles";
 
 const PublicRoute: React.FC = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
+     const { user } = useSelector((state: RootState) => state.userState)
   const isAuthenticated = !!user;
 
   if (isAuthenticated) {
     switch (user.role) {
       case ROLES.USER:
-        return <Navigate to="/user/home" replace />;
+        return <Navigate to="/home" replace />;
       case ROLES.AGENCY:
         return <Navigate to="/agency/dashboard" replace />;
       case ROLES.ADMIN:

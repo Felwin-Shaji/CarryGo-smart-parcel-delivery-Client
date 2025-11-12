@@ -7,20 +7,20 @@ interface User {
   role: string;
 }
 
-export interface AuthState {
+export interface UserState {
   user: User | null;
   accessToken: string | null;
   initialHydrationComplete: boolean;
 }
 
-const initialState: AuthState = {
+const initialState: UserState = {
   user: null,
   accessToken: null,
   initialHydrationComplete: false,
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const userSlice = createSlice({
+  name: "userReducer",
   initialState,
   reducers: {
     login(state, action: PayloadAction<{ user: User; accessToken: string }>) {
@@ -29,7 +29,7 @@ const authSlice = createSlice({
       state.initialHydrationComplete = true;
     },
 
-    logout(state) {
+    userlogout(state) {
       state.user = null;
       state.accessToken = null;
       state.initialHydrationComplete = true;
@@ -41,6 +41,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, completeInitialHydration } = authSlice.actions;
+export const { login, userlogout, completeInitialHydration } = userSlice.actions;
 
-export default authSlice.reducer;
+export default userSlice.reducer;
