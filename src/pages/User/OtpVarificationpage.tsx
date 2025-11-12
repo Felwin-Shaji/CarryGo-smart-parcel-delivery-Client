@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../hooks/useAxios';
 import { useDispatch } from 'react-redux';
-import { login } from '../../store/Slice/userSlice';
+import { userLogin } from '../../store/Slice/userSlice';
 import { API_AUTH } from '../../constants/apiRoutes';
 
 
@@ -41,7 +41,7 @@ const OtpVarificationpage = () => {
         toast.success(response.data.message || "OTP verified successfully!");
         localStorage.removeItem("otpMeta");
         console.log(response.data, 'aazzzaaazzzaaazzz')
-        dispatch(login(response.data))
+        dispatch(userLogin(response.data))
         navigate("/home");
       } else {
         toast.error(response.data?.message || "Verification failed.");

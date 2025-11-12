@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux"
 import { useAxios } from "./useAxios";
 import { useEffect, useState } from "react";
-import { login, userlogout } from "../store/Slice/userSlice";
+import { userLogin, userLogout } from "../store/Slice/userSlice";
 import { API_AUTH } from "../constants/apiRoutes";
+import { ROLES } from "../types/roles";
+import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 
 export const useAuthRehydration = () => {
     const dispatch = useDispatch();
@@ -13,20 +15,30 @@ export const useAuthRehydration = () => {
         const refreshSession = async () => {
             try {
                 const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN);
-                
+
                 if (response.data?.success) {
-                    dispatch(
-                        login({
-                            user: response.data.user,
-                            accessToken: response.data.accessToken
-                        })
-                    )
+                    const { user, accessToken } = response.data;
+
+                    switch (user.role) {
+                        case ROLES.USER:
+                            dispatch(userLogin({ user, accessToken }));
+                            break;
+                        case ROLES.ADMIN:
+                            dispatch(adminLogin({ admin: user, accessToken }));
+                            break;
+                        default:
+                            dispatch(userLogout());
+                            dispatch(adminLogout());
+                            break;
+                    }
+
                 } else {
-                    dispatch(userlogout())
+                    dispatch(userLogout());
+                    dispatch(adminLogout());
                 }
 
             } catch (error) {
-                dispatch(userlogout())
+                dispatch(userLogout())
             } finally {
                 setLoading(false)
             }

@@ -1,28 +1,29 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import type { RootState } from "../store/store";
-import { ROLES } from "../types/roles";
 
 const PublicRoute: React.FC = () => {
-     const { user } = useSelector((state: RootState) => state.userState)
-  const isAuthenticated = !!user;
+  const location = useLocation();
+  const { user } = useSelector((state: RootState) => state.userState);
+  const { admin } = useSelector((state: RootState) => state.adminState);
 
-  if (isAuthenticated) {
-    switch (user.role) {
-      case ROLES.USER:
-        return <Navigate to="/home" replace />;
-      case ROLES.AGENCY:
-        return <Navigate to="/agency/dashboard" replace />;
-      case ROLES.ADMIN:
-        return <Navigate to="/admin/dashboard" replace />;
-      case ROLES.HUB:
-        return <Navigate to="/hub/dashboard" replace />;
-      case ROLES.WORKER:
-        return <Navigate to="/worker/dashboard" replace />;
-      default:
-        return <Navigate to="/unauthorized" replace />;
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  console.log("isAdminRoute:", isAdminRoute, "| user:", !!user, "| admin:", !!admin);
+
+  if (isAdminRoute) {
+    if (admin) {
+      return <Navigate to="/admin/dashboard" replace />;
     }
+    return <Outlet />;
+  }
+
+  if (!isAdminRoute) {
+    if (user) {
+      return <Navigate to="/home" replace />;
+    }
+    return <Outlet />;
   }
 
   return <Outlet />;

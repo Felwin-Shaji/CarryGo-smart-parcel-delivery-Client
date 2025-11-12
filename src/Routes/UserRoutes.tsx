@@ -16,15 +16,12 @@ const UserRoutes = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="registration" element={<RegistrationPage />} />
         <Route path="verify-otp" element={<OtpVarificationpage />} />
-        <Route path="/" element={<LandingPage/>}/>
+
+        <Route path="" element={<LandingPage/>}/>
       </Route>
 
+      <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
 
-      
-
-      <Route path="/home" element={<ProtectedRoute requiredRole={ROLES.USER}>
-        <Home />
-      </ProtectedRoute>} />
     </Routes>
   )
 }
