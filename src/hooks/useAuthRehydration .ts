@@ -3,10 +3,10 @@ import { useAxios } from "./useAxios";
 import { useEffect, useState } from "react";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
 import { API_AUTH } from "../constants/apiRoutes";
-import { ROLES } from "../types/roles";
+import { ROLES, type Roles } from "../types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 
-export const useAuthRehydration = () => {
+export const useAuthRehydration = (role:Roles) => {
     const dispatch = useDispatch();
     const axiosInstance = useAxios();
     const [loading, setLoading] = useState(true);
@@ -14,7 +14,9 @@ export const useAuthRehydration = () => {
     useEffect(() => {
         const refreshSession = async () => {
             try {
-                const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN);
+                const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN,{role});
+
+                console.log(response,"responce from useAuthRehydration")
 
                 if (response.data?.success) {
                     const { user, accessToken } = response.data;
@@ -24,6 +26,7 @@ export const useAuthRehydration = () => {
                             dispatch(userLogin({ user, accessToken }));
                             break;
                         case ROLES.ADMIN:
+                            console.log(user,"responce from useAuthRehydration user")
                             dispatch(adminLogin({ admin: user, accessToken }));
                             break;
                         default:
@@ -47,5 +50,5 @@ export const useAuthRehydration = () => {
         refreshSession();
     }, [dispatch, axiosInstance])
 
-    return loading
+    return loading;
 }

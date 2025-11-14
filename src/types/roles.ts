@@ -5,3 +5,6 @@ export const ROLES = {
   HUB: "hub",
   WORKER: "worker",
 } as const;
+
+
+export type Roles = "user" | "admin" | "agency" | "hub" | "worker"

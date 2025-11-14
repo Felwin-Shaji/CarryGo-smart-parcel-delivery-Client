@@ -12,7 +12,7 @@ export const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = async (role: string, userId: string) => {
+  const handleLogoutt = async (role: string, userId: string) => {
     try {
       const response = await axiosInstance.post(API_AUTH.LOGOUT, { role, userId });
       if (response.data.success) {
@@ -39,6 +39,7 @@ export const useAuth = () => {
       if (response.data?.success) {
         toast.success(response.data.message || "Login successful");
 
+        console.log(response.data.user,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
 
         if (data.role === ROLES.USER) {
           dispatch(userLogin(response.data));
@@ -56,5 +57,5 @@ export const useAuth = () => {
     }
   };
 
-  return { handleLogin, handleLogout };
+  return { handleLogin, handleLogoutt };
 };

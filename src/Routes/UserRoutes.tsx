@@ -7,9 +7,15 @@ import ProtectedRoute from "./ProtectedRoute"
 import { ROLES } from "../types/roles"
 import PublicRoute from "./PublicRoute"
 import LandingPage from "../pages/User/LangingPage"
+import { useAuthRehydration } from "../hooks/useAuthRehydration "
+import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
 
 
 const UserRoutes = () => {
+  const loading = useAuthRehydration(ROLES.USER);
+  if (loading) {
+    return <LoadingScreen />;
+  }
   return (
     <Routes>
       <Route element={<PublicRoute />}>
@@ -17,7 +23,7 @@ const UserRoutes = () => {
         <Route path="registration" element={<RegistrationPage />} />
         <Route path="verify-otp" element={<OtpVarificationpage />} />
 
-        <Route path="" element={<LandingPage/>}/>
+        <Route path="" element={<LandingPage />} />
       </Route>
 
       <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />

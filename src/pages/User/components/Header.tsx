@@ -24,7 +24,7 @@ const navItems: NavItem[] = [
 ];
 
 export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
-    const { handleLogout } = useAuth();
+    const { handleLogoutt } = useAuth();
     const navigate = useNavigate()
 
     const [menuOpen, setMenuOpen] = useState(true);
@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
         { label: "Profile", icon: <User className="h-4 w-4" />, onClick: () => console.log("Profile") },
         { label: "Wallet", icon: <Wallet className="h-4 w-4" />, onClick: () => console.log("Wallet") },
         { label: "Settings", icon: <Settings className="h-4 w-4" />, onClick: () => console.log("Settings") },
-        { label: "Logout", icon: <LogOut className="h-4 w-4" />, onClick: () => user && handleLogout(user.role, user.id), danger: true },
+        { label: "Logout", icon: <LogOut className="h-4 w-4" />, onClick: () => user && handleLogoutt(user.role, user.id), danger: true },
     ];
 
     const landingItems = [

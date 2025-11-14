@@ -10,8 +10,11 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
+
   const { user } = useSelector((state: RootState) => state.userState);
-  const { admin } = useSelector((state: RootState) => state.adminState);
+  const { admin, accessToken } = useSelector((state: RootState) => state.adminState);
+
+  console.log(admin, accessToken)
 
   const allRoles: Partial<Record<(typeof ROLES)[keyof typeof ROLES], any>> = {
     [ROLES.USER]: user,
