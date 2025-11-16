@@ -8,10 +8,10 @@ export interface DropdownItem {
 }
 
 interface DropdownMenuProps {
-    trigger: ReactNode; // 👈 The button or icon that opens it
+    trigger: ReactNode; 
     items: DropdownItem[];
     align?: "left" | "right";
-    width?: string; // e.g., "w-48" or "w-60"
+    width?: string // "w-48" or "w-60"
 }
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({

@@ -1,15 +1,14 @@
+import { useEffect, useState } from 'react'
 import OtpVerificationForm from '../../components/otpVarification'
 import toast from 'react-hot-toast';
-import { useEffect, useState } from 'react';
+import { API_AUTH } from '../../constants/apiRoutes';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../hooks/useAxios';
 import { useDispatch } from 'react-redux';
-import { userLogin } from '../../store/Slice/userSlice';
-import { API_AUTH } from '../../constants/apiRoutes';
+import { agencyLogin } from '../../store/Slice/agencySlice';
 
-
-const OtpVarificationpage = () => {
-  const navigate = useNavigate()
+const AgencyOtpVarification = () => {
+      const navigate = useNavigate()
   const axiosInstance = useAxios();
   const dispatch = useDispatch()
   const [email, setEmail] = useState("");
@@ -35,12 +34,12 @@ const OtpVarificationpage = () => {
     }
 
     try {
-      const response = await axiosInstance.post(API_AUTH.VERIFY_OTP, { email, otp, role });
-
+      const response = await axiosInstance.post(API_AUTH.VERIFY_OTP, { email, otp, role }); ////////////////////////////////////////////////////
+            console.log(response)
       if (response.data?.success) {
         toast.success(response.data.message || "OTP verified successfully!");
         localStorage.removeItem("otpMeta");
-        dispatch(userLogin(response.data))
+        dispatch(agencyLogin(response.data));///////////////////////////////////////////////////////////////
         navigate("/home");
       } else {
         toast.error(response.data?.message || "Verification failed.");
@@ -66,12 +65,9 @@ const OtpVarificationpage = () => {
     }
   };
 
-
   return (
-    <div>
-      <OtpVerificationForm title='Verify Email' onSubmit={handleOtpVerification} onResendOtp={handleResendOtp} email={email} />
-    </div>
+    <OtpVerificationForm title='Varify your Agency email' onSubmit={handleOtpVerification} onResendOtp={handleResendOtp} />
   )
 }
 
-export default OtpVarificationpage
+export default AgencyOtpVarification

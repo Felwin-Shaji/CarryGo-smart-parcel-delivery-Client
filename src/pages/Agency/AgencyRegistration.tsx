@@ -20,7 +20,7 @@ export interface OtpMeta {
 }
 
 
-const RegistrationPage = () => {
+const AgencyRegistration = () => {
     const axiosInstance = useAxios();
     const navigate = useNavigate();
 
@@ -49,9 +49,8 @@ const RegistrationPage = () => {
     }
 
     return (
-        <div><RegistrationForm title='User Registarion' onSubmit={handleRegistration} role={ROLES.USER} /></div>
+        <div><RegistrationForm title='Agency Registarion' onSubmit={handleRegistration} role={ROLES.AGENCY} /></div>
     )
 }
 
-export default RegistrationPage
-
+export default AgencyRegistration

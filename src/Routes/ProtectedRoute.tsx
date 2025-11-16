@@ -12,34 +12,36 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
 
   const { user } = useSelector((state: RootState) => state.userState);
-  const { admin, accessToken } = useSelector((state: RootState) => state.adminState);
+  const { admin } = useSelector((state: RootState) => state.adminState);
+  const { agency } = useSelector((state: RootState) => state.agencyState);
 
-  console.log(admin, accessToken)
+  console.log(user,admin,agency)
+
 
   const allRoles: Partial<Record<(typeof ROLES)[keyof typeof ROLES], any>> = {
     [ROLES.USER]: user,
     [ROLES.ADMIN]: admin,
+    [ROLES.AGENCY]: agency
   };
 
   const currentUser = allRoles[requiredRole];
   const isAuthenticated = !!currentUser;
 
-  console.log("🛡️ ProtectedRoute -> role:", requiredRole, "| isAuthenticated:", isAuthenticated);
 
   if (!isAuthenticated) {
-    console.log("🚫 Redirecting - no session for", requiredRole);
     switch (requiredRole) {
       case ROLES.ADMIN:
         return <Navigate to="/admin/login" replace />;
       case ROLES.USER:
         return <Navigate to="/" replace />;
+      case ROLES.AGENCY:
+        return <Navigate to="/agency/login" />;
       default:
         return <Navigate to="/unauthorized" replace />;
     }
   }
 
   if (requiredRole !== currentUser?.role) {
-    console.log("⚠️ Role mismatch -> redirecting to their dashboard:", currentUser?.role);
     switch (currentUser?.role) {
       case ROLES.USER:
         return <Navigate to="/home" replace />;
@@ -56,7 +58,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
     }
   }
 
-  console.log("✅ Access granted for:", requiredRole);
   return <>{children}</>;
 };
 

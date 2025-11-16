@@ -2,20 +2,26 @@ import { DashboardContext } from "./DashboardContext";
 import { adminMenu } from "../config/adminMenu";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
-import { ROLES } from "../types/roles";
+import { ROLES, type Roles } from "../types/roles";
 import { useAuth } from "../Services/Logout";
+import type { RootState } from "../store/store";
+
+type DashboardRoles = Exclude<Roles, "user">;
+
 
 interface DashboardProviderProps {
   children: ReactNode;
-  role: "admin" | "agency" | "worker" | "hub";
+  role: DashboardRoles;
 }
 
 export function DashboardProvider({ children, role }: DashboardProviderProps) {
   const { handleLogoutt } = useAuth();
+  let currentUser = null;
+  if (role === ROLES.ADMIN) currentUser = useSelector((state: RootState) => state.adminState.admin);
+  if (role === ROLES.AGENCY) currentUser = useSelector((state: RootState) => state.agencyState.agency);
 
-  const admin = useSelector((state: any) => state.adminState.admin);
 
-  const userName = admin?.name || "User";
+  const userName = currentUser?.name || "User";
 
   const roleMenus = {
     admin: adminMenu,
@@ -25,8 +31,8 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   };
 
   const handleLogout = () => {
-    if (role === ROLES.ADMIN && admin?.id) {
-      handleLogoutt(ROLES.ADMIN, admin.id);
+    if (role === ROLES.ADMIN && currentUser?.id) {
+      handleLogoutt(ROLES.ADMIN, currentUser.id);
     }
   };
 

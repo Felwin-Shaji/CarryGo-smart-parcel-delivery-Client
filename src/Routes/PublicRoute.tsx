@@ -7,10 +7,10 @@ const PublicRoute: React.FC = () => {
   const location = useLocation();
   const { user } = useSelector((state: RootState) => state.userState);
   const { admin } = useSelector((state: RootState) => state.adminState);
+  const { agency } = useSelector((state: RootState) => state.agencyState);
 
   const isAdminRoute = location.pathname.startsWith("/admin");
-
-  console.log("isAdminRoute:", isAdminRoute, "| user:", !!user, "| admin:", !!admin);
+  const isAgencyRoute = location.pathname.startsWith("/agency")
 
   if (isAdminRoute) {
     if (admin) {
@@ -19,7 +19,14 @@ const PublicRoute: React.FC = () => {
     return <Outlet />;
   }
 
-  if (!isAdminRoute) {
+  if (isAgencyRoute) {
+    if (agency) {
+      return <Navigate to="/agency/dashboard" replace />;
+    }
+    return <Outlet />;
+  }
+
+  if (!isAdminRoute || !isAgencyRoute) {
     if (user) {
       return <Navigate to="/home" replace />;
     }

@@ -3,6 +3,7 @@ import './App.css'
 import UserRoutes from './Routes/UserRoutes'
 import { Toaster } from 'react-hot-toast'
 import AdminRoutes from './Routes/AdminRoutes';
+import AgencyRoutes from './Routes/AgencyRoutes';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/*' element={<UserRoutes />} />
         <Route path='/admin/*' element={<AdminRoutes />} />
+        <Route path='/agency/*' element={<AgencyRoutes />} />
       </Routes>
     </>
   )

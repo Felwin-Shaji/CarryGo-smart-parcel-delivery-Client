@@ -32,14 +32,11 @@ export const useAuth = () => {
 
 
   const handleLogin = async (data: { email: string; password: string; role: string }) => {
-    console.log("Logging in with:", data.email, data.password);
     try {
       const response = await axiosInstance.post(API_AUTH.LOGIN, data);
 
       if (response.data?.success) {
         toast.success(response.data.message || "Login successful");
-
-        console.log(response.data.user,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
 
         if (data.role === ROLES.USER) {
           dispatch(userLogin(response.data));

@@ -5,8 +5,9 @@ import { userLogin, userLogout } from "../store/Slice/userSlice";
 import { API_AUTH } from "../constants/apiRoutes";
 import { ROLES, type Roles } from "../types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
+import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 
-export const useAuthRehydration = (role:Roles) => {
+export const useAuthRehydration = (role: Roles) => {
     const dispatch = useDispatch();
     const axiosInstance = useAxios();
     const [loading, setLoading] = useState(true);
@@ -14,9 +15,7 @@ export const useAuthRehydration = (role:Roles) => {
     useEffect(() => {
         const refreshSession = async () => {
             try {
-                const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN,{role});
-
-                console.log(response,"responce from useAuthRehydration")
+                const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN, { role });
 
                 if (response.data?.success) {
                     const { user, accessToken } = response.data;
@@ -26,9 +25,11 @@ export const useAuthRehydration = (role:Roles) => {
                             dispatch(userLogin({ user, accessToken }));
                             break;
                         case ROLES.ADMIN:
-                            console.log(user,"responce from useAuthRehydration user")
                             dispatch(adminLogin({ admin: user, accessToken }));
                             break;
+                        case ROLES.AGENCY:
+                            dispatch(agencyLogin({ agency: user, accessToken }));
+                            break
                         default:
                             dispatch(userLogout());
                             dispatch(adminLogout());
@@ -38,10 +39,13 @@ export const useAuthRehydration = (role:Roles) => {
                 } else {
                     dispatch(userLogout());
                     dispatch(adminLogout());
+                    dispatch(agencyLogout())
                 }
 
             } catch (error) {
                 dispatch(userLogout())
+                dispatch(adminLogout());
+                dispatch(agencyLogout())
             } finally {
                 setLoading(false)
             }

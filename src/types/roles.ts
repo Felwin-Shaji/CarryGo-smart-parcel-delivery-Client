@@ -8,3 +8,16 @@ export const ROLES = {
 
 
 export type Roles = "user" | "admin" | "agency" | "hub" | "worker"
+
+export type KYCStatus =
+  | "PENDING"
+  | "REGISTERED"
+  | "APPROVED"
+  | "REJECTED";
+
+export const KYCSTATUS = {
+  PENDING:"PENDING",
+  REGISTERED:"REGISTERED",
+  APPROVED:"APPROVED",
+  REJECTED:"REJECTED"
+}

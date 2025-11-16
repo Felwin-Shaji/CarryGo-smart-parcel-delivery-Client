@@ -50,7 +50,7 @@ export const DashboardLayout = ({
                         />
                     }
                     <button onClick={toggleSidebar} className="text-gray-300 hover:text-white">
-                        {isSidebarOpen ? <ArrowLeftCircle size={20} /> : <Menu size={22} />}
+                        {isSidebarOpen ? <ArrowLeftCircle size={19} /> : <Menu size={22} />}
                     </button>
                 </div>
 
@@ -119,19 +119,6 @@ export const DashboardLayout = ({
                         <button onClick={handleLogout} className="hover:text-blue-400">
                             <LogOut size={22} />
                         </button>
-
-                        <button
-                            onClick={() => {
-                                console.log("Logout button clicked!");
-                                handleLogout();
-                            }}
-                            className="bg-red-500 text-white px-3 py-1"
-                        >
-                            LOGOUT TEST
-                        </button>
-
-
-
                     </div>
                 </header>
 
