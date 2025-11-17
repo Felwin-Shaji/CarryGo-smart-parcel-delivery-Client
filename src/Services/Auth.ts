@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
 import { ROLES } from "../types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
+import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 
 export const useAuth = () => {
   const axiosInstance = useAxios();
@@ -22,6 +23,10 @@ export const useAuth = () => {
         } else if (role === ROLES.ADMIN) {
           dispatch(adminLogout());
           navigate("/admin/login");
+        } else if (role === ROLES.AGENCY) {
+
+          dispatch(agencyLogout());
+          navigate("/agency/login");
         }
         toast.success("Logged out successfully");
       }
@@ -47,6 +52,12 @@ export const useAuth = () => {
             accessToken: response.data.accessToken,
           }));
           navigate("/admin/dashboard");
+        } else if (data.role === ROLES.AGENCY) {
+          dispatch(agencyLogin({
+            agency: response.data.user,
+            accessToken: response.data.accessToken
+          }))
+          navigate("/agency/dashboard");
         }
       }
     } catch (error: any) {

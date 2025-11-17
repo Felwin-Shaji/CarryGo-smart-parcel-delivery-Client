@@ -5,7 +5,7 @@ import { DropdownMenu } from "../../../components/globelcomponents/DropdownMenu"
 
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
-import { useAuth } from "../../../Services/Logout";
+import { useAuth } from "../../../Services/Auth";
 import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {

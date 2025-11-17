@@ -3,7 +3,7 @@ import { adminMenu } from "../config/adminMenu";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { ROLES, type Roles } from "../types/roles";
-import { useAuth } from "../Services/Logout";
+import { useAuth } from "../Services/Auth";
 import type { RootState } from "../store/store";
 
 type DashboardRoles = Exclude<Roles, "user">;
@@ -31,8 +31,8 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   };
 
   const handleLogout = () => {
-    if (role === ROLES.ADMIN && currentUser?.id) {
-      handleLogoutt(ROLES.ADMIN, currentUser.id);
+    if (currentUser?.id) {
+      handleLogoutt(role, currentUser.id);
     }
   };
 
