@@ -2,13 +2,31 @@
 import { X } from "lucide-react";
 import { useFormik } from "formik";
 import { validationSchema } from "../../../validation/agencyKYCRegistration";
+import toast from "react-hot-toast";
+import { useAxios } from "../../../hooks/useAxios";
+import { API_AGENCY } from "../../../constants/apiRoutes";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../store/store";
+import { useNavigate } from "react-router-dom";
+import { updateAgencyKycStatus } from "../../../store/Slice/agencySlice";
+import { useState } from "react";
 
 
 
 
 const KYCRegistrationForm = () => {
+    const { agency } = useSelector((state: RootState) => state.agencyState)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
+
+    if (!agency) {
+        return
+    }
+    const axiosInstence = useAxios()
     const formik = useFormik({
         initialValues: {
+            id: agency.id,
             tradeLicenseNumber: "",
             tradeLicenseDocument: null as File | null,
             PANnumber: "",
@@ -17,8 +35,34 @@ const KYCRegistrationForm = () => {
             gst_certificate: null as File | null,
         },
         validationSchema,
-        onSubmit: (values) => {
-            console.log("VALIDATED FORM DATA:", values);
+        onSubmit: async (values) => {
+            const formData = new FormData();
+
+            formData.append("tradeLicenseNumber", values.tradeLicenseNumber);
+            formData.append("tradeLicenseDocument", values.tradeLicenseDocument!);
+            formData.append("PANnumber", values.PANnumber);
+            formData.append("PAN_photo", values.PAN_photo!);
+            formData.append("gst_number", values.gst_number);
+            formData.append("gst_certificate", values.gst_certificate!);
+            formData.append("id", agency?.id)
+
+            try {
+                console.log(formData)
+                const response = await axiosInstence.post(API_AGENCY.KYC_CARIFICATION, formData, {
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
+                console.log(response.data)
+
+                if (response.data.success) {
+                    toast.success(response.data.message || "form submited successfuly")
+                    dispatch(updateAgencyKycStatus(response.data.kycStatus));
+                    navigate("/agency/dashboard")
+                    setLoading(false)
+                }
+
+            } catch (error: any) {
+                toast.error(error.response.date.message || "Upload failed");
+            }
         },
     });
 
@@ -188,9 +232,18 @@ const KYCRegistrationForm = () => {
 
             <button
                 type="submit"
-                className="mt-12 w-full p-4 bg-blue-600 text-white text-lg rounded-xl font-semibold shadow-md hover:bg-blue-700 transition-all"
+                disabled={loading}
+                className={`mt-12 w-full p-4 text-lg rounded-xl font-semibold shadow-md transition-all 
+        ${loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
             >
-                Submit KYC
+                {loading ? (
+                    <div className="flex items-center justify-center gap-2">
+                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Uploading...
+                    </div>
+                ) : (
+                    "Submit KYC"
+                )}
             </button>
         </form>
     );

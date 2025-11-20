@@ -6,6 +6,7 @@ import { KYCSTATUS, ROLES } from "../../types/roles";
 import KYCRegistrationForm from "./components/KYCRegistrationForm";
 import KYCWaiting from "./components/KYCWaiting";
 import KYCRejected from "./components/KYCRejected";
+import DashboardContents from "./components/DashboardContents";
 
 
 const AgencyDashboard = () => {
@@ -24,7 +25,7 @@ const AgencyDashboard = () => {
                 return <KYCRejected />;
 
             case KYCSTATUS.APPROVED:
-                return <h1>This is agency dashboard</h1>;
+                return <DashboardContents/>;
         }
     };
 

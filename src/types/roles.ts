@@ -20,4 +20,4 @@ export const KYCSTATUS = {
   REGISTERED:"REGISTERED",
   APPROVED:"APPROVED",
   REJECTED:"REJECTED"
-}
+} as const

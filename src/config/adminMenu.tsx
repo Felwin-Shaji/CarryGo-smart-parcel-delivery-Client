@@ -2,7 +2,7 @@ import {
   Home,
   User,
   Wallet,
-  Shield,
+  // Shield,
   Building2,
 } from "lucide-react";
 import type { JSX } from "react";
@@ -22,7 +22,7 @@ export const adminMenu: MenuSection[] = [
   {
     section: "General",
     items: [
-      { name: "Dashboard", icon: <Home size={20} />, path: "/admin" },
+      { name: "Dashboard", icon: <Home size={20} />, path: "/admin/dashboard" },
       { name: "Profile", icon: <User size={20} />, path: "/admin/profile" },
       { name: "Wallet", icon: <Wallet size={20} />, path: "/admin/wallet" },
     ],
@@ -31,14 +31,14 @@ export const adminMenu: MenuSection[] = [
     section: "Users",
     items: [
       { name: "Users List", icon: <User size={20} />, path: "/admin/users" },
-      { name: "KYC Verification", icon: <Shield size={20} />, path: "/admin/kyc" },
+      // { name: "KYC Verification", icon: <Shield size={20} />, path: "/admin/kyc" },
     ],
   },
   {
     section: "Agency",
     items: [
       { name: "Agency List", icon: <Building2 size={20} />, path: "/admin/agency" },
-      { name: "Agency Verification", icon: <Shield size={20} />, path: "/admin/agency-verification" },
+      // { name: "Agency Verification", icon: <Shield size={20} />, path: "/admin/agency-verification" },
     ],
   },
 ];

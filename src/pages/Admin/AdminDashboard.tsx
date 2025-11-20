@@ -6,9 +6,7 @@ const AdminDashboard = () => {
     <div>
       <DashboardProvider role="admin">
         <DashboardLayout>
-          <h1>
-            this is dashbord
-          </h1>
+          <h1>Admin dashboard</h1>
         </DashboardLayout>
       </DashboardProvider>
 

@@ -10,7 +10,6 @@ export const useAxios = (): AxiosInstance => {
         baseURL: BASE_URL,
         withCredentials: true,
         headers: {
-            "Content-Type": "application/json",
         }
     });
 

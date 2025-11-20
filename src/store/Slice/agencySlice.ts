@@ -40,6 +40,12 @@ const agencySlice = createSlice({
       state.initialHydrationComplete = true;
     },
 
+    updateAgencyKycStatus(state, action: PayloadAction<KYCStatus>) {
+      if (state.agency) {
+        state.agency.kycStatus = action.payload;
+      }
+    },
+
     AgencyCompleteInitialHydration(state) {
       state.initialHydrationComplete = true;
     },
@@ -50,6 +56,7 @@ export const {
   agencyLogin,
   agencyLogout,
   AgencyCompleteInitialHydration,
+  updateAgencyKycStatus
 } = agencySlice.actions;
 
 export default agencySlice.reducer;

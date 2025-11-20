@@ -103,7 +103,7 @@ export const DashboardLayout = ({
                         <button onClick={toggleMobileMenu} className="md:hidden text-gray-300 hover:text-white">
                             <Menu size={22} />
                         </button>
-                        <h2 className="text-lg font-semibold">{pageTitle}</h2>
+                        <h2 className="text-lg font-bold text-gray-300  ">{pageTitle}</h2>
                     </div>
 
                     <div className="flex items-center gap-4">
