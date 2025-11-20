@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { MenuSection } from "../config/adminMenu";
+import type { MenuSection } from "../config/SidebarMenu/adminMenu";
 
 export interface DashboardContextType {
     menuItems:MenuSection[];

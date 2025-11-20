@@ -1,6 +1,6 @@
-import LoginForm from "../../components/LoginForm";
 import { useAuth } from "../../Services/Auth"
-import { ROLES } from "../../types/roles";
+import LoginForm from "../../components/Forms/LoginForm";
+import { ROLES } from "../../constants/types/roles";
 
 const AgencyLogin = () => {
 

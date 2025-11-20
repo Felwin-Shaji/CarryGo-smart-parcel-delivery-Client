@@ -1,7 +1,6 @@
-
-import LoginForm from "../../components/LoginForm";
-import { ROLES } from "../../types/roles";
 import { useAuth } from "../../Services/Auth";
+import LoginForm from "../../components/Forms/LoginForm";
+import { ROLES } from "../../constants/types/roles";
 
 const LoginPage = () => {
   const {handleLogin} = useAuth()

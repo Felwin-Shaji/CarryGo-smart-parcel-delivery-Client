@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
+import "leaflet/dist/leaflet.css";
 import UserRoutes from './Routes/UserRoutes'
 import { Toaster } from 'react-hot-toast'
 import AdminRoutes from './Routes/AdminRoutes';

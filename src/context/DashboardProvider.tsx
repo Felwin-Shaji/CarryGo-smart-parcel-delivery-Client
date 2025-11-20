@@ -1,10 +1,11 @@
 import { DashboardContext } from "./DashboardContext";
-import { adminMenu } from "../config/adminMenu";
+import { adminMenu } from "../config/SidebarMenu/adminMenu";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
-import { ROLES, type Roles } from "../types/roles";
 import { useAuth } from "../Services/Auth";
 import type { RootState } from "../store/store";
+import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
+import { ROLES, type Roles } from "../constants/types/roles";
 
 type DashboardRoles = Exclude<Roles, "user">;
 
@@ -25,7 +26,7 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
 
   const roleMenus = {
     admin: adminMenu,
-    agency: [],
+    agency: agencyMenu,
     worker: [],
     hub: [],
   };

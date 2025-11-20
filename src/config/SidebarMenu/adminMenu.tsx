@@ -2,7 +2,6 @@ import {
   Home,
   User,
   Wallet,
-  // Shield,
   Building2,
 } from "lucide-react";
 import type { JSX } from "react";

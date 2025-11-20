@@ -3,9 +3,9 @@ import { useAxios } from "./useAxios";
 import { useEffect, useState } from "react";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
 import { API_AUTH } from "../constants/apiRoutes";
-import { ROLES, type Roles } from "../types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
+import { ROLES, type Roles } from "../constants/types/roles";
 
 export const useAuthRehydration = (role: Roles) => {
     const dispatch = useDispatch();

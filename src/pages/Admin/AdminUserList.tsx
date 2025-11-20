@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
-import { DataTable } from "../../components/Table";
+import { DataTable } from "../../components/Table/Table";
 import toast from "react-hot-toast";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useAdmin } from "../../Services/Admin";

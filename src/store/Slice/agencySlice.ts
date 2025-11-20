@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { KYCStatus } from "../../types/roles";
+import type { KYCStatus } from "../../constants/types/roles";
+
 
 interface Agency {
   id: string;

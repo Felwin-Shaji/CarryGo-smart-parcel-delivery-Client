@@ -4,7 +4,7 @@ import { API_AUTH } from "../constants/apiRoutes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
-import { ROLES } from "../types/roles";
+import { ROLES } from "../constants/types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 

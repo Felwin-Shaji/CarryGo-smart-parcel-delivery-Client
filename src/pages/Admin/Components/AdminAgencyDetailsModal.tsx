@@ -4,8 +4,8 @@ import { useAdmin } from "../../../Services/Admin";
 import LoadingScreen from "../../../components/loading/CarryGoLoadingScreen";
 import { } from "react-icons/fi";
 import { FaLeftLong } from "react-icons/fa6";
-import { KYCSTATUS, type KYCStatus } from "../../../types/roles";
 import { confirmToast } from "../../../components/globelcomponents/confirmToast";
+import { KYCSTATUS, type KYCStatus } from "../../../constants/types/roles";
 
 export default function AdminAgencyDetailsModal({
     open,

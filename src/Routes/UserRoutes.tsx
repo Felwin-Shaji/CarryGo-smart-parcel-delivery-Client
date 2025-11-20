@@ -4,11 +4,11 @@ import RegistrationPage from "../pages/User/RegistrationPage"
 import OtpVarificationpage from "../pages/User/OtpVarificationpage"
 import Home from "../pages/User/Home"
 import ProtectedRoute from "./ProtectedRoute"
-import { ROLES } from "../types/roles"
 import PublicRoute from "./PublicRoute"
 import LandingPage from "../pages/User/LangingPage"
 import { useAuthRehydration } from "../hooks/useAuthRehydration "
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
+import { ROLES } from "../constants/types/roles"
 
 
 const UserRoutes = () => {
@@ -17,6 +17,8 @@ const UserRoutes = () => {
     return <LoadingScreen />;
   }
   return (
+    <>
+      <title>CarryGo</title>
     <Routes>
       <Route element={<PublicRoute />}>
         <Route path="login" element={<LoginPage />} />
@@ -29,6 +31,7 @@ const UserRoutes = () => {
       <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
 
     </Routes>
+    </>
   )
 }
 

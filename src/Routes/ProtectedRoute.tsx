@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { ROLES } from "../types/roles";
 import type { RootState } from "../store/store";
+import { ROLES } from "../constants/types/roles";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

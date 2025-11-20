@@ -9,7 +9,7 @@ import { useDashboard } from "../context/DashboardContext";
 
 interface DashboardLayoutProps {
     children: ReactNode;
-    pageTitle?: string;
+    pageTitle?: string | ReactNode;
 
 }
 

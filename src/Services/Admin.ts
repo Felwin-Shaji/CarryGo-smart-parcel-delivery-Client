@@ -1,6 +1,7 @@
 import { API_ADMIN } from "../constants/apiRoutes"
 import { useAxios } from "../hooks/useAxios"
-import type { KYCStatus } from "../types/roles";
+import type { KYCStatus } from "../constants/types/roles";
+// import type { KYCStatus } from "../context/types/roles";
 
 export const useAdmin = () => {
   const axiosInstance = useAxios();

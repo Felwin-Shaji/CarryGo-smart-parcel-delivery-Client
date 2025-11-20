@@ -2,11 +2,11 @@ import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
-import { KYCSTATUS, ROLES } from "../../types/roles";
 import KYCRegistrationForm from "./components/KYCRegistrationForm";
 import KYCWaiting from "./components/KYCWaiting";
 import KYCRejected from "./components/KYCRejected";
 import DashboardContents from "./components/DashboardContents";
+import { KYCSTATUS, ROLES } from "../../constants/types/roles";
 
 
 const AgencyDashboard = () => {
