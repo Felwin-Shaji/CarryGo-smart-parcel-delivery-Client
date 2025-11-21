@@ -6,7 +6,8 @@ import KYCRegistrationForm from "./components/KYCRegistrationForm";
 import KYCWaiting from "./components/KYCWaiting";
 import KYCRejected from "./components/KYCRejected";
 import DashboardContents from "./components/DashboardContents";
-import { KYCSTATUS, ROLES } from "../../constants/types/roles";
+import { KYCSTATUS, ROLES } from "../../constants_Types/types/roles";
+
 
 
 const AgencyDashboard = () => {

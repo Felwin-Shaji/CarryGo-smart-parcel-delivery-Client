@@ -10,7 +10,7 @@ export const API_AUTH = {
 
 export const API_AGENCY = {
   KYC_CARIFICATION: "/api/agency/kyc-varification",
-
+  ADD_NEW_HUB :"/api/agency/add-newHub"
 }
 
 

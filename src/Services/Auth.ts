@@ -1,12 +1,14 @@
 import toast from "react-hot-toast";
 import { useAxios } from "../hooks/useAxios";
-import { API_AUTH } from "../constants/apiRoutes";
+// import { API_AUTH } from "../constants/apiRoutes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
-import { ROLES } from "../constants/types/roles";
+// import { ROLES } from "../constants/types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
+import { ROLES } from "../constants_Types/types/roles";
+import { API_AUTH } from "../constants_Types/apiRoutes";
 
 export const useAuth = () => {
   const axiosInstance = useAxios();

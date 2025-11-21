@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { useState,} from "react";
-import { loginSchema } from "../validation/login";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { loginSchema } from "../../validation/login";
 
 
 interface LoginFormProps {

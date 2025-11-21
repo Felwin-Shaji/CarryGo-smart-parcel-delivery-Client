@@ -8,7 +8,8 @@ import PublicRoute from "./PublicRoute"
 import LandingPage from "../pages/User/LangingPage"
 import { useAuthRehydration } from "../hooks/useAuthRehydration "
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
-import { ROLES } from "../constants/types/roles"
+import { ROLES } from "../constants_Types/types/roles"
+
 
 
 const UserRoutes = () => {

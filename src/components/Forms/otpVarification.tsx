@@ -1,5 +1,5 @@
 import { useState, useRef, type FormEvent, type ChangeEvent, useEffect } from "react";
-import type { OtpMeta } from "../pages/User/RegistrationPage";
+import type { OtpMeta } from "../../pages/User/RegistrationPage";
 
 interface OtpVerificationFormProps {
     title?: string;

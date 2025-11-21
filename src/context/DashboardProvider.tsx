@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import { useAuth } from "../Services/Auth";
 import type { RootState } from "../store/store";
 import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
-import { ROLES, type Roles } from "../constants/types/roles";
+import { ROLES, type Roles } from "../constants_Types/types/roles";
+
 
 type DashboardRoles = Exclude<Roles, "user">;
 

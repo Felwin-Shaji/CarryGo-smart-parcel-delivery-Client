@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import { API_AUTH } from '../../constants/apiRoutes';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../hooks/useAxios';
 import { useDispatch } from 'react-redux';
 import { agencyLogin } from '../../store/Slice/agencySlice';
 import OtpVerificationForm from '../../components/Forms/otpVarification';
+import { API_AUTH } from '../../constants_Types/apiRoutes';
 
 const AgencyOtpVarification = () => {
       const navigate = useNavigate()

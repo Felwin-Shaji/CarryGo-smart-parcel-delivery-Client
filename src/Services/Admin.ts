@@ -1,7 +1,8 @@
-import { API_ADMIN } from "../constants/apiRoutes"
+
+import { API_ADMIN } from "../constants_Types/apiRoutes";
+import type { KYCStatus } from "../constants_Types/types/roles";
 import { useAxios } from "../hooks/useAxios"
-import type { KYCStatus } from "../constants/types/roles";
-// import type { KYCStatus } from "../context/types/roles";
+
 
 export const useAdmin = () => {
   const axiosInstance = useAxios();
@@ -51,6 +52,7 @@ export const useAdmin = () => {
 
     return res.data;
   };
+
 
   return {
     getAllAgencies,

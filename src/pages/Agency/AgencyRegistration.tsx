@@ -1,9 +1,9 @@
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../hooks/useAxios';
-import { API_AUTH } from '../../constants/apiRoutes';
-import { ROLES } from '../../constants/types/roles';
 import RegistrationForm from '../../components/Forms/RegistrationForm';
+import { API_AUTH } from '../../constants_Types/apiRoutes';
+import { ROLES } from '../../constants_Types/types/roles';
 
 
 interface RegistrationFormValues {

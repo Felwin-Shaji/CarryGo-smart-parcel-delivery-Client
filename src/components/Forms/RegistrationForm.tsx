@@ -1,9 +1,10 @@
 import { useFormik } from "formik";
 import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { registrationSchema } from "../validation/registration";
+// import { registrationSchema } from "../validation/registration";
 import { useState } from "react";
-import logo from "../assets/carrygo-logo.png"; 
+import logo from "../../assets/carrygo-logo.png"; 
+import { registrationSchema } from "../../validation/registration";
 
 interface RegistrationFormProps {
   title: string;

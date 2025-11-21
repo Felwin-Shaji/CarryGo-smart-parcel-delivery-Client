@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../hooks/useAxios';
 import { useDispatch } from 'react-redux';
 import { userLogin } from '../../store/Slice/userSlice';
-import { API_AUTH } from '../../constants/apiRoutes';
 import OtpVerificationForm from '../../components/Forms/otpVarification';
+import { API_AUTH } from '../../constants_Types/apiRoutes';
 
 
 const OtpVarificationpage = () => {

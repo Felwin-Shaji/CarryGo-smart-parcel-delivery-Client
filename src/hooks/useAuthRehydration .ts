@@ -2,10 +2,11 @@ import { useDispatch } from "react-redux"
 import { useAxios } from "./useAxios";
 import { useEffect, useState } from "react";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
-import { API_AUTH } from "../constants/apiRoutes";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
-import { ROLES, type Roles } from "../constants/types/roles";
+import { ROLES, type Roles } from "../constants_Types/types/roles";
+import { API_AUTH } from "../constants_Types/apiRoutes";
+
 
 export const useAuthRehydration = (role: Roles) => {
     const dispatch = useDispatch();

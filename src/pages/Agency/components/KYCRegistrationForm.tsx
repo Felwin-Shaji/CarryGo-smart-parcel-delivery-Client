@@ -4,12 +4,12 @@ import { useFormik } from "formik";
 import { validationSchema } from "../../../validation/agencyKYCRegistration";
 import toast from "react-hot-toast";
 import { useAxios } from "../../../hooks/useAxios";
-import { API_AGENCY } from "../../../constants/apiRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 import { updateAgencyKycStatus } from "../../../store/Slice/agencySlice";
 import { useState } from "react";
+import { API_AGENCY } from "../../../constants_Types/apiRoutes";
 
 
 

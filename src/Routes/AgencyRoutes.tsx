@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AgencyDashboard from "../pages/Agency/AgencyDashboard";
 import AgencyLogin from "../pages/Agency/AgencyLogin";
 import AgencyAddHubs from "../pages/Agency/AgencyAddHubs";
-import { ROLES } from "../constants/types/roles";
+import { ROLES } from "../constants_Types/types/roles";
 
 const AgencyRoutes = () => {
   const loading = useAuthRehydration(ROLES.AGENCY);

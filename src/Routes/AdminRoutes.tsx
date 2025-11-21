@@ -8,7 +8,8 @@ import { useAuthRehydration } from "../hooks/useAuthRehydration "
 import AdminAgencyList from "../pages/Admin/AdminAgencyList"
 import AdminUserList from "../pages/Admin/AdminUserList"
 import AdminAgencyDetailsPage from "../pages/Admin/AdminAgencyDetailsPage"
-import { ROLES } from "../constants/types/roles"
+import { ROLES } from "../constants_Types/types/roles"
+
 
 const AdminRoutes = () => {
   const loading = useAuthRehydration(ROLES.ADMIN);

@@ -5,7 +5,8 @@ import LoadingScreen from "../../../components/loading/CarryGoLoadingScreen";
 import { } from "react-icons/fi";
 import { FaLeftLong } from "react-icons/fa6";
 import { confirmToast } from "../../../components/globelcomponents/confirmToast";
-import { KYCSTATUS, type KYCStatus } from "../../../constants/types/roles";
+import { KYCSTATUS, type KYCStatus } from "../../../constants_Types/types/roles";
+
 
 export default function AdminAgencyDetailsModal({
     open,
