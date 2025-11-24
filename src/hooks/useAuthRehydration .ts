@@ -6,6 +6,7 @@ import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { API_AUTH } from "../constants_Types/apiRoutes";
+import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 
 
 export const useAuthRehydration = (role: Roles) => {
@@ -30,10 +31,15 @@ export const useAuthRehydration = (role: Roles) => {
                             break;
                         case ROLES.AGENCY:
                             dispatch(agencyLogin({ agency: user, accessToken }));
-                            break
+                            break;
+                        case ROLES.HUB:
+                            dispatch(hubLogin({ hub: user, accessToken }));
+                            break;
                         default:
                             dispatch(userLogout());
                             dispatch(adminLogout());
+                            dispatch(agencyLogout())
+                            dispatch(hubLogout());
                             break;
                     }
 
@@ -41,14 +47,17 @@ export const useAuthRehydration = (role: Roles) => {
                     dispatch(userLogout());
                     dispatch(adminLogout());
                     dispatch(agencyLogout())
+                    dispatch(hubLogout());
                 }
 
             } catch (error) {
-                dispatch(userLogout())
+                dispatch(userLogout());
                 dispatch(adminLogout());
-                dispatch(agencyLogout())
+                dispatch(agencyLogout());
+                dispatch(hubLogout());
+
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         }
 

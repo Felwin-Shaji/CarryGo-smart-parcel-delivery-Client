@@ -6,6 +6,7 @@ import UserRoutes from './Routes/UserRoutes'
 import { Toaster } from 'react-hot-toast'
 import AdminRoutes from './Routes/AdminRoutes';
 import AgencyRoutes from './Routes/AgencyRoutes';
+import HubRoutes from './Routes/HubRoutes';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='/*' element={<UserRoutes />} />
         <Route path='/admin/*' element={<AdminRoutes />} />
         <Route path='/agency/*' element={<AgencyRoutes />} />
+        <Route path='/hub/*' element={<HubRoutes />} />
       </Routes>
     </>
   )

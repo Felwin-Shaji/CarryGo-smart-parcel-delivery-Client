@@ -6,6 +6,7 @@ import { useAuth } from "../Services/Auth";
 import type { RootState } from "../store/store";
 import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
 import { ROLES, type Roles } from "../constants_Types/types/roles";
+import { hunMenu } from "../config/SidebarMenu/hubMenu";
 
 
 type DashboardRoles = Exclude<Roles, "user">;
@@ -21,6 +22,7 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   let currentUser = null;
   if (role === ROLES.ADMIN) currentUser = useSelector((state: RootState) => state.adminState.admin);
   if (role === ROLES.AGENCY) currentUser = useSelector((state: RootState) => state.agencyState.agency);
+  if (role === ROLES.HUB) currentUser = useSelector((state: RootState) => state.hubState.hub);
 
 
   const userName = currentUser?.name || "User";
@@ -29,7 +31,7 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
     admin: adminMenu,
     agency: agencyMenu,
     worker: [],
-    hub: [],
+    hub: hunMenu,
   };
 
   const handleLogout = () => {

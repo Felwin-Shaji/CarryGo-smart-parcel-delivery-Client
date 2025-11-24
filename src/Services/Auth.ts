@@ -9,6 +9,7 @@ import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 import { ROLES } from "../constants_Types/types/roles";
 import { API_AUTH } from "../constants_Types/apiRoutes";
+import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 
 export const useAuth = () => {
   const axiosInstance = useAxios();
@@ -29,6 +30,9 @@ export const useAuth = () => {
 
           dispatch(agencyLogout());
           navigate("/agency/login");
+        }else if(role===ROLES.HUB){
+          dispatch(hubLogout());
+          navigate('/hub/login')
         }
         toast.success("Logged out successfully");
       }
@@ -60,6 +64,12 @@ export const useAuth = () => {
             accessToken: response.data.accessToken
           }))
           navigate("/agency/dashboard");
+        } else if  (data.role === ROLES.HUB){
+          dispatch(hubLogin({
+            hub:response.data.user,
+            accessToken:response.data.accessToken
+          }))
+          navigate("hub/dashboard")
         }
       }
     } catch (error: any) {
