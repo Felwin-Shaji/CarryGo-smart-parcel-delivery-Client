@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 // import { registrationSchema } from "../validation/registration";
 import { useState } from "react";
-import logo from "../../assets/carrygo-logo.png"; 
+import logo from "../../assets/carrygo-logo.png";
 import { registrationSchema } from "../../validation/registration";
 
 interface RegistrationFormProps {
@@ -13,7 +13,7 @@ interface RegistrationFormProps {
     email: string;
     mobile: string;
     password: string;
-    role:string;
+    role: string;
   }) => void;
   role: string;
   onGoogleSignUp?: () => void;
@@ -69,12 +69,24 @@ const RegistrationForm = ({
             <h2 className="text-3xl font-bold text-[#1E3A8A] mb-2 text-center md:text-left">
               {title}
             </h2>
-            <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
-              Already have an account?{" "}
-              <a href="#" className="text-[#1E3A8A] underline font-medium">
-                Login here.
-              </a>
-            </p>
+            {role === "user" && (
+              <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
+                Already have an account?{" "}
+                <a href="/login" className="text-[#1E3A8A] underline font-medium">
+                  Login here.
+                </a>
+              </p>
+            )}
+
+            {role === "agency" && (
+              <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
+                Already have an account?{" "}
+                <a href="/agency/login" className="text-[#1E3A8A] underline font-medium">
+                  Login here.
+                </a>
+              </p>
+            )}
+
 
             {/* Name */}
             <div className="mb-4">

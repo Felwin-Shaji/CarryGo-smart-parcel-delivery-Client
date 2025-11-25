@@ -6,6 +6,9 @@ import { ROLES } from "../constants_Types/types/roles"
 import { useAuthRehydration } from "../hooks/useAuthRehydration "
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
 import HubDashboard from "../pages/Hub/HubDashboard"
+import HubForgotPassword from "../pages/Hub/HubForgotPassword"
+import PageNotFound from "../pages/PageNotFound"
+import HubResetPassword from "../pages/Hub/HubResetPassword"
 
 
 const HubRoutes = () => {
@@ -19,12 +22,16 @@ const HubRoutes = () => {
             <Routes>
                 <Route element={<PublicRoute />}>
                     <Route path="login" element={<HubLogin />} />
+                    <Route path="forgot-password" element={<HubForgotPassword />} />
+                    <Route path="reset-password/:token" element={<HubResetPassword />} />
+                    
                 </Route>
+
+                <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubDashboard /></ProtectedRoute>} />
+
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
 
-            <Routes>
-                <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubDashboard /></ProtectedRoute>} />
-            </Routes>
         </>
     )
 }

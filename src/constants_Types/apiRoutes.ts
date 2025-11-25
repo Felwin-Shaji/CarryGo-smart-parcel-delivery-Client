@@ -2,9 +2,14 @@
 export const API_AUTH = {
   SEND_OTP: "/api/auth/send-otp",
   VERIFY_OTP: "/api/auth/verify-otp",
+  
   REFRESH_TOKEN: "/api/auth/refresh",
+
   LOGIN: "/api/auth/login",
   LOGOUT: "/api/auth/logout",
+
+  FORGOT_PASSWORD: "/api/auth/forgot-password",
+  RESET_PASSWORD: "/api/auth/reset-password",
 };
 
 
@@ -21,5 +26,5 @@ export const API_AGENCY = {
 
 export const API_ADMIN = {
   GET_AGENCIES: "/api/admin/agency",
-  GET_USERS:"/api/admin/users"
+  GET_USERS: "/api/admin/users"
 }

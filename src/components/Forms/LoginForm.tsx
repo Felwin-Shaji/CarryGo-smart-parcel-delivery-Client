@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useState,} from "react";
+import { useState, } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { loginSchema } from "../../validation/login";
 
@@ -50,12 +50,32 @@ const LoginForm = ({ title, onSubmit, role, loading, onGoogleLogin }: LoginFormP
                         <h2 className="text-3xl font-bold text-[#1E3A8A] mb-2 text-center md:text-left">
                             {title}
                         </h2>
-                        <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
-                            Don’t have an account?{" "}
-                            <a href={`http://localhost:5173/registration`} className="text-[#1E3A8A] underline font-medium">
-                                Create a new one.
-                            </a>
-                        </p>
+                        {/* Registration Link — Only for User & Agency */}
+                        {role === "user" && (
+                            <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
+                                Don’t have an account?{" "}
+                                <a
+                                    href="/registration"
+                                    className="text-[#1E3A8A] underline font-medium"
+                                >
+                                    Create a new one.
+                                </a>
+                            </p>
+                        )}
+
+                        {role === "agency" && (
+                            <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
+                                Don’t have an account?{" "}
+                                <a
+                                    href="/agency/registration"
+                                    className="text-[#1E3A8A] underline font-medium"
+                                >
+                                    Create a new one.
+                                </a>
+                            </p>
+                        )}
+
+
 
                         {/* Email Field */}
                         <div className="mb-4">
@@ -118,8 +138,17 @@ const LoginForm = ({ title, onSubmit, role, loading, onGoogleLogin }: LoginFormP
 
                         {/* Forgot Password */}
                         <p className="text-sm text-[#102467] mt-4 text-center underline cursor-pointer hover:text-[#1E3A8A]">
-                            Forgot Your Password?
+                            <a
+                                href={role === "user"
+                                    ? "/forgot-password"
+                                    : `/${role}/forgot-password`
+                                }
+                            >
+                                Forgot Your Password?
+                            </a>
                         </p>
+
+
 
                         {/* OR Divider */}
                         {onGoogleLogin && (

@@ -9,6 +9,9 @@ import AdminAgencyList from "../pages/Admin/AdminAgencyList"
 import AdminUserList from "../pages/Admin/AdminUserList"
 import AdminAgencyDetailsPage from "../pages/Admin/AdminAgencyDetailsPage"
 import { ROLES } from "../constants_Types/types/roles"
+import PageNotFound from "../pages/PageNotFound"
+import AdminForgotPassword from "../pages/Admin/AdminForgotPassword"
+import AdminResetPassword from "../pages/Admin/AdminResetPassword"
 
 
 const AdminRoutes = () => {
@@ -18,20 +21,23 @@ const AdminRoutes = () => {
   }
   return (
     <>
-        <title>CarryGo-Admin</title>
-    <Routes>
-      <Route element={<PublicRoute />}>
-        <Route path="login" element={<AdminLoginPage />} />
-      </Route>
+      <title>CarryGo-Admin</title>
+      <Routes>
+        <Route element={<PublicRoute />}>
+          <Route path="login" element={<AdminLoginPage />} />
+          <Route path="forgot-password" element={<AdminForgotPassword />} />
+          <Route path="reset-password/:token" element={<AdminResetPassword />} />
+        </Route>
 
-      <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
-      <Route path="agency" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyList /></ProtectedRoute>} />
-      <Route path="agency/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyDetailsPage /></ProtectedRoute>} />
+        <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
 
-      
-      <Route path="users" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserList /></ProtectedRoute>} />
+        <Route path="agency" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyList /></ProtectedRoute>} />
+        <Route path="agency/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyDetailsPage /></ProtectedRoute>} />
 
-    </Routes>
+        <Route path="users" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserList /></ProtectedRoute>} />
+
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </>
   )
 }

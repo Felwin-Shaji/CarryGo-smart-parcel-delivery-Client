@@ -7,7 +7,7 @@ import { userLogin, userLogout } from "../store/Slice/userSlice";
 // import { ROLES } from "../constants/types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
-import { ROLES } from "../constants_Types/types/roles";
+import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { API_AUTH } from "../constants_Types/apiRoutes";
 import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 
@@ -30,7 +30,7 @@ export const useAuth = () => {
 
           dispatch(agencyLogout());
           navigate("/agency/login");
-        }else if(role===ROLES.HUB){
+        } else if (role === ROLES.HUB) {
           dispatch(hubLogout());
           navigate('/hub/login')
         }
@@ -64,10 +64,10 @@ export const useAuth = () => {
             accessToken: response.data.accessToken
           }))
           navigate("/agency/dashboard");
-        } else if  (data.role === ROLES.HUB){
+        } else if (data.role === ROLES.HUB) {
           dispatch(hubLogin({
-            hub:response.data.user,
-            accessToken:response.data.accessToken
+            hub: response.data.user,
+            accessToken: response.data.accessToken
           }))
           navigate("hub/dashboard")
         }
@@ -77,5 +77,54 @@ export const useAuth = () => {
     }
   };
 
-  return { handleLogin, handleLogoutt };
+  const handleForgotPassword = async (data: { email: string, role: Roles }) => {
+    try {
+      const response = await axiosInstance.post(API_AUTH.FORGOT_PASSWORD, data);
+
+      if (response.data?.success) {
+        toast.success(response.data.message || "Reset link sent to your email");
+        navigate("/reset-link-sent");
+      } else {
+        toast.error(response.data.message || "Failed to send reset link");
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    }
+  }
+
+  const handleResetPassword = async (token: string, data: { password: string, role: Roles }) => {
+    try {
+      const response = await axiosInstance.post(`${API_AUTH.RESET_PASSWORD}/${token}`, data);
+
+      if (response.data?.success) {
+        toast.success("Password reset successfully");
+        switch (data.role) {
+          case ROLES.USER:
+            navigate("/login");
+            break;
+          case ROLES.ADMIN:
+            navigate("/admin/login");
+            break;
+          case ROLES.AGENCY:
+            navigate("/agency/login");
+            break;
+          case ROLES.HUB:
+            navigate("/hub/login");
+            break;
+          case ROLES.WORKER:
+            navigate("/worker/login");
+            break;
+          default:
+            navigate("/login");
+        }
+
+      } else {
+        toast.error(response.data.message || "Reset failed");
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    }
+  }
+
+  return { handleLogin, handleLogoutt, handleForgotPassword, handleResetPassword };
 };

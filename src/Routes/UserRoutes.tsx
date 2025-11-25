@@ -9,6 +9,9 @@ import LandingPage from "../pages/User/LangingPage"
 import { useAuthRehydration } from "../hooks/useAuthRehydration "
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
 import { ROLES } from "../constants_Types/types/roles"
+import PageNotFound from "../pages/PageNotFound"
+import ForgotPassword from "../pages/User/ForgotPassword"
+import ResetPassword from "../pages/User/ResetPassword"
 
 
 
@@ -20,18 +23,22 @@ const UserRoutes = () => {
   return (
     <>
       <title>CarryGo</title>
-    <Routes>
-      <Route element={<PublicRoute />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="registration" element={<RegistrationPage />} />
-        <Route path="verify-otp" element={<OtpVarificationpage />} />
+      <Routes>
+        <Route element={<PublicRoute />}>
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="verify-otp" element={<OtpVarificationpage />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password/:token" element={<ResetPassword />} />
 
-        <Route path="" element={<LandingPage />} />
-      </Route>
+          <Route path="" element={<LandingPage />} />
+        </Route>
 
-      <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
+        <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
 
-    </Routes>
+        <Route path="*" element={<PageNotFound />} />
+
+      </Routes>
     </>
   )
 }
