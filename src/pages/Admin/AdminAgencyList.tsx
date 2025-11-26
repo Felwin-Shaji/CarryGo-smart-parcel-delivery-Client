@@ -10,7 +10,7 @@ import { AdminAgencyListcolumns } from "../../config/adminAgencyListTableColumn"
 import { useNavigate } from "react-router-dom";
 
 const AdminAgencyList = () => {
-    const { getAllAgencies } = useAdmin();
+    const { getAllAgencies,updateAgencyStatus } = useAdmin();
     const navigate = useNavigate();
 
     const [agencies, setAgencies] = useState([]);
@@ -76,6 +76,18 @@ const AdminAgencyList = () => {
         }
     };
 
+    const handleStatusToggle = async (id: string, newState: boolean) => {
+        try {
+            await updateAgencyStatus(id, newState);
+            
+            fetchAgencies();
+            toast.success(`User ${newState ? "Blocked" : "Activated"}`);
+
+        } catch (err) {
+            toast.error("Failed to update status");
+        }
+    };
+
     return (
         <DashboardProvider role="admin">
             <DashboardLayout pageTitle="Agencies List">
@@ -85,7 +97,7 @@ const AdminAgencyList = () => {
                 {!loading && (
                     <DataTable
                         data={enhancedRows}
-                        columns={AdminAgencyListcolumns}
+                        columns={AdminAgencyListcolumns(handleStatusToggle)}
                         page={page}
                         totalPages={totalPages}
                         searchValue={searchInput}
@@ -104,12 +116,6 @@ const AdminAgencyList = () => {
                     <p>No agencies found.</p>
                 )}
 
-                {/* <AdminAgencyDetailsModal
-                    open={modalOpen}
-                    agencyId={selectedAgencyId}
-                    onClose={() => setModalOpen(false)}
-                    onUpdated={fetchAgencies}
-                /> */}
             </DashboardLayout>
         </DashboardProvider>
     );

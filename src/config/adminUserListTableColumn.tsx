@@ -1,4 +1,4 @@
-export const AdminUserListColumns = [
+export const AdminUserListColumns = (handleStatusToggle: any) => [
   {
     header: "Name",
     accessor: "name",
@@ -14,7 +14,6 @@ export const AdminUserListColumns = [
     accessor: "mobile",
   },
 
-  // ✔ KYC Status Badge
   {
     header: "KYC Status",
     accessor: "kycStatus",
@@ -22,10 +21,9 @@ export const AdminUserListColumns = [
     render: (value: string) => (
       <span
         className={`px-3 py-1 rounded-full text-sm 
-          ${
-            value === "approved"
-              ? "bg-green-100 text-green-600"
-              : value === "pending"
+          ${value === "APPROVED"
+            ? "bg-green-100 text-green-600"
+            : value === "pending"
               ? "bg-yellow-100 text-yellow-600"
               : "bg-red-100 text-red-600"
           }`}
@@ -35,18 +33,22 @@ export const AdminUserListColumns = [
     ),
   },
 
-  // ✔ Blocked/Unblocked Badge
   {
     header: "Blocked",
     accessor: "isBlocked",
     sortable: true,
-    render: (value: boolean) => (
-      <span
-        className={`px-3 py-1 rounded-full text-sm 
-          ${value ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}
+    render: (value: boolean, row: any) => (
+      <button
+        onClick={() => handleStatusToggle(row._id, !row.isBlocked)}
+        className={`
+        px-4 py-1.5 rounded-lg text-sm font-medium transition 
+        ${value
+            ? "bg-red-500 text-white hover:bg-red-600"
+            : "bg-green-500 text-white hover:bg-green-600"}
+      `}
       >
         {value ? "Blocked" : "Active"}
-      </span>
+      </button>
     ),
-  },
+  }
 ];

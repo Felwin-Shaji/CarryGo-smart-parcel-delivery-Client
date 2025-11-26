@@ -145,7 +145,6 @@ export const useAgencyAddHub = () => {
                 }
             });
 
-            console.log(tempHubId,"DKLDKLDKLDKLDDLDLDLDLDLDLDLDDLDLDL")
             if(!tempHubId) return
             fd.append("tempHubId", tempHubId ?? "");
 

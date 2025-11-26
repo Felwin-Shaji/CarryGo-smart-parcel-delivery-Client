@@ -9,7 +9,7 @@ import { AdminUserListColumns } from "../../config/adminUserListTableColumn";
 
 
 const AdminUserList = () => {
-  const { getAllUsers } = useAdmin();
+  const { getAllUsers, updateUserStatus } = useAdmin();
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ const AdminUserList = () => {
     }
   };
 
-  // Debounce search
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSearch(searchInput);
@@ -55,7 +55,7 @@ const AdminUserList = () => {
     return () => clearTimeout(timeout);
   }, [searchInput]);
 
-  // Fetch when filters change
+
   useEffect(() => {
     fetchUsers();
   }, [page, search, sortBy, sortOrder]);
@@ -69,6 +69,22 @@ const AdminUserList = () => {
     }
   };
 
+
+  const handleStatusToggle = async (id: string, newState: boolean) => {
+    try {
+      await updateUserStatus(id, newState);
+
+      fetchUsers();
+      toast.success(`User ${newState ? "Blocked" : "Activated"}`);
+
+    } catch (err) {
+      toast.error("Failed to update status");
+    }
+  };
+
+
+
+
   return (
     <DashboardProvider role="admin">
       <DashboardLayout pageTitle="Users List">
@@ -77,7 +93,7 @@ const AdminUserList = () => {
         {!loading && (
           <DataTable
             data={users}
-            columns={AdminUserListColumns}
+            columns={AdminUserListColumns(handleStatusToggle)}
             page={page}
             totalPages={totalPages}
             searchValue={searchInput}

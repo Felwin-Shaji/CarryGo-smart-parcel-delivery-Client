@@ -21,18 +21,43 @@ export const useAdmin = () => {
     return res.data;
   };
 
+
   const getAgencyById = async (id: string) => {
     const res = await axiosInstance.get(`${API_ADMIN.GET_AGENCIES}/${id}`);
     return res.data;
   };
 
+  const updateAgencyStatus = async (id: string, isBlocked: boolean) => {
+    const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/status`, {
+      isBlocked,
+    });
+    return res.data
+  }
 
-/**
+
+
+  /**
  * 
- * @param id 
- * @param status 
+ * @param id userId
+ * @param status "active" | "blocked"
  * @returns 
  */
+  const updateUserStatus = async (id: string, isBlocked: boolean) => {
+    const res = await axiosInstance.patch(`${API_ADMIN.GET_USERS}/${id}/status`, {
+      isBlocked,
+    });
+
+    return res.data;
+  };
+
+
+
+  /**
+   * 
+   * @param id 
+   * @param status 
+   * @returns 
+   */
   const updateAgencyKycStatus = async (id: string, status: KYCStatus) => {
     const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/kyc-status`, { status });
     return res.data;
@@ -57,8 +82,10 @@ export const useAdmin = () => {
   return {
     getAllAgencies,
     getAgencyById,
+    updateUserStatus,
     updateAgencyKycStatus,
-    getAllUsers
+    getAllUsers,
+    updateAgencyStatus
   };
 
 
