@@ -2,7 +2,7 @@
 export const API_AUTH = {
   SEND_OTP: "/api/auth/send-otp",
   VERIFY_OTP: "/api/auth/verify-otp",
-  
+
   REFRESH_TOKEN: "/api/auth/refresh",
 
   LOGIN: "/api/auth/login",
@@ -28,3 +28,12 @@ export const API_ADMIN = {
   GET_AGENCIES: "/api/admin/agency",
   GET_USERS: "/api/admin/users"
 }
+
+export const API_HUB = {
+    TEMP_WORKER_REGISTER: "/api/hub/worker/temp-register",
+    WORKER_VERIFY_OTP: "/api/hub/worker/verify-otp",
+    WORKER_RESEND_OTP: "/api/hub/worker/resend-otp",
+    WORKER_KYC_UPLOAD: "/api/hub/worker/kyc-upload",
+    CHECK_TEMP_WORKER_STATUS: "/api/hub/worker/check-status",
+};
+

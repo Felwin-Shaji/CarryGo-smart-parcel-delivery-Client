@@ -1,17 +1,19 @@
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAxios } from '../../hooks/useAxios';
 import { useDispatch } from 'react-redux';
 import { userLogin } from '../../store/Slice/userSlice';
 import OtpVerificationForm from '../../components/Forms/otpVarification';
-import { API_AUTH } from '../../constants_Types/apiRoutes';
+import { useAuth } from '../../Services/Auth';
 
 
 const OtpVarificationpage = () => {
   const navigate = useNavigate()
-  const axiosInstance = useAxios();
   const dispatch = useDispatch()
+
+
+  const { handleVerifyOtp, handleResendOtp } = useAuth();
+
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("")
 
@@ -28,48 +30,52 @@ const OtpVarificationpage = () => {
   }, []);
 
 
-  const handleOtpVerification = async (otp: string) => {
+  const onVerifyOtp = async (otp: string) => {
     if (!email || !role) {
       toast.error("No email found for verification!");
       return;
     }
 
-    try {
-      const response = await axiosInstance.post(API_AUTH.VERIFY_OTP, { email, otp, role });
+    const response = await handleVerifyOtp({ email, otp, role });
 
-      if (response.data?.success) {
-        toast.success(response.data.message || "OTP verified successfully!");
-        localStorage.removeItem("otpMeta");
-        dispatch(userLogin(response.data))
+    if (response.success) {
+      toast.success(response.message || "OTP verified successfully");
+
+      localStorage.removeItem("otpMeta");
+
+      if (role === "user") {
+        dispatch(userLogin(response));
         navigate("/home");
+      } else if (role === "agency") {
+        navigate("/agency/login");
       } else {
-        toast.error(response.data?.message || "Verification failed.");
+        navigate("/login");
       }
-    } catch (error: any) {
-      console.error("OTP verification error:", error);
-      toast.error(error.response?.data?.message || "Something went wrong!");
     }
   };
 
-  const handleResendOtp = async () => {
-    try {
-      const response = await axiosInstance.post(API_AUTH.SEND_OTP, { email, role ,isResend:true });
-      if (response.data?.success) {
-        localStorage.setItem("otpMeta", JSON.stringify({
+  const onResendOtp = async () => {
+    if (!email || !role) return;
+
+    const response = await handleResendOtp({ email, role });
+
+    if (response.success) {
+      localStorage.setItem(
+        "otpMeta",
+        JSON.stringify({
           email,
-          expiresAt: response.data.expiresAt,
-        }));
-        toast.success("OTP resent successfully!");
-      }
-    } catch (error) {
-      toast.error("Failed to resend OTP!");
+          role,
+          expiresAt: response.expiresAt,
+        })
+      );
+      toast.success("OTP resent successfully!");
     }
   };
 
 
   return (
     <div>
-      <OtpVerificationForm title='Verify Email' onSubmit={handleOtpVerification} onResendOtp={handleResendOtp} email={email} />
+      <OtpVerificationForm title='Verify Email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} email={email} />
     </div>
   )
 }

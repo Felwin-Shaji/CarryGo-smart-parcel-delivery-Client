@@ -5,6 +5,7 @@ import PublicRoute from "./PublicRoute";
 import AgencyRegistration from "../pages/Agency/AgencyRegistration";
 import ProtectedRoute from "./ProtectedRoute";
 import AgencyDashboard from "../pages/Agency/AgencyDashboard";
+import AgencyOtpVarification from "../pages/Agency/AgencyOtpVarification";
 import AgencyLogin from "../pages/Agency/AgencyLogin";
 import AgencyAddHubs from "../pages/Agency/AgencyAddHubs";
 import { ROLES } from "../constants_Types/types/roles";
@@ -25,6 +26,8 @@ const AgencyRoutes = () => {
       <Routes>
         <Route element={<PublicRoute />}>
           <Route path="registration" element={<AgencyRegistration />} />
+          <Route path="verify-otp" element={<AgencyOtpVarification />} />
+
           <Route path="login" element={<AgencyLogin />} />
           <Route path="forgot-password" element={<AgencyForgotPassword />} />
           <Route path="reset-password/:token" element={<AgencyResetPassword />} />

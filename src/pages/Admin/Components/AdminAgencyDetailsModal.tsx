@@ -43,7 +43,6 @@ export default function AdminAgencyDetailsModal({
 
         confirmToast(message, async () => {
             try {
-                console.log("ksksksksksksksksk")
                 setActionLoading(true);
 
                 const result = await updateAgencyKycStatus(agencyId, status);
@@ -87,7 +86,7 @@ export default function AdminAgencyDetailsModal({
                             <p><strong>Email:</strong> {agency.agency.email}</p>
                             <p><strong>Mobile:</strong> {agency.agency.mobile}</p>
 
-                            <p className="mt-2">
+                            {/* <p className="mt-2">
                                 <strong>KYC Status: </strong>
                                 <span
                                     className={`px-3 py-1 rounded 
@@ -100,7 +99,7 @@ export default function AdminAgencyDetailsModal({
                                 >
                                     {agency.kyc?.status}
                                 </span>
-                            </p>
+                            </p> */}
 
                             <p><strong>Wallet:</strong> ₹ {agency.agency.walletBalance}</p>
                         </div>

@@ -3,8 +3,6 @@ import {
   User,
   Wallet,
   Building2,
-  Users,
-  UserPlus,
   MapPin,
 } from "lucide-react";
 
@@ -28,11 +26,4 @@ export const agencyMenu: MenuSection[] = [
     ],
   },
 
-  {
-    section: "Workers",
-    items: [
-      { name: "Worker List", icon: <Users size={20} />, path: "/agency/workers" },
-      { name: "Add Worker", icon: <UserPlus size={20} />, path: "/agency/workers/add" },
-    ],
-  },
 ];

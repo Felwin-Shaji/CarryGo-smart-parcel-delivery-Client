@@ -9,6 +9,7 @@ import HubDashboard from "../pages/Hub/HubDashboard"
 import HubForgotPassword from "../pages/Hub/HubForgotPassword"
 import PageNotFound from "../pages/PageNotFound"
 import HubResetPassword from "../pages/Hub/HubResetPassword"
+import HubAddWorker from "../pages/Hub/HubAddWorkers"
 
 
 const HubRoutes = () => {
@@ -28,6 +29,7 @@ const HubRoutes = () => {
                 </Route>
 
                 <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubDashboard /></ProtectedRoute>} />
+                <Route path="workers/add" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubAddWorker /></ProtectedRoute>} />
 
                 <Route path="*" element={<PageNotFound />} />
             </Routes>

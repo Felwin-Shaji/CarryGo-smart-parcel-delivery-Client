@@ -8,6 +8,22 @@ export const useAdmin = () => {
   const axiosInstance = useAxios();
 
 
+  /**
+ * Fetch all agencies with pagination, search, and sorting support.
+ *
+ * @param options {{
+ *   page?: number;
+ *   limit?: number;
+ *   search?: string;
+ *   sortBy?: string;
+ *   sortOrder?: "asc" | "desc";
+ * }}
+ * @returns Promise<{
+ *   success: boolean;
+ *   data: any[];
+ *   totalPages: number;
+ * }>
+ */
   const getAllAgencies = async ({
     page = 1,
     limit = 10,
@@ -22,17 +38,34 @@ export const useAdmin = () => {
   };
 
 
+
+  /**
+ * Fetch a single agency by ID.
+ *
+ * @param id - Agency ID
+ * @returns Promise<{ success: boolean; data: any }>
+ */
   const getAgencyById = async (id: string) => {
     const res = await axiosInstance.get(`${API_ADMIN.GET_AGENCIES}/${id}`);
     return res.data;
   };
 
+
+
+  /**
+ * Update an agency's block/unblock status.
+ *
+ * @param id - Agency ID
+ * @param isBlocked - New block status (true = block, false = unblock)
+ * @returns Promise<{ success: boolean; message: string }>
+ */
   const updateAgencyStatus = async (id: string, isBlocked: boolean) => {
     const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/status`, {
       isBlocked,
     });
     return res.data
   }
+
 
 
 
@@ -52,11 +85,13 @@ export const useAdmin = () => {
 
 
 
+
   /**
-   * 
-   * @param id 
-   * @param status 
-   * @returns 
+   * Update an agency's block/unblock status.
+   *
+   * @param id - Agency ID
+   * @param isBlocked - New block status (true = block, false = unblock)
+   * @returns Promise<{ success: boolean; message: string }>
    */
   const updateAgencyKycStatus = async (id: string, status: KYCStatus) => {
     const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/kyc-status`, { status });
@@ -64,6 +99,23 @@ export const useAdmin = () => {
   };
 
 
+
+  /**
+  * Fetch all users with pagination, search, and sorting support.
+  *
+  * @param options {{
+  *   page?: number;
+  *   limit?: number;
+  *   search?: string;
+  *   sortBy?: string;
+  *   sortOrder?: "asc" | "desc";
+  * }}
+  * @returns Promise<{
+  *   success: boolean;
+  *   data: any[];
+  *   totalPages: number;
+  * }>
+  */
   const getAllUsers = async ({
     page = 1,
     limit = 10,

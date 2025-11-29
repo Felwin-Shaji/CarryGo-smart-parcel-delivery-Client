@@ -1,10 +1,8 @@
 import toast from "react-hot-toast";
 import { useAxios } from "../hooks/useAxios";
-// import { API_AUTH } from "../constants/apiRoutes";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
-// import { ROLES } from "../constants/types/roles";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 import { ROLES, type Roles } from "../constants_Types/types/roles";
@@ -16,6 +14,124 @@ export const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+
+
+
+  /**
+ * Handles user registration (Step 1 — Send OTP)
+ *
+ * @param data {{
+ *   name: string;
+ *   email: string;
+ *   mobile: string;
+ *   password: string;
+ * }}
+ *
+ * @returns Promise<void>
+ */
+  const handleRegistration = async (data: {
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+  }) => {
+    try {
+      const response = await axiosInstance.post(API_AUTH.SEND_OTP, data);
+
+      if (response.data?.success) {
+        toast.success(response.data?.message || "OTP sent successfully");
+
+        const otpData = {
+          email: response.data.email,
+          role: response.data.role,
+          expiresAt: response.data.expiresAt,
+        };
+
+        localStorage.setItem("otpMeta", JSON.stringify(otpData));
+
+        switch (otpData.role) {
+          case "user":
+            navigate("/verify-otp");
+            break;
+
+          case "agency":
+            navigate("/agency/verify-otp");
+            break;
+          default:
+            console.warn("Unknown role received during registration:", otpData.role);
+            navigate("/verify-otp"); 
+        }
+
+
+      } else {
+        toast.error(response.data?.error || "Failed to send OTP");
+      }
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      toast.error(error.response?.data?.error || "Something went wrong!");
+    }
+  };
+
+
+  /**
+ * Verifies OTP during registration flow
+ *
+ * @param data {{
+ *   email: string;
+ *   otp: string;
+ *   role: string;
+ * }}
+ *
+ * @returns Promise<{ success: boolean }>
+ */
+  const handleVerifyOtp = async (data: { email: string; otp: string; role: string }) => {
+    try {
+      const response = await axiosInstance.post(API_AUTH.VERIFY_OTP, data);
+
+      return response.data;
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Invalid OTP");
+      return { success: false };
+    }
+  };
+
+
+
+  /**
+   * Resends OTP for registration process
+   *
+   * @param data {{
+   *   email: string;
+   *   role: string;
+   * }}
+   *
+   * @returns Promise<{ success: boolean; expiresAt: string }>
+   */
+  const handleResendOtp = async (data: { email: string; role: string }) => {
+    try {
+      const response = await axiosInstance.post(API_AUTH.SEND_OTP, {
+        ...data,
+        isResend: true,
+      });
+
+      return response.data;
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Resend failed");
+      return { success: false };
+    }
+  };
+
+
+
+  /**
+   * Logs out the user/admin/agency/hub and clears Redux state.
+   *
+   * @param role - Current logged-in user role
+   * @param userId - Unique identifier of the user to log out
+   *
+   * @returns Promise<void>
+   */
   const handleLogoutt = async (role: string, userId: string) => {
     try {
       const response = await axiosInstance.post(API_AUTH.LOGOUT, { role, userId });
@@ -42,6 +158,17 @@ export const useAuth = () => {
   };
 
 
+  /**
+ * Handles login for all roles (User, Admin, Agency, Hub)
+ *
+ * @param data {{
+ *   email: string;
+ *   password: string;
+ *   role: string;
+ * }}
+ *
+ * @returns Promise<void>
+ */
   const handleLogin = async (data: { email: string; password: string; role: string }) => {
     try {
       const response = await axiosInstance.post(API_AUTH.LOGIN, data);
@@ -77,6 +204,19 @@ export const useAuth = () => {
     }
   };
 
+
+
+
+  /**
+   * Sends password reset link to the user's registered email.
+   *
+   * @param data {{
+   *   email: string;
+   *   role: Roles;
+   * }}
+   *
+   * @returns Promise<void>
+   */
   const handleForgotPassword = async (data: { email: string, role: Roles }) => {
     try {
       const response = await axiosInstance.post(API_AUTH.FORGOT_PASSWORD, data);
@@ -92,6 +232,18 @@ export const useAuth = () => {
     }
   }
 
+
+  /**
+ * Resets the user's password using the token from email.
+ *
+ * @param token - Secure token sent via email
+ * @param data {{
+ *   password: string;
+ *   role: Roles;
+ * }}
+ *
+ * @returns Promise<void>
+ */
   const handleResetPassword = async (token: string, data: { password: string, role: Roles }) => {
     try {
       const response = await axiosInstance.post(`${API_AUTH.RESET_PASSWORD}/${token}`, data);
@@ -126,5 +278,5 @@ export const useAuth = () => {
     }
   }
 
-  return { handleLogin, handleLogoutt, handleForgotPassword, handleResetPassword };
+  return { handleRegistration, handleLogin, handleLogoutt, handleForgotPassword, handleResetPassword, handleVerifyOtp, handleResendOtp };
 };

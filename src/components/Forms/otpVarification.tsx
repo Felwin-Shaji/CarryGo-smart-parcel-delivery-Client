@@ -38,7 +38,6 @@ const OtpVerificationForm = ({
         }
     };
 
-    // ✅ Load OTP meta and calculate remaining time
     useEffect(() => {
         const stored = localStorage.getItem("otpMeta");
         let otpMeta: OtpMeta | null = null;
