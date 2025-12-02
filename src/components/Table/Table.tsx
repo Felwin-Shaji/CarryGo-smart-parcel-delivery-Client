@@ -1,12 +1,15 @@
 import React from "react";
+import AdvancedFilterSortBar from "./SortBar";
 
 interface Column<T> {
   header: string;
   accessor: keyof T;
   sortable?: boolean;
   hiddenOnMobile?: boolean;
+  type?: "text" | "number" | "date";   // <-- ADD THIS
   render?: <K extends keyof T>(value: T[K], row: T) => React.ReactNode;
 }
+
 
 interface DataTableProps<T> {
   columns: Column<T>[];
@@ -15,10 +18,12 @@ interface DataTableProps<T> {
   totalPages: number;
   onPageChange: (page: number) => void;
   onSearch: (value: string) => void;
-  onSort: (field: keyof T) => void;
+  onSort: (field: string) => void;
   sortBy: string;
-  sortOrder: string;
+  sortOrder: "asc" | "desc";
   searchValue: string;
+  filters: any;
+  onFilterChange: (updated: any) => void;
 }
 
 export function DataTable<T>({
@@ -31,19 +36,43 @@ export function DataTable<T>({
   onSort,
   sortBy,
   sortOrder,
-  searchValue
+  searchValue,
+  filters,
+  onFilterChange
 }: DataTableProps<T>) {
   return (
     <div className="w-full space-y-4">
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search..."
-        className="px-3 py-2 border rounded-lg w-full sm:w-72"
-        value={searchValue}
-        onChange={(e) => onSearch(e.target.value)}
-      />
+
+<div className="flex flex-col sm:flex-row justify">
+
+  {/* Search */}
+  <input
+    type="text"
+    placeholder="Search..."
+    className="px-3 py-2 border rounded-lg w-full sm:w-72"
+    value={searchValue}
+    onChange={(e) => onSearch(e.target.value)}
+  />
+
+  {/* Filters */}
+  <AdvancedFilterSortBar
+    columns={columns.map((col) => ({
+      label: col.header,
+      field: String(col.accessor),
+      type: col.type || "text"
+    }))}
+    filters={filters}
+    onFilterChange={onFilterChange}
+    sortBy={sortBy}
+    sortOrder={sortOrder}
+    onSortChange={(value) => onSort(value)}
+  />
+
+</div>
+
+
+
 
       {/* Table Container */}
       <div className="w-full overflow-x-auto rounded-xl border">
@@ -53,17 +82,12 @@ export function DataTable<T>({
               {columns.map((col) => (
                 <th
                   key={String(col.accessor)}
-                  className={`py-2 sm:py-3 px-3 sm:px-4 whitespace-nowrap cursor-pointer 
-                    ${col.hiddenOnMobile ? "hidden sm:table-cell" : ""}`}
-                  onClick={() => col.sortable && onSort(col.accessor)}
+                  className={`py-2 sm:py-3 px-3 sm:px-4 whitespace-nowrap
+                  ${col.hiddenOnMobile ? "hidden sm:table-cell" : ""}`}
                 >
                   {col.header}
-                  {col.sortable && sortBy === col.accessor && (
-                    <span className="ml-1 text-xs">
-                      {sortOrder === "asc" ? "▲" : "▼"}
-                    </span>
-                  )}
                 </th>
+
               ))}
             </tr>
           </thead>

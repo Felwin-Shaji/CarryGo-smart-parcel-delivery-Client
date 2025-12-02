@@ -14,6 +14,7 @@ export interface AddWorkerPayload {
     email: string;
     mobile: string;
     role: "worker";
+    tempWorkerId: string;  
 }
 
 const HubAddWorker = () => {
@@ -29,6 +30,7 @@ const HubAddWorker = () => {
         email: "",
         mobile: "",
         role: "worker",
+        tempWorkerId: ""  
     });
 
     useEffect(() => {

@@ -10,7 +10,7 @@ import { AdminAgencyListcolumns } from "../../config/adminAgencyListTableColumn"
 import { useNavigate } from "react-router-dom";
 
 const AdminAgencyList = () => {
-    const { getAllAgencies,updateAgencyStatus } = useAdmin();
+    const { getAllAgencies, updateAgencyStatus } = useAdmin();
     const navigate = useNavigate();
 
     const [agencies, setAgencies] = useState([]);
@@ -25,8 +25,18 @@ const AdminAgencyList = () => {
     const [search, setSearch] = useState("");
     const [searchInput, setSearchInput] = useState("")
 
-    const [sortBy, setSortBy] = useState("");
-    const [sortOrder, setSortOrder] = useState("asc");
+    const [sortBy, setSortBy] = useState<string>("");
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+    const [filters, setFilters] = useState({
+        blocked: null,
+        kycStatus: "",
+        startDate: "",
+        endDate: ""
+    });
+
+
+
 
     // const [modalOpen, setModalOpen] = useState(false);
     // const [selectedAgencyId, setSelectedAgencyId] = useState<string | null>(null);
@@ -34,11 +44,29 @@ const AdminAgencyList = () => {
     const fetchAgencies = async () => {
         try {
             setLoading(true);
-            const response = await getAllAgencies({ page, limit, search, sortBy, sortOrder, });
-            setAgencies(response.data);
+
+            const response = await getAllAgencies({
+                page,
+                limit,
+                search,
+                sortBy,
+                sortOrder,
+                blocked: filters.blocked,
+                kycStatus: filters.kycStatus,
+                startDate: filters.startDate,
+                endDate: filters.endDate,
+            });
+
+            if (!response || !response.data) {
+                throw new Error("Unexpected API response shape. response.data is missing.");
+            }
+
+            console.log(response.data.data, 'klkkkkkkl')
+
+            setAgencies(response.data.data);
             setTotalPages(response.totalPages);
 
-            const rows = response.data.map((agency: any) => ({
+            const rows = response.data.data.map((agency: any) => ({
                 ...agency,
                 __openModal: (id: string) => {
                     navigate(`/admin/agency/${id}`);
@@ -53,6 +81,7 @@ const AdminAgencyList = () => {
         }
     };
 
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             setSearch(searchInput);
@@ -64,22 +93,29 @@ const AdminAgencyList = () => {
 
     useEffect(() => {
         fetchAgencies();
-    }, [page, search, sortBy, sortOrder]);
+    }, [page, search, sortBy, sortOrder, filters]);
 
 
-    const handleSort = (field: any) => {
-        if (sortBy === field) {
-            setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-        } else {
-            setSortBy(field);
+    
+    const handleSort = (value: string) => {
+        if (!value) {
+            setSortBy("");
             setSortOrder("asc");
+            return;
         }
+
+        const [field, order] = value.split(":");
+
+        setSortBy(field);
+        setSortOrder(order === "desc" ? "desc" : "asc");
     };
+
+
 
     const handleStatusToggle = async (id: string, newState: boolean) => {
         try {
             await updateAgencyStatus(id, newState);
-            
+
             fetchAgencies();
             toast.success(`User ${newState ? "Blocked" : "Activated"}`);
 
@@ -108,6 +144,8 @@ const AdminAgencyList = () => {
                         onSort={handleSort}
                         sortBy={sortBy}
                         sortOrder={sortOrder}
+                        filters={filters}
+                        onFilterChange={setFilters}
                     />
 
                 )}

@@ -30,10 +30,15 @@ export const useAdmin = () => {
     search = "",
     sortBy = "",
     sortOrder = "asc",
+    blocked = null,
+    kycStatus = "",
+    startDate = "",
+    endDate = "",
   }) => {
     const res = await axiosInstance.get(API_ADMIN.GET_AGENCIES, {
-      params: { page, limit, search, sortBy, sortOrder },
+      params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate },
     });
+    console.log(res)
     return res.data;
   };
 

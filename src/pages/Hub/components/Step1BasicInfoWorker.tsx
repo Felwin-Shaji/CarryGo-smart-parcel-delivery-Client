@@ -13,7 +13,7 @@ interface Step1Props {
 export interface WorkerPayload {
     name: string;
     email: string;
-    tempWorkerId:string;
+    tempWorkerId: string;  
     mobile: string;
     role: "worker";
 }
