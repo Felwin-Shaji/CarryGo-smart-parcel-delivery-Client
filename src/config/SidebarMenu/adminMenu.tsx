@@ -9,7 +9,8 @@ import type { JSX } from "react";
 export interface MenuItem {
   name: string;
   icon: JSX.Element;
-  path: string;
+  path: string ;
+  disabled?:boolean;
 }
 
 export interface MenuSection {
@@ -17,7 +18,7 @@ export interface MenuSection {
   items: MenuItem[];
 }
 
-export const adminMenu: MenuSection[] = [
+export const adminMenu = (): MenuSection[] => [
   {
     section: "General",
     items: [

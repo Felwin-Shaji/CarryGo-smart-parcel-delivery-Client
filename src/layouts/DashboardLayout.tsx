@@ -6,6 +6,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
 import { useDashboard } from "../context/DashboardContext";
+import toast from "react-hot-toast";
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -29,6 +30,9 @@ export const DashboardLayout = ({
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+    console.log("MENU ITEMS =>", menuItems);
+
 
     return (
         <div className="flex h-screen w-full overflow-hidden">
@@ -68,9 +72,17 @@ export const DashboardLayout = ({
                                 return (
                                     <div
                                         key={index}
-                                        onClick={() => navigate(item.path)}
+                                        onClick={() => {
+                                            if (item.disabled) {
+                                                toast.error("Your KYC must be approved to access this section.");
+                                                return;
+                                            }
+                                            navigate(item.path);
+                                        }}
                                         className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition
-                      ${isActive ? "bg-blue-700" : "hover:bg-blue-800"}`}
+        ${item.disabled ? "opacity-40 cursor-not-allowed" :
+                                                isActive ? "bg-blue-700" : "hover:bg-blue-800"
+                                            }`}
                                     >
                                         <div data-tooltip-id={`tooltip-${item.name}`}>
                                             {item.icon}
@@ -80,6 +92,7 @@ export const DashboardLayout = ({
                                         </div>
                                         {isSidebarOpen && <span>{item.name}</span>}
                                     </div>
+
                                 );
                             })}
                         </div>

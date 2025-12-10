@@ -42,25 +42,25 @@ const HubAddWorker = () => {
         setTempWorkerId(meta.tempWorkerId);
     }, []);
 
-    // useEffect(() => {
-    //     if (!formData.email) return;
+    useEffect(() => {
+        if (!formData.email) return;
 
-    //     const fetchStatus = async () => {
-    //         const data = await checkTempWorkerStatus(formData.email);
+        const fetchStatus = async () => {
+            const data = await checkTempWorkerStatus(formData.email);
 
-    //         if (!data.exists) return;
+            if (!data.exists) return;
 
-    //         setTempWorkerId(data.tempWorkerId);
+            setTempWorkerId(data.tempWorkerId);
 
-    //         if (data.status === "OTP-Verified") {
-    //             setStep(3);
-    //         } else {
-    //             setStep(2);
-    //         }
-    //     };
+            if (data.status === "OTP-Verified") {
+                setStep(3);
+            } else {
+                setStep(2);
+            }
+        };
 
-    //     fetchStatus();
-    // }, [formData.email]);
+        fetchStatus();
+    }, [formData.email]);
 
     return (
         <DashboardProvider role="hub">

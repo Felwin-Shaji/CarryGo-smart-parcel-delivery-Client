@@ -8,7 +8,7 @@ import {
 
 import type { MenuSection } from "./adminMenu";
 
-export const agencyMenu: MenuSection[] = [
+export const agencyMenu = (kycStatus?: string): MenuSection[] => [
   {
     section: "Overview",
     items: [
@@ -21,9 +21,19 @@ export const agencyMenu: MenuSection[] = [
   {
     section: "Hub Management",
     items: [
-      { name: "All Hubs", icon: <Building2 size={20} />, path: "/agency/hubs" },
-      { name: "Add Hub", icon: <MapPin size={20} />, path: "/agency/hubs/add" },
+      {
+        name: "All Hubs",
+        icon: <Building2 size={20} />,
+        path: "/agency/hubs" ,
+        disabled: kycStatus !== "APPROVED",
+      },
+      {
+        name: "Add Hub",
+        icon: <MapPin size={20} />,
+        path: "/agency/hubs/add" ,
+        disabled: kycStatus !== "APPROVED",
+      },
     ],
   },
-
 ];
+

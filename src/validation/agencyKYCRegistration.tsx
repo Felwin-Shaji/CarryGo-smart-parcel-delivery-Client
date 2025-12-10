@@ -5,50 +5,56 @@ const SUPPORTED_FORMATS = ["image/jpeg", "image/png", "image/jpg", "application/
 export const validationSchema = Yup.object({
     tradeLicenseNumber: Yup.string()
         .required("Trade license number is required")
-        .matches(/^\d+$/, "Must be a number")
-        .min(5, "Too short")
-        .max(20, "Too long"),
+        .matches(/^[A-Za-z0-9\/\-]{5,20}$/, "Invalid trade license number"),
 
     PANnumber: Yup.string()
         .required("PAN number is required")
-        .matches(/^\d+$/, "Must be a number")
-        .min(5)
-        .max(20),
+        .matches(/^[A-Z]{5}[0-9]{4}[A-Z]$/, "Invalid PAN number")
+        .uppercase(),
 
     gst_number: Yup.string()
         .required("GST number is required")
-        .matches(/^\d+$/, "Must be a number"),
+        .matches(/^[A-Z0-9]{15}$/, "Invalid GST number")
+        .uppercase(),
+
+
 
     tradeLicenseDocument: Yup.mixed<File>()
         .required("Trade license document required")
-        .test("fileSize", "File too large", (value) => {
-            const file = value as File;
-            return !file || file.size <= FILE_SIZE;
+        .test("fileSize", "File too big", (value) => {
+            if (!value) return true;
+            if (typeof value === "string") return true;
+            return value.size <= FILE_SIZE;
         })
-        .test("fileFormat", "Unsupported Format", (value) => {
-            const file = value as File;
-            return !file || SUPPORTED_FORMATS.includes(file.type);
+        .test("fileType", "Unsupported file format", (value) => {
+            if (!value) return true;
+            if (typeof value === "string") return true;
+            return SUPPORTED_FORMATS.includes(value.type);
         }),
 
     PAN_photo: Yup.mixed<File>()
         .required("PAN photo required")
-        .test("fileSize", "File too large", (value) => {
-            const file = value as File;
-            return !file || file.size <= FILE_SIZE;
+        .test("fileSize", "File too big", (value) => {
+            if (!value) return true;
+            if (typeof value === "string") return true;
+            return value.size <= FILE_SIZE;
         })
-        .test("fileFormat", "Unsupported Format", (value) => {
-            const file = value as File;
-            return !file || SUPPORTED_FORMATS.includes(file.type);
+        .test("fileType", "Unsupported file format", (value) => {
+            if (!value) return true;
+            if (typeof value === "string") return true;
+            return SUPPORTED_FORMATS.includes(value.type);
         }),
 
     gst_certificate: Yup.mixed<File>()
         .required("GST certificate required")
-        .test("fileSize", "File too large", (value) => {
-            const file = value as File;
-            return !file || file.size <= FILE_SIZE;
+        .test("fileSize", "File too big", (value) => {
+            if (!value) return true;
+            if (typeof value === "string") return true;
+            return value.size <= FILE_SIZE;
         })
-        .test("fileFormat", "Unsupported Format", (value) => {
-            const file = value as File;
-            return !file || SUPPORTED_FORMATS.includes(file.type);
-        }),
+        .test("fileType", "Unsupported file format", (value) => {
+            if (!value) return true;
+            if (typeof value === "string") return true;
+            return SUPPORTED_FORMATS.includes(value.type);
+        })
 });

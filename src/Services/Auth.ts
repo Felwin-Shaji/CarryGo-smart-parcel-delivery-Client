@@ -182,19 +182,19 @@ export const useAuth = () => {
         } else if (data.role === ROLES.ADMIN) {
           dispatch(adminLogin({
             admin: response.data.user,
-            accessToken: response.data.accessToken,
+            accessToken: response.data.user.accessToken,
           }));
           navigate("/admin/dashboard");
         } else if (data.role === ROLES.AGENCY) {
           dispatch(agencyLogin({
             agency: response.data.user,
-            accessToken: response.data.accessToken
+            accessToken: response.data.user.accessToken
           }))
           navigate("/agency/dashboard");
         } else if (data.role === ROLES.HUB) {
           dispatch(hubLogin({
             hub: response.data.user,
-            accessToken: response.data.accessToken
+            accessToken: response.data.user.accessToken
           }))
           navigate("hub/dashboard")
         }

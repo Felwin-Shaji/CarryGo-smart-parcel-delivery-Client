@@ -14,13 +14,15 @@ export const API_AUTH = {
 
 
 export const API_AGENCY = {
-  KYC_CARIFICATION: "/api/agency/kyc-varification",
+  KYC_VARIFICATION: "/api/agency/kyc-varification",
 
   HUB_TEMP_REGISTER: "/api/agency/hub/temp-register",
   HUB_VERIFY_OTP: "/api/agency/hub/verify-otp",
   HUB_RESEND_OTP: "/api/agency/hub/resend-otp",
   ADD_NEW_HUB: "/api/agency/add-newHub",
   HUB_TEMP_STATUS: "/api/agency/hub/temp-status",
+
+  RESUBMIT_AGENCY_KYC: "/api/agency/dashboard/resubmit-kyc",
 }
 
 

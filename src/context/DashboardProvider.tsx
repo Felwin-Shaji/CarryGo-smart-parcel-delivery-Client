@@ -1,5 +1,5 @@
 import { DashboardContext } from "./DashboardContext";
-import { adminMenu } from "../config/SidebarMenu/adminMenu";
+import { adminMenu, type MenuSection } from "../config/SidebarMenu/adminMenu";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { useAuth } from "../Services/Auth";
@@ -27,12 +27,21 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
 
   const userName = currentUser?.name || "User";
 
-  const roleMenus = {
-    admin: adminMenu,
-    agency: agencyMenu,
-    worker: [],
-    hub: hunMenu,
-  };
+
+  let menuItems: MenuSection[];
+
+  if (role === ROLES.ADMIN) {
+    menuItems = adminMenu();
+  } else if (role === ROLES.AGENCY) {
+    const agencyUser = currentUser as { kycStatus?: string };
+    menuItems = agencyMenu(agencyUser.kycStatus);
+  } else if (role === ROLES.HUB) {
+    const hubUser = currentUser as { kycStatus?: string };
+    menuItems = hunMenu(hubUser.kycStatus);
+  } else {
+    menuItems = [];
+  }
+
 
   const handleLogout = () => {
     if (currentUser?.id) {
@@ -43,7 +52,7 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   return (
     <DashboardContext.Provider
       value={{
-        menuItems: roleMenus[role],
+        menuItems,
         role,
         handleLogout,
         userName,

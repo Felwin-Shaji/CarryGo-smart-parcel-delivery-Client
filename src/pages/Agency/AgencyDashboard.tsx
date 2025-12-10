@@ -22,6 +22,9 @@ const AgencyDashboard = () => {
             case KYCSTATUS.REGISTERED:
                 return <KYCWaiting />;
 
+            case KYCSTATUS.RESUBMITTED:
+                return <KYCWaiting />;
+
             case KYCSTATUS.REJECTED:
                 return <KYCRejected />;
 

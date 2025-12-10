@@ -71,7 +71,7 @@ const AgencyAddHubs = () => {
 
             setTempHubId(data.tempHubId);
 
-            if (data.status === "OTP-Vaifyed") {
+            if (data.status === "OTP-Verified") {
                 setStep(3); 
             } else {
                 setStep(2); 

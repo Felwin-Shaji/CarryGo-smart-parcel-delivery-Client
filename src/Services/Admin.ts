@@ -1,6 +1,6 @@
 
 import { API_ADMIN } from "../constants_Types/apiRoutes";
-import type { KYCStatus } from "../constants_Types/types/roles";
+import { type KYCStatus } from "../constants_Types/types/roles";
 import { useAxios } from "../hooks/useAxios"
 
 
@@ -67,6 +67,7 @@ export const useAdmin = () => {
   const updateAgencyStatus = async (id: string, isBlocked: boolean) => {
     const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/status`, {
       isBlocked,
+     
     });
     return res.data
   }
@@ -98,8 +99,8 @@ export const useAdmin = () => {
    * @param isBlocked - New block status (true = block, false = unblock)
    * @returns Promise<{ success: boolean; message: string }>
    */
-  const updateAgencyKycStatus = async (id: string, status: KYCStatus) => {
-    const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/kyc-status`, { status });
+  const updateAgencyKycStatus = async (id: string, status: KYCStatus,rejectReason?:string) => {
+    const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/kyc-status`, { status,rejectReason });
     return res.data;
   };
 
@@ -127,9 +128,11 @@ export const useAdmin = () => {
     search = "",
     sortBy = "",
     sortOrder = "asc",
+    blocked = null,
+    role = "",
   }) => {
     const res = await axiosInstance.get(API_ADMIN.GET_USERS, {
-      params: { page, limit, search, sortBy, sortOrder },
+      params: { page, limit, search, sortBy, sortOrder,blocked , role },
     });
 
     return res.data;

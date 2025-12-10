@@ -48,7 +48,7 @@ const KYCRegistrationForm = () => {
 
             try {
                 console.log(formData)
-                const response = await axiosInstence.post(API_AGENCY.KYC_CARIFICATION, formData, {
+                const response = await axiosInstence.post(API_AGENCY.KYC_VARIFICATION, formData, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
                 console.log(response.data)

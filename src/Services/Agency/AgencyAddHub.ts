@@ -48,10 +48,10 @@ export const useAgencyAddHub = () => {
         try {
             const res = await axiosInstance.post(API_AGENCY.HUB_TEMP_REGISTER, values);
             let otpHubMeta: HubOtpMeta = {
-                email: res.data.email,
-                expiresAt: res.data.expiresAt,
+                email: res.data.data.email,
+                expiresAt: res.data.data.expiresAt,
                 role: "hub",
-                tempHubId: res.data.tempHubId
+                tempHubId: res.data.data.tempHubId
             }
 
             localStorage.setItem("otpHubMeta", JSON.stringify(otpHubMeta));
@@ -60,7 +60,7 @@ export const useAgencyAddHub = () => {
 
             return {
                 success: true,
-                tempHubId: res.data.tempHubId,
+                tempHubId: res.data.data.tempHubId,
             };
 
         } catch (error: any) {
