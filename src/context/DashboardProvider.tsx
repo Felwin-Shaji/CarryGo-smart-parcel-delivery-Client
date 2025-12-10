@@ -7,6 +7,7 @@ import type { RootState } from "../store/store";
 import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
 import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { hunMenu } from "../config/SidebarMenu/hubMenu";
+import { workerMenu } from "../config/SidebarMenu/workerMenu";
 
 
 type DashboardRoles = Exclude<Roles, "user">;
@@ -23,6 +24,7 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   if (role === ROLES.ADMIN) currentUser = useSelector((state: RootState) => state.adminState.admin);
   if (role === ROLES.AGENCY) currentUser = useSelector((state: RootState) => state.agencyState.agency);
   if (role === ROLES.HUB) currentUser = useSelector((state: RootState) => state.hubState.hub);
+  if (role === ROLES.WORKER) currentUser = useSelector((state: RootState) => state.workerState.worker);
 
 
   const userName = currentUser?.name || "User";
@@ -38,6 +40,10 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   } else if (role === ROLES.HUB) {
     const hubUser = currentUser as { kycStatus?: string };
     menuItems = hunMenu(hubUser.kycStatus);
+  } else if (role === ROLES.WORKER) {
+    const workerUser = currentUser as { kycStatus?: string }; ///////////change
+    menuItems = workerMenu(workerUser.kycStatus)
+
   } else {
     menuItems = [];
   }

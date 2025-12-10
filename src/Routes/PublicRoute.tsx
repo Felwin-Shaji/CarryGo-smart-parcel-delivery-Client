@@ -9,11 +9,13 @@ const PublicRoute: React.FC = () => {
   const { admin } = useSelector((state: RootState) => state.adminState);
   const { agency } = useSelector((state: RootState) => state.agencyState);
   const { hub } = useSelector((state: RootState) => state.hubState);
+  const { worker } = useSelector((state: RootState) => state.workerState);
 
 
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isAgencyRoute = location.pathname.startsWith("/agency")
   const isHubRoute = location.pathname.startsWith("/hub")
+  const isWorkerRoute = location.pathname.startsWith("/worker")
 
   if (isAdminRoute) {
     if (admin) {
@@ -36,7 +38,14 @@ const PublicRoute: React.FC = () => {
     return <Outlet />
   }
 
-  if (!isAdminRoute || !isAgencyRoute || !isHubRoute) {
+  if (isWorkerRoute) {
+    if (worker) {
+      return <Navigate to="/worker/dashboard" replace />
+    }
+    return <Outlet />
+  }
+
+  if (!isAdminRoute || !isAgencyRoute || !isHubRoute || !isWorkerRoute) {
     if (user) {
       return <Navigate to="/home" replace />;
     }

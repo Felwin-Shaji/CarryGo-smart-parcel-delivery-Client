@@ -21,17 +21,20 @@ export const useHubAddWorker = () => {
         name: string;
         email: string;
         mobile: string;
-        tempWorkerId: string;
+        // tempWorkerId: string;
         role: "worker";
     }) => {
 
         const res = await axiosInstance.post(API_HUB.TEMP_WORKER_REGISTER, values);
+        // console.log("Registering temporary worker with values:", res);
         let worketOtpMeta = {
-            email: res.data.email,
-            expiresAt: res.data.expiresAt,
+            email: res.data.data.email,
+            expiresAt: res.data.data.expiresAt,
             role: "worker",
-            tempHubId: res.data._id
+            // tempWorkerId: res.data.data.tempWorkerId
         }
+
+        console.log("worketOtpMeta", worketOtpMeta);
         if (res.data.success) toast.success(res.data.message || "otp send successfully")
         localStorage.setItem("otpWorkerMeta", JSON.stringify(worketOtpMeta))
         return res.data;
@@ -50,6 +53,7 @@ export const useHubAddWorker = () => {
      * @returns {boolean} - True if OTP is valid
      */
     const verifyOtp = async (email: string, tempWorkerId: string | null, otp: string,) => {
+        console.log("Verifying OTP with payload:", { email, tempWorkerId, otp });
         const res = await axiosInstance.post(API_HUB.WORKER_VERIFY_OTP, {
             email,
             tempWorkerId,
@@ -89,13 +93,18 @@ export const useHubAddWorker = () => {
      * @returns {{ success: boolean, workerId: string }}
      */
     const uploadKyc = async (formData: FormData) => {
+        console.log("KYC Payload:");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ": ", pair[1]);
+        }
+
         const res = await axiosInstance.post(API_HUB.WORKER_KYC_UPLOAD, formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        // OPTIONAL: Redirect to worker list after success
+
         if (res.data.success) {
-            navigate("/hub/workers");
+            navigate("/hub/workers/add");
         }
 
         return res.data;

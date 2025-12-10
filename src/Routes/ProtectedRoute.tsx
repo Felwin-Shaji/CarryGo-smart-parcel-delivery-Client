@@ -16,15 +16,17 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
   const { admin } = useSelector((state: RootState) => state.adminState);
   const { agency } = useSelector((state: RootState) => state.agencyState);
   const { hub } = useSelector((state: RootState) => state.hubState);
+  const { worker } = useSelector((state: RootState) => state.workerState);
 
-  console.log(user,admin,agency,hub)
+  console.log(user,admin,agency,hub,worker)
 
 
   const allRoles: Partial<Record<(typeof ROLES)[keyof typeof ROLES], any>> = {
     [ROLES.USER]: user,
     [ROLES.ADMIN]: admin,
     [ROLES.AGENCY]: agency,
-    [ROLES.HUB]:hub
+    [ROLES.HUB]:hub,
+    [ROLES.WORKER]:worker
   };
 
   const currentUser = allRoles[requiredRole];
@@ -41,6 +43,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
         return <Navigate to="/agency/login" />;
       case ROLES.HUB:
         return <Navigate to="/hub/login"/>
+      case ROLES.WORKER:
+        return <Navigate to="/worker/login"/>
       default:
         return <Navigate to="/unauthorized" replace />;
     }

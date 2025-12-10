@@ -8,6 +8,7 @@ import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
 import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { API_AUTH } from "../constants_Types/apiRoutes";
 import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
+import { workerLogin, workerLogout } from "../store/Slice/workerSlice";
 
 export const useAuth = () => {
   const axiosInstance = useAxios();
@@ -60,7 +61,7 @@ export const useAuth = () => {
             break;
           default:
             console.warn("Unknown role received during registration:", otpData.role);
-            navigate("/verify-otp"); 
+            navigate("/verify-otp");
         }
 
 
@@ -149,6 +150,9 @@ export const useAuth = () => {
         } else if (role === ROLES.HUB) {
           dispatch(hubLogout());
           navigate('/hub/login')
+        } else if (role === ROLES.WORKER) {
+          dispatch(workerLogout());
+          navigate('/worker/login')
         }
         toast.success("Logged out successfully");
       }
@@ -196,7 +200,13 @@ export const useAuth = () => {
             hub: response.data.user,
             accessToken: response.data.user.accessToken
           }))
-          navigate("hub/dashboard")
+          navigate("/hub/dashboard")
+        } else if (data.role === ROLES.WORKER) {
+          dispatch(workerLogin({
+            worker: response.data.user,
+            accessToken: response.data.user.accessToken
+          }))
+          navigate("/worker/dashboard")
         }
       }
     } catch (error: any) {

@@ -1,23 +1,14 @@
 import { useState } from "react";
 import { useHubAddWorker } from "../../../Services/Hub/HubAddWorkers";
 
-interface Step3Props {
-    formData: {
-        name: string;
-        email: string;
-        mobile: string;
-        role: "worker";
-    };
-    tempWorkerId: string | null;
-}
+interface Step3Props { formData: { name: string; email: string; mobile: string; role: "worker"; }; tempWorkerId: string | null; }
 
-const Step3UploadKYCWorker = ({ formData, tempWorkerId }: Step3Props) => {
+const Step3UploadKYCWorker = ({ formData }: Step3Props) => {
     const { uploadKyc } = useHubAddWorker();
 
     const [idType, setIdType] = useState("AADHAAR");
     const [documentFile, setDocumentFile] = useState<File | null>(null);
     const [selfieFile, setSelfieFile] = useState<File | null>(null);
-
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async () => {
@@ -30,8 +21,7 @@ const Step3UploadKYCWorker = ({ formData, tempWorkerId }: Step3Props) => {
         payload.append("idType", idType);
         payload.append("document", documentFile);
         payload.append("selfie", selfieFile);
-        payload.append("tempWorkerId", tempWorkerId!);
-        payload.append("email", formData.email);
+        payload.append("email", formData.email);  // ✔ Use email alone
 
         setLoading(true);
         const res = await uploadKyc(payload);
@@ -43,7 +33,7 @@ const Step3UploadKYCWorker = ({ formData, tempWorkerId }: Step3Props) => {
         }
     };
 
-    return (
+     return (
         <div className="max-w-xl mx-auto bg-white p-8 border rounded-xl shadow-lg space-y-6">
             <div>
                 <h2 className="text-2xl font-bold text-blue-900">
@@ -71,20 +61,36 @@ const Step3UploadKYCWorker = ({ formData, tempWorkerId }: Step3Props) => {
             </div>
 
             {/* DOCUMENT UPLOAD */}
-            <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium text-gray-700">
-                    Upload Document
-                </label>
+            <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-gray-700">Upload Document</label>
                 <input
                     type="file"
                     accept="image/*,application/pdf"
                     onChange={(e) => setDocumentFile(e.target.files?.[0] || null)}
                     className="border p-2 rounded-md"
                 />
+
+                {documentFile && (
+                    <div className="mt-2">
+                        <p className="text-xs text-gray-500">Preview:</p>
+                        {documentFile.type.includes("pdf") ? (
+                            <embed
+                                src={URL.createObjectURL(documentFile)}
+                                className="w-full h-40 border rounded"
+                            />
+                        ) : (
+                            <img
+                                src={URL.createObjectURL(documentFile)}
+                                alt="Document Preview"
+                                className="w-full h-40 object-cover border rounded"
+                            />
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* SELFIE UPLOAD */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium text-gray-700">Upload Selfie</label>
                 <input
                     type="file"
@@ -92,9 +98,20 @@ const Step3UploadKYCWorker = ({ formData, tempWorkerId }: Step3Props) => {
                     onChange={(e) => setSelfieFile(e.target.files?.[0] || null)}
                     className="border p-2 rounded-md"
                 />
+
+                {selfieFile && (
+                    <div className="mt-2">
+                        <p className="text-xs text-gray-500">Preview:</p>
+                        <img
+                            src={URL.createObjectURL(selfieFile)}
+                            alt="Selfie Preview"
+                            className="w-32 h-32 object-cover border rounded-full mx-auto"
+                        />
+                    </div>
+                )}
             </div>
 
-            {/* SUBMIT BUTTON */}
+            {/* SUBMIT */}
             <button
                 onClick={handleSubmit}
                 disabled={loading}

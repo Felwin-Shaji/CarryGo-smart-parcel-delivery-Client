@@ -7,6 +7,7 @@ import "react-tooltip/dist/react-tooltip.css";
 
 import { useDashboard } from "../context/DashboardContext";
 import toast from "react-hot-toast";
+import { confirmToast } from "../components/globelcomponents/confirmToast";
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -22,6 +23,7 @@ export const DashboardLayout = ({
 
     const { menuItems, handleLogout, userName } = useDashboard();
 
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -32,6 +34,7 @@ export const DashboardLayout = ({
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
     console.log("MENU ITEMS =>", menuItems);
+
 
 
     return (
@@ -129,7 +132,7 @@ export const DashboardLayout = ({
                             <span className="absolute top-0 right-0 h-2 w-2 bg-purple-500 rounded-full"></span>
                         </button>
 
-                        <button onClick={handleLogout} className="hover:text-blue-400">
+                        <button onClick={()=>confirmToast("Are you sure you need to logout",handleLogout)} className="hover:text-blue-400">
                             <LogOut size={22} />
                         </button>
                     </div>

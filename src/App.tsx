@@ -8,6 +8,7 @@ import AdminRoutes from './Routes/AdminRoutes';
 import AgencyRoutes from './Routes/AgencyRoutes';
 import HubRoutes from './Routes/HubRoutes';
 import ResetLinkSentPage from './pages/ResetLinkSentPage';
+import WorkerRoutes from './Routes/WorkerRoutes';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/admin/*' element={<AdminRoutes />} />
         <Route path='/agency/*' element={<AgencyRoutes />} />
         <Route path='/hub/*' element={<HubRoutes />} />
+        <Route path='/worker/*' element={<WorkerRoutes />} />
         
     <Route path="/reset-link-sent" element={<ResetLinkSentPage />} />
 
