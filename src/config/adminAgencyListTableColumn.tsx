@@ -30,7 +30,7 @@ export const AdminAgencyListcolumns = (handleStatusToggle: any) => [
     sortable: true,
     render: (value: boolean, row: any) => (
       <button
-        onClick={() => handleStatusToggle(row._id, !row.isBlocked)}
+        onClick={() => handleStatusToggle(row.id, !row.isBlocked)}
         className={`
         px-4 py-1.5 rounded-lg text-sm font-medium transition 
         ${value
@@ -48,7 +48,7 @@ export const AdminAgencyListcolumns = (handleStatusToggle: any) => [
     accessor: "action",
     render: (_: any, row: any) => (
       <button
-        onClick={() => row.__openModal(row._id || row.id)}
+        onClick={() => row.__openModal(row.id || row.id)}
         className="px-3 py-1 bg-blue-600 text-white text-sm rounded"
       >
         View

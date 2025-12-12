@@ -39,7 +39,7 @@ export const AdminUserListColumns = (handleStatusToggle: any) => [
     sortable: true,
     render: (value: boolean, row: any) => (
       <button
-        onClick={() => handleStatusToggle(row._id, !row.isBlocked)}
+        onClick={() => handleStatusToggle(row.id, !row.isBlocked)}
         className={`
         px-4 py-1.5 rounded-lg text-sm font-medium transition 
         ${value
