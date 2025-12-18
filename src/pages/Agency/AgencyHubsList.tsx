@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { useAgency, type HubResponseDTO } from "../../Services/Agency/Agency"
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen"
 
- export type HubTableRow = HubResponseDTO & {
+export type HubTableRow = HubResponseDTO & {
   __openModal: (id: string) => void;
 };
 
@@ -67,8 +67,10 @@ const AgencyHubsList = () => {
 
 
       setEnhancedRows(rows!);
-    } catch (error) {
+      setLoading(false);
 
+    } catch (error: any) {
+      toast.error(error.data.messages);
     }
   }
 
@@ -118,7 +120,7 @@ const AgencyHubsList = () => {
     <>
       <DashboardProvider role={ROLES.AGENCY}>
         <DashboardLayout>
-          {loading && <LoadingScreen/>}
+          {loading && <LoadingScreen />}
           <DataTable<HubTableRow>
             data={enhancedRows}
             columns={AgencyHubsListColumns(handleStatusToggle)}
