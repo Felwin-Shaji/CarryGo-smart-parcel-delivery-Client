@@ -1,12 +1,12 @@
 import React from "react";
 import AdvancedFilterSortBar from "./SortBar";
 
-interface Column<T> {
+export interface Column<T> {
   header: string;
   accessor: keyof T;
   sortable?: boolean;
   hiddenOnMobile?: boolean;
-  type?: "text" | "number" | "date";   // <-- ADD THIS
+  type?: "text" | "number" | "date";
   render?: <K extends keyof T>(value: T[K], row: T) => React.ReactNode;
 }
 
