@@ -5,7 +5,7 @@ import { useAdmin } from "../../Services/Admin";
 import { DataTable } from "../../components/Table/Table";
 import toast from "react-hot-toast";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
-import { AdminAgencyListcolumns } from "../../config/adminAgencyListTableColumn";
+import { AdminAgencyListcolumns } from "../../config/TableColumns/adminAgencyListTableColumn";
 // import AdminAgencyDetailsModal from "./Components/AdminAgencyDetailsModal";
 import { useNavigate } from "react-router-dom";
 
