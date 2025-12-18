@@ -5,7 +5,7 @@ import { DataTable } from "../../components/Table/Table";
 import toast from "react-hot-toast";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useAdmin } from "../../Services/Admin";
-import { AdminUserListColumns } from "../../config/adminUserListTableColumn";
+import { AdminUserListColumns } from "../../config/TableColumns/adminUserListTableColumn";
 
 
 const AdminUserList = () => {

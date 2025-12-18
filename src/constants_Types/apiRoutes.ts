@@ -21,6 +21,7 @@ export const API_AGENCY = {
   HUB_RESEND_OTP: "/api/agency/hub/resend-otp",
   ADD_NEW_HUB: "/api/agency/add-newHub",
   HUB_TEMP_STATUS: "/api/agency/hub/temp-status",
+  GET_HUBS:"/api/agency/hubs",
 
   RESUBMIT_AGENCY_KYC: "/api/agency/dashboard/resubmit-kyc",
 }
