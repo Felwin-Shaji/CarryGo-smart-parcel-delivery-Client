@@ -12,6 +12,7 @@ import { ROLES } from "../constants_Types/types/roles"
 import PageNotFound from "../pages/PageNotFound"
 import ForgotPassword from "../pages/User/ForgotPassword"
 import ResetPassword from "../pages/User/ResetPassword"
+import UserProfile from "../pages/User/UserProfile"
 
 
 
@@ -35,6 +36,7 @@ const UserRoutes = () => {
         </Route>
 
         <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
+        <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile/></ProtectedRoute>}/>
 
         <Route path="*" element={<PageNotFound />} />
 

@@ -40,3 +40,8 @@ export const API_HUB = {
     CHECK_TEMP_WORKER_STATUS: "/api/hub/worker/check-status",
 };
 
+
+export const API_USER = {
+  GET_PROFILE:"/api/user/profile"
+}
+
