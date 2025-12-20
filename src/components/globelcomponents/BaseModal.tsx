@@ -8,11 +8,13 @@ export const ModalInput = ({
     label,
     value,
     onChange,
+    onBlur,
     type = "text",
 }: {
     label: string;
     value: string;
     onChange: (v: string) => void;
+    onBlur?: () => void;
     type?: string;
 }) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -31,6 +33,7 @@ export const ModalInput = ({
                     type={inputType}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
+                    onBlur={onBlur}
                     className="w-full rounded-lg border border-gray-300
                      px-3 py-2 pr-10 text-sm
                      focus:border-[var(--color-primary)]
