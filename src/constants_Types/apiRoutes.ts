@@ -42,6 +42,7 @@ export const API_HUB = {
 
 
 export const API_USER = {
-  GET_PROFILE:"/api/user/profile"
+  GET_PROFILE:"/api/user/profile",
+  UPDATE_PROFILE:"/api/user/edit-profile",
 }
 

@@ -20,8 +20,16 @@ export const useUserProfile = () => {
         }
     };
 
+    const updateUserProfile = async (data: { name: string; mobile: string }) => {
+        const res = await axiosInstance.patch(API_USER.UPDATE_PROFILE, data);
+
+        if (res.data.success) toast.success(res.data.message || "user profile updated successfully");
+
+        return
+    }
 
     return {
-        getUserProfile
+        getUserProfile,
+        updateUserProfile
     }
 }
