@@ -7,3 +7,11 @@ export interface BaseUserDTO {
   kycStatus: string;
   createdAt: Date;
 }
+
+/**
+ * Base Reset-password request dto
+ */
+export interface BaseResetPasswordRequestDTO {
+  currentPassword:string;
+  newPassword:string;
+}

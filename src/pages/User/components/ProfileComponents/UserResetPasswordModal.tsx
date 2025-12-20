@@ -1,5 +1,6 @@
-import { useState } from "react";
 import BaseModal, { ModalInput } from "../../../../components/globelcomponents/BaseModal";
+import { useFormik } from "formik";
+import { userResetPasswordSchema } from "../../../../validation/userResetPassword";
 
 interface ResetPasswordModalProps {
     open: boolean;
@@ -16,50 +17,100 @@ const UserResetPasswordModal = ({
     onClose,
     onSave,
 }: ResetPasswordModalProps) => {
-    const [currentPassword, setCurrentPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const formik = useFormik({
+        initialValues: {
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: ""
+        },
+        validationSchema: userResetPasswordSchema,
+        onSubmit: async (values) => {
+            await onSave(values);
+            formik.resetForm();
+        },
+    });
+
 
     return (
         <BaseModal title="Reset Password" open={open} onClose={onClose}>
             <div className="space-y-5">
-                <ModalInput
-                    label="Current Password"
-                    type="password"
-                    value={currentPassword}
-                    onChange={setCurrentPassword}
-                />
-
-                <ModalInput
-                    label="New Password"
-                    type="password"
-                    value={newPassword}
-                    onChange={setNewPassword}
-                />
-
-                <ModalInput
-                    label="Confirm Password"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={setConfirmPassword}
-                />
-
-                <div className="flex justify-end gap-3 pt-4">
-                    <button onClick={onClose} className="px-4 py-1.5 text-xs">
-                        Cancel
-                    </button>
-                    <button
-                        onClick={() =>
-                            onSave({ currentPassword, newPassword, confirmPassword })
+                <form onSubmit={formik.handleSubmit} className="space-y-5">
+                    <ModalInput
+                        label="Current Password"
+                        type="password"
+                        value={formik.values.currentPassword}
+                        onChange={(v) =>
+                            formik.setFieldValue("currentPassword", v)
                         }
-                        className="px-4 py-1.5 text-xs"
-                    >
-                        Update Password
-                    </button>
-                </div>
+                        onBlur={() =>
+                            formik.setFieldTouched("currentPassword", true)
+                        }
+                    />
+                    {formik.touched.currentPassword &&
+                        formik.errors.currentPassword && (
+                            <p className="text-xs text-red-500">
+                                {formik.errors.currentPassword}
+                            </p>
+                        )}
+
+                    <ModalInput
+                        label="New Password"
+                        type="password"
+                        value={formik.values.newPassword}
+                        onChange={(v) =>
+                            formik.setFieldValue("newPassword", v)
+                        }
+                        onBlur={() =>
+                            formik.setFieldTouched("newPassword", true)
+                        }
+                    />
+                    {formik.touched.newPassword &&
+                        formik.errors.newPassword && (
+                            <p className="text-xs text-red-500">
+                                {formik.errors.newPassword}
+                            </p>
+                        )}
+
+                    <ModalInput
+                        label="Confirm Password"
+                        type="password"
+                        value={formik.values.confirmPassword}
+                        onChange={(v) =>
+                            formik.setFieldValue("confirmPassword", v)
+                        }
+                        onBlur={() =>
+                            formik.setFieldTouched("confirmPassword", true)
+                        }
+                    />
+                    {formik.touched.confirmPassword &&
+                        formik.errors.confirmPassword && (
+                            <p className="text-xs text-red-500">
+                                {formik.errors.confirmPassword}
+                            </p>
+                        )}
+
+                    <div className="flex justify-end gap-3 pt-4">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="px-4 py-1.5 text-xs"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            className="px-4 py-1.5 text-xs disabled:opacity-50"
+                            disabled={!formik.isValid || formik.isSubmitting}
+                        >
+                            Update Password
+                        </button>
+                    </div>
+                </form>
             </div>
         </BaseModal>
     );
 };
 
-export default UserResetPasswordModal
+export default UserResetPasswordModal;

@@ -6,8 +6,9 @@ import ProfileField from "./components/ProfileComponents/ProfileField";
 import UserEditProfileModal from "./components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "./components/ProfileComponents/UserResetPasswordModal";
 import { useUserProfile } from "../../Services/User/userProfile";
-import type { GetUserProfileDTO } from "../../constants_Types/types/User/user.dto";
+import type { GetUserProfileDTO } from "../../constants_Types/types/User/userResponse.dto";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import type { UserResetPasswordRequestDTO } from "../../constants_Types/types/User/userRequest.dto";
 
 const capitalize = (value?: string) => {
     if (!value) return "-";
@@ -16,9 +17,9 @@ const capitalize = (value?: string) => {
 
 
 const UserProfile = () => {
-    const { getUserProfile, updateUserProfile } = useUserProfile();
+    const { getUserProfile, updateUserProfile,resetUserPassword } = useUserProfile();
 
-    const [user, setUser] = useState<GetUserProfileDTO | null>(null)
+    const [user, setUser] = useState<GetUserProfileDTO | null>(null);
 
     const [editProfileOpen, setEditProfileOpen] = useState(false);
     const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
@@ -36,6 +37,12 @@ const UserProfile = () => {
         await updateUserProfile(data);
         await fetchProfile();
         setEditProfileOpen(false);
+    }
+
+    const handleOnResetPassword = async (data:UserResetPasswordRequestDTO) =>{
+        await resetUserPassword(data);
+        await fetchProfile();
+        setResetPasswordOpen(false);
     }
 
     if (!user) {
@@ -63,10 +70,7 @@ const UserProfile = () => {
             <UserResetPasswordModal
                 open={resetPasswordOpen}
                 onClose={() => setResetPasswordOpen(false)}
-                onSave={(data) => {
-                    console.log("Reset password:", data);
-                    setResetPasswordOpen(false);
-                }}
+                onSave={handleOnResetPassword}
             />
 
 
