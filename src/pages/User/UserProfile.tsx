@@ -10,13 +10,13 @@ import type { GetUserProfileDTO } from "../../constants_Types/types/User/user.dt
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 
 const capitalize = (value?: string) => {
-  if (!value) return "-";
-  return value.charAt(0).toUpperCase() + value.slice(1);
+    if (!value) return "-";
+    return value.charAt(0).toUpperCase() + value.slice(1);
 };
 
 
 const UserProfile = () => {
-    const { getUserProfile } = useUserProfile();
+    const { getUserProfile, updateUserProfile } = useUserProfile();
 
     const [user, setUser] = useState<GetUserProfileDTO | null>(null)
 
@@ -24,19 +24,19 @@ const UserProfile = () => {
     const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
 
     const fetchProfile = async () => {
-        try {
             const profileData = await getUserProfile();
-            if (!profileData) return
-
-            setUser(profileData);
-        } catch (error) {
-
-        }
+            if (profileData) setUser(profileData);
     };
 
     useEffect(() => {
         fetchProfile();
     }, [])
+
+    const handleOnSaveEditProfile = async (data: { name: string; mobile: string }) => {
+        await updateUserProfile(data);
+        await fetchProfile();
+        setEditProfileOpen(false);
+    }
 
     if (!user) {
         return (
@@ -57,10 +57,7 @@ const UserProfile = () => {
                 open={editProfileOpen}
                 onClose={() => setEditProfileOpen(false)}
                 user={{ name: user.name, mobile: user.mobile }}
-                onSave={(data) => {
-                    console.log("Edit profile:", data);
-                    setEditProfileOpen(false);
-                }}
+                onSave={handleOnSaveEditProfile}
             />
 
             <UserResetPasswordModal
