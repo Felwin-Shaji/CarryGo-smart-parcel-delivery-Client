@@ -43,7 +43,8 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
     const menuItems = isLoggedIn?homeItems:landingItems
 
     return (
-        <header className="w-full bg-[#0A2374] text-white shadow-md">
+            <header className="fixed top-0 left-0 z-50 w-full bg-[#0A2374] text-white shadow-md">
+
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
                 {/* Logo */}
                 <div className="flex items-center space-x-2">
