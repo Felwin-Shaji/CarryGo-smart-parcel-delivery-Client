@@ -44,6 +44,10 @@ export const API_HUB = {
 export const API_USER = {
   GET_PROFILE:"/api/user/profile",
   UPDATE_PROFILE:"/api/user/edit-profile",
-  RESET_PASSWORD:"/api/user/reset-password"
+  RESET_PASSWORD:"/api/user/reset-password",
+
+  BOOKING_PINCODE_VALIDATE:"/api/user/booking/pincode/validate"
 }
+
+
 
