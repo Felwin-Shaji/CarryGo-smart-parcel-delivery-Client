@@ -94,6 +94,7 @@ const HubAddWorker = () => {
                     <Step3UploadKYCWorker
                         formData={formData}
                         tempWorkerId={tempWorkerId}
+                        setStep={setStep}
                     />
                 )}
 

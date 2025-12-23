@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../hooks/useAxios";
 import { API_HUB } from "../../constants_Types/apiRoutes"; // change path if needed
 import toast from "react-hot-toast";
+import type { TempRegisterWorkerResponseDto } from "../../constants_Types/types/Worker/workerResponse.dto";
 
 export const useHubAddWorker = () => {
     const axiosInstance = useAxios();
@@ -26,17 +27,16 @@ export const useHubAddWorker = () => {
     }) => {
 
         const res = await axiosInstance.post(API_HUB.TEMP_WORKER_REGISTER, values);
-        // console.log("Registering temporary worker with values:", res);
-        let worketOtpMeta = {
+
+        let workerOtpMeta:TempRegisterWorkerResponseDto = {
             email: res.data.data.email,
             expiresAt: res.data.data.expiresAt,
             role: "worker",
-            // tempWorkerId: res.data.data.tempWorkerId
+            tempWorkerId: res.data.data._id
         }
 
-        console.log("worketOtpMeta", worketOtpMeta);
         if (res.data.success) toast.success(res.data.message || "otp send successfully")
-        localStorage.setItem("otpWorkerMeta", JSON.stringify(worketOtpMeta))
+        localStorage.setItem("otpWorkerMeta", JSON.stringify(workerOtpMeta))
         return res.data;
     };
 
