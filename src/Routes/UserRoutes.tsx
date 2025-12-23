@@ -13,6 +13,7 @@ import PageNotFound from "../pages/PageNotFound"
 import ForgotPassword from "../pages/User/ForgotPassword"
 import ResetPassword from "../pages/User/ResetPassword"
 import UserProfile from "../pages/User/UserProfile"
+import UserCreateBooking from "../pages/User/Booking"
 
 
 
@@ -37,6 +38,7 @@ const UserRoutes = () => {
 
         <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile/></ProtectedRoute>}/>
+        <Route path="book-delivery" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking/></ProtectedRoute>}/>
 
         <Route path="*" element={<PageNotFound />} />
 
