@@ -25,7 +25,6 @@ const Step2OtpVerify = ({ email, tempWorkerId, setStep }: Step2Props) => {
         const stored = localStorage.getItem("otpWorkerMeta");
         let otpMeta: OtpMeta | null = null;
 
-        console.log(stored, "stored");
 
 
         if (stored) {
