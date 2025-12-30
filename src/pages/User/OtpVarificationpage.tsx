@@ -7,15 +7,22 @@ import OtpVerificationForm from '../../components/Forms/otpVarification';
 import { useAuth } from '../../Services/Auth';
 
 
-const OtpVarificationpage = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
 
+export interface OtpMeta {
+  email: string;
+  role: string;
+  expiresAt: string;
+}
+
+const OtpVarificationpage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { handleVerifyOtp, handleResendOtp } = useAuth();
 
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("")
+  const [loading, setLoading] = useState<boolean>(false);
 
 
 
@@ -23,59 +30,72 @@ const OtpVarificationpage = () => {
     const storedOtpMeta = localStorage.getItem("otpMeta");
 
     if (storedOtpMeta) {
-      const parsed = JSON.parse(storedOtpMeta);
+      const parsed: OtpMeta = JSON.parse(storedOtpMeta);
       setEmail(parsed.email);
-      setRole(parsed.role)
+      setRole(parsed.role);
+      setLoading(false)
     }
   }, []);
 
 
   const onVerifyOtp = async (otp: string) => {
+    setLoading(true);
     if (!email || !role) {
+      navigate('/login')
       toast.error("No email found for verification!");
       return;
     }
 
     const response = await handleVerifyOtp({ email, otp, role });
 
-    if (response.success) {
-      toast.success(response.message || "OTP verified successfully");
+    if (!response.success) {
+      setLoading(false);
+      return
+    }
+    toast.success(response.message || "OTP verified successfully");
 
-      localStorage.removeItem("otpMeta");
+    localStorage.removeItem("otpMeta");
 
-      if (role === "user") {
-        dispatch(userLogin(response));
-        navigate("/home");
-      } else if (role === "agency") {
-        navigate("/agency/login");
-      } else {
-        navigate("/login");
-      }
+    if (role === "user") {
+      dispatch(userLogin(response));
+      navigate("/home");
+    } else if (role === "agency") {
+      navigate("/agency/login");
+    } else {
+      navigate("/login");
     }
   };
 
   const onResendOtp = async () => {
-    if (!email || !role) return;
+    setLoading(true);
+    if (!email || !role) {
+      navigate('/login')
+      toast.error("No email found for verification!");
+      return;
+    }
 
     const response = await handleResendOtp({ email, role });
+    if (!response.success) return
 
-    if (response.success) {
-      localStorage.setItem(
-        "otpMeta",
-        JSON.stringify({
-          email,
-          role,
-          expiresAt: response.expiresAt,
-        })
-      );
-      toast.success("OTP resent successfully!");
-    }
+    const otpMeta = await JSON.stringify({
+      email,
+      role,
+      expiresAt: response.expiresAt,
+    })
+
+    localStorage.setItem(
+      "otpMeta",
+      otpMeta
+    );
+    setLoading(false);
+    navigate(0);
+    toast.success("OTP resent successfully!");
   };
 
 
   return (
     <div>
-      <OtpVerificationForm title='Verify Email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} email={email} />
+      <OtpVerificationForm title='Verify Email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} email={email} loading={loading} />
     </div>
   )
 }
