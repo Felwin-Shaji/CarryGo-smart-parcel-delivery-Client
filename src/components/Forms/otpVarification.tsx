@@ -1,5 +1,6 @@
 import { useState, useRef, type FormEvent, type ChangeEvent, useEffect } from "react";
-import type { OtpMeta } from "../../pages/User/RegistrationPage";
+import type { OtpMeta } from "../../pages/User/OtpVarificationpage";
+import LoadingScreen from "../loading/CarryGoLoadingScreen";
 
 interface OtpVerificationFormProps {
     title?: string;
@@ -101,6 +102,8 @@ const OtpVerificationForm = ({
         }
     };
 
+    if (loading) return <LoadingScreen />
+
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100 font-[Inter] p-4 md:p-8">
             <div className="flex flex-col md:flex-row bg-gray-100 rounded-2xl max-w-5xl w-full mx-auto md:rounded-tr-[60px]">
@@ -148,7 +151,7 @@ const OtpVerificationForm = ({
                             disabled={loading}
                             className="w-full bg-[#1E3A8A] text-white py-3 rounded-full font-semibold text-lg hover:bg-[#102467] transition disabled:opacity-60"
                         >
-                            {loading ? "Verifying..." : "Verify OTP"}
+                            Verify OTP
                         </button>
 
                         {/* Timer + Resend */}
