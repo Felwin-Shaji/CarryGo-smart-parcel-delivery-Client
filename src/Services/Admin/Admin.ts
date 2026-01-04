@@ -1,7 +1,7 @@
-
-import { API_ADMIN } from "../constants_Types/apiRoutes";
-import { type KYCStatus } from "../constants_Types/types/roles";
-import { useAxios } from "../hooks/useAxios"
+import { API_ADMIN } from "../../constants_Types/apiRoutes";
+import type { GetAgencyOverviewResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto";
+import type { KYCStatus } from "../../constants_Types/types/roles";
+import { useAxios } from "../../hooks/useAxios";
 
 
 export const useAdmin = () => {
@@ -50,9 +50,16 @@ export const useAdmin = () => {
  * @param id - Agency ID
  * @returns Promise<{ success: boolean; data: any }>
  */
-  const getAgencyById = async (id: string) => {
+  const getAgencyOverview = async (
+    id: string, 
+) => {
+
     const res = await axiosInstance.get(`${API_ADMIN.GET_AGENCIES}/${id}`);
-    return res.data;
+
+    const agency = res.data.data.agency;
+    const hubs = res.data.data.hubs
+
+    return {agency,hubs} as GetAgencyOverviewResponseDTO
   };
 
 
@@ -67,8 +74,8 @@ export const useAdmin = () => {
   const updateAgencyStatus = async (id: string, isBlocked: boolean) => {
     const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/status`, {
       isBlocked,
-     
     });
+
     return res.data
   }
 
@@ -99,8 +106,8 @@ export const useAdmin = () => {
    * @param isBlocked - New block status (true = block, false = unblock)
    * @returns Promise<{ success: boolean; message: string }>
    */
-  const updateAgencyKycStatus = async (id: string, status: KYCStatus,rejectReason?:string) => {
-    const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/kyc-status`, { status,rejectReason });
+  const updateAgencyKycStatus = async (id: string, status: KYCStatus, rejectReason?: string) => {
+    const res = await axiosInstance.patch(`${API_ADMIN.GET_AGENCIES}/${id}/kyc-status`, { status, rejectReason });
     return res.data;
   };
 
@@ -132,7 +139,7 @@ export const useAdmin = () => {
     role = "",
   }) => {
     const res = await axiosInstance.get(API_ADMIN.GET_USERS, {
-      params: { page, limit, search, sortBy, sortOrder,blocked , role },
+      params: { page, limit, search, sortBy, sortOrder, blocked, role },
     });
 
     return res.data;
@@ -141,7 +148,7 @@ export const useAdmin = () => {
 
   return {
     getAllAgencies,
-    getAgencyById,
+    getAgencyOverview,
     updateUserStatus,
     updateAgencyKycStatus,
     getAllUsers,

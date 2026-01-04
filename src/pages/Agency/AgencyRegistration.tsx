@@ -11,11 +11,10 @@ export interface OtpMeta {
 
 
 const AgencyRegistration = () => {
-    const [loading, setLoading] = useState<boolean>(false);
 
    const { handleRegistration } = useAuth();
     return (
-        <div><RegistrationForm title='Agency Registarion' onSubmit={handleRegistration} role={ROLES.AGENCY} loading={loading} /></div>
+        <div><RegistrationForm title='Agency Registarion' onSubmit={handleRegistration} role={ROLES.AGENCY} /></div>
     )
 }
 

@@ -14,16 +14,16 @@ export interface Column<T> {
 interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  onSearch: (value: string) => void;
-  onSort: (field: string) => void;
-  sortBy: string;
-  sortOrder: "asc" | "desc";
-  searchValue: string;
-  filters: any;
-  onFilterChange: (updated: any) => void;
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
+  onSearch?: (value: string) => void;
+  onSort?: (field: string) => void;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  searchValue?: string;
+  filters?: any;
+  onFilterChange?: (updated: any) => void;
 }
 
 export function DataTable<T>({
@@ -44,32 +44,32 @@ export function DataTable<T>({
     <div className="w-full space-y-4">
 
 
-<div className="flex flex-col sm:flex-row justify">
+      <div className="flex flex-col sm:flex-row justify">
 
-  {/* Search */}
-  <input
-    type="text"
-    placeholder="Search..."
-    className="px-3 py-2 border rounded-lg w-full sm:w-72"
-    value={searchValue}
-    onChange={(e) => onSearch(e.target.value)}
-  />
+        {/* Search */}
+        {onSearch && <input
+          type="text"
+          placeholder="Search..."
+          className="px-3 py-2 border rounded-lg w-full sm:w-72"
+          value={searchValue}
+          onChange={(e) => onSearch(e.target.value)}
+        />}
 
-  {/* Filters */}
-  <AdvancedFilterSortBar
-    columns={columns.map((col) => ({
-      label: col.header,
-      field: String(col.accessor),
-      type: col.type || "text"
-    }))}
-    filters={filters}
-    onFilterChange={onFilterChange}
-    sortBy={sortBy}
-    sortOrder={sortOrder}
-    onSortChange={(value) => onSort(value)}
-  />
+        {/* Filters */}
+        {onFilterChange && sortBy && sortOrder && onSort && <AdvancedFilterSortBar
+          columns={columns.map((col) => ({
+            label: col.header,
+            field: String(col.accessor),
+            type: col.type || "text"
+          }))}
+          filters={filters}
+          onFilterChange={onFilterChange}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          onSortChange={(value) => onSort(value)}
+        />}
 
-</div>
+      </div>
 
 
 
@@ -116,7 +116,7 @@ export function DataTable<T>({
       </div>
 
       {/* Pagination */}
-      <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 text-sm sm:text-base mt-4">
+      {onPageChange && page && <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 text-sm sm:text-base mt-4">
 
         <div className="flex items-center gap-2">
           <button
@@ -140,7 +140,7 @@ export function DataTable<T>({
           Page <span className="font-semibold">{page}</span> of {totalPages}
         </span>
       </div>
-
+      }
     </div>
   );
 }

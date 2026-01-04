@@ -5,7 +5,7 @@ import { DashboardProvider } from "../../context/DashboardProvider";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 const AdminAgencyDetailsModal = React.lazy(() =>
-    import("./Components/AdminAgencyDetailsModal")
+    import("./Components/AdminAgencyDetails/AdminAgencyDetailsModal")
 );
 
 const AdminAgencyDetailsPage = () => {
