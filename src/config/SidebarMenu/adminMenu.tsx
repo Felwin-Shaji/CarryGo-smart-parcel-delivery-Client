@@ -25,6 +25,7 @@ export const adminMenu = (): MenuSection[] => [
       { name: "Dashboard", icon: <Home size={20} />, path: "/admin/dashboard" },
       { name: "Profile", icon: <User size={20} />, path: "/admin/profile" },
       { name: "Wallet", icon: <Wallet size={20} />, path: "/admin/wallet" },
+      { name: "Pricing", icon: <Wallet size={20} />, path: "/admin/pricing-policy" },
     ],
   },
   {
