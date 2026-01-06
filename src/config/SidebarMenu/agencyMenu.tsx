@@ -15,6 +15,7 @@ export const agencyMenu = (kycStatus?: string): MenuSection[] => [
       { name: "Dashboard", icon: <Home size={20} />, path: "/agency/dashboard" },
       { name: "Profile", icon: <User size={20} />, path: "/agency/profile" },
       { name: "Wallet", icon: <Wallet size={20} />, path: "/agency/wallet" },
+      { name: "Pricing", icon: <Wallet size={20} />, path: "/agency/agency-pricing-policy" },
     ],
   },
 

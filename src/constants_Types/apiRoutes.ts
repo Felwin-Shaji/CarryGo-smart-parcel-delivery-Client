@@ -24,6 +24,9 @@ export const API_AGENCY = {
   GET_HUBS:"/api/agency/hubs",
 
   RESUBMIT_AGENCY_KYC: "/api/agency/dashboard/resubmit-kyc",
+
+  GET_PRICING:"/api/agency/agency-pricing-policy",
+  UPDATE_PRICING:"/api/agency/agency-pricing-policy"
 }
 
 
