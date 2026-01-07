@@ -26,7 +26,11 @@ export const API_AGENCY = {
   RESUBMIT_AGENCY_KYC: "/api/agency/dashboard/resubmit-kyc",
 
   GET_PRICING:"/api/agency/agency-pricing-policy",
-  UPDATE_PRICING:"/api/agency/agency-pricing-policy"
+  UPDATE_PRICING:"/api/agency/agency-pricing-policy",
+
+  GET_PROFILE:"/api/agency/profile",
+  UPDATE_PROFILE:"/api/agency/edit-profile",
+  RESET_PASSWORD:"/api/agency/reset-password",
 }
 
 

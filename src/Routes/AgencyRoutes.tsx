@@ -14,6 +14,7 @@ import PageNotFound from "../pages/PageNotFound";
 import AgencyForgotPassword from "../pages/Agency/AgencyForgotPassword";
 import AgencyResetPassword from "../pages/Agency/AgencyResetPassword";
 import AgencyPricingPage from "../pages/Admin/AgencyPricingPage";
+import AgencyProfilePage from "../pages/Agency/AgencyProfilePage";
 
 const AgencyRoutes = () => {
   const loading = useAuthRehydration(ROLES.AGENCY);
@@ -35,6 +36,9 @@ const AgencyRoutes = () => {
         </Route>
 
         <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyDashboard /></ProtectedRoute>} />
+        <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyProfilePage /></ProtectedRoute>} />
+    
+
         <Route path="hubs" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubsList /></ProtectedRoute>} />
         <Route path="hubs/add" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyAddHubs /></ProtectedRoute>} />
 
