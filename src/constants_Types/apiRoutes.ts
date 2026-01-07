@@ -34,7 +34,8 @@ export const API_ADMIN = {
   GET_AGENCIES: "/api/admin/agency",
   GET_USERS: "/api/admin/users",
 
-  GET_ADMIN_PRICING: "/api/admin/admin-pricing"
+  GET_ADMIN_PRICING: "/api/admin/admin-pricing",
+  CREATE_ADMIN_PRICING:"/api/admin/admin-pricing"
 }
 
 export const API_HUB = {
