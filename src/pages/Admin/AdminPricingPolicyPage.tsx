@@ -6,13 +6,36 @@ import { useEffect, useState } from "react";
 import type { PricingPolicyResponseDTO } from "../../constants_Types/types/Admin/PricingPolicy.dto";
 import { useAdminPricingPolicy } from "../../Services/Admin/AdminPricingPolicy";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import type { PricingPolicyFormDTO } from "../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 
 export default function AdminPricingPolicy() {
 
-  const { getAdminPricing } = useAdminPricingPolicy();
+  const { getAdminPricing, createAdminPricing } = useAdminPricingPolicy();
 
-  const [initialValues, setInitialValues] =
+  const [editMode, setEditMode] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+
+  const [policyResponse, setPolicyResponse] =
     useState<PricingPolicyResponseDTO | null>(null);
+
+  const formInitialValues: PricingPolicyFormDTO | null =
+    policyResponse
+      ? {
+        minBasePrice: policyResponse.minBasePrice,
+        maxBasePrice: policyResponse.maxBasePrice,
+
+        minPricePerKm: policyResponse.minPricePerKm,
+        maxPricePerKm: policyResponse.maxPricePerKm,
+
+        minSizePrice: policyResponse.minSizePrice,
+        maxSizePrice: policyResponse.maxSizePrice,
+
+        platformFeePercent: policyResponse.platformFeePercent,
+      }
+      : null;
+
+
 
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +43,7 @@ export default function AdminPricingPolicy() {
     const loadPricing = async () => {
       try {
         const data = await getAdminPricing();
-        setInitialValues(data);
+        setPolicyResponse(data);
       } finally {
         setLoading(false);
       }
@@ -29,7 +52,7 @@ export default function AdminPricingPolicy() {
     loadPricing();
   }, []);
 
-  if (loading) {
+  if (loading || !formInitialValues) {
     return (
       <DashboardProvider role="admin">
         <DashboardLayout pageTitle="Pricing Policy">
@@ -38,6 +61,7 @@ export default function AdminPricingPolicy() {
       </DashboardProvider>
     );
   }
+
 
   return (
     <DashboardProvider role="admin">
@@ -51,19 +75,45 @@ export default function AdminPricingPolicy() {
               Define guardrails for agency pricing. Agencies must stay within
               these limits.
             </p>
+            {policyResponse && (
+              <p className="text-xs text-gray-500 mb-4">
+                Active Policy Version: v{policyResponse.policyVersion}
+              </p>
+            )}
+
           </div>
 
-          <Formik
-            initialValues={initialValues!}
+          {editMode && (
+            <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800 mb-6">
+              ⚠️ <strong>Publishing a new pricing policy</strong><br />
+              This will create a <b>new policy version</b>.
+              All agencies must review and update their pricing before accepting new bookings.
+            </div>
+          )}
+
+
+          <Formik<PricingPolicyFormDTO>
+            initialValues={formInitialValues!}
             enableReinitialize
+            validateOnMount
             validationSchema={pricingPolicySchema}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log("Pricing policy:", values);
-              setSubmitting(false);
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                setSubmitLoading(true);
+                const newPolicy = await createAdminPricing(values);
+                setPolicyResponse(newPolicy);
+                setEditMode(false);
+              } finally {
+                setSubmitLoading(false);
+                setSubmitting(false);
+              }
             }}
+
           >
 
-            {({ isSubmitting, isValid }) => (
+
+            {({ isValid, dirty, resetForm }) => (
+
               <Form className="space-y-8">
 
                 {/* Pricing Limits Card */}
@@ -77,6 +127,7 @@ export default function AdminPricingPolicy() {
                     <RangeField
                       minName="minBasePrice"
                       maxName="maxBasePrice"
+                      disabled={!editMode}
                     />
                   </PricingSection>
 
@@ -88,19 +139,22 @@ export default function AdminPricingPolicy() {
                     <RangeField
                       minName="minPricePerKm"
                       maxName="maxPricePerKm"
+                      disabled={!editMode}
                     />
                   </PricingSection>
 
                   <PricingSection
-                    title="Weight Charge"
-                    description="Allowed price range per kilogram (chargeable weight)"
-                    unit="₹ / kg"
+                    title="Size Pricing"
+                    description="Allowed flat price range based on parcel size"
+                    unit="₹"
                   >
                     <RangeField
-                      minName="minPricePerKg"
-                      maxName="maxPricePerKg"
+                      minName="minSizePrice"
+                      maxName="maxSizePrice"
+                      disabled={!editMode}
                     />
                   </PricingSection>
+
                 </div>
 
                 {/* Platform Fee Card */}
@@ -119,7 +173,9 @@ export default function AdminPricingPolicy() {
                     <Field
                       name="platformFeePercent"
                       type="number"
+                      disabled={!editMode}
                     />
+
                     <ErrorMessage
                       name="platformFeePercent"
                       component="p"
@@ -129,18 +185,40 @@ export default function AdminPricingPolicy() {
                 </div>
 
                 {/* Action Bar */}
-                <div className="flex justify-end gap-3">
-                  <button
-                    type="submit"
-                    disabled={!isValid || isSubmitting}
-                    className={`px-6 py-2 rounded-xl ${!isValid || isSubmitting
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                      }`}
-                  >
-                    Save Pricing Policy
-                  </button>
+                <div className="sticky bottom-0 bg-white border-t py-3 flex justify-between items-center">
+
+                  {!editMode ? (
+                    <button
+                      type="button"
+                      onClick={() => setEditMode(true)}
+                      className="text-sm border rounded-lg px-4 py-1.5"
+                    >
+                      Edit Pricing Policy
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        resetForm();
+                        setEditMode(false);
+                      }}
+                      className="text-sm border rounded-lg px-4 py-1.5"
+                    >
+                      Cancel
+                    </button>
+                  )}
+
+                  {editMode && (
+                    <button
+                      type="submit"
+                      disabled={!dirty || !isValid || submitLoading}
+                      className="text-sm bg-primary text-white rounded-lg px-5 py-1.5 disabled:opacity-50"
+                    >
+                      {submitLoading ? "Publishing..." : "Publish New Policy Version"}
+                    </button>
+                  )}
                 </div>
+
 
               </Form>
             )}
@@ -178,14 +256,16 @@ const PricingSection = ({
 const RangeField = ({
   minName,
   maxName,
+  disabled,
 }: {
   minName: string;
   maxName: string;
+  disabled: boolean;
 }) => (
   <div className="grid grid-cols-2 gap-4">
     <div>
       <label className="text-sm text-gray-600">Minimum</label>
-      <Field name={minName} type="number" />
+      <Field name={minName} type="number" disabled={disabled} />
       <ErrorMessage
         name={minName}
         component="p"
@@ -195,7 +275,7 @@ const RangeField = ({
 
     <div>
       <label className="text-sm text-gray-600">Maximum</label>
-      <Field name={maxName} type="number" />
+      <Field name={maxName} type="number" disabled={disabled} />
       <ErrorMessage
         name={maxName}
         component="p"
@@ -204,3 +284,4 @@ const RangeField = ({
     </div>
   </div>
 );
+
