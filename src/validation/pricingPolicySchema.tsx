@@ -1,28 +1,46 @@
-import * as Yup from "yup";
+import * as yup from "yup";
 
-export const pricingPolicySchema = Yup.object({
-  minBasePrice: Yup.number()
-    .min(0, "Must be positive")
-    .required("Required"),
-  maxBasePrice: Yup.number()
-    .moreThan(
-      Yup.ref("minBasePrice"),
-      "Max must be greater than Min"
-    )
-    .required("Required"),
+export const pricingPolicySchema = yup.object({
+  minBasePrice: yup
+    .number()
+    .typeError("Minimum base price is required")
+    .required()
+    .min(0),
 
-  minPricePerKm: Yup.number().min(0).required(),
-  maxPricePerKm: Yup.number()
-    .moreThan(Yup.ref("minPricePerKm"))
-    .required(),
+  maxBasePrice: yup
+    .number()
+    .typeError("Maximum base price is required")
+    .required()
+    .min(yup.ref("minBasePrice"), "Must be ≥ minimum"),
 
-  minPricePerKg: Yup.number().min(0).required(),
-  maxPricePerKg: Yup.number()
-    .moreThan(Yup.ref("minPricePerKg"))
-    .required(),
+  minPricePerKm: yup
+    .number()
+    .typeError("Minimum km price is required")
+    .required()
+    .min(0),
 
-  platformFeePercent: Yup.number()
+  maxPricePerKm: yup
+    .number()
+    .typeError("Maximum km price is required")
+    .required()
+    .min(yup.ref("minPricePerKm"), "Must be ≥ minimum"),
+
+  minSizePrice: yup
+    .number()
+    .typeError("Minimum size price is required")
+    .required()
+    .min(0),
+
+  maxSizePrice: yup
+    .number()
+    .typeError("Maximum size price is required")
+    .required()
+    .min(yup.ref("minSizePrice"), "Must be ≥ minimum"),
+
+  platformFeePercent: yup
+    .number()
+    .typeError("Platform fee is required")
+    .required()
     .min(0)
-    .max(30, "Too high")
-    .required(),
+    .max(100),
 });
