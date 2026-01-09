@@ -8,13 +8,15 @@ import { useParams } from "react-router-dom";
 
 interface ResetPasswordProps {
     title: string;
-    onSubmit: (token: string, data: { password: string,role:Roles }) => void;
+    onSubmit: (token: string, data: { password: string, role: Roles }) => void;
     loading?: boolean;
     role: Roles
 }
 
 const ResetPasswordForm = ({ title, onSubmit, loading, role }: ResetPasswordProps) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const { token } = useParams<{ token: string }>();
     const decodedToken = decodeURIComponent(token!);
     if (!decodedToken) {
@@ -28,10 +30,11 @@ const ResetPasswordForm = ({ title, onSubmit, loading, role }: ResetPasswordProp
     const formik = useFormik({
         initialValues: {
             password: "",
+            confirmPassword: "",
             role
         },
         validationSchema: resetPasswordSchema,
-        onSubmit: (values) => onSubmit(decodedToken,values),
+        onSubmit: (values) => onSubmit(decodedToken, values),
     });
 
     return (
@@ -83,6 +86,35 @@ const ResetPasswordForm = ({ title, onSubmit, loading, role }: ResetPasswordProp
                                 <p className="text-red-500 text-xs mt-1">{formik.errors.password}</p>
                             )}
                         </div>
+                        {/* Confirm Password Field */}
+                        <div className="mb-6 relative">
+                            <label className="block text-sm font-semibold text-[#111827] mb-2">
+                                Confirm Password
+                            </label>
+                            <div className="relative">
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    name="confirmPassword"
+                                    className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm"
+                                    placeholder="••••••"
+                                    value={formik.values.confirmPassword}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                                <span
+                                    className="absolute right-4 top-3.5 cursor-pointer text-gray-600"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                >
+                                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                                </span>
+                            </div>
+                            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {formik.errors.confirmPassword}
+                                </p>
+                            )}
+                        </div>
+
 
                         {/* Submit */}
                         <button
