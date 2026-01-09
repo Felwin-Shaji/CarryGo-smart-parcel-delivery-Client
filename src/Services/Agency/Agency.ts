@@ -3,7 +3,7 @@ import { API_AGENCY } from "../../constants_Types/apiRoutes";
 import { useAxios } from "../../hooks/useAxios";
 
 export interface HubResponseDTO {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     mobile: string;
@@ -47,6 +47,16 @@ export const useAgency = () => {
         }
     }
 
-    return { getAllHubs }
+    const getHubDetailsById = async (hubId: string) => {
+        try {
+            const res = await axiosInstance.get(`${API_AGENCY.GET_HUBS}/${hubId}`);
+            if (res.data.success) toast.success(res.data.message);
+            return res.data.data as HubResponseDTO;
+        } catch (error: any) {
+            toast.error(error.res.data.message);
+        }
+    };
+
+    return { getAllHubs, getHubDetailsById }
 
 }

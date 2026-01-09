@@ -59,12 +59,10 @@ const AgencyHubsList = () => {
 
       const rows = hubsList?.data.map((hub: HubResponseDTO) => ({
         ...hub,
-        __openModal: (id: string) => {
-          navigate(`/admin/hub/${id}`);
+        __openModal: (_id: string) => {
+          navigate(`/agency/hub/${hub._id}`);
         }
       }));
-
-
 
       setEnhancedRows(rows!);
       setLoading(false);
@@ -109,7 +107,7 @@ const AgencyHubsList = () => {
     try {
       // await updateAgencyStatus(id, newState);
       console.log('fetch agency', id)
-      // fetchAgencies();
+      await fetchHubs();
       toast.success(`User ${newState ? "Blocked" : "Activated"}`);
 
     } catch (err) {
