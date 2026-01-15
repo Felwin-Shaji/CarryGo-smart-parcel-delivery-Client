@@ -60,7 +60,15 @@ export const API_USER = {
   UPDATE_PROFILE:"/api/user/edit-profile",
   RESET_PASSWORD:"/api/user/reset-password",
 
-  BOOKING_PINCODE_VALIDATE:"/api/user/booking/pincode/validate"
+  ADD_ADDRESS:"/api/user/address",
+  GET_ADDRESSES:"/api/user/addresses",
+  DELETE_ADDRESS:"/api/user/address",
+  SET_DEFAULT_ADDRESS:"/api/user/address/default",
+  
+
+  BOOKING_PINCODE_VALIDATE:"/api/user/booking/pincode/validate",
+
+  REVERSE_GEOCODE:"/api/user/geocode/reverse"
 }
 
 

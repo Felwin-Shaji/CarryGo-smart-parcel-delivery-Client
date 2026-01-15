@@ -1,12 +1,12 @@
-// src/components/layout/Header.tsx
 import { useState } from "react";
-import { Menu, X, Bell, Package, User, LogOut, Settings, Wallet, LogIn } from "lucide-react";
+import { Menu, X, Bell, Package, User, LogOut, Wallet, LogIn } from "lucide-react";
 import { DropdownMenu } from "../../../components/globelcomponents/DropdownMenu";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
 import { useAuth } from "../../../Services/Auth";
 import { useNavigate } from "react-router-dom";
+import { FaAddressBook } from "react-icons/fa6";
 
 interface HeaderProps {
   isLoggedIn?: boolean;
@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
     const homeItems = [
         { label: "Profile", icon: <User className="h-4 w-4" />, onClick: () => navigate("/profile")  },
         { label: "Wallet", icon: <Wallet className="h-4 w-4" />, onClick: () => console.log("Wallet") },
-        { label: "Settings", icon: <Settings className="h-4 w-4" />, onClick: () => console.log("Settings") },
+        { label: "Manage Address", icon: <FaAddressBook className="h-4 w-4" />, onClick: () => navigate("/addresses") },
         { label: "Logout", icon: <LogOut className="h-4 w-4" />, onClick: () => user && handleLogoutt(user.role, user.id), danger: true },
     ];
 
