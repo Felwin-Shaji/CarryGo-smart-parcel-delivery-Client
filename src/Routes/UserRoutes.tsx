@@ -14,6 +14,8 @@ import ForgotPassword from "../pages/User/ForgotPassword"
 import ResetPassword from "../pages/User/ResetPassword"
 import UserProfile from "../pages/User/UserProfile"
 import UserCreateBooking from "../pages/User/Booking"
+import AddAddressForm from "../pages/User/AddAddressForm"
+import AddressListPage from "../pages/User/AddressListPage"
 
 
 
@@ -39,6 +41,11 @@ const UserRoutes = () => {
         <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile/></ProtectedRoute>}/>
         <Route path="book-delivery" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking/></ProtectedRoute>}/>
+
+        <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm/></ProtectedRoute>}/>
+        <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage/></ProtectedRoute>}/>
+
+
 
         <Route path="*" element={<PageNotFound />} />
 
