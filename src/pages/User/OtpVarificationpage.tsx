@@ -67,30 +67,36 @@ const OtpVarificationpage = () => {
   };
 
   const onResendOtp = async () => {
+  if (!email || !role) {
+    toast.error("No email found for verification!");
+    navigate("/login");
+    return;
+  }
+
+  try {
     setLoading(true);
-    if (!email || !role) {
-      navigate('/login')
-      toast.error("No email found for verification!");
-      return;
-    }
 
     const response = await handleResendOtp({ email, role });
-    if (!response.success) return
 
-    const otpMeta = await JSON.stringify({
+    const otpMeta = JSON.stringify({
       email,
       role,
       expiresAt: response.expiresAt,
-    })
+    });
 
-    localStorage.setItem(
-      "otpMeta",
-      otpMeta
-    );
-    setLoading(false);
-    navigate(0);
+    localStorage.setItem("otpMeta", otpMeta);
+
     toast.success("OTP resent successfully!");
-  };
+
+    navigate(0)
+  } catch (error) {
+    console.error("Resend OTP error:", error);
+    toast.error("Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
   return (
