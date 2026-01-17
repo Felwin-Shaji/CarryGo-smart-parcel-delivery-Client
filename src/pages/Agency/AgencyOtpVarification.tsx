@@ -62,28 +62,35 @@ const AgencyOtpVarification = () => {
 
 
   const onResendOtp = async () => {
-
-    setLoading(true);
     if (!email || !role) {
-      navigate('/login')
       toast.error("No email found for verification!");
+      navigate("/login");
       return;
     }
-    const response = await handleResendOtp({ email, role });
 
-    if (!response.success) return
-    localStorage.setItem(
-      "otpMeta",
-      JSON.stringify({
+    try {
+      setLoading(true);
+
+      const response = await handleResendOtp({ email, role });
+
+      const otpMeta = JSON.stringify({
         email,
         role,
         expiresAt: response.expiresAt,
-      })
-    );
-    setLoading(false);
-    navigate(0);
-    toast.success("OTP resent successfully!");
+      });
 
+      localStorage.setItem("otpMeta", otpMeta);
+
+      toast.success("OTP resent successfully!");
+
+      navigate(0)
+
+    } catch (error) {
+      console.error("Resend OTP error:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

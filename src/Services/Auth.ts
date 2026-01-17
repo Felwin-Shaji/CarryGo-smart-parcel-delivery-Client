@@ -37,40 +37,33 @@ export const useAuth = () => {
     mobile: string;
     password: string;
   }) => {
-    try {
-      const response = await axiosInstance.post(API_AUTH.SEND_OTP, data);
+    const response = await axiosInstance.post(API_AUTH.SEND_OTP, data);
 
-      if (response.data?.success) {
-        toast.success(response.data?.message || "OTP sent successfully");
+    if (response.data?.success) {
+      toast.success(response.data?.message || "OTP sent successfully");
 
-        const otpData = {
-          email: response.data.email,
-          role: response.data.role,
-          expiresAt: response.data.expiresAt,
-        };
+      const otpData = {
+        email: response.data.data.email,
+        role: response.data.data.role,
+        expiresAt: response.data.data.expiresAt,
+      };
 
-        localStorage.setItem("otpMeta", JSON.stringify(otpData));
+      localStorage.setItem("otpMeta", JSON.stringify(otpData));
 
-        switch (otpData.role) {
-          case "user":
-            navigate("/verify-otp");
-            break;
+      switch (otpData.role) {
+        case "user":
+          navigate("/verify-otp");
+          break;
 
-          case "agency":
-            navigate("/agency/verify-otp");
-            break;
-          default:
-            console.warn("Unknown role received during registration:", otpData.role);
-            navigate("/verify-otp");
-        }
-
-
-      } else {
-        toast.error(response.data?.error || "Failed to send OTP");
+        case "agency":
+          navigate("/agency/verify-otp");
+          break;
+        default:
+          console.warn("Unknown role received during registration:", otpData.role);
+          navigate("/verify-otp");
       }
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      toast.error(error.response?.data?.error || "Something went wrong!");
+    } else {
+      toast.error(response.data?.error || "Failed to send OTP");
     }
   };
 
@@ -110,17 +103,14 @@ export const useAuth = () => {
    * @returns Promise<{ success: boolean; expiresAt: string }>
    */
   const handleResendOtp = async (data: { email: string; role: string }) => {
-    try {
       const response = await axiosInstance.post(API_AUTH.SEND_OTP, {
         ...data,
         isResend: true,
       });
 
-      return response.data;
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Resend failed");
-      return { success: false };
-    }
+      
+
+      return response.data.data;
   };
 
 
