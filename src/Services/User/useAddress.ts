@@ -1,13 +1,11 @@
 import toast from "react-hot-toast";
 import type { Coordinates, ReverseGeocodeResponse, SaveAddressPayload } from "../../constants_Types/types/User/Address/address.type";
 import { useAxios } from "../../hooks/useAxios";
-import { useNavigate } from "react-router-dom";
 import { API_USER } from "../../constants_Types/apiRoutes";
 import type { Address } from "../../pages/User/AddressListPage";
 
 export const useAddress = () => {
     const axiosInstance = useAxios();
-    const navigate = useNavigate();
 
     const reverseGeocode = async (coords: Coordinates) => {
         const res = await axiosInstance.get(
@@ -19,7 +17,6 @@ export const useAddress = () => {
     const saveAddress = async (payload: SaveAddressPayload) => {
         await axiosInstance.post(API_USER.ADD_ADDRESS, payload);
         toast.success("Address saved successfully");
-        navigate("/addresses");
         return
     };
 

@@ -40,7 +40,7 @@ const UserRoutes = () => {
 
         <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile/></ProtectedRoute>}/>
-        <Route path="book-delivery" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking/></ProtectedRoute>}/>
+        <Route path="/booking" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking/></ProtectedRoute>}/>
 
         <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm/></ProtectedRoute>}/>
         <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage/></ProtectedRoute>}/>

@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PincodeValidationSchema } from "../../../../validation/picodeValidation";
 import { useBooking } from "../../../../Services/User/Booking/createBooking";
+import { useBookingContext } from "../../../../context/Booking/BookingContext";
 
 
 const BookingPincodeStep = ({ onSuccess }: { onSuccess: () => void }) => {
@@ -9,6 +10,13 @@ const BookingPincodeStep = ({ onSuccess }: { onSuccess: () => void }) => {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<null | "success" | "error">(null);
     const [message, setMessage] = useState("");
+
+    const { state ,dispatch } = useBookingContext();   
+
+    useEffect(() => {
+  console.log("UPDATED booking state:", state);
+}, [state]);
+
 
     const formik = useFormik({
         initialValues: {
@@ -20,8 +28,15 @@ const BookingPincodeStep = ({ onSuccess }: { onSuccess: () => void }) => {
             try {
                 setLoading(true);
                 setStatus(null);
-
+                
                 await isPincodeValied(values)
+                
+                dispatch({
+                    type: "SET_PINCODES",
+                    payload: values
+                });
+
+                console.log("stateeeeeeeeeeeeeee",state)
 
                 setStatus("success");
                 setMessage("Service available between selected locations");
