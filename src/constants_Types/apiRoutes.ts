@@ -67,6 +67,8 @@ export const API_USER = {
   
 
   BOOKING_PINCODE_VALIDATE:"/api/user/booking/pincode/validate",
+  SERVICEABLE_AGENCIES:"/api/user/booking/serviceable-agencies",
+  USER_ADDRESSES:"/api/user/booking/serviceable-addresses",
 
   REVERSE_GEOCODE:"/api/user/geocode/reverse"
 }
