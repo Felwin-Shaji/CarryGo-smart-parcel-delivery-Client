@@ -1,89 +1,178 @@
-import AddressTimelineItem from "./AddressComponents/AddressTimelineItem";
-import AddressBottomSheet from "./AddressComponents/AddressBottomSheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useBooking } from "../../../../Services/User/Booking/createBooking";
+import { useBookingContext } from "../../../../context/Booking/BookingContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
-
-export interface Address {
-  id: string;
-  label: string;
-  line1: string;
-  city: string;
-  state: string;
-  pincode: string;
-  phone: string;
+interface Props {
+  onSuccess: () => void;
 }
 
-const AddressStep = ({ onSuccess }: { onSuccess: () => void }) => {
-  const [active, setActive] = useState<"from" | "to" | null>(null);
-  const [from, setFrom] = useState<Address | null>(null);
-  const [to, setTo] = useState<Address | null>(null);
+const AddressStep = ({ onSuccess }: Props) => {
+  const location = useLocation()
 
-  const canContinue = from && to && from.id !== to.id;
+  const navigate = useNavigate();
+
+  const { getAddressesByPincode } = useBooking();
+  const { state, dispatch } = useBookingContext();
+
+  const [pickupAddresses, setPickupAddresses] = useState<any[]>([]);
+  const [deliveryAddresses, setDeliveryAddresses] = useState<any[]>([]);
+  const [pickupId, setPickupId] = useState<string | null>(null);
+  const [deliveryId, setDeliveryId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!location.state?.refreshAddresses) return;
+
+    setLoading(true);
+
+    Promise.all([
+      getAddressesByPincode(state.fromPincode),
+      getAddressesByPincode(state.toPincode),
+    ]).then(([pickup, delivery]) => {
+      setPickupAddresses(pickup);
+      setDeliveryAddresses(delivery);
+
+      if (location.state.for === "PICKUP" && pickup.length > 0) {
+        setPickupId(pickup[0].id);
+      }
+
+      if (location.state.for === "DELIVERY" && delivery.length > 0) {
+        setDeliveryId(delivery[0].id);
+      }
+    }).finally(() => setLoading(false));
+  }, [location.state]);
+
+
+  /* Guards */
+  useEffect(() => {
+    if (!state.fromPincode || !state.toPincode) {
+      dispatch({ type: "RESET_BOOKING" });
+    }
+  }, []);
+
+  /* Fetch addresses */
+  useEffect(() => {
+    if (!state.fromPincode || !state.toPincode) return;
+
+    setLoading(true);
+
+    Promise.all([
+      getAddressesByPincode(state.fromPincode),
+      getAddressesByPincode(state.toPincode),
+    ])
+      .then(([pickup, delivery]) => {
+        setPickupAddresses(pickup);
+        setDeliveryAddresses(delivery);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleContinue = () => {
+    if (!pickupId || !deliveryId) return;
+
+    dispatch({ type: "SET_PICKUP_ADDRESS", payload: pickupId });
+    dispatch({ type: "SET_DELIVERY_ADDRESS", payload: deliveryId });
+
+    onSuccess();
+  };
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading addresses...</p>;
+  }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-lg p-8">
-      <h2 className="text-2xl font-bold text-gray-800">
-        Delivery Route
-      </h2>
-      <p className="text-sm text-gray-500 mt-1">
-        Select pickup and drop locations
-      </p>
-
-      {/* Timeline */}
-      <div className="mt-10 space-y-6">
-        <AddressTimelineItem
-          title="Pickup Location"
-          address={from}
-          active={active === "from"}
-          onClick={() => setActive("from")}
-        />
-
-        <div className="ml-5 h-6 w-px bg-gray-300" />
-
-        <AddressTimelineItem
-          title="Delivery Location"
-          address={to}
-          active={active === "to"}
-          onClick={() => setActive("to")}
-        />
-      </div>
-
-      {/* CTA */}
+    <div className="max-w-5xl mx-auto px-6 space-y-10">
       <button
-        disabled={!canContinue}
-        onClick={onSuccess}
-        className={`mt-10 w-full py-3 rounded-xl text-white font-semibold
-          ${
-            canContinue
-              ? "bg-black hover:bg-gray-800"
-              : "bg-gray-300 cursor-not-allowed"
-          }
+        onClick={() =>
+          navigate("/add-address", {
+            state: {
+              from: "BOOKING",
+              for: "PICKUP",
+              pincode: state.fromPincode,
+            },
+          })
+        }
+        className="text-sm text-blue-600 underline"
+      >
+        + Add new pickup address
+      </button>
+
+
+      {/* Pickup Address */}
+      <section className="bg-white rounded-xl p-6 shadow-sm space-y-4">
+        <h2 className="text-lg font-semibold">Pickup Address</h2>
+
+        {pickupAddresses.length === 0 && (
+          <p className="text-sm text-gray-500">
+            No saved addresses for this pincode
+          </p>
+        )}
+
+        <div className="grid gap-3">
+          {pickupAddresses.map((addr) => (
+            <div
+              key={addr.id}
+              onClick={() => setPickupId(addr.id)}
+              className={`cursor-pointer rounded-lg border p-4 transition
+                ${pickupId === addr.id
+                  ? "border-black bg-gray-50"
+                  : "border-gray-200 bg-white"}
+              `}
+            >
+              <p className="font-medium text-sm">{addr.label}</p>
+              <p className="text-xs text-gray-500 mt-1">
+                {addr.addressLine1}, {addr.city}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Delivery Address */}
+      <section className="bg-white rounded-xl p-6 shadow-sm space-y-4">
+        <h2 className="text-lg font-semibold">Delivery Address</h2>
+
+        {deliveryAddresses.length === 0 && (
+          <p className="text-sm text-gray-500">
+            No saved addresses for this pincode
+          </p>
+        )}
+
+        <div className="grid gap-3">
+          {deliveryAddresses.map((addr) => (
+            <div
+              key={addr.id}
+              onClick={() => setDeliveryId(addr.id)}
+              className={`cursor-pointer rounded-lg border p-4 transition
+                ${deliveryId === addr.id
+                  ? "border-black bg-gray-50"
+                  : "border-gray-200 bg-white"}
+              `}
+            >
+              <p className="font-medium text-sm">{addr.label}</p>
+              <p className="text-xs text-gray-500 mt-1">
+                {addr.addressLine1}, {addr.city},
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Continue */}
+      <button
+        disabled={!pickupId || !deliveryId}
+        onClick={handleContinue}
+        className={`w-full py-4 rounded-xl font-semibold transition
+          ${pickupId && deliveryId
+            ? "bg-black text-white"
+            : "bg-gray-200 text-gray-400 cursor-not-allowed"}
         `}
       >
         Continue
       </button>
-
-      {/* Bottom Sheet */}
-      {active && (
-        <AddressBottomSheet
-          excludeId={active === "from" ? to?.id : from?.id}
-          onSelect={(addr) => {
-            active === "from" ? setFrom(addr) : setTo(addr);
-            setActive(null);
-          }}
-          onClose={() => setActive(null)}
-        />
-      )}
     </div>
   );
 };
 
 export default AddressStep;
-
-/////////////////////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
