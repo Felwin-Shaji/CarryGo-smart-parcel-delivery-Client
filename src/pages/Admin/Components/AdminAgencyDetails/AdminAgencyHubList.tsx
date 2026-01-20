@@ -1,20 +1,23 @@
 import { useMemo } from 'react'
 import { DataTable } from '../../../../components/Table/Table';
 import { AdminHubColumns } from '../../../../config/TableColumns/AdminAgencyHubTableColumn';
-import toast from 'react-hot-toast';
 import { FiPackage } from "react-icons/fi";
-import type { HubResponseDTO } from '../../../../Services/Agency/Agency';
+import type { HubResponseDTO } from '../../../../constants_Types/types/Admin/AdminAgency.dto';
+import { useNavigate } from 'react-router-dom';
 
 type AdminAgencyHubListProps = {
     hubs: HubResponseDTO[];
+    agencyId: string
 };
 
 const AdminAgencyHubList = ({
     hubs,
+    agencyId
 }: AdminAgencyHubListProps) => {
+    const navigate = useNavigate();
 
     const handleViewHub = (hub: HubResponseDTO) => {
-        toast.success(`Viewing ${hub.name}`);
+        navigate(`/admin/agency/${agencyId}/hubs/${hub._id}`);
     };
 
     const columns = useMemo(
