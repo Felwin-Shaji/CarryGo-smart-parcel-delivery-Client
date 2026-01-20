@@ -3,16 +3,16 @@ import toast from "react-hot-toast";
 import { FaLeftLong } from "react-icons/fa6";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
 import { useAgency } from "../../../../Services/Agency/Agency";
-
-import type { HubResponseDTO } from "../../../../Services/Agency/Agency";
 import AgencyHubProfileCard from "./AgencyHubProfileCard";
 import AgencyHubDashboard from "./AgencyHubDashboard";
 
-export default function AgencyHubDetailsModal({
-    open,
-    hubId,
-    onClose,
-}: {
+import type {
+    HubOverviewResponseDTO,
+    GetHubWorkersResponseDTO,
+} from "../../../../constants_Types/types/Agency/HubOverview.type";
+import HubWorkersList, { EmptyWorkersState } from "./HubWorkersList";
+
+export default function AgencyHubDetailsModal({ open, hubId, onClose, }: {
     open: boolean;
     hubId: string;
     onClose: () => void;
@@ -20,14 +20,17 @@ export default function AgencyHubDetailsModal({
     const { getHubDetailsById } = useAgency();
 
     const [loading, setLoading] = useState(false);
-    const [hub, setHub] = useState<HubResponseDTO | null>(null);
+    const [hub, setHub] = useState<HubOverviewResponseDTO | null>(null);
+    const [workers, setWorkers] = useState<GetHubWorkersResponseDTO | null>(null);
 
     const fetchHubDetails = async () => {
         try {
             setLoading(true);
             const response = await getHubDetailsById(hubId);
             if (!response) return;
-            setHub(response);
+
+            setHub(response.hub);
+            setWorkers(response.workers);
         } catch {
             toast.error("Failed to load hub details");
         } finally {
@@ -59,22 +62,25 @@ export default function AgencyHubDetailsModal({
 
             {/* BODY */}
             <div className="mt-6 space-y-8">
-
                 {/* TOP SECTION */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
                     {/* LEFT — HUB PROFILE */}
                     <div className="lg:col-span-4 rounded-2xl bg-white p-5 shadow-sm">
                         <AgencyHubProfileCard hub={hub} />
                     </div>
 
-                    {/* RIGHT — HUB DASHBOARD */}
+                    {/* RIGHT — WORKERS TABLE */}
                     <div className="lg:col-span-8 rounded-3xl border bg-white p-6 shadow-sm">
-                        <AgencyHubDashboard hubId={hub._id} />
+                        {workers && workers.data.length > 0 ? (
+                            <HubWorkersList workers={workers.data} />
+                        ) : (
+                            <EmptyWorkersState />
+                        )}
                     </div>
-
                 </div>
 
+                {/* BOTTOM — DASHBOARD */}
+                <AgencyHubDashboard hubId={hub.id} />
             </div>
         </>
     );

@@ -6,8 +6,9 @@ import { DashboardProvider } from "../../context/DashboardProvider"
 import { DashboardLayout } from "../../layouts/DashboardLayout"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useAgency, type HubResponseDTO } from "../../Services/Agency/Agency"
+import { useAgency } from "../../Services/Agency/Agency"
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen"
+import type { HubResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto"
 
 export type HubTableRow = HubResponseDTO & {
   __openModal: (id: string) => void;

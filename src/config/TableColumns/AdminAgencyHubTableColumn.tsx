@@ -1,7 +1,6 @@
 import { Eye } from "lucide-react";
 import type { Column } from "../../components/Table/Table";
-import type { HubResponseDTO } from "../../Services/Agency/Agency";
-// import type { HubListDTO } from "../../pages/Admin/Components/AdminAgencyDetails/AdminAgencyDetailsModal";
+import type { HubResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto";
 
 export const AdminHubColumns = (
   handleViewHub: (hub: HubResponseDTO) => void
@@ -37,7 +36,7 @@ export const AdminHubColumns = (
 
 {
   header: "Action",
-  accessor: "id",
+  accessor: "_id",
   render: (_value, row) => (
     <button
       onClick={() => handleViewHub(row)}

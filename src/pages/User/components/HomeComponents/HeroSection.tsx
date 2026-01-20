@@ -9,7 +9,7 @@ const HeroSection = ({ isLoggedIn = false }: HeroSectionProps) => {
 
     const handleBookDelivery = () => {
         if (isLoggedIn) {
-            navigate("/book-delivery");
+            navigate("/booking");
         } else {
             navigate("/login");
         }

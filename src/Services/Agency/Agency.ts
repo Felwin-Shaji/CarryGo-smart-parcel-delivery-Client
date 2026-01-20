@@ -1,24 +1,8 @@
 import toast from "react-hot-toast";
 import { API_AGENCY } from "../../constants_Types/apiRoutes";
 import { useAxios } from "../../hooks/useAxios";
-
-export interface HubResponseDTO {
-    _id: string;
-    name: string;
-    email: string;
-    mobile: string;
-    isBlocked: boolean;
-    kycStatus: string;
-    createdAt: Date;
-}
-
-export interface GetHubsResponseDTO {
-    data: HubResponseDTO[];
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-}
+import type { GetHubOverviewResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type";
+import type { GetHubsResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto";
 
 export const useAgency = () => {
     const axiosInstance = useAxios();
@@ -34,27 +18,24 @@ export const useAgency = () => {
         startDate = "",
         endDate = ""
     }) => {
-        try {
-            const res = await axiosInstance.get(API_AGENCY.GET_HUBS, {
-                params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate }
-            });
-            toast.loading
-            if (res.data.success) toast.success(res.data.message);
-
-            return res.data.data as GetHubsResponseDTO
-        } catch (error:any) {
-            toast.success(error.res.data.message)
-        }
+        const res = await axiosInstance.get(API_AGENCY.GET_HUBS, {
+            params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate }
+        });
+        toast.loading
+        // if (res.data.success) toast.success(res.data.message);
+        return res.data.data as GetHubsResponseDTO
     }
 
     const getHubDetailsById = async (hubId: string) => {
-        try {
-            const res = await axiosInstance.get(`${API_AGENCY.GET_HUBS}/${hubId}`);
-            if (res.data.success) toast.success(res.data.message);
-            return res.data.data as HubResponseDTO;
-        } catch (error: any) {
-            toast.error(error.res.data.message);
-        }
+
+        const res = await axiosInstance.get(`${API_AGENCY.GET_HUBS}/${hubId}`);
+        if (res.data.success) toast.success(res.data.message);
+
+        const hub = res.data.data.hub;
+        const workers = res.data.data.workers
+
+        return { hub, workers } as GetHubOverviewResponseDTO
+
     };
 
     return { getAllHubs, getHubDetailsById }
