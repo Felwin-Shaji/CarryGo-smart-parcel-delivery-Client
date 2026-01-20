@@ -30,7 +30,7 @@ export interface AgencyWithKYCResponseDTO {
 };
 
 export interface HubResponseDTO {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     mobile: string;

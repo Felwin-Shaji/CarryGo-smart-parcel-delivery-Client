@@ -44,6 +44,8 @@ export const API_ADMIN = {
   RESET_PASSWORD:"/api/admin/reset-password",
   UPDATE_PROFILE:"/api/admin/edit-profile",
   GET_PROFILE:"/api/admin/profile",
+
+  GET_AGENCY_HUB:"api/admin/agency/hub"
 }
 
 export const API_HUB = {

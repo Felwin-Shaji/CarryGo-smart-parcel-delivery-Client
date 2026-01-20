@@ -14,6 +14,7 @@ import AdminForgotPassword from "../pages/Admin/AdminForgotPassword"
 import AdminResetPassword from "../pages/Admin/AdminResetPassword"
 import AdminPricingPolicy from "../pages/Admin/AdminPricingPolicyPage"
 import AdminProfilePage from "../pages/Admin/AdminProfilePage"
+import AdminHubDetailsPage from "../pages/Admin/AdminHubDetailsPage"
 
 
 const AdminRoutes = () => {
@@ -36,6 +37,7 @@ const AdminRoutes = () => {
 
         <Route path="agency" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyList /></ProtectedRoute>} />
         <Route path="agency/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyDetailsPage /></ProtectedRoute>} />
+        <Route path="agency/:agencyId/hubs/:hubId" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminHubDetailsPage /></ProtectedRoute>} />
 
         <Route path="users" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserList /></ProtectedRoute>} />
         <Route path="pricing-policy" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminPricingPolicy /></ProtectedRoute>} />
