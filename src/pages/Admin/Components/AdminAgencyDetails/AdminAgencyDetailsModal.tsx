@@ -10,8 +10,8 @@ import { useAdmin } from "../../../../Services/Admin/Admin";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
 import AdminAgencyHubList, { EmptyHubsState } from "./AdminAgencyHubList";
 import AdminAgencyDashboard from "./AdminAgencyDashboard";
-import type { AgencyWithKYCResponseDTO } from "../../../../constants_Types/types/Admin/AdminAgency.dto";
-import type { GetHubsResponseDTO } from "../../../../Services/Agency/Agency";
+import type { AgencyWithKYCResponseDTO, GetHubsResponseDTO } from "../../../../constants_Types/types/Admin/AdminAgency.dto";
+import Breadcrumbs from "../../../../components/globelcomponents/Breadcrumbs";
 
 
 export default function AdminAgencyDetailsModal({
@@ -81,7 +81,10 @@ export default function AdminAgencyDetailsModal({
   if (loading) return <LoadingScreen />;
   if (!agency) return null;
 
-
+  const breadcrumbs = [
+    { label: "Agencies", to: "/admin/agency" },
+    { label: "Agency Details" },
+  ];
 
   const kycStatus = agency.kycStatus as KYCStatus;
   const canViewKyc = kycStatus !== "PENDING";
@@ -137,6 +140,7 @@ export default function AdminAgencyDetailsModal({
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       {showRejectReasonModal && (
         <RejectReasonModal
           open
@@ -189,6 +193,7 @@ export default function AdminAgencyDetailsModal({
               {hubLists && hubLists.data.length > 0 ? (
                 <AdminAgencyHubList
                   hubs={hubLists?.data ?? []}
+                  agencyId={agencyId!}
                 />
 
               ) : (
