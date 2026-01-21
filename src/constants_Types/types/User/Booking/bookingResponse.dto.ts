@@ -43,4 +43,19 @@ export interface AddressDTO {
   city: string;
   state: string;
   pincode: string;
+};
+
+
+export interface PricingResponseDTO {
+  distanceKm: number;
+
+  basePrice: number;
+  distanceCharge: number;
+  sizeCharge: number;
+
+  platformFee: number;
+  totalPrice: number;
+
+  currency: "INR";
 }
+

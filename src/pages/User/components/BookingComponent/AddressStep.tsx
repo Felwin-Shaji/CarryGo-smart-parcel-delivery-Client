@@ -12,7 +12,7 @@ const AddressStep = ({ onSuccess }: Props) => {
 
   const navigate = useNavigate();
 
-  const { getAddressesByPincode } = useBooking();
+  const { getAddressesByPincode  } = useBooking();
   const { state, dispatch } = useBookingContext();
 
   const [pickupAddresses, setPickupAddresses] = useState<any[]>([]);
@@ -23,6 +23,7 @@ const AddressStep = ({ onSuccess }: Props) => {
 
   useEffect(() => {
     if (!location.state?.refreshAddresses) return;
+    if (!state.fromPincode || !state.toPincode) return
 
     setLoading(true);
 
@@ -143,7 +144,10 @@ const AddressStep = ({ onSuccess }: Props) => {
           {deliveryAddresses.map((addr) => (
             <div
               key={addr.id}
-              onClick={() => setDeliveryId(addr.id)}
+              onClick={() => {
+                console.log(addr)
+                return setDeliveryId(addr.id)
+              }}
               className={`cursor-pointer rounded-lg border p-4 transition
                 ${deliveryId === addr.id
                   ? "border-black bg-gray-50"
