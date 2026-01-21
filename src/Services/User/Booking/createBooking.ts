@@ -1,7 +1,20 @@
 import toast from "react-hot-toast";
 import { API_USER } from "../../../constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { AddressDTO, getServiceableHubWithAgencyResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { AddressDTO, getServiceableHubWithAgencyResponseDTO, PricingResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+
+export interface CalculatePricePayload {
+    deliveryType: "AGENCY" | "TRAVELER";
+    partnerId?: string;
+    packageDetails: {
+        category: string;
+        size: string;
+        weightKg: number;
+    };
+    pickupAddressId: string;
+    deliveryAddressId: string;
+}
+
 
 export const useBooking = () => {
     const axiosInstance = useAxios();
@@ -37,10 +50,23 @@ export const useBooking = () => {
         return res.data.data;
     };
 
+    const getPricing = async (
+        payload: CalculatePricePayload
+    ): Promise<PricingResponseDTO> => {
+        const res = await axiosInstance.post(
+            API_USER.BOOKING_PRICING,
+            payload
+        );
+
+        return res.data.data;
+    };
+
+
 
     return {
         isPincodeValied,
         getServiceableAgencies,
-        getAddressesByPincode
+        getAddressesByPincode,
+        getPricing
     };
 }

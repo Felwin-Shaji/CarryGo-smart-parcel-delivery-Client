@@ -67,10 +67,11 @@ export const API_USER = {
   DELETE_ADDRESS:"/api/user/address",
   SET_DEFAULT_ADDRESS:"/api/user/address/default",
   
-
+  
   BOOKING_PINCODE_VALIDATE:"/api/user/booking/pincode/validate",
   SERVICEABLE_AGENCIES:"/api/user/booking/serviceable-agencies",
   USER_ADDRESSES:"/api/user/booking/serviceable-addresses",
+  BOOKING_PRICING:"/api/user/booking/calculate_price",
 
   REVERSE_GEOCODE:"/api/user/geocode/reverse"
 }

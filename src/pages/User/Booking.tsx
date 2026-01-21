@@ -2,10 +2,11 @@ import { useState } from "react";
 import BookingPincodeStep from "./components/BookingComponent/BookingPincodeStep";
 import { Header } from "./components/Header";
 // import HubAvailabilityStep from "./components/BookingComponent/HubAvailabilityStep";
-import PackageDetailsStep from "./components/BookingComponent/PackageDetailsStep";
+// import PackageDetailsStep from "./components/BookingComponent/PackageDetailsStep";
 import SelectDeleveryDetailsStep from "./components/BookingComponent/SelectDeleveryDetailsStep";
 import { BookingProvider } from "../../context/Booking/BookingContext";
 import AddressStep from "./components/BookingComponent/AddressStep";
+import PricingReviewStep from "./components/BookingComponent/PricingReviewStep";
 
 const Booking = () => {
   const [step, setStep] = useState(1);
@@ -19,7 +20,7 @@ const Booking = () => {
       case 3:
         return <AddressStep onSuccess={() => setStep(4)} />;
       case 4:
-        return <PackageDetailsStep onSuccess={() => setStep(5)} />;
+        return <PricingReviewStep onSuccess={() => setStep(5)} />;
       default:
         return null;
     }
