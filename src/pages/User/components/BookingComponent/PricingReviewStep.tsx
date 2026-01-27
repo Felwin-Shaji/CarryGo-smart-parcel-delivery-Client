@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useBooking } from "../../../../Services/User/Booking/createBooking";
+import { useBooking, type CreateBookingPayload } from "../../../../Services/User/Booking/createBooking";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import type { BookingState, DeliveryType } from "../../../../context/Booking/Booking.types";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ interface Props {
 const PricingReviewStep = ({ onSuccess }: Props) => {
     const navigate = useNavigate()
 
-    const { getPricing } = useBooking();
+    const { getPricing, createBooking } = useBooking();
     const { state } = useBookingContext();
 
     const [pricing, setPricing] = useState<any>(null);
@@ -48,16 +48,43 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
 
         const payload = {
             deliveryType: state.deliveryType,
-            partnerId: state.selectedPartner?.agency?.agencyId as string,
+            partnerId: state.selectedPartner?._id as string,
             packageDetails: state.packageDetails,
             pickupAddressId: state.pickupAddressId,
             deliveryAddressId: state.deliveryAddressId,
         };
 
+        console.log(payload, '................................11111111111111111111');
+
         getPricing(payload)
             .then(setPricing)
-            .finally(() => setLoading(false));
+            .finally(() => {
+                console.log(pricing)
+                setLoading(false)
+            });
     }, []);
+
+
+    const handleSubmit = async () => {
+        if (!isPricingReady(state)) return;
+
+        const payload: CreateBookingPayload = {
+            deliveryType: state.deliveryType,
+            partnerId: state.selectedPartner?._id,
+            pickupAddressId: state.pickupAddressId,
+            deliveryAddressId: state.deliveryAddressId,
+            packageDetails: {
+                category: state.packageDetails.category,
+                size: state.packageDetails.size,
+                weightKg: state.packageDetails.weightKg,
+            },
+        };
+
+        const res = await createBooking(payload);
+
+        navigate(`/booking/${res.bookingId}/pay`);
+    };
+
 
     if (loading) {
         return <>
@@ -110,7 +137,7 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
 
             {/* CTA */}
             <button
-                onClick={onSuccess}
+                onClick={handleSubmit}
                 className="w-full py-4 rounded-xl bg-black text-white font-semibold"
             >
                 Proceed to payment
