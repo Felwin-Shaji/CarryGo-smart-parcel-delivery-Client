@@ -5,7 +5,7 @@ import type { AddressDTO, getServiceableHubWithAgencyResponseDTO, PricingRespons
 
 export interface CalculatePricePayload {
     deliveryType: "AGENCY" | "TRAVELER";
-    partnerId?: string;
+    partnerId: string;
     packageDetails: {
         category: string;
         size: string;
@@ -15,6 +15,20 @@ export interface CalculatePricePayload {
     deliveryAddressId: string;
 }
 
+export interface CreateBookingPayload {
+    deliveryType: "AGENCY" | "TRAVELER";
+
+    partnerId?: string;
+
+    pickupAddressId: string;
+    deliveryAddressId: string;
+
+    packageDetails: {
+        category: string;
+        size: "SMALL" | "MEDIUM" | "LARGE";
+        weightKg: number;
+    };
+}
 
 export const useBooking = () => {
     const axiosInstance = useAxios();
@@ -62,11 +76,18 @@ export const useBooking = () => {
     };
 
 
+    const createBooking = async (
+        payload: CreateBookingPayload
+    ): Promise<{ bookingId: string }> => {
+        const res = await axiosInstance.post(API_USER.BOOKING, payload);
+        return res.data.data;
+    };
 
     return {
         isPincodeValied,
         getServiceableAgencies,
         getAddressesByPincode,
-        getPricing
+        getPricing,
+        createBooking
     };
 }

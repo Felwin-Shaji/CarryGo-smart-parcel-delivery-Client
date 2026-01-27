@@ -1,26 +1,34 @@
 export type DeliveryType = "AGENCY" | "TRAVELER";
 
+export interface PartnerPayload {
+  _id: string;
+  name: string;
+  type: DeliveryType;
+  contact?: {
+    email?: string;
+    phone?: string;
+  };
+}
+
+export interface PackagePayload {
+  category: string;
+  size: "SMALL" | "MEDIUM" | "LARGE";
+  weightKg: number;
+
+  itemType?: string;
+  approxWeightKg?: number;
+  notes?: string;
+}
+
 export interface BookingState {
-  // Step 1
   fromPincode?: string;
   toPincode?: string;
 
-  // Step 2
   deliveryType?: DeliveryType;
-  selectedPartner?: any; // agency DTO or traveler DTO
-  packageDetails?: {
-    // Agency
-    weightKg?: number;
-    size?: "SMALL" | "MEDIUM" | "LARGE";
-    category?: string;
 
-    // Traveler
-    itemType?: string;
-    approxWeightKg?: number;
-    notes?: string;
-  };
+  selectedPartner?: PartnerPayload;
+  packageDetails?: PackagePayload;
 
-  // Step 3
   pickupAddressId?: string;
   deliveryAddressId?: string;
 }

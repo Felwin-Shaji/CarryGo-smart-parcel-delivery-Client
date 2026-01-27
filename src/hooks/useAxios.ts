@@ -31,7 +31,7 @@ export const useAxios = (): AxiosInstance => {
                 } else if (status === 403) {
                     toast.error("Access denied. Please check your permissions.");
                 } else if (status === 500) {
-                    toast.error("Internal server error. Please try again later.");
+                    console.log(data)
                 } else if (data?.message) {
                     toast.error(data.message);
                 } else {

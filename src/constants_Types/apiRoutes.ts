@@ -72,6 +72,7 @@ export const API_USER = {
   SERVICEABLE_AGENCIES:"/api/user/booking/serviceable-agencies",
   USER_ADDRESSES:"/api/user/booking/serviceable-addresses",
   BOOKING_PRICING:"/api/user/booking/calculate_price",
+  BOOKING:"/api/user/booking",
 
   REVERSE_GEOCODE:"/api/user/geocode/reverse"
 }
