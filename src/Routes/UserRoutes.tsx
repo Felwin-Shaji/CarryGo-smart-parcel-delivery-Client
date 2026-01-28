@@ -16,6 +16,7 @@ import UserProfile from "../pages/User/UserProfile"
 import UserCreateBooking from "../pages/User/Booking"
 import AddAddressForm from "../pages/User/AddAddressForm"
 import AddressListPage from "../pages/User/AddressListPage"
+import BookingPaymentPage from "../pages/User/BookingPaymentPage"
 
 
 
@@ -39,11 +40,12 @@ const UserRoutes = () => {
         </Route>
 
         <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
-        <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile/></ProtectedRoute>}/>
-        <Route path="/booking" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking/></ProtectedRoute>}/>
+        <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile /></ProtectedRoute>} />
+        <Route path="/booking" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking /></ProtectedRoute>} />
+        <Route path="/booking/:bookingId/pay" element={<ProtectedRoute requiredRole={ROLES.USER}><BookingPaymentPage /></ProtectedRoute>} />
 
-        <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm/></ProtectedRoute>}/>
-        <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage/></ProtectedRoute>}/>
+        <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm /></ProtectedRoute>} />
+        <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage /></ProtectedRoute>} />
 
 
 
