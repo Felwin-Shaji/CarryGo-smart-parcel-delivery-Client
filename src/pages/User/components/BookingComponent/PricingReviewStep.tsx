@@ -82,6 +82,7 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
 
         const res = await createBooking(payload);
 
+        onSuccess();
         navigate(`/booking/${res.bookingId}/pay`);
     };
 

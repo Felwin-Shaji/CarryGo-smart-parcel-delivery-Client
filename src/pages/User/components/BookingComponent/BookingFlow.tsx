@@ -18,7 +18,7 @@ const BookingFlow = () => {
     // const { state } = useBookingContext();
     // const step = deriveStep(state);
 
-    const { state } = useBookingContext();
+    const { state, dispatch } = useBookingContext();
     const maxStep = deriveStep(state);
 
     const [activeStep, setActiveStep] = useState(maxStep);
@@ -41,7 +41,10 @@ const BookingFlow = () => {
             return <AddressStep onSuccess={() => { }} />;
 
         case 4:
-            return <PricingReviewStep onSuccess={() => { }} />;
+            return <PricingReviewStep onSuccess={() => {
+                dispatch({ type: "RESET_BOOKING" });
+
+            }} />;
 
         default:
             return null;
