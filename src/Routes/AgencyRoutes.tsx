@@ -16,6 +16,7 @@ import AgencyResetPassword from "../pages/Agency/AgencyResetPassword";
 import AgencyPricingPage from "../pages/Admin/AgencyPricingPage";
 import AgencyProfilePage from "../pages/Agency/AgencyProfilePage";
 import AgencyHubDetailsPage from "../pages/Agency/AgencyHubDetailsPage";
+import AgencyLandingPage from "../pages/Agency/AgencyLandingPage";
 
 const AgencyRoutes = () => {
   const loading = useAuthRehydration(ROLES.AGENCY);
@@ -28,6 +29,8 @@ const AgencyRoutes = () => {
       <title>CarryGo-Agency</title>
       <Routes>
         <Route element={<PublicRoute />}>
+          <Route path="" element={<AgencyLandingPage />} />
+
           <Route path="registration" element={<AgencyRegistration />} />
           <Route path="verify-otp" element={<AgencyOtpVarification />} />
 
