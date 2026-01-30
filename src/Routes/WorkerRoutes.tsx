@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
 import { ROLES } from "../constants_Types/types/roles";
-import { useAuthRehydration } from "../hooks/useAuthRehydration ";
+import { useAuthRehydration } from "../hooks/useAuthRehydration";
 import PublicRoute from "./PublicRoute";
 import WorkerLogin from "../pages/Worker/WorkerLogin";
 import ProtectedRoute from "./ProtectedRoute";
