@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
-import { useAuthRehydration } from "../hooks/useAuthRehydration ";
+import { useAuthRehydration } from "../hooks/useAuthRehydration";
 import PublicRoute from "./PublicRoute";
 import AgencyRegistration from "../pages/Agency/AgencyRegistration";
 import ProtectedRoute from "./ProtectedRoute";

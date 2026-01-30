@@ -21,7 +21,7 @@ export const useAuthRehydration = (role: Roles) => {
                 const response = await axiosInstance.post(API_AUTH.REFRESH_TOKEN, { role });
 
                 if (response.data?.success) {
-                    const { user, accessToken } = response.data;
+                    const { user, accessToken } = response.data.data;
 
                     switch (user.role) {
                         case ROLES.USER:
