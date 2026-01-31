@@ -9,6 +9,8 @@ import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { API_AUTH } from "../constants_Types/apiRoutes";
 import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 import { workerLogin, workerLogout } from "../store/Slice/workerSlice";
+import type { LoginResponseType } from "../constants_Types/types/Auth/Auth.type";
+import type { AxiosError } from "axios";
 
 export const useAuth = () => {
   const axiosInstance = useAxios();
@@ -103,14 +105,14 @@ export const useAuth = () => {
    * @returns Promise<{ success: boolean; expiresAt: string }>
    */
   const handleResendOtp = async (data: { email: string; role: string }) => {
-      const response = await axiosInstance.post(API_AUTH.SEND_OTP, {
-        ...data,
-        isResend: true,
-      });
+    const response = await axiosInstance.post(API_AUTH.SEND_OTP, {
+      ...data,
+      isResend: true,
+    });
 
-      
 
-      return response.data.data;
+
+    return response.data.data;
   };
 
 
@@ -168,39 +170,31 @@ export const useAuth = () => {
       const response = await axiosInstance.post(API_AUTH.LOGIN, data);
 
       if (response.data?.success) {
+        const { users, accessToken } = response.data.data as LoginResponseType;
+
         toast.success(response.data.message || "Login successful");
 
         if (data.role === ROLES.USER) {
-          dispatch(userLogin(response.data));
+          dispatch(userLogin({ user: users, accessToken }));
           navigate("/home");
         } else if (data.role === ROLES.ADMIN) {
-          dispatch(adminLogin({
-            admin: response.data.user,
-            accessToken: response.data.user.accessToken,
-          }));
+          dispatch(adminLogin({ admin: users, accessToken }));
           navigate("/admin/dashboard");
         } else if (data.role === ROLES.AGENCY) {
-          dispatch(agencyLogin({
-            agency: response.data.user,
-            accessToken: response.data.user.accessToken
-          }))
+          dispatch(agencyLogin({ agency: users, accessToken }))
           navigate("/agency/dashboard");
         } else if (data.role === ROLES.HUB) {
-          dispatch(hubLogin({
-            hub: response.data.user,
-            accessToken: response.data.user.accessToken
-          }))
+          dispatch(hubLogin({ hub: users, accessToken }))
           navigate("/hub/dashboard")
         } else if (data.role === ROLES.WORKER) {
-          dispatch(workerLogin({
-            worker: response.data.user,
-            accessToken: response.data.user.accessToken
-          }))
+          dispatch(workerLogin({ worker: users, accessToken }))
           navigate("/worker/dashboard")
         }
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed!");
+    } catch (error: unknown) {
+      // toast.error(error.response?.data?.message || "Login failed!");
+      const err = error as AxiosError<{ message?: string }>;
+      toast.error(err.response?.data?.message || "Login failed!");
     }
   };
 

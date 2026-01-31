@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
 import { useAuthRehydration } from "../hooks/useAuthRehydration";
 import PublicRoute from "./PublicRoute";
 import AgencyRegistration from "../pages/Agency/AgencyRegistration";
@@ -19,10 +18,7 @@ import AgencyHubDetailsPage from "../pages/Agency/AgencyHubDetailsPage";
 import AgencyLandingPage from "../pages/Agency/AgencyLandingPage";
 
 const AgencyRoutes = () => {
-  const loading = useAuthRehydration(ROLES.AGENCY);
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  useAuthRehydration(ROLES.AGENCY);
 
   return (
     <>

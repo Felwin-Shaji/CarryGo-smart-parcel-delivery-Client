@@ -4,7 +4,6 @@ import PublicRoute from "./PublicRoute"
 import ProtectedRoute from "./ProtectedRoute"
 import { ROLES } from "../constants_Types/types/roles"
 import { useAuthRehydration } from "../hooks/useAuthRehydration"
-import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
 import HubDashboard from "../pages/Hub/HubDashboard"
 import HubForgotPassword from "../pages/Hub/HubForgotPassword"
 import PageNotFound from "../pages/PageNotFound"
@@ -13,10 +12,7 @@ import HubAddWorker from "../pages/Hub/HubAddWorkers"
 
 
 const HubRoutes = () => {
-    const loading = useAuthRehydration(ROLES.HUB);
-    if (loading) {
-        return <LoadingScreen />;
-    }
+      useAuthRehydration(ROLES.AGENCY);
     return (
         <>
             <title>CarryGo Hub</title>

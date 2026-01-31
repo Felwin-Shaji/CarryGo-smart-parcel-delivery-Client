@@ -7,7 +7,6 @@ import ProtectedRoute from "./ProtectedRoute"
 import PublicRoute from "./PublicRoute"
 import LandingPage from "../pages/User/LandingPage"
 import { useAuthRehydration } from "../hooks/useAuthRehydration"
-import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
 import { ROLES } from "../constants_Types/types/roles"
 import PageNotFound from "../pages/PageNotFound"
 import ForgotPassword from "../pages/User/ForgotPassword"
@@ -21,10 +20,8 @@ import BookingPaymentPage from "../pages/User/BookingPaymentPage"
 
 
 const UserRoutes = () => {
-  const loading = useAuthRehydration(ROLES.USER);
-  if (loading) {
-    return <LoadingScreen />;
-  }
+    useAuthRehydration(ROLES.AGENCY);
+    
   return (
     <>
       <title>CarryGo</title>

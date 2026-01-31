@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
 import { ROLES } from "../constants_Types/types/roles";
 import { useAuthRehydration } from "../hooks/useAuthRehydration";
 import PublicRoute from "./PublicRoute";
@@ -12,10 +11,7 @@ import WrokerResetPassword from "../pages/Worker/WrokerResetPassword";
 
 
 const WorkerRoutes = () => {
-    const loading = useAuthRehydration(ROLES.WORKER);
-    if (loading) {
-        return <LoadingScreen />;
-    }
+      useAuthRehydration(ROLES.AGENCY);
     return (
         <>
             <title>Worker</title>

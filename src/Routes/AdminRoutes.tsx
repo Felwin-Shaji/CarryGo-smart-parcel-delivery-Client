@@ -3,8 +3,6 @@ import PublicRoute from "./PublicRoute"
 import AdminLoginPage from "../pages/Admin/AdminLoginPage"
 import ProtectedRoute from "./ProtectedRoute"
 import AdminDashboard from "../pages/Admin/AdminDashboard"
-import LoadingScreen from "../components/loading/CarryGoLoadingScreen"
-import { useAuthRehydration } from "../hooks/useAuthRehydration"
 import AdminAgencyList from "../pages/Admin/AdminAgencyList"
 import AdminUserList from "../pages/Admin/AdminUserList"
 import AdminAgencyDetailsPage from "../pages/Admin/AdminAgencyDetailsPage"
@@ -15,13 +13,12 @@ import AdminResetPassword from "../pages/Admin/AdminResetPassword"
 import AdminPricingPolicy from "../pages/Admin/AdminPricingPolicyPage"
 import AdminProfilePage from "../pages/Admin/AdminProfilePage"
 import AdminHubDetailsPage from "../pages/Admin/AdminHubDetailsPage"
+import { useAuthRehydration } from "../hooks/useAuthRehydration"
 
 
 const AdminRoutes = () => {
-  const loading = useAuthRehydration(ROLES.ADMIN);
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  useAuthRehydration(ROLES.ADMIN);
+
   return (
     <>
       <title>CarryGo-Admin</title>
