@@ -8,6 +8,7 @@ import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
 import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { hunMenu } from "../config/SidebarMenu/hubMenu";
 import { workerMenu } from "../config/SidebarMenu/workerMenu";
+import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
 
 
 type DashboardRoles = Exclude<Roles, "user">;
@@ -25,6 +26,10 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
   if (role === ROLES.AGENCY) currentUser = useSelector((state: RootState) => state.agencyState.agency);
   if (role === ROLES.HUB) currentUser = useSelector((state: RootState) => state.hubState.hub);
   if (role === ROLES.WORKER) currentUser = useSelector((state: RootState) => state.workerState.worker);
+
+  const isRefreshing = useSelector(
+  (state: RootState) => state.authMeta.isRefreshing
+);
 
 
   const userName = currentUser?.name || "User";
@@ -54,6 +59,10 @@ export function DashboardProvider({ children, role }: DashboardProviderProps) {
       handleLogoutt(role, currentUser.id);
     }
   };
+
+  if(isRefreshing){
+    return <LoadingScreen/>
+  }
 
   return (
     <DashboardContext.Provider
