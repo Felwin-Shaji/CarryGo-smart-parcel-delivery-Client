@@ -11,7 +11,7 @@ import WrokerResetPassword from "../pages/Worker/WrokerResetPassword";
 
 
 const WorkerRoutes = () => {
-      useAuthRehydration(ROLES.AGENCY);
+      useAuthRehydration(ROLES.WORKER);
     return (
         <>
             <title>Worker</title>
