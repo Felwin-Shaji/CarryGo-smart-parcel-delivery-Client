@@ -20,7 +20,7 @@ import BookingPaymentPage from "../pages/User/BookingPaymentPage"
 
 
 const UserRoutes = () => {
-    useAuthRehydration(ROLES.AGENCY);
+    useAuthRehydration(ROLES.USER);
     
   return (
     <>

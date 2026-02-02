@@ -12,7 +12,7 @@ import HubAddWorker from "../pages/Hub/HubAddWorkers"
 
 
 const HubRoutes = () => {
-      useAuthRehydration(ROLES.AGENCY);
+      useAuthRehydration(ROLES.HUB);
     return (
         <>
             <title>CarryGo Hub</title>
