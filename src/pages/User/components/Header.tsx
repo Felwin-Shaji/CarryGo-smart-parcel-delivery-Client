@@ -31,7 +31,7 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
     const { user } = useSelector((state: RootState) => state.userState)
     const homeItems = [
         { label: "Profile", icon: <User className="h-4 w-4" />, onClick: () => navigate("/profile")  },
-        { label: "Wallet", icon: <Wallet className="h-4 w-4" />, onClick: () => console.log("Wallet") },
+        { label: "Wallet", icon: <Wallet className="h-4 w-4" />, onClick: () => navigate("/wallet") },
         { label: "Manage Address", icon: <FaAddressBook className="h-4 w-4" />, onClick: () => navigate("/addresses") },
         { label: "Logout", icon: <LogOut className="h-4 w-4" />, onClick: () => user && handleLogoutt(user.role, user.id), danger: true },
     ];

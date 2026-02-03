@@ -25,8 +25,13 @@ const BookingPaymentPage = () => {
             orderId,
             amount,
             currency,
-            bookingId: bookingId!,
-            onSuccess: verifyPayment,
+            role:"user",
+            title: "CarryGo",
+            description: "Parcel Delivery Payment",
+            referenceId: bookingId,
+            onSuccess: (response, bookingId) => {
+                verifyPayment(response, bookingId!);
+            },
             onFailure: () => {
                 toast.error("Payment cancelled");
                 navigate("/user/booking")

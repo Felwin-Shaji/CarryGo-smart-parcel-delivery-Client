@@ -66,7 +66,9 @@ export const API_USER = {
   GET_ADDRESSES:"/api/user/addresses",
   DELETE_ADDRESS:"/api/user/address",
   SET_DEFAULT_ADDRESS:"/api/user/address/default",
-  
+
+  GET_WALLET:"/api/user/wallet",
+  CREATE_ORDER_WALLET:"/api/user/wallet/create-order",
   
   BOOKING_PINCODE_VALIDATE:"/api/user/booking/pincode/validate",
   SERVICEABLE_AGENCIES:"/api/user/booking/serviceable-agencies",

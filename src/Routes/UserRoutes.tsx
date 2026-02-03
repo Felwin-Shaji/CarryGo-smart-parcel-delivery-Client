@@ -16,6 +16,7 @@ import UserCreateBooking from "../pages/User/Booking"
 import AddAddressForm from "../pages/User/AddAddressForm"
 import AddressListPage from "../pages/User/AddressListPage"
 import BookingPaymentPage from "../pages/User/BookingPaymentPage"
+import UserWallet from "../pages/User/UserWallet"
 
 
 
@@ -43,6 +44,8 @@ const UserRoutes = () => {
 
         <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm /></ProtectedRoute>} />
         <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage /></ProtectedRoute>} />
+        
+        <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.USER}><UserWallet /></ProtectedRoute>} />
 
 
 

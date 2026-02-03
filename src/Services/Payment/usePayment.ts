@@ -15,18 +15,18 @@ export const usePayment = () => {
         return res.data.data;
     };
 
-    const verifyPayment = async (response: any, bookingId: string) => {
+    const verifyPayment = async (response: any, referenceId: string) => {
         const res = await axiosInstance.post(
             "/api/user/booking/payment/verify",
             {
-                bookingId,
+                referenceId,
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
             }
         );
 
-        navigate(`/booking/${bookingId}/success`);
+        navigate(`/booking/${referenceId}/success`);
 
 console.log(res.data.message)
     }
