@@ -1,33 +1,56 @@
 import type { Transaction } from "../../constants_Types/types/walletType";
+// import { getTransactionIcon } from "./wallet.icons";
 import { getTransactionIcon, getTransactionStyles } from "./wallet.utils";
 
-export type TransactionItem = {
-    tx:Transaction
-}
+type Props = {
+  tx: Transaction;
+};
 
+export const TransactionItem = ({ tx }: Props) => {
+  const styles = getTransactionStyles(tx.type, tx.status);
 
-export const TransactionItem = ({tx}:TransactionItem) => {
-    const styles = getTransactionStyles(tx.type, tx.status);
+  return (
+    <li
+      className="
+        flex items-center justify-between
+        rounded-xl px-5 py-4
+        transition-colors
+        hover:bg-slate-50
+      "
+    >
+      {/* Left */}
+      <div className="flex items-start gap-4">
+        <div
+          className={`
+            h-10 w-10 rounded-xl
+            ${styles.iconBg} ${styles.iconText}
+            flex items-center justify-center
+            shrink-0
+          `}
+        >
+          {getTransactionIcon(tx.type)}
+        </div>
 
-    return (
-        <li className="group flex justify-between items-center px-6 py-4 hover:bg-gray-50/80 transition-colors cursor-pointer">
-            <div className="flex items-center gap-4">
-                <div className={`h-11 w-11 rounded-2xl ${styles.iconBg} ${styles.iconColor} flex items-center justify-center`}>
-                    {getTransactionIcon(tx.type)}
-                </div>
-                <div>
-                    <p className="font-semibold text-gray-900">
-                        {tx.type}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                        {tx.reason} • {tx.id}
-                    </p>
-                </div>
-            </div>
+        <div className="space-y-0.5">
+          <p className="text-sm font-medium text-gray-900">
+            {tx.reason}
+          </p>
+          <p className="text-xs text-gray-500">
+            {tx.id} • {new Date(tx.createdAt).toLocaleDateString()}
+          </p>
+        </div>
+      </div>
 
-            <p className={`font-bold text-lg ${styles.amountColor}`}>
-                {styles.prefix}₹{tx.amount.toLocaleString()}
-            </p>
-        </li>
-    );
+      {/* Right */}
+      <p
+        className={`
+          text-base font-semibold
+          ${styles.amountText}
+          tabular-nums
+        `}
+      >
+        {styles.prefix}₹{tx.amount.toLocaleString("en-IN")}
+      </p>
+    </li>
+  );
 };
