@@ -1,3 +1,4 @@
+import type { TransactionType, TransactionStatus } from "../../constants_Types/types/walletType";
 import { ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 
 export const getTransactionIcon = (type: string) => {
@@ -13,36 +14,59 @@ export const getTransactionIcon = (type: string) => {
   }
 };
 
-export const getTransactionStyles = (type: string, status: string) => {
-  if (status === "processing") {
+
+export const getTransactionStyles = (
+  type: TransactionType,
+  status: TransactionStatus
+) => {
+  // Pending overrides everything
+  if (status === "PENDING") {
     return {
       iconBg: "bg-amber-100",
-      iconColor: "text-amber-600",
-      amountColor: "text-amber-600",
+      iconText: "text-amber-600",
+      amountText: "text-amber-600",
       prefix: ""
     };
   }
 
-  switch (type.toLowerCase()) {
-    case "credit":
+  switch (type) {
+    case "CREDIT":
       return {
         iconBg: "bg-emerald-100",
-        iconColor: "text-emerald-600",
-        amountColor: "text-emerald-600",
+        iconText: "text-emerald-600",
+        amountText: "text-emerald-600",
         prefix: "+"
       };
-    case "debit":
+
+    case "DEBIT":
       return {
         iconBg: "bg-rose-100",
-        iconColor: "text-rose-600",
-        amountColor: "text-rose-600",
+        iconText: "text-rose-600",
+        amountText: "text-rose-600",
         prefix: "-"
       };
+
+    case "HOLD":
+      return {
+        iconBg: "bg-blue-100",
+        iconText: "text-blue-600",
+        amountText: "text-blue-600",
+        prefix: "−"
+      };
+
+    case "RELEASE":
+      return {
+        iconBg: "bg-indigo-100",
+        iconText: "text-indigo-600",
+        amountText: "text-indigo-600",
+        prefix: "+"
+      };
+
     default:
       return {
         iconBg: "bg-gray-100",
-        iconColor: "text-gray-600",
-        amountColor: "text-gray-600",
+        iconText: "text-gray-600",
+        amountText: "text-gray-600",
         prefix: ""
       };
   }

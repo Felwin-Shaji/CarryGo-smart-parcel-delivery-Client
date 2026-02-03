@@ -18,7 +18,7 @@ export const TransactionList = ({ transactions, onViewAll }: TransactionListProp
         {onViewAll && (
           <button
             onClick={onViewAll}
-            className="flex items-center gap-1 text-sm font-medium text-[var(--color-primary)]"
+            className="flex items-center gap-1 text-sm font-medium"
           >
             View all
             <ChevronRight className="h-4 w-4" />

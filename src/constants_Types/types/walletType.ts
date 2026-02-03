@@ -1,9 +1,21 @@
+export type TransactionType =
+  | "CREDIT"
+  | "DEBIT"
+  | "HOLD"
+  | "RELEASE";
+
+export type TransactionStatus =
+  | "PENDING"
+  | "SUCCESS"
+  | "FAILED";
+
+
 export type Transaction =  {
   id: string;
-  type: string;
+  type: TransactionType;
   reason: string;
   amount: number;
-  status: string;
+  status: TransactionStatus;
   createdAt: string;
 }
 

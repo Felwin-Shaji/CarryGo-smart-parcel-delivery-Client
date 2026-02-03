@@ -14,6 +14,7 @@ import AdminPricingPolicy from "../pages/Admin/AdminPricingPolicyPage"
 import AdminProfilePage from "../pages/Admin/AdminProfilePage"
 import AdminHubDetailsPage from "../pages/Admin/AdminHubDetailsPage"
 import { useAuthRehydration } from "../hooks/useAuthRehydration"
+import AdminWallet from "../pages/Admin/AdminWallet"
 
 
 const AdminRoutes = () => {
@@ -38,6 +39,7 @@ const AdminRoutes = () => {
 
         <Route path="users" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserList /></ProtectedRoute>} />
         <Route path="pricing-policy" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminPricingPolicy /></ProtectedRoute>} />
+        <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminWallet /></ProtectedRoute>} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
