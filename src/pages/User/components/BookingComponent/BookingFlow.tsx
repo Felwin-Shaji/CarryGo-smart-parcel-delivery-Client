@@ -1,54 +1,37 @@
 
-import type { BookingState } from "../../../../context/Booking/Booking.types";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import SelectDeleveryDetailsStep from "./SelectDeleveryDetailsStep";
 import BookingPincodeStep from "./BookingPincodeStep";
 import AddressStep from "./AddressStep";
 import PricingReviewStep from "./PricingReviewStep";
-import { useEffect, useState } from "react";
 
-const deriveStep = (state: BookingState) => {
-    if (!state.fromPincode) return 1;
-    if (!state.deliveryType) return 2;
-    if (!state.pickupAddressId || !state.deliveryAddressId) return 3;
-    return 4;
-};
 
 const BookingFlow = () => {
-    // const { state } = useBookingContext();
-    // const step = deriveStep(state);
+  const { state, dispatch } = useBookingContext();
+  const step = state.step ?? 1;
 
-    const { state, dispatch } = useBookingContext();
-    const maxStep = deriveStep(state);
+  switch (step) {
+    case 1:
+      return <BookingPincodeStep />;
 
-    const [activeStep, setActiveStep] = useState(maxStep);
+    case 2:
+      return <SelectDeleveryDetailsStep />;
 
-    // Sync activeStep if state changes forward
-    useEffect(() => {
-        if (activeStep < maxStep) {
-            setActiveStep(maxStep);
-        }
-    }, [maxStep]);
+    case 3:
+      return <AddressStep />;
 
-    switch (activeStep) {
-        case 1:
-            return <BookingPincodeStep onSuccess={() => { }} />;
+    case 4:
+        // dispatch({ type: "RESET_BOOKING" })
+      return (
+        <PricingReviewStep
+          onSuccess={() => dispatch({ type: "RESET_BOOKING" })}
+        />
+      );
 
-        case 2:
-            return <SelectDeleveryDetailsStep onSuccess={() => { }} />;
-
-        case 3:
-            return <AddressStep onSuccess={() => { }} />;
-
-        case 4:
-            return <PricingReviewStep onSuccess={() => {
-                dispatch({ type: "RESET_BOOKING" });
-
-            }} />;
-
-        default:
-            return null;
-    }
+    default:
+      return null;
+  }
 };
+
 
 export default BookingFlow;

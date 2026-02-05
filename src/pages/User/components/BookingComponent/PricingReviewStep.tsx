@@ -4,6 +4,7 @@ import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import type { BookingState, DeliveryType } from "../../../../context/Booking/Booking.types";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
+import BookingStepNav from "./BookingStepNav";
 
 interface Props {
     onSuccess: () => void;
@@ -13,13 +14,17 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
     const navigate = useNavigate()
 
     const { getPricing, createBooking } = useBooking();
-    const { state } = useBookingContext();
+    const { state, dispatch } = useBookingContext();
+    if (state.step !== 4) return null;
 
     const [pricing, setPricing] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    function isPricingReady(state: BookingState): state is BookingState & {
+    function isPricingReady(
+        state: BookingState
+    ): state is BookingState & {
         deliveryType: DeliveryType;
+        partnerId: string;
         packageDetails: {
             category: string;
             size: "SMALL" | "MEDIUM" | "LARGE";
@@ -30,39 +35,50 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
     } {
         return (
             !!state.deliveryType &&
+            !!state.partnerId &&
             !!state.packageDetails &&
-            typeof state.packageDetails.category === "string" &&
-            typeof state.packageDetails.size === "string" &&
-            typeof state.packageDetails.weightKg === "number" &&
             !!state.pickupAddressId &&
             !!state.deliveryAddressId
         );
     }
 
 
-    useEffect(() => {
-        if (!isPricingReady(state)) {
-            navigate("/booking", { replace: true });
-            return;
-        }
 
-        const payload = {
+
+
+    useEffect(() => {
+        if (state.step !== 4) return;
+        if (!isPricingReady(state)) return;
+
+        setLoading(true);
+
+        getPricing({
             deliveryType: state.deliveryType,
-            partnerId: state.selectedPartner?._id as string,
+            partnerId: state.partnerId,
             packageDetails: state.packageDetails,
             pickupAddressId: state.pickupAddressId,
             deliveryAddressId: state.deliveryAddressId,
-        };
-
-        console.log(payload, '................................11111111111111111111');
-
-        getPricing(payload)
+        })
             .then(setPricing)
-            .finally(() => {
-                console.log(pricing)
-                setLoading(false)
-            });
-    }, []);
+            .finally(() => setLoading(false));
+    }, [state.step]);
+
+
+
+    if (loading) {
+        return <LoadingScreen />;
+    }
+
+    if (!pricing) {
+        return (
+            <div className="text-center mt-10 text-sm text-gray-500">
+                Failed to load pricing.
+            </div>
+        );
+    }
+
+
+
 
 
     const handleSubmit = async () => {
@@ -70,31 +86,26 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
 
         const payload: CreateBookingPayload = {
             deliveryType: state.deliveryType,
-            partnerId: state.selectedPartner?._id,
+            partnerId: state.partnerId,
             pickupAddressId: state.pickupAddressId,
             deliveryAddressId: state.deliveryAddressId,
-            packageDetails: {
-                category: state.packageDetails.category,
-                size: state.packageDetails.size,
-                weightKg: state.packageDetails.weightKg,
-            },
+            packageDetails: state.packageDetails,
         };
 
         const res = await createBooking(payload);
 
-        onSuccess();
+        onSuccess(); // RESET_BOOKING
         navigate(`/booking/${res.bookingId}/pay`);
     };
 
 
-    if (loading) {
-        return <>
-            <LoadingScreen />
-        </>;
-    }
-
     return (
         <div className="max-w-4xl mx-auto px-6 space-y-8">
+            <BookingStepNav
+                showBack
+                showForward={false}
+                onBack={() => dispatch({ type: "SET_STEP", payload: 3 })}
+            />
 
             {/* Summary */}
             <section className="bg-white rounded-xl p-6 shadow-sm">
