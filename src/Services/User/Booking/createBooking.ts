@@ -1,6 +1,7 @@
 import { API_USER } from "../../../constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { AddressDTO, getServiceableHubWithAgencyResponseDTO, PricingResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { AddressDTO, BookingDetailsUI, getServiceableHubWithAgencyResponseDTO, PricingResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingUI } from "../../../pages/User/components/BookingComponent/BookingListing/BookingCard";
 
 export interface CalculatePricePayload {
     deliveryType: "AGENCY" | "TRAVELER";
@@ -84,11 +85,24 @@ export const useBooking = () => {
         return res.data.data;
     };
 
+    const listBooking = async ():Promise<BookingUI[]>=>{
+        const res = await axiosInstance.get(API_USER.BOOKING);
+
+        return res.data.data as BookingUI[]
+    }
+
+    const getBookingById = async(bookingId:string):Promise<BookingDetailsUI>=>{
+        const res = await axiosInstance.get(`${API_USER.BOOKING}/${bookingId}`);
+
+        return res.data.data as BookingDetailsUI
+    }
+
     return {
         validatePincode,
-        // getServiceableAgencies,
         getAddressesByPincode,
         getPricing,
-        createBooking
+        createBooking,
+        listBooking,
+        getBookingById
     };
 }

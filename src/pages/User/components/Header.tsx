@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Menu, X, Bell, Package, User, LogOut, Wallet, LogIn } from "lucide-react";
-import { DropdownMenu } from "../../../components/globelcomponents/DropdownMenu";
+import { Menu, X, Bell, Package, User, LogOut, Wallet } from "lucide-react";
+// import { DropdownMenu } from "../../../components/globelcomponents/DropdownMenu";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
 import { useAuth } from "../../../Services/Auth";
 import { useNavigate } from "react-router-dom";
 import { FaAddressBook } from "react-icons/fa6";
+import { NavItem } from "./NavItem";
+import { Dropdown, DropdownItem, DropdownSeparator } from "../../../components/globelcomponents/DropdownMenu";
 
 interface HeaderProps {
-  isLoggedIn?: boolean;
+    isLoggedIn?: boolean;
 }
 
 interface NavItem {
@@ -23,27 +25,27 @@ const navItems: NavItem[] = [
     { name: "Contact", href: "/contact" },
 ];
 
+
+
 export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
     const { handleLogoutt } = useAuth();
     const navigate = useNavigate()
 
     const [menuOpen, setMenuOpen] = useState(true);
     const { user } = useSelector((state: RootState) => state.userState)
-    const homeItems = [
-        { label: "Profile", icon: <User className="h-4 w-4" />, onClick: () => navigate("/profile")  },
-        { label: "Wallet", icon: <Wallet className="h-4 w-4" />, onClick: () => navigate("/wallet") },
-        { label: "Manage Address", icon: <FaAddressBook className="h-4 w-4" />, onClick: () => navigate("/addresses") },
-        { label: "Logout", icon: <LogOut className="h-4 w-4" />, onClick: () => user && handleLogoutt(user.role, user.id), danger: true },
-    ];
+    const LoginButton = () => (
+        <button
+            onClick={() => navigate("/login")}
+            className="rounded-lg bg-yellow-400 px-4 py-2 font-semibold text-[#0A2374]
+               hover:bg-yellow-300 transition"
+        >
+            Login
+        </button>
+    );
 
-    const landingItems = [
-        { label: "login", icon: <LogIn className="h-4 w-4" />, onClick: () => navigate("/login") },
-    ]
-
-    const menuItems = isLoggedIn?homeItems:landingItems
 
     return (
-            <header className="fixed top-0 left-0 z-50 w-full bg-[#0A2374] text-white shadow-md">
+        <header className="fixed top-0 left-0 z-50 w-full bg-[#0A2374] text-white shadow-md">
 
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
                 {/* Logo */}
@@ -59,36 +61,53 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
                 </div>
 
                 {/* Desktop Nav */}
-                <nav className="hidden items-center space-x-6 md:flex">
+                <nav className="hidden items-center space-x-2 md:flex">
                     {navItems.map((item) => (
-                        <a
+                        <NavItem
                             key={item.name}
-                            href={item.href}
-                            className="rounded-lg px-4 py-2 font-medium text-yellow-400 transition-all duration-200 hover:bg-yellow-400 hover:text-[#0A2374]"
-                        >
-                            {item.name}
-                        </a>
+                            to={item.href}
+                            label={item.name}
+                        />
                     ))}
                 </nav>
 
                 {/* Right-side icons */}
                 <div className="hidden items-center space-x-6 md:flex">
-                    <Bell className="h-5 w-5 cursor-pointer text-yellow-400 hover:text-white" />
-                    <Package className="h-5 w-5 cursor-pointer text-yellow-400 hover:text-white" />
-                    <div className="flex items-center space-x-2">
-                        <DropdownMenu
-                            trigger={
-                                <div className="flex items-center gap-2 cursor-pointer text-yellow-400 hover:text-white">
-                                    <User className="h-6 w-6" />
-                                    <span className="font-semibold">{isLoggedIn? user?.name:"Login"}</span>
-                                </div>
-                            }
-                            items={menuItems}
-                            align="right"
-                        />
-                    </div>
+                    {isLoggedIn && user ? (
+                        <>
+                            <Bell className="h-5 w-5 cursor-pointer text-yellow-400 hover:text-white" />
 
+                            <NavItem
+                                to="/bookings"
+                                label=""
+                                icon={<Package />}
+                            />
+
+                            <Dropdown
+                                trigger={
+                                    <div className="flex items-center gap-2 cursor-pointer text-yellow-400 hover:text-white">
+                                        <User className="h-6 w-6" />
+                                        <span className="font-semibold">{user.name}</span>
+                                    </div>
+                                }
+                            >
+                                <DropdownItem icon={<User />} label="Profile" to="/profile" />
+                                <DropdownItem icon={<Wallet />} label="Wallet" to="/wallet" />
+                                <DropdownItem icon={<FaAddressBook />} label="Manage Address" to="/addresses" />
+                                <DropdownSeparator />
+                                <DropdownItem
+                                    icon={<LogOut />}
+                                    label="Logout"
+                                    danger
+                                    onClick={() => handleLogoutt(user.role, user.id)}
+                                />
+                            </Dropdown>
+                        </>
+                    ) : (
+                        <LoginButton />
+                    )}
                 </div>
+
 
                 {/* Mobile Menu Button */}
                 <button
@@ -103,29 +122,37 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
             {menuOpen && (
                 <div className="space-y-2 bg-[#0A2374] px-4 pb-4 md:hidden">
                     {navItems.map((item) => (
-                        <a
+                        <NavItem
                             key={item.name}
-                            href={item.href}
-                            className="block rounded-md px-4 py-2 text-yellow-400 hover:bg-yellow-400 hover:text-[#0A2374]"
-                        >
-                            {item.name}
-                        </a>
+                            to={item.href}
+                            label={item.name}
+                            mobile
+                            onNavigate={() => setMenuOpen(false)}
+                        />
                     ))}
 
-                    <div className="mt-3 flex items-center space-x-3 border-t border-yellow-400 pt-3">
-                        <Bell className="h-5 w-5 text-yellow-400" />
-                        <Package className="h-5 w-5 text-yellow-400" />
-                        <DropdownMenu
-                            trigger={
-                                <div className="flex items-center gap-2 cursor-pointer text-yellow-400 hover:text-white">
-                                    <User className="h-6 w-6" />
-                                    <span className="font-semibold">{user?.name}</span>
-                                </div>
-                            }
-                            items={menuItems}
-                            align="right"
-                        />
+
+                    <div className="mt-3 border-t border-yellow-400 pt-3 space-y-2">
+                        {isLoggedIn && user ? (
+                            <>
+                                <NavItem to="/bookings" label="My Bookings" mobile onNavigate={() => setMenuOpen(false)} />
+                                <NavItem to="/profile" label="Profile" mobile onNavigate={() => setMenuOpen(false)} />
+                                <NavItem to="/wallet" label="Wallet" mobile onNavigate={() => setMenuOpen(false)} />
+                                <NavItem to="/addresses" label="Manage Address" mobile onNavigate={() => setMenuOpen(false)} />
+
+                                <button
+                                    onClick={() => handleLogoutt(user.role, user.id)}
+                                    className="w-full text-left px-4 py-2 rounded-md
+                                    text-yellow-400 hover:bg-yellow-400/10"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <NavItem to="/login" label="Login" mobile />
+                        )}
                     </div>
+
                 </div>
             )}
         </header>

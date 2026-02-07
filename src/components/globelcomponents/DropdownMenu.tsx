@@ -1,70 +1,95 @@
-import { useState, useRef, useEffect, type ReactNode, } from "react";
+import { NavLink } from "react-router-dom";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
-export interface DropdownItem {
-    label: string;
-    icon?: ReactNode;
-    onClick: () => void;
-    danger?: boolean;
-}
-
-interface DropdownMenuProps {
-    trigger: ReactNode; 
-    items: DropdownItem[];
+interface DropdownProps {
+    trigger: ReactNode;
+    children: ReactNode;
     align?: "left" | "right";
-    width?: string // "w-48" or "w-60"
+    width?: string;
 }
 
-export const DropdownMenu: React.FC<DropdownMenuProps> = ({
+export const Dropdown = ({
     trigger,
-    items,
+    children,
     align = "right",
-    width = "w-48",
-}) => {
+    width = "w-52",
+}: DropdownProps) => {
     const [open, setOpen] = useState(false);
-    const menuRef = useRef<HTMLDivElement | null>(null);
+    const ref = useRef<HTMLDivElement>(null);
 
-    // Close when clicking outside
     useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        const close = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
                 setOpen(false);
             }
         };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mousedown", close);
+        return () => document.removeEventListener("mousedown", close);
     }, []);
 
     return (
-        <div ref={menuRef} className="relative inline-block text-left">
-            {/* Trigger Button */}
-            <button onClick={() => setOpen((prev) => !prev)}>{trigger}</button>
+        <div ref={ref} className="relative inline-block">
+            <button onClick={() => setOpen((o) => !o)}>{trigger}</button>
 
-            {/* Dropdown Items */}
             {open && (
                 <div
-                    className={`absolute z-50 mt-2 ${width} rounded-lg shadow-md border  ${align === "right" ? "right-0" : "left-0"
-                        }`}
-                    style={{ backgroundColor: "rgba(41, 79, 247, 0.32)" }}
+                    className={`absolute z-50 mt-2 ${width} rounded-xl border border-white/10
+  bg-[#0A2374] shadow-lg
+  ${align === "right" ? "right-0" : "left-0"}`}
                 >
 
-
-
-                    {items.map((item, index) => (
-                        <button
-                            key={index}
-                            onClick={() => {
-                                item.onClick();
-                                setOpen(false);
-                            }}
-                            className={`flex w-full items-center gap-2 px-4 py-2 text-sm  hover:bg-yellow-100 hover:text-[#000] transition ${item.danger ? "text-red-600 hover:bg-red-50" : ""
-                                }`}
-                        >
-                            {item.icon && <span className="h-4 w-4">{item.icon}</span>}
-                            <span>{item.label}</span>
-                        </button>
-                    ))}
+                    {children}
                 </div>
             )}
         </div>
     );
 };
+
+
+
+
+interface DropdownItemProps {
+    label: string;
+    icon?: ReactNode;
+    to?: string;
+    onClick?: () => void;
+    danger?: boolean;
+}
+
+export const DropdownItem = ({
+    label,
+    icon,
+    to,
+    onClick,
+    danger,
+}: DropdownItemProps) => {
+    const base =
+        "flex w-full items-center gap-3 rounded-md px-4 py-2 text-sm transition-colors";
+
+    const style = danger
+        ? "text-yellow-400 hover:bg-yellow-400/10"
+        : "text-white hover:bg-white/10";
+
+
+
+    if (to) {
+        return (
+            <NavLink to={to} className={`${base} ${style}`}>
+                {icon && <span className="h-4 w-4">{icon}</span>}
+                {label}
+            </NavLink>
+        );
+    }
+
+    return (
+        <button onClick={onClick} className={`${base} ${style}`}>
+            {icon && <span className="h-4 w-4">{icon}</span>}
+            {label}
+        </button>
+    );
+};
+
+
+export const DropdownSeparator = () => (
+    <div className="my-1 h-px bg-gray-200" />
+);

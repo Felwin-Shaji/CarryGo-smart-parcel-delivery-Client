@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export const BookingCard = ({ booking }: { booking: BookingUI }) => {
+
+  const navigate = useNavigate();
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
 
@@ -56,7 +60,10 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
         <BookingStatusBadge status={booking.status} />
 
         <div className="flex gap-3">
-          <button className="text-sm font-medium text-blue-600 hover:underline">
+          <button
+            onClick={() => navigate(`/bookings/${booking.id}`)}
+            className="text-sm font-medium text-blue-600 hover:underline"
+          >
             View details
           </button>
           <button className="text-sm font-medium text-green-600 hover:underline">
@@ -93,27 +100,27 @@ const PaymentBadge = ({ status }: { status: PaymentStatusType }) => {
 
 
 export type BookingStatusType =
-    | "CREATED"
-    | "PAYMENT_PENDING"
-    | "PAID_PENDING_PICKUP"
-    | "PICKUP_STARTED"
-    | "IN_TRANSIT"
-    | "DELIVERED"
-    | "CANCELLED_BEFORE_PICKUP"
-    | "CANCELLED_AFTER_PICKUP"
-    | "REFUNDED"
-    | "SETTLED";
+  | "CREATED"
+  | "PAYMENT_PENDING"
+  | "PAID_PENDING_PICKUP"
+  | "PICKUP_STARTED"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "CANCELLED_BEFORE_PICKUP"
+  | "CANCELLED_AFTER_PICKUP"
+  | "REFUNDED"
+  | "SETTLED";
 
 
 export type PaymentStatusType =
-    | "NOT_INITIATED"
-    | "ORDER_CREATED"
-    | "PAID"
-    | "FAILED"
-    | "REFUNDED";
+  | "NOT_INITIATED"
+  | "ORDER_CREATED"
+  | "PAID"
+  | "FAILED"
+  | "REFUNDED";
 
 
-    const BOOKING_STATUS_CONFIG: Record<
+const BOOKING_STATUS_CONFIG: Record<
   BookingStatusType,
   { label: string; className: string }
 > = {
@@ -235,6 +242,10 @@ export interface BookingUI {
   pricing: {
     totalAmount: number;
     currency: "INR";
+    basePrice?: number;
+    distanceCharge?: number;
+    sizeCharge?: number;
+    platformFee?: number;
   };
 
   distanceKm: number;
