@@ -18,10 +18,10 @@ const TravelerPartnerHero = ({
       return;
     }
     if (kycStatus !== "APPROVED") {
-      navigate("/kyc-verification");
+      navigate("/traveler/kyc");
       return;
     }
-    navigate("/travel/create-route");
+    navigate("/kyc-verification");
   };
 
   return (

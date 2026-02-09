@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, Bell, Package, User, LogOut, Wallet } from "lucide-react";
+import { Menu, X, Bell, Package, User, LogOut, Wallet, Truck, Bike, Car } from "lucide-react";
 // import { DropdownMenu } from "../../../components/globelcomponents/DropdownMenu";
 
 import { useSelector } from "react-redux";
@@ -76,11 +76,15 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
                     {isLoggedIn && user ? (
                         <>
                             <Bell className="h-5 w-5 cursor-pointer text-yellow-400 hover:text-white" />
-
+                            <NavItem
+                                to="/traveler"
+                                label=""
+                                icon={<Car className="h-5 w-5 " />}
+                            />
                             <NavItem
                                 to="/bookings"
                                 label=""
-                                icon={<Package />}
+                                icon={<Package className="h-5 w-5" />}
                             />
 
                             <Dropdown

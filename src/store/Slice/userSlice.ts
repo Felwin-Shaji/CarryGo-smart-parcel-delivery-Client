@@ -1,10 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { KYCStatus } from "../../constants_Types/types/roles";
 
 interface User {
   id: string;
   name: string;
   email: string;
   role: string;
+  kycStatus: KYCStatus;
 }
 
 export interface UserState {

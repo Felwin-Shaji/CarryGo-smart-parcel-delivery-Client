@@ -85,7 +85,10 @@ export const API_USER = {
   BOOKING_PRICING: "/api/user/booking/calculate_price",
   BOOKING: "/api/user/booking",
 
-  REVERSE_GEOCODE: "/api/user/geocode/reverse"
+  REVERSE_GEOCODE: "/api/user/geocode/reverse",
+
+  SUBMIT_KYC: "/api/user/traveler/kyc",
+  // GET_KYC_STATUS: "/api/user/kyc/status",
 }
 
 export const API_WORKER = {
