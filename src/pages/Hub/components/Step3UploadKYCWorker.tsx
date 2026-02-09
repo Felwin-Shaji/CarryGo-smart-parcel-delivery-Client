@@ -89,6 +89,26 @@ const Step3UploadKYCWorker = ({ formData, setStep }: Step3Props) => {
                 </p>
             </div>
 
+            {/* ID TYPE */}
+            <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium text-gray-700">
+                    Select KYC Document Type
+                </label>
+                <select
+                    value={idType}
+                    onChange={(e) => {
+                        setIdType(e.target.value);
+                        setIdNumber("");
+                        setErrors((prev) => ({ ...prev, idNumber: undefined }));
+                    }}
+                    className="px-4 py-2 border rounded-md bg-white"
+                >
+                    <option value="AADHAAR">Aadhaar</option>
+                    <option value="DL">Driving License</option>
+                    <option value="PASSPORT">Passport</option>
+                </select>
+            </div>
+            
             {/* ID NUMBER */}
             <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-gray-700">
@@ -113,21 +133,6 @@ const Step3UploadKYCWorker = ({ formData, setStep }: Step3Props) => {
             </div>
 
 
-            {/* ID TYPE */}
-            <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium text-gray-700">
-                    Select KYC Document Type
-                </label>
-                <select
-                    value={idType}
-                    onChange={(e) => setIdType(e.target.value)}
-                    className="px-4 py-2 border rounded-md bg-white"
-                >
-                    <option value="AADHAAR">Aadhaar</option>
-                    <option value="DL">Driving License</option>
-                    <option value="PASSPORT">Passport</option>
-                </select>
-            </div>
 
             {/* DOCUMENT UPLOAD */}
             <div className="flex flex-col gap-2">
