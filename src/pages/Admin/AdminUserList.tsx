@@ -7,9 +7,11 @@ import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 
 import { AdminUserListColumns } from "../../config/TableColumns/adminUserListTableColumn";
 import { useAdmin } from "../../Services/Admin/Admin";
+import { useNavigate } from "react-router-dom";
 
 
 const AdminUserList = () => {
+  const navigate = useNavigate();
   const { getAllUsers, updateUserStatus } = useAdmin();
 
   const [users, setUsers] = useState([]);
@@ -54,6 +56,7 @@ const AdminUserList = () => {
         // Example if you want a modal or view option in row
         __openModal: (id: string) => {
           console.log("User details modal for ID:", id);
+          navigate(`/admin/users/${id}`);
         },
       }));
 
