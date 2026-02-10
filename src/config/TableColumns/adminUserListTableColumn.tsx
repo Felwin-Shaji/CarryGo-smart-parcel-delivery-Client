@@ -50,5 +50,18 @@ export const AdminUserListColumns = (handleStatusToggle: any) => [
         {value ? "Blocked" : "Active"}
       </button>
     ),
-  }
+  },
+  
+  {
+    header: "Action",
+    accessor: "action",
+    render: (_: any, row: any) => (
+      <button
+        onClick={() => row.__openModal(row.id || row.id)}
+        className="px-3 py-1 bg-blue-600 text-white text-sm rounded"
+      >
+        View
+      </button>
+    ),
+  },
 ];
