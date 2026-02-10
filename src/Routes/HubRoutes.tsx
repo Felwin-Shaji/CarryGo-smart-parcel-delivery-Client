@@ -3,7 +3,6 @@ import HubLogin from "../pages/Hub/HubLogin"
 import PublicRoute from "./PublicRoute"
 import ProtectedRoute from "./ProtectedRoute"
 import { ROLES } from "../constants_Types/types/roles"
-import { useAuthRehydration } from "../hooks/useAuthRehydration"
 import HubDashboard from "../pages/Hub/HubDashboard"
 import HubForgotPassword from "../pages/Hub/HubForgotPassword"
 import PageNotFound from "../pages/PageNotFound"
@@ -13,7 +12,6 @@ import HubWallet from "../pages/Hub/HubWallet"
 
 
 const HubRoutes = () => {
-    useAuthRehydration(ROLES.HUB);
     return (
         <>
             <title>CarryGo Hub</title>

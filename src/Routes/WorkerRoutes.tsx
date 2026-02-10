@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import { ROLES } from "../constants_Types/types/roles";
-import { useAuthRehydration } from "../hooks/useAuthRehydration";
 import PublicRoute from "./PublicRoute";
 import WorkerLogin from "../pages/Worker/WorkerLogin";
 import ProtectedRoute from "./ProtectedRoute";
@@ -11,7 +10,6 @@ import WrokerResetPassword from "../pages/Worker/WrokerResetPassword";
 
 
 const WorkerRoutes = () => {
-      useAuthRehydration(ROLES.WORKER);
     return (
         <>
             <title>Worker</title>

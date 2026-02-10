@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import { useAuthRehydration } from "../hooks/useAuthRehydration";
 import PublicRoute from "./PublicRoute";
 import AgencyRegistration from "../pages/Agency/AgencyRegistration";
 import ProtectedRoute from "./ProtectedRoute";
@@ -18,7 +17,6 @@ import AgencyHubDetailsPage from "../pages/Agency/AgencyHubDetailsPage";
 import AgencyLandingPage from "../pages/Agency/AgencyLandingPage";
 
 const AgencyRoutes = () => {
-  useAuthRehydration(ROLES.AGENCY);
 
   return (
     <>

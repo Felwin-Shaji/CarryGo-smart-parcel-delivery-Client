@@ -6,7 +6,6 @@ import Home from "../pages/User/Home"
 import ProtectedRoute from "./ProtectedRoute"
 import PublicRoute from "./PublicRoute"
 import LandingPage from "../pages/User/LandingPage"
-import { useAuthRehydration } from "../hooks/useAuthRehydration"
 import { ROLES } from "../constants_Types/types/roles"
 import PageNotFound from "../pages/PageNotFound"
 import ForgotPassword from "../pages/User/ForgotPassword"
@@ -25,7 +24,6 @@ import TravelerBookingList from "../pages/User/Traveler/TravelerBookingList"
 
 
 const UserRoutes = () => {
-    useAuthRehydration(ROLES.USER);
     
   return (
     <>
