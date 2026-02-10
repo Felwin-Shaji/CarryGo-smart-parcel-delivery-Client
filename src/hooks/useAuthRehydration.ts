@@ -8,6 +8,7 @@ import { ROLES, type Roles } from "../constants_Types/types/roles";
 import { API_AUTH } from "../constants_Types/apiRoutes";
 import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 import { workerLogin, workerLogout } from "../store/Slice/workerSlice";
+import { refreshEnd } from "../store/Slice/authMetaSlice";
 
 
 export const useAuthRehydration = (role: Roles) => {
@@ -59,6 +60,8 @@ export const useAuthRehydration = (role: Roles) => {
                 dispatch(agencyLogout());
                 dispatch(hubLogout());
                 dispatch(workerLogout());
+            }finally {
+                dispatch(refreshEnd());
             }
         }
 

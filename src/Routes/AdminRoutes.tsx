@@ -13,13 +13,11 @@ import AdminResetPassword from "../pages/Admin/AdminResetPassword"
 import AdminPricingPolicy from "../pages/Admin/AdminPricingPolicyPage"
 import AdminProfilePage from "../pages/Admin/AdminProfilePage"
 import AdminHubDetailsPage from "../pages/Admin/AdminHubDetailsPage"
-import { useAuthRehydration } from "../hooks/useAuthRehydration"
 import AdminWallet from "../pages/Admin/AdminWallet"
 import AdminUserDetailsPage from "../pages/Admin/AdminUserDetailsPage"
 
 
 const AdminRoutes = () => {
-  useAuthRehydration(ROLES.ADMIN);
 
   return (
     <>

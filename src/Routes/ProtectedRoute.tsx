@@ -18,10 +18,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
   const { agency } = useSelector((state: RootState) => state.agencyState);
   const { hub } = useSelector((state: RootState) => state.hubState);
   const { worker } = useSelector((state: RootState) => state.workerState);
-  const isRefreshing = useSelector((state: RootState) => state.authMeta.isRefreshing);
+  const isRehydrated  = useSelector((state: RootState) => state.authMeta.isRehydrated );
 
   console.log(user, admin, agency, hub, worker)
-    if (isRefreshing) {
+    if (!isRehydrated ) {
     return <LoadingScreen/>
   }
 

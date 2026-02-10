@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthMetaState {
   isRefreshing: boolean;
+  isRehydrated: boolean;
 }
 
 const initialState: AuthMetaState = {
   isRefreshing: false,
+  isRehydrated: false,
 };
 
 const authMetaSlice = createSlice({
@@ -17,6 +19,7 @@ const authMetaSlice = createSlice({
     },
     refreshEnd(state) {
       state.isRefreshing = false;
+      state.isRehydrated = true;
     },
   },
 });
