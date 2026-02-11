@@ -1,6 +1,8 @@
 import { ShieldCheck, UploadCloud, FileText, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const TravelerKYCRegistration = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-center px-4">
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8">
@@ -54,7 +56,7 @@ const TravelerKYCRegistration = () => {
                        hover:bg-blue-700 transition"
             onClick={() => {
               // navigate to KYC form route
-              // navigate("/traveler/kyc");
+              navigate("/traveler/kyc");
             }}
           >
             Start KYC Verification
