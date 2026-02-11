@@ -89,7 +89,8 @@ export const API_USER = {
   REVERSE_GEOCODE: "/api/user/geocode/reverse",
 
   SUBMIT_KYC: "/api/user/traveler/kyc",
-  // GET_KYC_STATUS: "/api/user/kyc/status",
+  GET_KYC: "/api/user/traveler/kyc",
+  RESUBMIT_KYC: "/api/user/traveler/kyc",
 }
 
 export const API_WORKER = {
