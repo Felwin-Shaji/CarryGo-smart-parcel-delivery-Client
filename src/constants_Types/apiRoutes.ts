@@ -91,6 +91,8 @@ export const API_USER = {
   SUBMIT_KYC: "/api/user/traveler/kyc",
   GET_KYC: "/api/user/traveler/kyc",
   RESUBMIT_KYC: "/api/user/traveler/kyc",
+
+  TRAVELER_REQUEST: "/api/user/traveler/travel-requests",
 }
 
 export const API_WORKER = {
