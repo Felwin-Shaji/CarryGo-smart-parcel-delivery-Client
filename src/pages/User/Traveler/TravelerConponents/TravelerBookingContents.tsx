@@ -1,7 +1,9 @@
-import { Calendar, MapPin, Plus, Truck } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Header } from "../../components/Header";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTravelRequest } from "../../../../Services/User/Traveler/TravelRequest";
+import { TravelRequestCard } from "./TravelRequestCard";
 
 export type TravelRequestStatus =
   | "DRAFT"
@@ -22,9 +24,14 @@ export interface TravelRequestUI {
   remainingCapacityKg: number;
   status: TravelRequestStatus;
   modeOfTransport: string;
+
+  totalOrders: number;
+  totalEarnings: number;
 }
 
+
 const TravelerTravelRequestList = () => {
+  const { getTravelRequestList } = useTravelRequest()
   const navigate = useNavigate();
 
   const [travelRequests, setTravelRequests] = useState<TravelRequestUI[]>([]);
@@ -33,8 +40,8 @@ const TravelerTravelRequestList = () => {
   useEffect(() => {
     const fetchTravelRequests = async () => {
       try {
-        // Replace with real API call
-        const data: TravelRequestUI[] = [];
+        const resonseData = await getTravelRequestList();
+        const data: TravelRequestUI[] = resonseData;
         setTravelRequests(data);
       } catch (error) {
         console.error("Failed to fetch travel requests", error);
@@ -45,19 +52,6 @@ const TravelerTravelRequestList = () => {
 
     fetchTravelRequests();
   }, []);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "ACTIVE":
-        return "bg-green-100 text-green-700";
-      case "PENDING_APPROVAL":
-        return "bg-yellow-100 text-yellow-700";
-      case "CANCELLED":
-        return "bg-red-100 text-red-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
 
   return (
     <>
@@ -107,52 +101,7 @@ const TravelerTravelRequestList = () => {
           {/* Travel Request Cards */}
           <div className="grid gap-6">
             {travelRequests.map((trip) => (
-              <div
-                key={trip.id}
-                className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition"
-              >
-                {/* Route */}
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <div className="flex items-center gap-2 text-gray-800 font-semibold">
-                      <MapPin size={16} />
-                      {trip.startAddress}
-                    </div>
-
-                    <div className="text-sm text-gray-400">to</div>
-
-                    <div className="flex items-center gap-2 text-gray-800 font-semibold">
-                      <MapPin size={16} />
-                      {trip.endAddress}
-                    </div>
-                  </div>
-
-                  <span
-                    className={`px-3 py-1 text-xs rounded-full ${getStatusColor(
-                      trip.status
-                    )}`}
-                  >
-                    {trip.status}
-                  </span>
-                </div>
-
-                {/* Info Row */}
-                <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <Calendar size={16} />
-                    {new Date(trip.departureAt).toLocaleDateString()}
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Truck size={16} />
-                    {trip.modeOfTransport}
-                  </div>
-
-                  <div>
-                    {trip.remainingCapacityKg} / {trip.capacityKg} kg left
-                  </div>
-                </div>
-              </div>
+              <TravelRequestCard key={trip.id} trip={trip} />
             ))}
           </div>
         </div>
