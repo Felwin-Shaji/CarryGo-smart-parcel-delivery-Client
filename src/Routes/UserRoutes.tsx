@@ -21,6 +21,7 @@ import { BookingDetailsPage } from "../pages/User/BookingDetailsPage"
 import TravelerKyc from "../pages/User/Traveler/TravelerKyc"
 import TravelerBookingList from "../pages/User/Traveler/TravelerBookingList"
 import CreateTravelRequest from "../pages/User/Traveler/CreateTravelRequest"
+import { TravelerTripDetails } from "../pages/User/Traveler/TravelerTripDetailsPage"
 
 
 
@@ -56,6 +57,7 @@ const UserRoutes = () => {
         <Route path="/traveler/kyc" element={<ProtectedRoute requiredRole={ROLES.USER}><TravelerKyc /></ProtectedRoute>} />
         <Route path="/traveler" element={<ProtectedRoute requiredRole={ROLES.USER}><TravelerBookingList /></ProtectedRoute>} />
         <Route path="/traveler/request" element={<ProtectedRoute requiredRole={ROLES.USER}><CreateTravelRequest /></ProtectedRoute>} />
+        <Route path="/traveler/trip/:id" element={<ProtectedRoute requiredRole={ROLES.USER}><TravelerTripDetails /></ProtectedRoute>} />
 
 
 
