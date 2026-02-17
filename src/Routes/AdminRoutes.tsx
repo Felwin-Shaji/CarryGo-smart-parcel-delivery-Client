@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import PublicRoute from "./PublicRoute"
 import AdminLoginPage from "../pages/Admin/AdminLoginPage"
 import ProtectedRoute from "./ProtectedRoute"
@@ -10,11 +10,13 @@ import { ROLES } from "../constants_Types/types/roles"
 import PageNotFound from "../pages/PageNotFound"
 import AdminForgotPassword from "../pages/Admin/AdminForgotPassword"
 import AdminResetPassword from "../pages/Admin/AdminResetPassword"
-import AdminPricingPolicy from "../pages/Admin/AdminPricingPolicyPage"
 import AdminProfilePage from "../pages/Admin/AdminProfilePage"
 import AdminHubDetailsPage from "../pages/Admin/AdminHubDetailsPage"
 import AdminWallet from "../pages/Admin/AdminWallet"
 import AdminUserDetailsPage from "../pages/Admin/AdminUserDetailsPage"
+import AdminTravelerPricing from "../pages/Admin/Components/AdminPricing/TravelerPricingForm"
+import AdminPricingLayout from "../pages/Admin/AdminPricingLayout"
+import AdminAgencyPricing from "../pages/Admin/Components/AdminPricing/AdminPricingPolicyPage"
 
 
 const AdminRoutes = () => {
@@ -39,7 +41,19 @@ const AdminRoutes = () => {
         <Route path="users" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserList /></ProtectedRoute>} />
         <Route path="users/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserDetailsPage /></ProtectedRoute>} />
 
-        <Route path="pricing-policy" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminPricingPolicy /></ProtectedRoute>} />
+        <Route
+          path="pricing-policy"
+          element={
+            <ProtectedRoute requiredRole={ROLES.ADMIN}>
+              <AdminPricingLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="agency" replace />} />
+          <Route path="agency" element={<AdminAgencyPricing />} />
+          <Route path="traveler" element={<AdminTravelerPricing />} />
+        </Route>
+
         <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminWallet /></ProtectedRoute>} />
 
         <Route path="*" element={<PageNotFound />} />

@@ -1,31 +1,49 @@
 import toast from "react-hot-toast";
 import { API_ADMIN } from "../../constants_Types/apiRoutes";
-import type { PricingPolicyResponseDTO } from "../../constants_Types/types/Admin/PricingPolicy.dto";
-import type { PricingPolicyFormDTO } from "../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
+import type { PricingPolicyResponseDTO, TravelerPricingPolicyResponseDTO } from "../../constants_Types/types/Admin/PricingPolicy.dto";
+import type { PricingPolicyFormDTO, TravelerPricingFormType } from "../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAdminPricingPolicy = () => {
   const axiosInstance = useAxios();
 
 
-  const getAdminPricing = async () => {
-    const res = await axiosInstance.get(API_ADMIN.GET_ADMIN_PRICING);
+  const getAdminAgencyPricing = async () => {
+    const res = await axiosInstance.get(API_ADMIN.ADMIN_AGENCY_PRICING);
     return res.data.data as PricingPolicyResponseDTO
   };
 
-  const createAdminPricing = async (
+  const createAdminAgencyPricing = async (
     payload: PricingPolicyFormDTO
   ) => {
     const res = await axiosInstance.post(
-      API_ADMIN.CREATE_ADMIN_PRICING,
+      API_ADMIN.ADMIN_AGENCY_PRICING,
       payload
     );
     toast.success(res.data.message || "Pricing Policy Created Successfully");
     return res.data.data as PricingPolicyResponseDTO;
   };
 
-  return {
-    getAdminPricing,
-    createAdminPricing
+  const getAdminTravelerPricing = async ()=>{
+        const res = await axiosInstance.get(API_ADMIN.ADMIN_TRAVELER_PRICING);
+    return res.data.data as TravelerPricingPolicyResponseDTO
+  }
+
+  const createAdminTravelerPricing = async (
+    payload: TravelerPricingFormType
+  ) => {
+    const res = await axiosInstance.post(
+      API_ADMIN.ADMIN_TRAVELER_PRICING,
+      payload
+    );
+    toast.success(res.data.message || "Traveler Pricing Policy Created Successfully");
+    return res.data.data as TravelerPricingPolicyResponseDTO;
+  }
+
+  return {  
+    getAdminAgencyPricing,
+    createAdminAgencyPricing,
+    getAdminTravelerPricing,
+    createAdminTravelerPricing
   }
 }

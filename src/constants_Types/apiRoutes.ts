@@ -42,8 +42,8 @@ export const API_ADMIN = {
 
   GET_USERS: "/api/admin/users",
 
-  GET_ADMIN_PRICING: "/api/admin/admin-pricing",
-  CREATE_ADMIN_PRICING: "/api/admin/admin-pricing",
+  ADMIN_AGENCY_PRICING: "/api/admin/admin-pricing/agency",
+  ADMIN_TRAVELER_PRICING: "/api/admin/admin-pricing/traveler",
 
   RESET_PASSWORD: "/api/admin/reset-password",
   UPDATE_PROFILE: "/api/admin/edit-profile",

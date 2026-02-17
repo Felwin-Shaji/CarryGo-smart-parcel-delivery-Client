@@ -10,3 +10,15 @@ export interface PricingPolicyFormDTO {
 
   platformFeePercent: number;
 }
+
+export interface TravelerPricingFormType {
+    basePricePerKg: number;
+
+    flightMultiplier: number;
+    trainMultiplier: number;
+    carMultiplier: number;
+    busMultiplier: number;
+    bikeMultiplier: number;
+
+    platformFeePercent: number;
+}
