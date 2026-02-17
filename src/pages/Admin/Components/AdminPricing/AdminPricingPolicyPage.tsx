@@ -1,16 +1,16 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { pricingPolicySchema } from "../../validation/pricingPolicySchema";
-import { DashboardLayout } from "../../layouts/DashboardLayout";
-import { DashboardProvider } from "../../context/DashboardProvider";
+import { pricingPolicySchema } from "../../../../validation/pricingPolicySchema";
+import { DashboardLayout } from "../../../../layouts/DashboardLayout";
+import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { useEffect, useState } from "react";
-import type { PricingPolicyResponseDTO } from "../../constants_Types/types/Admin/PricingPolicy.dto";
-import { useAdminPricingPolicy } from "../../Services/Admin/AdminPricingPolicy";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
-import type { PricingPolicyFormDTO } from "../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
+import type { PricingPolicyResponseDTO } from "../../../../constants_Types/types/Admin/PricingPolicy.dto";
+import { useAdminPricingPolicy } from "../../../../Services/Admin/AdminPricingPolicy";
+import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
+import type { PricingPolicyFormDTO } from "../../../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 
-export default function AdminPricingPolicy() {
+export default function AdminAgencyPricing() {
 
-  const { getAdminPricing, createAdminPricing } = useAdminPricingPolicy();
+  const { getAdminAgencyPricing, createAdminAgencyPricing } = useAdminPricingPolicy();
 
   const [editMode, setEditMode] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -42,7 +42,7 @@ export default function AdminPricingPolicy() {
   useEffect(() => {
     const loadPricing = async () => {
       try {
-        const data = await getAdminPricing();
+        const data = await getAdminAgencyPricing();
         setPolicyResponse(data);
       } finally {
         setLoading(false);
@@ -64,8 +64,8 @@ export default function AdminPricingPolicy() {
 
 
   return (
-    <DashboardProvider role="admin">
-      <DashboardLayout pageTitle="Pricing Policy">
+    // <DashboardProvider role="admin">
+    //   <DashboardLayout pageTitle="Pricing Policy">
         <div className="container max-w-5xl">
 
           {/* Page Header */}
@@ -100,7 +100,7 @@ export default function AdminPricingPolicy() {
             onSubmit={async (values, { setSubmitting }) => {
               try {
                 setSubmitLoading(true);
-                const newPolicy = await createAdminPricing(values);
+                const newPolicy = await createAdminAgencyPricing(values);
                 setPolicyResponse(newPolicy);
                 setEditMode(false);
               } finally {
@@ -224,8 +224,7 @@ export default function AdminPricingPolicy() {
             )}
           </Formik>
         </div>
-      </DashboardLayout>
-    </DashboardProvider>
+
   );
 }
 
