@@ -1,4 +1,4 @@
-import type { PricingPolicyFormDTO } from "../BaseTypes/baseAdminPricinPolicy.Dto";
+import type { PricingPolicyFormDTO, TravelerPricingFormType } from "../BaseTypes/baseAdminPricinPolicy.Dto";
 
 export interface PricingPolicyResponseDTO
   extends PricingPolicyFormDTO {
@@ -11,4 +11,12 @@ export interface PricingPolicyResponseDTO
 
 
 
-export interface PricingPolicyDTO extends PricingPolicyFormDTO {};
+export interface PricingPolicyDTO extends PricingPolicyFormDTO { };
+
+
+export interface TravelerPricingPolicyResponseDTO extends TravelerPricingFormType {
+  id: string;
+
+  policyVersion: number;
+  isActive: boolean;
+}
