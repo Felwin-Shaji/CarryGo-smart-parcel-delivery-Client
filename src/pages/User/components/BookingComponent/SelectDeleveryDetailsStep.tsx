@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import AgencyCardSelector from "./SelectDeleveryDetailsStep/AgencyDropdown";
 import BookingStepNav from "./BookingStepNav";
+import TravelerCardSelector from "./SelectDeleveryDetailsStep/TravelerCardSelector";
 
 
 const CATEGORIES = ["DOCUMENTS", "FRAGILE", "FOOD", "ELECTRONICS", "OTHER"];
@@ -13,13 +14,12 @@ const SelectDeleveryDetailsStep = () => {
     return null;
   }
 
-  const agencies = state.serviceableOptions ?? [];
+  const agencies = state.serviceableAgencies ?? [];
+  const travelers = state.serviceableTravelers
 
   const deliveryType = state.deliveryType ?? "AGENCY";
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  console.log("serviceableOptions:", state.serviceableOptions);
-  console.log("isArray:", Array.isArray(state.serviceableOptions));
 
 
   const [category, setCategory] = useState<string | null>(null);
@@ -29,42 +29,33 @@ const SelectDeleveryDetailsStep = () => {
   const validateStep = () => {
     const errors: Record<string, string> = {};
 
-    if (!state.fromPincode || !state.toPincode) {
-      errors.flow = "Invalid booking flow. Please start again.";
-    }
-
     if (deliveryType === "AGENCY") {
       if (!state.partnerId) {
         errors.agency = "Please select an agency";
       }
+    }
 
-      if (!category) errors.category = "Please select a package category";
-      if (!size) errors.size = "Please select a package size";
-      if (!weight || weight < 1 || weight > 50) {
-        errors.weight = "Weight must be between 1 and 50 kg";
+    if (deliveryType === "TRAVELER") {
+      if (!state.partnerId || !state.selectedTravelRequestId) {
+        errors.traveler = "Please select a traveler";
       }
+    }
+
+    if (!category) errors.category = "Please select a package category";
+    if (!size) errors.size = "Please select a package size";
+    if (!weight || weight < 1 || weight > 50) {
+      errors.weight = "Weight must be between 1 and 50 kg";
     }
 
     return errors;
   };
 
   const canGoForward =
-
-    (
-      state.deliveryType === "TRAVELER" &&
-      !!state.partnerId &&
-      !!state.packageDetails?.category &&
-      !!state.packageDetails?.size &&
-      !!state.packageDetails?.weightKg
-    )
-    ||
-    (
-      state.deliveryType === "AGENCY" &&
-      !!state.partnerId &&
-      !!state.packageDetails?.category &&
-      !!state.packageDetails?.size &&
-      !!state.packageDetails?.weightKg
-    );
+    !!state.partnerId &&
+    !!category &&
+    !!size &&
+    weight >= 1 &&
+    weight <= 50;
 
 
   const handleBack = () => {
@@ -90,16 +81,15 @@ const SelectDeleveryDetailsStep = () => {
 
     setErrors({});
 
-    if (deliveryType === "AGENCY") {
-      dispatch({
-        type: "SET_PACKAGE_DETAILS",
-        payload: {
-          category: category!,
-          size: size!,
-          weightKg: weight,
-        },
-      });
-    }
+    dispatch({
+      type: "SET_PACKAGE_DETAILS",
+      payload: {
+        category: category!,
+        size: size!,
+        weightKg: weight,
+      },
+    });
+
 
     dispatch({ type: "SET_STEP", payload: 3 });
   };
@@ -186,6 +176,41 @@ const SelectDeleveryDetailsStep = () => {
 
               <p className="text-xs text-gray-400 mt-3">
                 Try changing pickup or delivery address.
+              </p>
+            </div>
+          )}
+
+          {deliveryType === "TRAVELER" && (
+            <>
+              <TravelerCardSelector
+                travelers={travelers ?? []}
+                selectedTravelRequestId={state.selectedTravelRequestId}
+                onSelect={(option) =>
+                  dispatch({
+                    type: "SELECT_TRAVELER",
+                    payload: {
+                      travelerId: option.traveler.travelerId,
+                      travelRequestId:
+                        option.travelRequest.travelRequestId,
+                    },
+                  })
+                }
+              />
+              {errors.traveler && (
+                <p className="mt-2 text-xs text-red-500">
+                  {errors.traveler}
+                </p>
+              )}
+            </>
+          )}
+
+          {deliveryType === "TRAVELER" && travelers?.length === 0 && (
+            <div className="border border-dashed rounded-xl p-6 text-center">
+              <p className="text-sm font-medium text-gray-900">
+                No travelers available
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                No active trips found for these locations.
               </p>
             </div>
           )}

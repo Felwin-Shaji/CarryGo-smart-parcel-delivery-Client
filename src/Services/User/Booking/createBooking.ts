@@ -1,34 +1,8 @@
 import { API_USER } from "../../../constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { AddressDTO, BookingDetailsUI, getServiceableHubWithAgencyResponseDTO, PricingResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { AddressDTO, BookingDetailsUI,ServiceableAgencyAndTravelerDTO,  PricingResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
 import type { BookingUI } from "../../../pages/User/components/BookingComponent/BookingListing/BookingCard";
-
-export interface CalculatePricePayload {
-    deliveryType: "AGENCY" | "TRAVELER";
-    partnerId: string;
-    packageDetails: {
-        category: string;
-        size: string;
-        weightKg: number;
-    };
-    pickupAddressId: string;
-    deliveryAddressId: string;
-}
-
-export interface CreateBookingPayload {
-    deliveryType: "AGENCY" | "TRAVELER";
-
-    partnerId?: string;
-
-    pickupAddressId: string;
-    deliveryAddressId: string;
-
-    packageDetails: {
-        category: string;
-        size: "SMALL" | "MEDIUM" | "LARGE";
-        weightKg: number;
-    };
-}
+import type { CalculatePricePayload, CreateBookingPayload } from "../../../constants_Types/types/User/Booking/createBookingType";
 
 export const useBooking = () => {
     const axiosInstance = useAxios();
@@ -39,21 +13,8 @@ export const useBooking = () => {
         if (!res.data.success) {
             throw new Error("Pincode not serviceable");
         }
-        return res.data.data as getServiceableHubWithAgencyResponseDTO[];
+        return res.data.data as ServiceableAgencyAndTravelerDTO;
     };
-
-    // const getServiceableAgencies = async (
-    //     fromPincode: string,
-    //     toPincode: string
-    // ): Promise<getServiceableHubWithAgencyResponseDTO[]> => {
-
-    //     const res = await axiosInstance.get(
-    //         API_USER.SERVICEABLE_AGENCIES,
-    //         { params: { fromPincode, toPincode } }
-    //     );
-
-    //     return res.data.data;
-    // };
 
     const getAddressesByPincode = async (
         pincode: string
@@ -74,7 +35,7 @@ export const useBooking = () => {
             payload
         );
 
-        return res.data.data;
+        return res.data.data as PricingResponseDTO;
     };
 
 

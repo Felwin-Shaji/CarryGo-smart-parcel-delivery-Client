@@ -1,9 +1,9 @@
-import type { getServiceableHubWithAgencyResponseDTO } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
 
 interface Props {
-  agencies: getServiceableHubWithAgencyResponseDTO[];
+  agencies: getServiceableHubWithAgencyDTO[];
   selectedAgencyId?: string;
-  onSelect: (option: getServiceableHubWithAgencyResponseDTO) => void;
+  onSelect: (option: getServiceableHubWithAgencyDTO) => void;
 }
 
 
@@ -13,7 +13,7 @@ const AgencyCardSelector = ({
   onSelect,
 }: Props) => {
   if (!Array.isArray(agencies)) {
-    return null; // or loader / fallback UI
+    return null;
   }
 
   return (

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import type { BookingState, DeliveryType, PackagePayload } from "./Booking.types";
 import { clearBookingState, loadBookingState, saveBookingState } from "./bookingStorage";
-import type { getServiceableHubWithAgencyResponseDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { ServiceableAgencyAndTravelerDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
 
 type BookingContextValue = {
   state: BookingState;
@@ -11,10 +11,10 @@ type BookingContextValue = {
 
 type Action =
   // | { type: "SET_PINCODES"; payload: { fromPincode: string; toPincode: string } }
-  | { type: "PINCODE_VERIFIED"; payload: { fromPincode: string; toPincode: string; options: getServiceableHubWithAgencyResponseDTO[] } } ////////////////
+  | { type: "PINCODE_VERIFIED"; payload: { fromPincode: string; toPincode: string; options: ServiceableAgencyAndTravelerDTO } } ////////////////
   | { type: "SET_DELIVERY_TYPE"; payload: DeliveryType } //////////////////////////////
   | { type: "SELECT_AGENCY"; payload: { agencyId: string; fromHubId: string; toHubId: string } }/////////////
-  // | { type: "SET_PARTNER"; payload: PartnerPayload }
+  | { type: "SELECT_TRAVELER"; payload: { travelerId: string; travelRequestId: string; }; }
   | { type: "SET_PACKAGE_DETAILS"; payload: PackagePayload }
   | { type: "SET_PICKUP_ADDRESS"; payload: string }
   | { type: "SET_DELIVERY_ADDRESS"; payload: string }
@@ -33,12 +33,14 @@ const reducer = (state: BookingState, action: Action): BookingState => {
         step: 2,
         fromPincode: action.payload.fromPincode,
         toPincode: action.payload.toPincode,
-        serviceableOptions: action.payload.options,
+        serviceableAgencies: action.payload.options.agencies,
+        serviceableTravelers: action.payload.options.travelers,
 
         deliveryType: undefined,
         partnerId: undefined,
         selectedFromHubId: undefined,
         selectedToHubId: undefined,
+        selectedTravelRequestId: undefined,
 
         packageDetails: undefined,
         pickupAddressId: undefined,
@@ -52,6 +54,7 @@ const reducer = (state: BookingState, action: Action): BookingState => {
         partnerId: undefined,
         selectedFromHubId: undefined,
         selectedToHubId: undefined,
+        selectedTravelRequestId: undefined,
       };
 
     case "SELECT_AGENCY":
@@ -61,6 +64,17 @@ const reducer = (state: BookingState, action: Action): BookingState => {
         partnerId: action.payload.agencyId,
         selectedFromHubId: action.payload.fromHubId,
         selectedToHubId: action.payload.toHubId,
+        selectedTravelRequestId: undefined,
+      };
+
+    case "SELECT_TRAVELER":
+      return {
+        ...state,
+        deliveryType: "TRAVELER",
+        partnerId: action.payload.travelerId,
+        selectedTravelRequestId: action.payload.travelRequestId,
+        selectedFromHubId: undefined,
+        selectedToHubId: undefined,
       };
 
 
