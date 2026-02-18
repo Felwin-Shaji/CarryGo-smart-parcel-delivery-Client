@@ -1,6 +1,6 @@
 import type { BookingUI } from "../../../../pages/User/components/BookingComponent/BookingListing/BookingCard";
 
-export interface getServiceableHubWithAgencyResponseDTO {
+export interface getServiceableHubWithAgencyDTO {
     agency: {
         agencyId: string;
         name: string;
@@ -36,6 +36,37 @@ export interface getServiceableHubWithAgencyResponseDTO {
     };
 }
 
+export interface getServiceableTravelerDTO{
+  traveler: {
+    travelerId: string;
+    name: string;
+  };
+
+  travelRequest: {
+    travelRequestId: string;
+    from: {
+      city: string;
+      state: string;
+      pincode: string;
+    };
+    to: {
+      city: string;
+      state: string;
+      pincode: string;
+    };
+    departureAt: Date;
+    arrivalAt: Date | null;
+    remainingCapacityKg: number;
+    pricePerKg: number | null;
+    modeOfTransport: string;
+  };
+}
+
+export interface ServiceableAgencyAndTravelerDTO{
+    agencies:getServiceableHubWithAgencyDTO[],
+  travelers:getServiceableTravelerDTO[]
+}
+
 
 
 export interface AddressDTO {
@@ -48,7 +79,7 @@ export interface AddressDTO {
 };
 
 
-export interface PricingResponseDTO {
+export interface  PricingResponseDTO {
   distanceKm: number;
 
   basePrice: number;
