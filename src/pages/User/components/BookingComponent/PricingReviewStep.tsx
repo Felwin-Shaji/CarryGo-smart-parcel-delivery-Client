@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useBooking, type CreateBookingPayload } from "../../../../Services/User/Booking/createBooking";
+import { useBooking } from "../../../../Services/User/Booking/createBooking";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import type { BookingState, DeliveryType } from "../../../../context/Booking/Booking.types";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
 import BookingStepNav from "./BookingStepNav";
+import type { CalculatePricePayload, CreateBookingPayload } from "../../../../constants_Types/types/User/Booking/createBookingType";
 
 interface Props {
     onSuccess: () => void;
@@ -42,26 +43,39 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
         );
     }
 
-
-
-
-
     useEffect(() => {
         if (state.step !== 4) return;
         if (!isPricingReady(state)) return;
 
         setLoading(true);
 
-        getPricing({
-            deliveryType: state.deliveryType,
-            partnerId: state.partnerId,
-            packageDetails: state.packageDetails,
-            pickupAddressId: state.pickupAddressId,
-            deliveryAddressId: state.deliveryAddressId,
-        })
+        let payload: CalculatePricePayload;
+
+        if (state.deliveryType === "TRAVELER") {
+            payload = {
+                deliveryType: "TRAVELER",
+                partnerId: state.partnerId!,
+                travelRequestId: state.selectedTravelRequestId!, // required
+                packageDetails: state.packageDetails!,
+                pickupAddressId: state.pickupAddressId!,
+                deliveryAddressId: state.deliveryAddressId!,
+            };
+        } else {
+            payload = {
+                deliveryType: "AGENCY",
+                partnerId: state.partnerId!,
+                packageDetails: state.packageDetails!,
+                pickupAddressId: state.pickupAddressId!,
+                deliveryAddressId: state.deliveryAddressId!,
+            };
+        }
+
+        getPricing(payload)
             .then(setPricing)
             .finally(() => setLoading(false));
+
     }, [state.step]);
+
 
 
 
@@ -77,21 +91,29 @@ const PricingReviewStep = ({ onSuccess }: Props) => {
         );
     }
 
-
-
-
-
     const handleSubmit = async () => {
         if (!isPricingReady(state)) return;
 
-        const payload: CreateBookingPayload = {
-            deliveryType: state.deliveryType,
-            partnerId: state.partnerId,
-            pickupAddressId: state.pickupAddressId,
-            deliveryAddressId: state.deliveryAddressId,
-            packageDetails: state.packageDetails,
-        };
+        let payload: CreateBookingPayload;
 
+        if (state.deliveryType === "TRAVELER") {
+            payload = {
+                deliveryType: "TRAVELER",
+                partnerId: state.partnerId!,
+                travelRequestId: state.selectedTravelRequestId!,
+                pickupAddressId: state.pickupAddressId!,
+                deliveryAddressId: state.deliveryAddressId!,
+                packageDetails: state.packageDetails!,
+            };
+        } else {
+            payload = {
+                deliveryType: "AGENCY",
+                partnerId: state.partnerId!,
+                pickupAddressId: state.pickupAddressId!,
+                deliveryAddressId: state.deliveryAddressId!,
+                packageDetails: state.packageDetails!,
+            };
+        }
         const res = await createBooking(payload);
 
         onSuccess(); // RESET_BOOKING

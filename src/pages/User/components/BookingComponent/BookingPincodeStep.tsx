@@ -15,11 +15,18 @@ const BookingPincodeStep = () => {
     const [status, setStatus] = useState<null | "success" | "error">(null);
     const [message, setMessage] = useState("");
 
+    const hasAgencies =
+        Array.isArray(state.serviceableAgencies) &&
+        state.serviceableAgencies.length > 0;
+
+    const hasTravelers =
+        Array.isArray(state.serviceableTravelers) &&
+        state.serviceableTravelers.length > 0;
+
     const canGoForward =
         !!state.fromPincode &&
         !!state.toPincode &&
-        Array.isArray(state.serviceableOptions) &&
-        state.serviceableOptions.length > 0;
+        (hasAgencies || hasTravelers);
 
     const handleForward = () => {
         if (!canGoForward) return;
@@ -49,6 +56,7 @@ const BookingPincodeStep = () => {
                     },
                 });
 
+                setStatus("success");
                 toast.success("Service available between selected locations");
             } catch {
                 setStatus("error");
