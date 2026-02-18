@@ -1,4 +1,4 @@
-import type { getServiceableHubWithAgencyResponseDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
 
 export type DeliveryType = "AGENCY" | "TRAVELER";
 
@@ -28,7 +28,8 @@ export interface BookingState {
   fromPincode?: string;
   toPincode?: string;
 
-  serviceableOptions?: getServiceableHubWithAgencyResponseDTO[];
+  serviceableAgencies?: getServiceableHubWithAgencyDTO[];
+  serviceableTravelers?: getServiceableTravelerDTO[];
 
   deliveryType?: DeliveryType;
 
@@ -36,6 +37,7 @@ export interface BookingState {
   partnerId?: string;
   selectedFromHubId?: string;
   selectedToHubId?: string;
+  selectedTravelRequestId?: string;
 
   selectedPartner?: PartnerPayload;
   packageDetails?: PackagePayload;
