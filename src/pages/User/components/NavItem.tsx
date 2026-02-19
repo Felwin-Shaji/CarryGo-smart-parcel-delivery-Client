@@ -21,17 +21,17 @@ export const NavItem = ({
       onClick={onNavigate}
       className={({ isActive }) =>
         mobile
-          ? `flex items-center gap-3 rounded-md px-4 py-2 transition-all
+          ? `flex items-center gap-3 px-4 py-2 rounded-md transition-all
              ${
                isActive
-                 ? "bg-yellow-400 text-[#0A2374]"
-                 : "text-yellow-400 hover:bg-yellow-400 hover:text-[#0A2374]"
+                 ? "text-yellow-400"
+                 : "text-gray-300 hover:text-white"
              }`
-          : `flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-all
+          : `relative flex items-center gap-2 px-3 py-2 text-sm font-medium transition-all
              ${
                isActive
-                 ? "bg-yellow-400 text-[#0A2374]"
-                 : "text-yellow-400 hover:bg-yellow-400 hover:text-[#0A2374]"
+                 ? "text-yellow-400 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-yellow-400"
+                 : "text-gray-300 hover:text-white"
              }`
       }
     >
