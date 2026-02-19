@@ -22,8 +22,20 @@ export const useAdminWallet = () => {
         return res.data.data
     }
 
+
+    const withdrawMoney = async (amount: number) => {
+        const res = await axiosInstance.post(
+            API_ADMIN.WITHDRAW_WALLET,
+            { amount }
+        );
+
+        return res.data.data;
+    };
+
+
     return {
         getWallet,
-        createWalletOrder
+        createWalletOrder,
+        withdrawMoney
     }
 }

@@ -22,8 +22,18 @@ export const useHubWallet = () => {
         return res.data.data
     }
 
+        const withdrawMoney = async (amount: number) => {
+            const res = await axiosInstance.post(
+                API_HUB.WITHDRAW_WALLET,
+                { amount }
+            );
+    
+            return res.data.data;
+        };
+
     return {
         getWallet,
-        createWalletOrder
+        createWalletOrder,
+        withdrawMoney
     }
 }
