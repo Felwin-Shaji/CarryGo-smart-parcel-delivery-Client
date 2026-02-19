@@ -34,6 +34,7 @@ export const API_AGENCY = {
 
   GET_WALLET: "/api/agency/wallet",
   CREATE_ORDER_WALLET: "/api/agency/wallet/create-order",
+  WITHDRAW_WALLET: "/api/agency/wallet/withdraw",
 }
 
 
@@ -53,6 +54,7 @@ export const API_ADMIN = {
 
   GET_WALLET: "/api/admin/wallet",
   CREATE_ORDER_WALLET: "/api/admin/wallet/create-order",
+  WITHDRAW_WALLET: "/api/admin/wallet/withdraw",
 }
 
 export const API_HUB = {
@@ -64,6 +66,7 @@ export const API_HUB = {
 
   GET_WALLET: "/api/hub/wallet",
   CREATE_ORDER_WALLET: "/api/hub/wallet/create-order",
+  WITHDRAW_WALLET: "/api/hub/wallet/withdraw",
 };
 
 
@@ -79,6 +82,7 @@ export const API_USER = {
 
   GET_WALLET: "/api/user/wallet",
   CREATE_ORDER_WALLET: "/api/user/wallet/create-order",
+  WITHDRAW_WALLET: "/api/user/wallet/withdraw",
 
   BOOKING_PINCODE_VALIDATE: "/api/user/booking/pincode/validate",
   SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
@@ -98,6 +102,7 @@ export const API_USER = {
 export const API_WORKER = {
   GET_WALLET: "/api/worker/wallet",
   CREATE_ORDER_WALLET: "/api/worker/wallet/create-order",
+  WITHDRAW_WALLET: "/api/worker/wallet/withdraw",
 }
 
 

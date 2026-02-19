@@ -22,8 +22,19 @@ export const useUserWallet = () => {
         return res.data.data
     }
 
+    const withdrawMoney = async (amount: number) => {
+        const res = await axiosInstance.post(
+            API_USER.WITHDRAW_WALLET,
+            { amount }
+        );
+
+        return res.data.data;
+    };
+
+
     return {
         getWallet,
-        createWalletOrder
+        createWalletOrder,
+        withdrawMoney
     }
 }
