@@ -15,6 +15,7 @@ import AgencyPricingPage from "../pages/Admin/AgencyPricingPage";
 import AgencyProfilePage from "../pages/Agency/AgencyProfilePage";
 import AgencyHubDetailsPage from "../pages/Agency/AgencyHubDetailsPage";
 import AgencyLandingPage from "../pages/Agency/AgencyLandingPage";
+import AgencyWallet from "../pages/Agency/AgencyWallet";
 
 const AgencyRoutes = () => {
 
@@ -42,6 +43,8 @@ const AgencyRoutes = () => {
         <Route path="hubs/add" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyAddHubs /></ProtectedRoute>} />
 
         <Route path="agency-pricing-policy" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyPricingPage /></ProtectedRoute>} />
+
+        <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyWallet /></ProtectedRoute>} />
 
         <Route path="*" element={<PageNotFound />} />
 

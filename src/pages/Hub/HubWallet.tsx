@@ -9,12 +9,15 @@ import { AddMoneyModal } from "../../components/Wallet/AddMoneyModal";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { useHubWallet } from "../../Services/Hub/HubWallet";
+import { WithdrawMoneyModal } from "../../components/Wallet/WithdrawMoneyModal";
 
 const HubWallet = () => {
-    const { getWallet, createWalletOrder } = useHubWallet();
+    const { getWallet, createWalletOrder, withdrawMoney } = useHubWallet();
     const [wallet, setWallet] = useState<WalletOverview | null>(null);
     const [loading, setLoading] = useState(true);
     const [showAddMoney, setShowAddMoney] = useState(false);
+    const [showWithdraw, setShowWithdraw] = useState(false);
+
 
 
     async function handleAddMoney(amount: number) {
@@ -42,8 +45,18 @@ const HubWallet = () => {
         });
     }
 
-    function handleWithdraw() {
-        toast.success('Monay withdrewed')
+    async function handleWithdraw(amount: number) {
+        setShowWithdraw(false);
+
+        const res = await withdrawMoney(amount);
+
+        toast.success("Money withdrawn successfully");
+
+        setWallet(prev => prev ? {
+            ...prev,
+            balance: res.balance
+        } : prev);
+
     }
 
     useEffect(() => {
@@ -68,6 +81,13 @@ const HubWallet = () => {
                         />
                     )}
 
+                    {showWithdraw && (
+                        <WithdrawMoneyModal
+                            onClose={() => setShowWithdraw(false)}
+                            onProceed={handleWithdraw}
+                        />
+                    )}
+
                     <div className="pt-[78px] min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
                         <main className="container max-w-4xl mx-auto px-4 py-8 space-y-6">
 
@@ -77,7 +97,8 @@ const HubWallet = () => {
                                 showAddMoney={true}
                                 showWithdraw={true}
                                 onAddMoney={() => setShowAddMoney(true)}
-                                onWithdraw={() => handleWithdraw()}
+                                onWithdraw={() => setShowWithdraw(true)}
+
                             />
 
                             <TransactionList
