@@ -9,41 +9,50 @@ interface DropdownProps {
 }
 
 export const Dropdown = ({
-    trigger,
-    children,
-    align = "right",
-    width = "w-52",
+  trigger,
+  children,
+  align = "right",
+  width = "w-56",
 }: DropdownProps) => {
-    const [open, setOpen] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const close = (e: MouseEvent) => {
-            if (ref.current && !ref.current.contains(e.target as Node)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", close);
-        return () => document.removeEventListener("mousedown", close);
-    }, []);
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
 
-    return (
-        <div ref={ref} className="relative inline-block">
-            <button onClick={() => setOpen((o) => !o)}>{trigger}</button>
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
 
-            {open && (
-                <div
-                    className={`absolute z-50 mt-2 ${width} rounded-xl border border-white/10
-  bg-[#0A2374] shadow-lg
-  ${align === "right" ? "right-0" : "left-0"}`}
-                >
+  return (
+    <div ref={ref} className="relative inline-block">
+      <div
+        onClick={() => setOpen((o) => !o)}
+        className="cursor-pointer"
+      >
+        {trigger}
+      </div>
 
-                    {children}
-                </div>
-            )}
+      {open && (
+        <div
+          className={`absolute z-50 mt-3 ${width} rounded-xl
+          bg-[#0A2374] shadow-2xl ring-1 ring-white/10
+          backdrop-blur-sm
+          ${align === "right" ? "right-0" : "left-0"}`}
+        >
+          <div className="py-2">
+            {children}
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 };
+
 
 
 
@@ -64,11 +73,13 @@ export const DropdownItem = ({
     danger,
 }: DropdownItemProps) => {
     const base =
-        "flex w-full items-center gap-3 rounded-md px-4 py-2 text-sm transition-colors";
+        "flex w-full items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-150";
+
 
     const style = danger
         ? "text-yellow-400 hover:bg-yellow-400/10"
-        : "text-white hover:bg-white/10";
+        : "text-white/90 hover:bg-white/10 hover:text-white";
+
 
 
 
@@ -91,5 +102,5 @@ export const DropdownItem = ({
 
 
 export const DropdownSeparator = () => (
-    <div className="my-1 h-px bg-gray-200" />
+    <div className="my-2 h-px bg-white/10" />
 );
