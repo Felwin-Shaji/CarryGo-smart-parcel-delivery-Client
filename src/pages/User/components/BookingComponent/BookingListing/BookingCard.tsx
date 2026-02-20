@@ -1,11 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import type { BookingStatusType, BookingUI, PaymentStatusType } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
 
 export const BookingCard = ({ booking }: { booking: BookingUI }) => {
-
   const navigate = useNavigate();
-  return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
 
+  const style =
+    DELIVERY_STYLE_CONFIG[booking.deliveryPartnerType];
+
+  return (
+    <div
+      className={`rounded-2xl shadow-sm border p-6 space-y-4 transition-all duration-200 hover:shadow-md ${style.container}`}
+    >
       {/* Header */}
       <div className="flex justify-between items-start">
         <div>
@@ -15,10 +20,17 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
           <p className="text-xs text-gray-400 mt-1">
             {new Date(booking.createdAt).toLocaleDateString()}
           </p>
+
+          {/* Delivery Type Label */}
+          <span
+            className={`inline-flex items-center gap-1 mt-2 px-2 py-1 rounded-full text-xs font-medium ${style.badge}`}
+          >
+            {style.icon} {style.label}
+          </span>
         </div>
 
         <div className="text-right">
-          <p className="font-semibold text-lg">
+          <p className={`font-semibold text-lg ${style.accent}`}>
             ₹{booking.pricing.totalAmount}
           </p>
           <PaymentBadge status={booking.payment.paymentStatus} />
@@ -28,9 +40,11 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
       {/* Route */}
       <div className="flex items-start gap-3">
         <div className="text-lg">📍</div>
+
         <div className="text-sm">
           <p className="font-medium">
-            {booking.pickupAddress.city} ({booking.pickupAddress.pincode})
+            {booking.pickupAddress.city} (
+            {booking.pickupAddress.pincode})
           </p>
           <p className="text-gray-400 text-xs">Pickup</p>
         </div>
@@ -39,7 +53,8 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
 
         <div className="text-sm">
           <p className="font-medium">
-            {booking.deliveryAddress.city} ({booking.deliveryAddress.pincode})
+            {booking.deliveryAddress.city} (
+            {booking.deliveryAddress.pincode})
           </p>
           <p className="text-gray-400 text-xs">Delivery</p>
         </div>
@@ -50,23 +65,31 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
         <span>
           🚚 {booking.partnerSnapshot?.name ?? "Traveler"}
         </span>
+
         <span>
-          📦 {booking.packageDetails.category} • {booking.packageDetails.size} • {booking.packageDetails.weightKg}kg
+          📦 {booking.packageDetails.category} •{" "}
+          {booking.packageDetails.size} •{" "}
+          {booking.packageDetails.weightKg}kg
         </span>
       </div>
 
-      {/* Status */}
+      {/* Status + Actions */}
       <div className="flex items-center justify-between">
         <BookingStatusBadge status={booking.status} />
 
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <button
-            onClick={() => navigate(`/bookings/${booking.id}`)}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            onClick={() =>
+              navigate(`/bookings/${booking.id}`)
+            }
+            className={`text-sm font-medium hover:underline ${style.accent}`}
           >
             View details
           </button>
-          <button className="text-sm font-medium text-green-600 hover:underline">
+
+          <button
+            className={`text-sm font-medium hover:underline ${style.accent}`}
+          >
             Track
           </button>
         </div>
@@ -99,25 +122,7 @@ const PaymentBadge = ({ status }: { status: PaymentStatusType }) => {
 };
 
 
-export type BookingStatusType =
-  | "CREATED"
-  | "PAYMENT_PENDING"
-  | "PAID_PENDING_PICKUP"
-  | "PICKUP_STARTED"
-  | "IN_TRANSIT"
-  | "DELIVERED"
-  | "CANCELLED_BEFORE_PICKUP"
-  | "CANCELLED_AFTER_PICKUP"
-  | "REFUNDED"
-  | "SETTLED";
 
-
-export type PaymentStatusType =
-  | "NOT_INITIATED"
-  | "ORDER_CREATED"
-  | "PAID"
-  | "FAILED"
-  | "REFUNDED";
 
 
 const BOOKING_STATUS_CONFIG: Record<
@@ -206,56 +211,22 @@ const PAYMENT_STATUS_CONFIG: Record<
   },
 };
 
+const DELIVERY_STYLE_CONFIG = {
+  AGENCY: {
+    container:
+      "border-blue-200 bg-gradient-to-br from-blue-50 to-white",
+    accent: "text-blue-600",
+    badge: "bg-blue-100 text-blue-700",
+    icon: "🏢",
+    label: "Agency Delivery",
+  },
+  TRAVELER: {
+    container:
+      "border-emerald-200 bg-gradient-to-br from-emerald-50 to-white",
+    accent: "text-emerald-600",
+    badge: "bg-emerald-100 text-emerald-700",
+    icon: "🧳",
+    label: "Traveler Delivery",
+  },
+};
 
-///////////////////////////////////////////////
-export type DeliveryPartnerType = "AGENCY" | "TRAVELER";
-
-export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";
-
-export interface BookingUI {
-  id: string;
-
-  createdAt: string;
-
-  deliveryPartnerType: DeliveryPartnerType;
-  partnerSnapshot?: {
-    name: string;
-    type: DeliveryPartnerType;
-  } | null;
-
-  pickupAddress: {
-    city: string;
-    pincode: string;
-  };
-
-  deliveryAddress: {
-    city: string;
-    pincode: string;
-  };
-
-  packageDetails: {
-    category: string;
-    size: PackageSizeType;
-    weightKg: number;
-  };
-
-  pricing: {
-    totalAmount: number;
-    currency: "INR";
-    basePrice?: number;
-    distanceCharge?: number;
-    sizeCharge?: number;
-    platformFee?: number;
-  };
-
-  distanceKm: number;
-
-  payment: {
-    paymentStatus: PaymentStatusType;
-  };
-
-  status: BookingStatusType;
-}
-
-
-///////////////////////////////////////

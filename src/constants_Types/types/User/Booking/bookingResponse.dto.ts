@@ -1,5 +1,3 @@
-import type { BookingUI } from "../../../../pages/User/components/BookingComponent/BookingListing/BookingCard";
-
 export interface getServiceableHubWithAgencyDTO {
     agency: {
         agencyId: string;
@@ -160,4 +158,81 @@ export type AddressLabelType = "Home" | "Office" | "Warehouse" | "Other";
 export type PaymentGatewayType = "RAZORPAY" ;
 export type PaymentMethodType = "CARD" | "UPI" | "NETBANKING" | "WALLET";
 
+export type BookingStatusType =
+  | "CREATED"
+  | "PAYMENT_PENDING"
+  | "PAID_PENDING_PICKUP"
+  | "PICKUP_STARTED"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "CANCELLED_BEFORE_PICKUP"
+  | "CANCELLED_AFTER_PICKUP"
+  | "REFUNDED"
+  | "SETTLED";
 
+
+export type PaymentStatusType =
+  | "NOT_INITIATED"
+  | "ORDER_CREATED"
+  | "PAID"
+  | "FAILED"
+  | "REFUNDED";
+
+
+
+export type DeliveryPartnerType = "AGENCY" | "TRAVELER";
+
+export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";
+
+export interface BookingUI {
+  id: string;
+
+  createdAt: string;
+
+  deliveryPartnerType: DeliveryPartnerType;
+  partnerSnapshot?: {
+    name: string;
+    type: DeliveryPartnerType;
+  } | null;
+
+  pickupAddress: {
+    city: string;
+    pincode: string;
+  };
+
+  deliveryAddress: {
+    city: string;
+    pincode: string;
+  };
+
+  packageDetails: {
+    category: string;
+    size: PackageSizeType;
+    weightKg: number;
+  };
+
+  pricing: {
+    totalAmount: number;
+    currency: "INR";
+    basePrice?: number;
+    distanceCharge?: number;
+    sizeCharge?: number;
+    platformFee?: number;
+  };
+
+  distanceKm: number;
+
+  payment: {
+    paymentStatus: PaymentStatusType;
+  };
+
+  status: BookingStatusType;
+}
+
+
+
+export interface BookingListResponse {
+  data: BookingUI[];
+  totalPages: number;
+  totalCount: number;
+}
