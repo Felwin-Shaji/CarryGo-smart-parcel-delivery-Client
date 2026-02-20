@@ -1,8 +1,8 @@
 import { API_USER } from "../../../constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { AddressDTO, BookingDetailsUI,ServiceableAgencyAndTravelerDTO,  PricingResponseDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
-import type { BookingUI } from "../../../pages/User/components/BookingComponent/BookingListing/BookingCard";
+import type { AddressDTO, BookingDetailsUI, ServiceableAgencyAndTravelerDTO, PricingResponseDTO, BookingListResponse } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
 import type { CalculatePricePayload, CreateBookingPayload } from "../../../constants_Types/types/User/Booking/createBookingType";
+import type { BookingFilterParams } from "../../../pages/User/UserBookingList";
 
 export const useBooking = () => {
     const axiosInstance = useAxios();
@@ -46,13 +46,20 @@ export const useBooking = () => {
         return res.data.data;
     };
 
-    const listBooking = async ():Promise<BookingUI[]>=>{
-        const res = await axiosInstance.get(API_USER.BOOKING);
+    const listBooking = async (
+        params: BookingFilterParams
+    ): Promise<BookingListResponse> => {
+        const res = await axiosInstance.get<BookingListResponse>(
+            API_USER.BOOKING,
+            {
+                params,
+            }
+        );
 
-        return res.data.data as BookingUI[]
-    }
+        return res.data;
+    };
 
-    const getBookingById = async(bookingId:string):Promise<BookingDetailsUI>=>{
+    const getBookingById = async (bookingId: string): Promise<BookingDetailsUI> => {
         const res = await axiosInstance.get(`${API_USER.BOOKING}/${bookingId}`);
 
         return res.data.data as BookingDetailsUI
