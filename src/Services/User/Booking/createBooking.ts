@@ -49,14 +49,16 @@ export const useBooking = () => {
     const listBooking = async (
         params: BookingFilterParams
     ): Promise<BookingListResponse> => {
-        const res = await axiosInstance.get<BookingListResponse>(
+        const res = await axiosInstance.get(
             API_USER.BOOKING,
             {
                 params,
             }
         );
 
-        return res.data;
+        console.log(res.data.data)
+
+        return res.data.data as BookingListResponse
     };
 
     const getBookingById = async (bookingId: string): Promise<BookingDetailsUI> => {

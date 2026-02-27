@@ -232,7 +232,7 @@ export interface BookingUI {
 
 
 export interface BookingListResponse {
-  data: BookingUI[];
+  bookings: BookingUI[];
   totalPages: number;
   totalCount: number;
 }

@@ -1,20 +1,34 @@
 import { Filter, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { BookingFilterParams } from "../../../UserBookingList";
+
+
+interface AdvancedBookingFilterProps {
+  filters: Omit<BookingFilterParams, "page" | "limit">;
+  setFilters: React.Dispatch<
+    React.SetStateAction<Omit<BookingFilterParams, "page" | "limit">>
+  >;
+  onApply: () => void;
+}
 
 export const AdvancedBookingFilter = ({
   filters,
   setFilters,
-}: any) => {
+  onApply
+}: AdvancedBookingFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      setFilters(filters);
+    }
+  }, [isOpen]);
   const clearFilters = () => {
     setFilters({
       deliveryType: "ALL",
       status: "ALL",
       paymentStatus: "ALL",
       size: "ALL",
-      minPrice: "",
-      maxPrice: "",
     });
   };
 
@@ -24,7 +38,7 @@ export const AdvancedBookingFilter = ({
       <div className="max-w-6xl mx-auto mt-24 px-4 flex justify-end">
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition"
+          className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition"
         >
           <Filter size={18} />
           Filters
@@ -34,7 +48,7 @@ export const AdvancedBookingFilter = ({
       {/* Overlay */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm">
-          
+
           {/* Modal Panel */}
           <div className="w-full sm:w-[420px] bg-white h-full shadow-2xl animate-slide-in flex flex-col">
 
@@ -127,30 +141,6 @@ export const AdvancedBookingFilter = ({
                 />
               </FilterSection>
 
-              <FilterSection title="Price Range">
-                <div className="flex gap-3">
-                  <FilterInput
-                    label="Min"
-                    value={filters.minPrice}
-                    onChange={(value: string) =>
-                      setFilters((prev: any) => ({
-                        ...prev,
-                        minPrice: value,
-                      }))
-                    }
-                  />
-                  <FilterInput
-                    label="Max"
-                    value={filters.maxPrice}
-                    onChange={(value: string) =>
-                      setFilters((prev: any) => ({
-                        ...prev,
-                        maxPrice: value,
-                      }))
-                    }
-                  />
-                </div>
-              </FilterSection>
             </div>
 
             {/* Footer */}
@@ -163,7 +153,7 @@ export const AdvancedBookingFilter = ({
               </button>
 
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={() => { onApply(); setIsOpen(false) }}
                 className="flex-1 bg-indigo-600 text-white rounded-xl py-2 text-sm hover:bg-indigo-700 transition"
               >
                 Apply Filters
@@ -200,17 +190,5 @@ const FilterSelect = ({ label, value, onChange, options }: any) => (
         </option>
       ))}
     </select>
-  </div>
-);
-
-const FilterInput = ({ label, value, onChange }: any) => (
-  <div className="flex flex-col gap-1 w-full">
-    <label className="text-xs text-gray-500">{label}</label>
-    <input
-      type="number"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition"
-    />
   </div>
 );
