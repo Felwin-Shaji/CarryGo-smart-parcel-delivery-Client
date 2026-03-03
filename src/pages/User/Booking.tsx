@@ -8,7 +8,7 @@ const Booking = () => {
   return (
     <BookingProvider>
       <Header isLoggedIn />
-      <main className="pt-20 mt-10"><BookingFlow /></main>
+      <main className="mt-14"><BookingFlow /></main>
     </BookingProvider>
   );
 };

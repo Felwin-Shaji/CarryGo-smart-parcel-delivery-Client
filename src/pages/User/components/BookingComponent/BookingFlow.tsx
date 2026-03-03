@@ -1,9 +1,10 @@
 
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import SelectDeleveryDetailsStep from "./SelectDeleveryDetailsStep";
-import BookingPincodeStep from "./BookingPincodeStep";
-import AddressStep from "./AddressStep";
+// import BookingPincodeStep from "./BookingPincodeStep";
+// import AddressStep from "./AddressStep";
 import PricingReviewStep from "./PricingReviewStep";
+import BookingStepOne from "./BookingPincodeStep";
 
 
 const BookingFlow = () => {
@@ -12,16 +13,14 @@ const BookingFlow = () => {
 
   switch (step) {
     case 1:
-      return <BookingPincodeStep />;
+      return <BookingStepOne />;
 
     case 2:
       return <SelectDeleveryDetailsStep />;
 
-    case 3:
-      return <AddressStep />;
+    // case 3:
+    //   return <AddressStep />;
 
-    case 4:
-        // dispatch({ type: "RESET_BOOKING" })
       return (
         <PricingReviewStep
           onSuccess={() => dispatch({ type: "RESET_BOOKING" })}
