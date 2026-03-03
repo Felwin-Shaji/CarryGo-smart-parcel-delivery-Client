@@ -84,9 +84,10 @@ export const API_USER = {
   CREATE_ORDER_WALLET: "/api/user/wallet/create-order",
   WITHDRAW_WALLET: "/api/user/wallet/withdraw",
 
-  BOOKING_PINCODE_VALIDATE: "/api/user/booking/pincode/validate",
-  SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
-  USER_ADDRESSES: "/api/user/booking/serviceable-addresses",
+  // BOOKING_PINCODE_VALIDATE: "/api/user/booking/pincode/validate",
+  CHECK_SERVICEABLE:"/api/user/booking/serviceable_partners",
+  // SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
+  USER_ADDRESSES: "/api/user/addresses",
   BOOKING_PRICING: "/api/user/booking/calculate_price",
   BOOKING: "/api/user/booking",
 

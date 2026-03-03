@@ -67,16 +67,6 @@ export interface ServiceableAgencyAndTravelerDTO{
 
 
 
-export interface AddressDTO {
-  id: string;
-  label: string;
-  addressLine: string;
-  city: string;
-  state: string;
-  pincode: string;
-};
-
-
 export interface  PricingResponseDTO {
   distanceKm: number;
 
@@ -92,14 +82,7 @@ export interface  PricingResponseDTO {
 
 
 export interface BookingDetailsUI extends BookingUI {
-
-//   pricing: {
-//     basePrice: number;
-//     distanceCharge: number;
-//     sizeCharge: number;
-//     platformFee: number;
-//   };
-
+  
   paymentDetails: {
     gateway: PaymentGatewayType;
     paymentMethod?: PaymentMethodType;
