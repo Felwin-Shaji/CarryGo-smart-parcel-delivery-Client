@@ -1,30 +1,34 @@
 import { API_USER } from "../../../constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { AddressDTO, BookingDetailsUI, ServiceableAgencyAndTravelerDTO, PricingResponseDTO, BookingListResponse } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingDetailsUI, ServiceableAgencyAndTravelerDTO, PricingResponseDTO, BookingListResponse } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
 import type { CalculatePricePayload, CreateBookingPayload } from "../../../constants_Types/types/User/Booking/createBookingType";
 import type { BookingFilterParams } from "../../../pages/User/UserBookingList";
+import type { AddressUI } from "../../../context/Booking/Booking.types";
 
 export const useBooking = () => {
     const axiosInstance = useAxios();
 
-    const validatePincode = async (values: { fromPincode: string, toPincode: string }) => {
-        const res = await axiosInstance.post(API_USER.BOOKING_PINCODE_VALIDATE, values);
+    const checkServiceablePartners = async (
+        pickupLocation: { lat: number; lng: number },
+        deliveryLocation: { lat: number; lng: number }
+    ) => {
+        const res = await axiosInstance.post(
+            API_USER.CHECK_SERVICEABLE,
+            {
+                pickupLocation,
+                deliveryLocation,
+            }
+        );
 
-        if (!res.data.success) {
-            throw new Error("Pincode not serviceable");
-        }
         return res.data.data as ServiceableAgencyAndTravelerDTO;
     };
 
-    const getAddressesByPincode = async (
-        pincode: string
-    ): Promise<AddressDTO[]> => {
+    const getUserAddresses = async (): Promise<AddressUI[]> => {
         const res = await axiosInstance.get(
             API_USER.USER_ADDRESSES,
-            { params: { pincode } }
         );
 
-        return res.data.data;
+        return res.data.data as AddressUI[];
     };
 
     const getPricing = async (
@@ -68,8 +72,9 @@ export const useBooking = () => {
     }
 
     return {
-        validatePincode,
-        getAddressesByPincode,
+        // validatePincode,
+        checkServiceablePartners,
+        getUserAddresses,
         getPricing,
         createBooking,
         listBooking,

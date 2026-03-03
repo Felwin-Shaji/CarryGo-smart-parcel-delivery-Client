@@ -1,167 +1,185 @@
-import { useFormik } from "formik";
-import { useState } from "react";
-import { PincodeValidationSchema } from "../../../../validation/picodeValidation";
-import { useBooking } from "../../../../Services/User/Booking/createBooking";
+import { useEffect, useState } from "react";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
+import AddressModal from "./BookingStepOne/AddressModal";
+import StepIndicator, { StepDivider } from "./BookingStepOne/StepIndicator";
+import LocationBlock, { SummaryItem } from "./BookingStepOne/LocationBlock";
+import { useBooking } from "../../../../Services/User/Booking/createBooking";
+import type { AddressUI } from "../../../../context/Booking/Booking.types";
 import toast from "react-hot-toast";
-import BookingStepNav from "./BookingStepNav";
 
-
-const BookingPincodeStep = () => {
-    const { validatePincode } = useBooking();
+const BookingStepOne = () => {
     const { state, dispatch } = useBookingContext();
+    const { getUserAddresses, checkServiceablePartners } = useBooking();
 
-    const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState<null | "success" | "error">(null);
-    const [message, setMessage] = useState("");
+    const [mapFor, setMapFor] = useState<"PICKUP" | "DELIVERY" | null>(null);
+    const [savedAddresses, setSavedAddresses] = useState<AddressUI[]>([]);
+    const [loadingAddresses, setLoadingAddresses] = useState(false);
+    const [checkingService, setCheckingService] = useState(false);
 
-    const hasAgencies =
-        Array.isArray(state.serviceableAgencies) &&
-        state.serviceableAgencies.length > 0;
+    useEffect(() => {
+        if (!mapFor) return;
+        const fetchAddresses = async () => {
+            try {
+                setLoadingAddresses(true);
+                const data = await getUserAddresses();
+                setSavedAddresses(data);
+            } catch (error) {
+                console.error("Failed to fetch addresses", error);
+            } finally {
+                setLoadingAddresses(false);
+            }
+        };
+        fetchAddresses();
+    }, [mapFor]);
 
-    const hasTravelers =
-        Array.isArray(state.serviceableTravelers) &&
-        state.serviceableTravelers.length > 0;
+    const canContinue =
+        !!state.pickupAddress &&
+        !!state.deliveryAddress;
 
-    const canGoForward =
-        !!state.fromPincode &&
-        !!state.toPincode &&
-        (hasAgencies || hasTravelers);
+    const handleContinue = async () => {
+        console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
+        if (!canContinue || !state.pickupAddress?.location || !state.deliveryAddress?.location) return;
 
-    const handleForward = () => {
-        if (!canGoForward) return;
-        dispatch({ type: "SET_STEP", payload: 2 });
+        try {
+            setCheckingService(true);
+
+
+            const result = await checkServiceablePartners(
+                state.pickupAddress.location,
+                state.deliveryAddress.location
+            );
+
+            if (!result.agencies.length && !result.travelers.length) {
+                toast.error("No service available for selected route");
+                return;
+            }
+
+            // Save result to context
+            dispatch({
+                type: "SET_SERVICEABILITY",
+                payload: {
+                    agencies: result.agencies,
+                    travelers: result.travelers,
+                },
+            });
+
+            // navigateToStep2();
+
+        } catch (err) {
+            toast.error("Something went wrong");
+        } finally {
+            setCheckingService(false);
+        }
     };
 
-    const formik = useFormik({
-        enableReinitialize: true,
-        initialValues: {
-            fromPincode: state.fromPincode ?? "",
-            toPincode: state.toPincode ?? "",
-        },
-        validationSchema: PincodeValidationSchema,
-        onSubmit: async (values) => {
-            try {
-                setLoading(true);
-                setStatus(null);
 
-                const options = await validatePincode(values);
-
-                dispatch({
-                    type: "PINCODE_VERIFIED",
-                    payload: {
-                        fromPincode: values.fromPincode,
-                        toPincode: values.toPincode,
-                        options,
-                    },
-                });
-
-                setStatus("success");
-                toast.success("Service available between selected locations");
-            } catch {
-                setStatus("error");
-                setMessage("Service not available for these pincodes");
-            } finally {
-                setLoading(false);
-            }
-        },
-    });
-
-    const isSuccess = status === "success";
 
     return (
-        <>
-            <BookingStepNav
-                showBack={false}
-                showForward={true}
-                canGoForward={canGoForward}
-                onForward={handleForward}
-            />
+        <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-50/80">
+            {mapFor && (
+                <AddressModal
+                    type={mapFor}
+                    onClose={() => setMapFor(null)}
+                    savedAddresses={savedAddresses}
+                    loading={loadingAddresses}
+                />
+            )}
 
-            <form
-                onSubmit={formik.handleSubmit}
-                className="max-w-xl mx-auto bg-white rounded-3xl shadow-lg p-8 mt-20"
-            >
-                <h2 className="text-2xl font-bold text-gray-800">
-                    Create Booking
-                </h2>
-                <p className="text-sm text-gray-500 mt-1">
-                    Verify pickup and delivery locations
-                </p>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-14">
 
-                <div className="mt-6 space-y-5">
-                    <div>
-                        <label className="text-sm font-medium text-gray-700">
-                            From Pincode
-                        </label>
-                        <input
-                            name="fromPincode"
-                            value={formik.values.fromPincode}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            disabled={isSuccess}
-                            maxLength={6}
-                            className="mt-2 w-full rounded-xl border px-4 py-3 text-sm focus:ring-2 focus:ring-black outline-none disabled:bg-gray-100"
-                            placeholder="Enter pickup pincode"
-                        />
-                        {formik.touched.fromPincode && formik.errors.fromPincode && (
-                            <p className="mt-1 text-xs text-red-500">
-                                {formik.errors.fromPincode}
-                            </p>
-                        )}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-10 lg:mb-14">
+                    <div className="flex items-center gap-3 sm:gap-5 overflow-x-auto pb-1">
+                        <StepIndicator active label="Location" number={1} />
+                        <StepDivider />
+                        <StepIndicator label="Delivery & Package" number={2} />
+                        <StepDivider />
+                        <StepIndicator label="Review" number={3} />
                     </div>
-
-                    <div>
-                        <label className="text-sm font-medium text-gray-700">
-                            To Pincode
-                        </label>
-                        <input
-                            name="toPincode"
-                            value={formik.values.toPincode}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            disabled={isSuccess}
-                            maxLength={6}
-                            className="mt-2 w-full rounded-xl border px-4 py-3 text-sm focus:ring-2 focus:ring-black outline-none disabled:bg-gray-100"
-                            placeholder="Enter delivery pincode"
-                        />
-                        {formik.touched.toPincode && formik.errors.toPincode && (
-                            <p className="mt-1 text-xs text-red-500">
-                                {formik.errors.toPincode}
-                            </p>
-                        )}
-                    </div>
+                    <span className="text-xs font-semibold uppercase tracking-[0.12em] text-neutral-400 tabular-nums">
+                        Step 1 of 3
+                    </span>
                 </div>
 
-                {status && (
-                    <div
-                        className={`mt-4 text-sm font-medium ${status === "success" ? "text-green-600" : "text-red-500"
+                <div className="flex flex-col lg:grid lg:grid-cols-5 lg:gap-12 gap-8">
+
+                    <div className="lg:col-span-3 space-y-5">
+                        <div className="rounded-2xl border border-neutral-200/80 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden">
+                            <div className="p-6 sm:p-8 border-b border-neutral-100 hover:bg-neutral-50/50 transition-colors duration-200 cursor-pointer" onClick={() => setMapFor("PICKUP")}>
+                                <LocationBlock
+                                    icon="📍"
+                                    title="Pickup Location"
+                                    description="Select the exact pickup point."
+                                    address={state.pickupAddress}
+                                    onClick={() => setMapFor("PICKUP")}
+                                />
+                            </div>
+                            <div className="p-6 sm:p-8 hover:bg-neutral-50/50 transition-colors duration-200 cursor-pointer" onClick={() => setMapFor("DELIVERY")}>
+                                <LocationBlock
+                                    icon="📦"
+                                    title="Delivery Location"
+                                    description="Choose the destination address."
+                                    address={state.deliveryAddress}
+                                    onClick={() => setMapFor("DELIVERY")}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-2">
+                        <div className="rounded-2xl border border-neutral-200/80 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-6 sm:p-8 lg:sticky lg:top-20">
+                            <h3 className="text-[13px] font-bold uppercase tracking-[0.1em] text-neutral-400 mb-6">
+                                Booking Overview
+                            </h3>
+
+                            <SummaryItem
+                                label="Pickup"
+                                value={state.pickupAddress?.formattedAddress}
+                            />
+
+                            <SummaryItem
+                                label="Delivery"
+                                value={state.deliveryAddress?.formattedAddress}
+                            />
+
+                            <div className="border-t border-dashed border-neutral-200 my-6" />
+
+                            {state.pickupAddress && state.deliveryAddress && (
+                                <div className="mt-5 text-sm text-neutral-500">
+                                    We’ll check service availability in the next step.
+                                </div>
+                            )}
+
+                            <button
+                                onClick={handleContinue}
+                                disabled={!canContinue || checkingService}
+                                className={`hidden lg:flex w-full mt-8 py-3.5 rounded-xl text-sm font-semibold items-center justify-center gap-2 transition-all duration-200 ${canContinue
+                                        ? "bg-neutral-900 text-white hover:bg-neutral-800 active:bg-neutral-950 shadow-sm hover:shadow-md"
+                                        : "bg-neutral-100 text-neutral-300 cursor-not-allowed"
+                                    }`}
+                            >
+                                {checkingService ? "Checking availability..." : "Continue"}
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-neutral-200/60 p-4 z-50">
+                    <button
+                        onClick={handleContinue}
+                        disabled={!canContinue || checkingService}
+                        className={`hidden lg:flex w-full mt-8 py-3.5 rounded-xl text-sm font-semibold items-center justify-center gap-2 transition-all duration-200 ${canContinue
+                            ? "bg-neutral-900 text-white hover:bg-neutral-800 active:bg-neutral-950 shadow-sm hover:shadow-md"
+                            : "bg-neutral-100 text-neutral-300 cursor-not-allowed"
                             }`}
                     >
-                        {message}
-                    </div>
-                )}
+                        {checkingService ? "Checking availability..." : "Continue"}
+                    </button>
+                </div>
 
-                <button
-                    type="submit"
-                    disabled={!formik.isValid || loading || isSuccess}
-                    className={`mt-6 w-full py-3 rounded-xl text-white font-semibold transition
-                    ${isSuccess
-                            ? "bg-green-600 cursor-default"
-                            : formik.isValid
-                                ? "bg-black hover:bg-gray-800"
-                                : "bg-gray-300 cursor-not-allowed"
-                        }`}
-                >
-                    {loading
-                        ? "Verifying..."
-                        : isSuccess
-                            ? "Verified ✓"
-                            : "Verify & Continue"}
-                </button>
-            </form>
-        </>
+            </div>
+        </div>
     );
 };
 
-export default BookingPincodeStep;
+export default BookingStepOne;

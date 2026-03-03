@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import type { BookingState, DeliveryType, PackagePayload } from "./Booking.types";
+import type { AddressUI, BookingState, DeliveryType, PackagePayload } from "./Booking.types";
 import { clearBookingState, loadBookingState, saveBookingState } from "./bookingStorage";
-import type { ServiceableAgencyAndTravelerDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
 
 type BookingContextValue = {
   state: BookingState;
@@ -10,15 +10,14 @@ type BookingContextValue = {
 
 
 type Action =
-  // | { type: "SET_PINCODES"; payload: { fromPincode: string; toPincode: string } }
-  | { type: "PINCODE_VERIFIED"; payload: { fromPincode: string; toPincode: string; options: ServiceableAgencyAndTravelerDTO } } ////////////////
-  | { type: "SET_DELIVERY_TYPE"; payload: DeliveryType } //////////////////////////////
-  | { type: "SELECT_AGENCY"; payload: { agencyId: string; fromHubId: string; toHubId: string } }/////////////
-  | { type: "SELECT_TRAVELER"; payload: { travelerId: string; travelRequestId: string; }; }
+  | { type: "SET_ADDRESS"; payload: { slot: "PICKUP" | "DELIVERY"; address: AddressUI } }
+  | { type: "SET_SERVICEABILITY"; payload: { agencies: getServiceableHubWithAgencyDTO[]; travelers: getServiceableTravelerDTO[]; } }
+  | { type: "SET_DELIVERY_TYPE"; payload: DeliveryType }
+  | { type: "SELECT_AGENCY"; payload: { agencyId: string; fromHubId: string; toHubId: string } }
+  | { type: "SELECT_TRAVELER"; payload: { travelerId: string; travelRequestId: string } }
   | { type: "SET_PACKAGE_DETAILS"; payload: PackagePayload }
-  | { type: "SET_PICKUP_ADDRESS"; payload: string }
-  | { type: "SET_DELIVERY_ADDRESS"; payload: string }
-  | { type: "SET_STEP"; payload: 1 | 2 | 3 | 4 }
+  | { type: "SET_PRICING"; payload: BookingState["pricing"] }
+  | { type: "SET_STEP"; payload: 1 | 2 | 3 }
   | { type: "RESET_BOOKING" };
 
 const initialState: BookingState =
@@ -28,23 +27,26 @@ const BookingContext = createContext<BookingContextValue | null>(null);
 
 const reducer = (state: BookingState, action: Action): BookingState => {
   switch (action.type) {
-    case "PINCODE_VERIFIED":
+
+    case "SET_ADDRESS":
       return {
+        ...state,
+        pickupAddress:
+          action.payload.slot === "PICKUP"
+            ? action.payload.address
+            : state.pickupAddress,
+        deliveryAddress:
+          action.payload.slot === "DELIVERY"
+            ? action.payload.address
+            : state.deliveryAddress,
+      };
+
+    case "SET_SERVICEABILITY":
+      return {
+        ...state,
+        serviceableAgencies: action.payload.agencies,
+        serviceableTravelers: action.payload.travelers,
         step: 2,
-        fromPincode: action.payload.fromPincode,
-        toPincode: action.payload.toPincode,
-        serviceableAgencies: action.payload.options.agencies,
-        serviceableTravelers: action.payload.options.travelers,
-
-        deliveryType: undefined,
-        partnerId: undefined,
-        selectedFromHubId: undefined,
-        selectedToHubId: undefined,
-        selectedTravelRequestId: undefined,
-
-        packageDetails: undefined,
-        pickupAddressId: undefined,
-        deliveryAddressId: undefined,
       };
 
     case "SET_DELIVERY_TYPE":
@@ -77,23 +79,17 @@ const reducer = (state: BookingState, action: Action): BookingState => {
         selectedToHubId: undefined,
       };
 
-
     case "SET_PACKAGE_DETAILS":
       return {
         ...state,
         packageDetails: action.payload,
       };
 
-    case "SET_PICKUP_ADDRESS":
+    case "SET_PRICING":
       return {
         ...state,
-        pickupAddressId: action.payload,
-      };
-
-    case "SET_DELIVERY_ADDRESS":
-      return {
-        ...state,
-        deliveryAddressId: action.payload,
+        pricing: action.payload,
+        step: 3,
       };
 
     case "SET_STEP":

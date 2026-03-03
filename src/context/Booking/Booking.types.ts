@@ -22,18 +22,50 @@ export interface PackagePayload {
   notes?: string;
 }
 
+export interface BaseAddress {
+  label: "Home" | "Office" | "Warehouse" | "Other" | "Temporary";
+
+  addressLine1: string;
+  addressLine2?: string;
+
+  city: string;
+  state: string;
+  country: string;
+  pincode: string;
+
+  formattedAddress?: string;
+
+  location: {
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface SavedAddress extends BaseAddress {
+  id: string;
+  isDefault?: boolean;
+  type: "SAVED";
+}
+
+export interface TemporaryAddress extends BaseAddress {
+  type: "TEMP";
+}
+
+export type AddressUI = SavedAddress | TemporaryAddress;
+
 export interface BookingState {
-  step?: 1 | 2 | 3 | 4;
+  step?: 1 | 2 | 3;
 
-  fromPincode?: string;
-  toPincode?: string;
+  // LOCATION (Step 1)
+  pickupAddress?: AddressUI;
+  deliveryAddress?: AddressUI;
 
+  // SERVICEABILITY (After Step 1)
   serviceableAgencies?: getServiceableHubWithAgencyDTO[];
   serviceableTravelers?: getServiceableTravelerDTO[];
 
+  // STEP 2
   deliveryType?: DeliveryType;
-
-  // selectedAgencyId?: string;
   partnerId?: string;
   selectedFromHubId?: string;
   selectedToHubId?: string;
@@ -42,6 +74,14 @@ export interface BookingState {
   selectedPartner?: PartnerPayload;
   packageDetails?: PackagePayload;
 
-  pickupAddressId?: string;
-  deliveryAddressId?: string;
+  // STEP 3
+  pricing?: {
+    basePrice: number;
+    distanceCharge: number;
+    distanceKm?: number;
+    sizeCharge: number;
+    platformFee: number;
+    totalAmount: number;
+    currency: "INR";
+  };
 }
