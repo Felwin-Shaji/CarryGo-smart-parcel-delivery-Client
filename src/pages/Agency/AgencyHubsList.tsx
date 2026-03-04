@@ -61,7 +61,7 @@ const AgencyHubsList = () => {
       const rows = hubsList?.data.map((hub: HubResponseDTO) => ({
         ...hub,
         __openModal: (_id: string) => {
-          navigate(`/agency/hub/${hub._id}`);
+          navigate(`/agency/hub/${hub.id}`);
         }
       }));
 

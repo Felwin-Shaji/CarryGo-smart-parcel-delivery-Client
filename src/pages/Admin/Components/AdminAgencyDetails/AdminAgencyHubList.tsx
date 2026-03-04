@@ -10,19 +10,16 @@ type AdminAgencyHubListProps = {
     agencyId: string
 };
 
-const AdminAgencyHubList = ({
-    hubs,
-    agencyId
-}: AdminAgencyHubListProps) => {
+const AdminAgencyHubList = ({ hubs, agencyId }: AdminAgencyHubListProps) => {
     const navigate = useNavigate();
 
     const handleViewHub = (hub: HubResponseDTO) => {
-        navigate(`/admin/agency/${agencyId}/hubs/${hub._id}`);
+        navigate(`/admin/agency/${agencyId}/hubs/${hub.id}`);
     };
 
     const columns = useMemo(
         () => AdminHubColumns(handleViewHub),
-        []
+        [agencyId]
     );
 
     return (
