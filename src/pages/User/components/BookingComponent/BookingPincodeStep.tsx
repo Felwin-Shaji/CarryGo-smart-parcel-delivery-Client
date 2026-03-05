@@ -37,7 +37,6 @@ const BookingStepOne = () => {
         !!state.deliveryAddress;
 
     const handleContinue = async () => {
-        console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
         if (!canContinue || !state.pickupAddress?.location || !state.deliveryAddress?.location) return;
 
         try {
@@ -53,8 +52,7 @@ const BookingStepOne = () => {
                 toast.error("No service available for selected route");
                 return;
             }
-
-            // Save result to context
+            
             dispatch({
                 type: "SET_SERVICEABILITY",
                 payload: {
@@ -63,10 +61,6 @@ const BookingStepOne = () => {
                 },
             });
 
-            // navigateToStep2();
-
-        } catch (err) {
-            toast.error("Something went wrong");
         } finally {
             setCheckingService(false);
         }

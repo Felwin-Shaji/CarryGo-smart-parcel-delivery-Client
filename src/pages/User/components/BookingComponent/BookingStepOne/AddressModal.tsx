@@ -19,22 +19,61 @@ const AddressModal = ({
     loading = false
 }: Props) => {
     const { dispatch } = useBookingContext();
-    const { reverseGeocode } = useAddress();
+    const { reverseGeocode, saveAddress } = useAddress();
 
     const [coords, setCoords] = useState<[number, number] | null>(null);
     const [selectedAddress, setSelectedAddress] = useState<AddressUI | null>(null);
     const [detectedAddress, setDetectedAddress] = useState<AddressUI | null>(null);
     const [detecting, setDetecting] = useState(false);
+    const [saveAddressNow, setSaveAddressNow] = useState(false);
     const [mode, setMode] = useState<"SAVED" | "MAP">("SAVED");
 
-    // const handleConfirm = () => {
-    //     if (!selectedAddress) return;
-    //     dispatch({
-    //         type: "SET_ADDRESS",
-    //         payload: { slot: type, address: selectedAddress },
-    //     });
-    //     onClose();
-    // };
+    const handleConfirm = () => {
+        if (!selectedAddress) return;
+        dispatch({
+            type: "SET_ADDRESS",
+            payload: { slot: type, address: selectedAddress },
+        });
+        onClose();
+    };
+
+    const handleUseThisAddress = async () => {
+        try {
+
+            let addressToUse = detectedAddress;
+
+            if (saveAddressNow && detectedAddress) {
+
+                await saveAddress({
+                    label: "Other",
+                    // addressLine1: detectedAddress.addressLine1,
+                    // addressLine2: detectedAddress.addressLine2 ?? "",
+                    formattedAddress: detectedAddress.formattedAddress ?? "",
+                    city: detectedAddress.city,
+                    state: detectedAddress.state,
+                    country: "India",
+                    pincode: detectedAddress.pincode,
+                    location: detectedAddress.location
+                });
+
+                addressToUse = detectedAddress;
+            }
+
+            if(!addressToUse){
+                return 
+            }
+
+            dispatch({
+                type: "SET_ADDRESS",
+                payload: { slot: type, address: addressToUse },
+            });
+
+            onClose();
+
+        } catch (err) {
+            console.error("Failed to save address", err);
+        }
+    }
 
     useEffect(() => {
         if (!coords) return;
@@ -45,18 +84,17 @@ const AddressModal = ({
                 const address: TemporaryAddress = {
                     type: "TEMP",
                     label: "Temporary",
-                    addressLine1: result.addressLine1 ?? "",
-                    addressLine2: undefined,
                     city: result.city ?? "",
                     state: result.state ?? "",
                     pincode: result.pincode ?? "",
                     formattedAddress: result.formattedAddress ?? "",
-                    country: "India",
+                    country: result.country,
                     location: {
                         lat: coords[0],
                         lng: coords[1],
                     }
                 };
+
                 setDetectedAddress(address);
             } catch (error) {
                 console.error("Reverse geocode failed", error);
@@ -100,7 +138,7 @@ const AddressModal = ({
                             onClick={onClose}
                             className="w-9 h-9 rounded-full flex items-center justify-center text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 transition-all duration-200"
                         >
-                            <svg  viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+                            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M1 1l12 12M13 1L1 13" /></svg>
                         </button>
                     </div>
 
@@ -137,7 +175,7 @@ const AddressModal = ({
                                 {savedAddresses.length === 0 && (
                                     <div className="text-center py-16">
                                         <div className="w-12 h-12 rounded-full bg-neutral-100 mx-auto mb-4 flex items-center justify-center">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#a3a3a3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 1C6.13 1 3 4.13 3 8c0 5.25 7 11 7 11s7-5.75 7-11c0-3.87-3.13-7-7-7z"/><circle cx="10" cy="8" r="2.5"/></svg>
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#a3a3a3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 1C6.13 1 3 4.13 3 8c0 5.25 7 11 7 11s7-5.75 7-11c0-3.87-3.13-7-7-7z" /><circle cx="10" cy="8" r="2.5" /></svg>
                                         </div>
                                         <p className="text-sm font-medium text-neutral-400">No saved addresses yet</p>
                                     </div>
@@ -155,7 +193,7 @@ const AddressModal = ({
                                         <div className="flex justify-between items-start gap-4">
                                             <div className="flex items-start gap-4 min-w-0">
                                                 <div className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200 ${selectedAddress === addr ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-500 group-hover:bg-neutral-200"}`}>
-                                                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M10 1C6.13 1 3 4.13 3 8c0 5.25 7 11 7 11s7-5.75 7-11c0-3.87-3.13-7-7-7z"/><circle cx="10" cy="8" r="2.5"/></svg>
+                                                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M10 1C6.13 1 3 4.13 3 8c0 5.25 7 11 7 11s7-5.75 7-11c0-3.87-3.13-7-7-7z" /><circle cx="10" cy="8" r="2.5" /></svg>
                                                 </div>
                                                 <div className="min-w-0">
                                                     <p className="font-semibold text-sm text-neutral-900">{addr.label}</p>
@@ -165,7 +203,7 @@ const AddressModal = ({
 
                                             <div className={`shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 mt-0.5 ${selectedAddress === addr ? "border-neutral-900 bg-neutral-900" : "border-neutral-300"}`}>
                                                 {selectedAddress === addr && (
-                                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 5l2.5 2.5L8 3"/></svg>
+                                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 5l2.5 2.5L8 3" /></svg>
                                                 )}
                                             </div>
                                         </div>
@@ -191,22 +229,47 @@ const AddressModal = ({
                                 )}
 
                                 {detectedAddress && (
-                                    <div className="p-5 bg-gradient-to-br from-neutral-50 to-white rounded-xl border border-neutral-200 shadow-sm">
-                                        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-400 mb-2">Detected Location</p>
-                                        <p className="text-sm font-medium text-neutral-800 leading-relaxed">{detectedAddress.formattedAddress}</p>
+                                    <div className="p-5 bg-gradient-to-br from-neutral-50 to-white rounded-xl border border-neutral-200 shadow-sm space-y-4">
+
+                                        <div>
+                                            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-400 mb-2">
+                                                Detected Location
+                                            </p>
+                                            <p className="text-sm font-medium text-neutral-800 leading-relaxed">
+                                                {detectedAddress.formattedAddress}
+                                            </p>
+                                        </div>
+
+                                        {/* Save option */}
+                                        <label className="flex items-center gap-2 text-sm text-neutral-600 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={saveAddressNow}
+                                                onChange={(e) => setSaveAddressNow(e.target.checked)}
+                                                className="w-4 h-4 rounded border-neutral-300"
+                                            />
+                                            Save this address for future use
+                                        </label>
+
                                         <button
-                                            onClick={() => {
-                                                dispatch({
-                                                    type: "SET_ADDRESS",
-                                                    payload: { slot: type, address: detectedAddress },
-                                                });
-                                                onClose();
-                                            }}
-                                            className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-neutral-900 text-white text-[13px] font-semibold hover:bg-neutral-800 active:bg-neutral-950 transition-all duration-150 shadow-sm"
+                                            onClick={handleUseThisAddress}
+                                            className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-neutral-900 text-white text-[13px] font-semibold hover:bg-neutral-800 active:bg-neutral-950 transition-all duration-150 shadow-sm"
                                         >
                                             Use This Address
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 6h8M7 3l3 3-3 3"/></svg>
+                                            <svg
+                                                width="12"
+                                                height="12"
+                                                viewBox="0 0 12 12"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path d="M2 6h8M7 3l3 3-3 3" />
+                                            </svg>
                                         </button>
+
                                     </div>
                                 )}
                             </div>
@@ -215,19 +278,24 @@ const AddressModal = ({
                     </div>
 
                     <div className="px-8 py-5 border-t border-neutral-100 flex justify-end gap-3 bg-gradient-to-t from-neutral-50/50 to-white">
+
                         <button
                             onClick={onClose}
                             className="px-6 py-3 rounded-xl border border-neutral-200 text-sm font-semibold text-neutral-600 hover:text-neutral-900 hover:border-neutral-300 hover:shadow-sm active:bg-neutral-50 transition-all duration-150"
                         >
                             Cancel
                         </button>
-                        {/* <button
-                            onClick={handleConfirm}
-                            disabled={!selectedAddress}
-                            className="px-7 py-3 rounded-xl bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800 active:bg-neutral-950 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 shadow-sm hover:shadow-md"
-                        >
-                            Confirm Location
-                        </button> */}
+
+                        {mode === "SAVED" && (
+                            <button
+                                onClick={handleConfirm}
+                                disabled={!selectedAddress}
+                                className="px-7 py-3 rounded-xl bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800 active:bg-neutral-950 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 shadow-sm hover:shadow-md"
+                            >
+                                Confirm Location
+                            </button>
+                        )}
+
                     </div>
 
                 </div>
