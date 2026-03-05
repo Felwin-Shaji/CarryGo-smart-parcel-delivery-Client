@@ -14,13 +14,11 @@ export interface ReverseGeocodeResponse {
 
 export interface AddressFormState {
   label: "Home" | "Office" | "Warehouse" | "Other";
-  addressLine1: string;
-  addressLine2: string;
+  formattedAddress: string;
   city: string;
   state: string;
   country: string;
   pincode: string;
-  formattedAddress: string;
 }
 
 export interface SaveAddressPayload extends AddressFormState {

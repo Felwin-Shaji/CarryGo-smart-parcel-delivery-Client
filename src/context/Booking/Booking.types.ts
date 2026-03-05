@@ -25,15 +25,13 @@ export interface PackagePayload {
 export interface BaseAddress {
   label: "Home" | "Office" | "Warehouse" | "Other" | "Temporary";
 
-  addressLine1: string;
-  addressLine2?: string;
+  formattedAddress?: string;
 
   city: string;
   state: string;
   country: string;
   pincode: string;
 
-  formattedAddress?: string;
 
   location: {
     lat: number;
