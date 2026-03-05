@@ -124,14 +124,8 @@ export default function AddressListPage() {
                                         </div>
 
                                         <p className="text-sm font-medium text-gray-800">
-                                            {address.addressLine1}
+                                            {address.formattedAddress}
                                         </p>
-
-                                        {address.addressLine2 && (
-                                            <p className="text-sm text-gray-500">
-                                                {address.addressLine2}
-                                            </p>
-                                        )}
 
                                         <p className="text-xs text-gray-400">
                                             {address.city}, {address.state} • {address.pincode}
@@ -193,9 +187,6 @@ export interface Coordinates {
 export interface Address {
     _id: string;
     label: AddressLabel;
-
-    addressLine1: string;
-    addressLine2: string | null;
 
     city: string;
     state: string;

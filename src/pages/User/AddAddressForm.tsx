@@ -34,13 +34,11 @@ export default function AddAddressMapFirst() {
 
     const [address, setAddress] = useState<AddressFormState>({
         label: "Home",
-        addressLine1: "",
-        addressLine2: "",
+        formattedAddress: "",
         city: "",
         state: "",
         country: "",
         pincode: "",
-        formattedAddress: "",
     });
 
     /* ---------------- Use Current Location ---------------- */
@@ -69,15 +67,12 @@ export default function AddAddressMapFirst() {
 
                 const res = await reverseGeocode(debouncedCoords);
 
-                // const line1 = `${res.house_number ?? ""} ${res.road ?? ""}`.trim();
-
                 setAddress((prev) => ({
                     ...prev,
-                    addressLine1: res.addressLine1 || "",
+                    formattedAddress: res.formattedAddress || "",
                     city: res.city || "",
                     state: res.state || "",
                     pincode: res.pincode || "",
-                    formattedAddress: res.formattedAddress || "",
                 }));
 
             } catch (err) {
@@ -98,22 +93,13 @@ export default function AddAddressMapFirst() {
             return;
         };
 
-
-        if (!address.addressLine1 || !address.city || !address.state) {
-            console.log(address.addressLine1, " =>addressline1     ", address.city, "=>city      ", address.state, "=>:state");
-            toast.error("Address details are incomplete");
-            return;
-        }
-
         const payload: SaveAddressPayload = {
             label: address.label,
-            addressLine1: address.addressLine1,
-            addressLine2: address.addressLine2,
+            formattedAddress: address.formattedAddress,
             city: address.city,
             state: address.state,
             country: address.country,
             pincode: address.pincode,
-            formattedAddress: address.formattedAddress,
             location: {
                 lat: coords[0],
                 lng: coords[1],
@@ -210,14 +196,14 @@ confirmToast(
                             <option>Other</option>
                         </select>
 
-                        <input
+                        {/* <input
                             placeholder="Flat / Building / Landmark"
                             value={address.addressLine2}
                             onChange={(e) =>
                                 setAddress({ ...address, addressLine2: e.target.value })
                             }
                             className="w-full border rounded-lg px-3 py-2"
-                        />
+                        /> */}
                     </div>
 
                     <button
