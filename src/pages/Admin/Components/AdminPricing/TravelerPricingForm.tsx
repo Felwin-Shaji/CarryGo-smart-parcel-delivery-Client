@@ -9,20 +9,26 @@ import { DashboardLayout } from "../../../../layouts/DashboardLayout";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
 
 const travelerPricingSchema = Yup.object({
-  basePricePerKg: Yup.number().min(1, "Required").required(),
+  basePrice: Yup.number().min(0).required(),
 
-  flightMultiplier: Yup.number().min(0.1).required(),
-  trainMultiplier: Yup.number().min(0.1).required(),
-  carMultiplier: Yup.number().min(0.1).required(),
-  busMultiplier: Yup.number().min(0.1).required(),
-  bikeMultiplier: Yup.number().min(0.1).required(),
+  pricePerKm: Yup.number().min(0).required(),
+
+  basePricePerKg: Yup.number().min(1).required(),
+
+  transportMultipliers: Yup.object({
+    FLIGHT: Yup.number().min(0.1).required(),
+    TRAIN: Yup.number().min(0.1).required(),
+    CAR: Yup.number().min(0.1).required(),
+    BUS: Yup.number().min(0.1).required(),
+    BIKE: Yup.number().min(0.1).required(),
+  }),
 
   platformFeePercent: Yup.number().min(0).max(100).required(),
 });
 
 
 export default function AdminTravelerPricing() {
-  const { createAdminTravelerPricing,getAdminTravelerPricing } = useAdminPricingPolicy();
+  const { createAdminTravelerPricing, getAdminTravelerPricing } = useAdminPricingPolicy();
   const [editMode, setEditMode] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -31,44 +37,51 @@ export default function AdminTravelerPricing() {
     useState<TravelerPricingPolicyResponseDTO | null>(null);
 
 
-  const initialValues: TravelerPricingFormType | null = policyResponse ? {
-    basePricePerKg: policyResponse?.basePricePerKg,
+  const initialValues: TravelerPricingFormType | null = policyResponse
+    ? {
+      basePrice: policyResponse.basePrice,
+      pricePerKm: policyResponse.pricePerKm,
 
-    flightMultiplier: policyResponse.flightMultiplier,
-    trainMultiplier: policyResponse.trainMultiplier,
-    carMultiplier: policyResponse.carMultiplier,
-    busMultiplier: policyResponse.busMultiplier,
-    bikeMultiplier: policyResponse.bikeMultiplier,
+      basePricePerKg: policyResponse.basePricePerKg,
 
-    platformFeePercent: policyResponse.platformFeePercent,
-  } : null;
+      transportMultipliers: {
+        FLIGHT: policyResponse.transportMultipliers.FLIGHT,
+        TRAIN: policyResponse.transportMultipliers.TRAIN,
+        CAR: policyResponse.transportMultipliers.CAR,
+        BUS: policyResponse.transportMultipliers.BUS,
+        BIKE: policyResponse.transportMultipliers.BIKE,
+      },
+
+      platformFeePercent: policyResponse.platformFeePercent,
+    }
+    : null;
 
   const [loading, setLoading] = useState(true);
 
 
-    useEffect(() => {
-      const loadPricing = async () => {
-        try {
-          const data = await getAdminTravelerPricing();
-          setPolicyResponse(data);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      loadPricing();
-    }, []);
-
-      if (loading || !initialValues) {
-        return (
-          <DashboardProvider role="admin">
-            <DashboardLayout pageTitle="Pricing Policy">
-              <LoadingScreen />
-            </DashboardLayout>
-          </DashboardProvider>
-        );
+  useEffect(() => {
+    const loadPricing = async () => {
+      try {
+        const data = await getAdminTravelerPricing();
+        setPolicyResponse(data);
+      } finally {
+        setLoading(false);
       }
-  
+    };
+
+    loadPricing();
+  }, []);
+
+  if (loading || !initialValues) {
+    return (
+      <DashboardProvider role="admin">
+        <DashboardLayout pageTitle="Pricing Policy">
+          <LoadingScreen />
+        </DashboardLayout>
+      </DashboardProvider>
+    );
+  }
+
 
   return (
     <>
@@ -108,7 +121,19 @@ export default function AdminTravelerPricing() {
               />
 
               <FormField
-                label="Base Price Per Kg (₹)"
+                label="Base Price (₹)"
+                name="basePrice"
+                disabled={!editMode}
+              />
+
+              <FormField
+                label="Price Per Km (₹ / km)"
+                name="pricePerKm"
+                disabled={!editMode}
+              />
+
+              <FormField
+                label="Base Price Per Kg (₹ / kg)"
                 name="basePricePerKg"
                 disabled={!editMode}
               />
@@ -123,11 +148,11 @@ export default function AdminTravelerPricing() {
               />
 
               <div className="grid grid-cols-2 gap-6">
-                <FormField label="Flight" name="flightMultiplier" disabled={!editMode} />
-                <FormField label="Train" name="trainMultiplier" disabled={!editMode} />
-                <FormField label="Car" name="carMultiplier" disabled={!editMode} />
-                <FormField label="Bus" name="busMultiplier" disabled={!editMode} />
-                <FormField label="Bike" name="bikeMultiplier" disabled={!editMode} />
+                <FormField label="Flight" name="transportMultipliers.FLIGHT" disabled={!editMode} />
+                <FormField label="Train" name="transportMultipliers.TRAIN" disabled={!editMode} />
+                <FormField label="Car" name="transportMultipliers.CAR" disabled={!editMode} />
+                <FormField label="Bus" name="transportMultipliers.BUS" disabled={!editMode} />
+                <FormField label="Bike" name="transportMultipliers.BIKE" disabled={!editMode} />
               </div>
             </div>
 
