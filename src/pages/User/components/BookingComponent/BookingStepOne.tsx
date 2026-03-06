@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
-import AddressModal from "./BookingStepOne/AddressModal";
-import StepIndicator, { StepDivider } from "./BookingStepOne/StepIndicator";
-import LocationBlock, { SummaryItem } from "./BookingStepOne/LocationBlock";
+import AddressModal from "./BookingStepsComponents/AddressModal";
+import StepIndicator, { StepDivider } from "./BookingStepsComponents/StepIndicator";
+import LocationBlock, { SummaryItem } from "./BookingStepsComponents/LocationBlock";
 import { useBooking } from "../../../../Services/User/Booking/createBooking";
 import type { AddressUI } from "../../../../context/Booking/Booking.types";
 import toast from "react-hot-toast";
 
 const BookingStepOne = () => {
     const { state, dispatch } = useBookingContext();
-    const { getUserAddresses, checkServiceablePartners } = useBooking();
+    const { getUserAddresses } = useBooking();
 
     const [mapFor, setMapFor] = useState<"PICKUP" | "DELIVERY" | null>(null);
     const [savedAddresses, setSavedAddresses] = useState<AddressUI[]>([]);
     const [loadingAddresses, setLoadingAddresses] = useState(false);
-    const [checkingService, setCheckingService] = useState(false);
+    // const [checkingService, setCheckingService] = useState(false);
 
     useEffect(() => {
         if (!mapFor) return;
@@ -36,35 +36,14 @@ const BookingStepOne = () => {
         !!state.pickupAddress &&
         !!state.deliveryAddress;
 
-    const handleContinue = async () => {
-        if (!canContinue || !state.pickupAddress?.location || !state.deliveryAddress?.location) return;
+    const handleContinue = () => {
+  if (!canContinue) {
+    toast.error("Select pickup and delivery locations");
+    return;
+  }
 
-        try {
-            setCheckingService(true);
-
-
-            const result = await checkServiceablePartners(
-                state.pickupAddress.location,
-                state.deliveryAddress.location
-            );
-
-            if (!result.agencies.length && !result.travelers.length) {
-                toast.error("No service available for selected route");
-                return;
-            }
-            
-            dispatch({
-                type: "SET_SERVICEABILITY",
-                payload: {
-                    agencies: result.agencies,
-                    travelers: result.travelers,
-                },
-            });
-
-        } finally {
-            setCheckingService(false);
-        }
-    };
+  dispatch({ type: "SET_STEP", payload: 2 });
+};
 
 
 
@@ -145,13 +124,13 @@ const BookingStepOne = () => {
 
                             <button
                                 onClick={handleContinue}
-                                disabled={!canContinue || checkingService}
+                                disabled={!canContinue}
                                 className={`hidden lg:flex w-full mt-8 py-3.5 rounded-xl text-sm font-semibold items-center justify-center gap-2 transition-all duration-200 ${canContinue
                                         ? "bg-neutral-900 text-white hover:bg-neutral-800 active:bg-neutral-950 shadow-sm hover:shadow-md"
                                         : "bg-neutral-100 text-neutral-300 cursor-not-allowed"
                                     }`}
                             >
-                                {checkingService ? "Checking availability..." : "Continue"}
+                                Continue
                             </button>
                         </div>
                     </div>
@@ -161,13 +140,13 @@ const BookingStepOne = () => {
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-neutral-200/60 p-4 z-50">
                     <button
                         onClick={handleContinue}
-                        disabled={!canContinue || checkingService}
+                        disabled={!canContinue}
                         className={`hidden lg:flex w-full mt-8 py-3.5 rounded-xl text-sm font-semibold items-center justify-center gap-2 transition-all duration-200 ${canContinue
                             ? "bg-neutral-900 text-white hover:bg-neutral-800 active:bg-neutral-950 shadow-sm hover:shadow-md"
                             : "bg-neutral-100 text-neutral-300 cursor-not-allowed"
                             }`}
                     >
-                        {checkingService ? "Checking availability..." : "Continue"}
+                        Continue
                     </button>
                 </div>
 

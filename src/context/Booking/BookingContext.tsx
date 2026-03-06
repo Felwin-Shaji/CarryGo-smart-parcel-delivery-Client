@@ -11,7 +11,9 @@ type BookingContextValue = {
 
 type Action =
   | { type: "SET_ADDRESS"; payload: { slot: "PICKUP" | "DELIVERY"; address: AddressUI } }
-  | { type: "SET_SERVICEABILITY"; payload: { agencies: getServiceableHubWithAgencyDTO[]; travelers: getServiceableTravelerDTO[]; } }
+  // | { type: "SET_SERVICEABILITY"; payload: { agencies: getServiceableHubWithAgencyDTO[]; travelers: getServiceableTravelerDTO[]; } }
+  | { type: "SET_SERVICEABLE_AGENCIES"; payload: getServiceableHubWithAgencyDTO[] }
+  | { type: "SET_SERVICEABLE_TRAVELERS"; payload: getServiceableTravelerDTO[] }
   | { type: "SET_DELIVERY_TYPE"; payload: DeliveryType }
   | { type: "SELECT_AGENCY"; payload: { agencyId: string; fromHubId: string; toHubId: string } }
   | { type: "SELECT_TRAVELER"; payload: { travelerId: string; travelRequestId: string } }
@@ -41,12 +43,16 @@ const reducer = (state: BookingState, action: Action): BookingState => {
             : state.deliveryAddress,
       };
 
-    case "SET_SERVICEABILITY":
+    case "SET_SERVICEABLE_AGENCIES":
       return {
         ...state,
-        serviceableAgencies: action.payload.agencies,
-        serviceableTravelers: action.payload.travelers,
-        step: 2,
+        serviceableAgencies: action.payload,
+      };
+
+    case "SET_SERVICEABLE_TRAVELERS":
+      return {
+        ...state,
+        serviceableTravelers: action.payload,
       };
 
     case "SET_DELIVERY_TYPE":
