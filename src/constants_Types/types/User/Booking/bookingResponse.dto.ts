@@ -60,10 +60,10 @@ export interface getServiceableTravelerDTO{
   };
 }
 
-export interface ServiceableAgencyAndTravelerDTO{
-    agencies:getServiceableHubWithAgencyDTO[],
-  travelers:getServiceableTravelerDTO[]
-}
+// export interface ServiceableAgencyAndTravelerDTO{
+//     agencies:getServiceableHubWithAgencyDTO[],
+//   travelers:getServiceableTravelerDTO[]
+// }
 
 
 

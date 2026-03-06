@@ -14,13 +14,19 @@ export interface PartnerPayload {
 
 export interface PackagePayload {
   category: string;
-  size: "SMALL" | "MEDIUM" | "LARGE";
   weightKg: number;
 
-  itemType?: string;
-  approxWeightKg?: number;
-  notes?: string;
+  dimensions: {
+    lengthCm: number;
+    widthCm: number;
+    heightCm: number;
+  };
+
+  fragile?: boolean;
+
+  volumetricWeightKg?: number;
 }
+
 
 export interface BaseAddress {
   label: "Home" | "Office" | "Warehouse" | "Other" | "Temporary";
@@ -52,7 +58,7 @@ export interface TemporaryAddress extends BaseAddress {
 export type AddressUI = SavedAddress | TemporaryAddress;
 
 export interface BookingState {
-  step?: 1 | 2 | 3;
+  step?: 1 | 2 | 3 | 4;
 
   // LOCATION (Step 1)
   pickupAddress?: AddressUI;

@@ -1,6 +1,6 @@
 import { API_USER } from "../../../constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { BookingDetailsUI, ServiceableAgencyAndTravelerDTO, PricingResponseDTO, BookingListResponse } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingDetailsUI, PricingResponseDTO, BookingListResponse, getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
 import type { CalculatePricePayload, CreateBookingPayload } from "../../../constants_Types/types/User/Booking/createBookingType";
 import type { BookingFilterParams } from "../../../pages/User/UserBookingList";
 import type { AddressUI } from "../../../context/Booking/Booking.types";
@@ -8,20 +8,35 @@ import type { AddressUI } from "../../../context/Booking/Booking.types";
 export const useBooking = () => {
     const axiosInstance = useAxios();
 
-    const checkServiceablePartners = async (
+    const checkServiceableAgency = async (
         pickupLocation: { lat: number; lng: number },
         deliveryLocation: { lat: number; lng: number }
     ) => {
         const res = await axiosInstance.post(
-            API_USER.CHECK_SERVICEABLE,
+            API_USER.SERVICEABLE_AGENCIES,
             {
                 pickupLocation,
                 deliveryLocation,
             }
         );
 
-        return res.data.data as ServiceableAgencyAndTravelerDTO;
+        return res.data.data as getServiceableHubWithAgencyDTO[];
     };
+
+    const checkServiceableTraveler = async (
+        pickupLocation: { lat: number; lng: number },
+        deliveryLocation: { lat: number; lng: number }
+    ) => {
+        const res = await axiosInstance.post(
+            API_USER.SERVICEABLE_TRAVELERS,
+            {
+                pickupLocation,
+                deliveryLocation,
+            }
+        );
+
+        return res.data.data as getServiceableTravelerDTO[]
+    }
 
     const getUserAddresses = async (): Promise<AddressUI[]> => {
         const res = await axiosInstance.get(
@@ -73,7 +88,8 @@ export const useBooking = () => {
 
     return {
         // validatePincode,
-        checkServiceablePartners,
+        checkServiceableAgency,
+        checkServiceableTraveler,
         getUserAddresses,
         getPricing,
         createBooking,
