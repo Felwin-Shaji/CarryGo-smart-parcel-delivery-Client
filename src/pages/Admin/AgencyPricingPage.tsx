@@ -14,11 +14,7 @@ export interface AgencyPricingFormValues {
   serviceType: "STANDARD" | "EXPRESS";
   basePrice: number;
   pricePerKm: number;
-  sizePricing: {
-    SMALL: { price: number };
-    MEDIUM: { price: number };
-    LARGE: { price: number };
-  };
+  pricePerKg: number;
 }
 
 export default function AgencyPricingPage() {
@@ -34,26 +30,26 @@ export default function AgencyPricingPage() {
 
 
   async function HandleFetchAgencyPricing() {
+    console.log('ssssssssssssssssssccccccccccccccccccccc')
     try {
       setLoading(true);
       const res = await getAgencyPricing();
+      console.log(res, ":38888888888888888888888888")
       setPricingResponse(res);
     } finally {
       setLoading(false);
     }
   };
 
-  const formInitialValues: AgencyPricingFormValues | null =
-    pricingResponse
-      ? {
-        serviceType: pricingResponse.agencyPricing.serviceType,
-        basePrice: pricingResponse.agencyPricing.basePrice,
-        pricePerKm: pricingResponse.agencyPricing.pricePerKm,
-        sizePricing: pricingResponse.agencyPricing.sizePricing,
-      }
-      : null;
+  const formInitialValues = pricingResponse && {
+    serviceType: pricingResponse.agencyPricing.serviceType,
+    basePrice: pricingResponse.agencyPricing.basePrice,
+    pricePerKm: pricingResponse.agencyPricing.pricePerKm,
+    pricePerKg: pricingResponse.agencyPricing.pricePerKg,
+  };
 
   useEffect(() => {
+    console.log('ooooooooooooooooooooooooooooo')
     HandleFetchAgencyPricing()
   }, [])
 
@@ -166,58 +162,51 @@ export default function AgencyPricingPage() {
                     </div>
 
 
-                    {/* SIZE PRICING */}
+                    {/* WEIGHT PRICING */}
                     <div className="bg-white border rounded-xl overflow-hidden">
                       <div className="px-4 py-3 border-b">
-                        <h3 className="text-sm font-semibold">Parcel Size Pricing</h3>
+                        <h3 className="text-sm font-semibold">Weight Pricing</h3>
                         <p className="text-xs text-gray-500">
-                          Flat price applied based on parcel size category
+                          Price applied per kilogram of parcel weight
                         </p>
                       </div>
 
-                      <div className="divide-y">
-                        {(["SMALL", "MEDIUM", "LARGE"] as const).map((size) => (
-                          <div
-                            key={size}
-                            className="grid grid-cols-3 items-center px-4 py-3 text-sm"
-                          >
-                            {/* SIZE LABEL */}
-                            <div className="font-medium">
-                              {size}
-                              <span className="ml-2 text-xs text-gray-400">
-                                {size === "SMALL" && "Documents / Small items"}
-                                {size === "MEDIUM" && "Shoes / Small boxes"}
-                                {size === "LARGE" && "Large boxes"}
-                              </span>
-                            </div>
+                      <div className="grid grid-cols-3 items-center px-4 py-4 text-sm">
 
+                        <div className="font-medium">
+                          Price per KG
+                          <span className="ml-2 text-xs text-gray-400">
+                            Based on chargeable weight
+                          </span>
+                        </div>
 
-                            {/* PRICE */}
-                            <div>
-                              {editMode ? (
-                                <>
-                                  <Field
-                                    name={`sizePricing.${size}.price`}
-                                    type="number"
-                                    disabled={!editMode}
-                                    className="w-28"
-                                  />
-                                  <FieldError name={`sizePricing.${size}.price`} />
-                                </>
+                        <div>
+                          {editMode ? (
+                            <>
+                              <Field
+                                name="pricePerKg"
+                                type="number"
+                                min={pricingResponse.policy.minPricePerKg}
+                                max={pricingResponse.policy.maxPricePerKg}
+                                className="w-28"
+                              />
+                              <FieldError name="pricePerKg" />
 
-                              ) : (
-                                <span className="font-semibold">
-                                  ₹ {values.sizePricing[size].price}
-                                </span>
-                              )}
-                            </div>
+                              <p className="text-xs text-gray-400 mt-1">
+                                Chargeable weight = max(actual weight, volumetric weight)
+                              </p>
+                            </>
+                          ) : (
+                            <span className="font-semibold">
+                              ₹ {values.pricePerKg} / kg
+                            </span>
+                          )}
+                        </div>
 
-                            {/* INFO */}
-                            <div className="text-xs text-gray-500 text-right">
-                              Flat price
-                            </div>
-                          </div>
-                        ))}
+                        <div className="text-xs text-gray-500 text-right">
+                          Weight based pricing
+                        </div>
+
                       </div>
                     </div>
 
@@ -256,7 +245,7 @@ function PricingActionBar({
 }: {
   editMode: boolean;
   setEditMode: (v: boolean) => void;
-  submitLoading:boolean
+  submitLoading: boolean
 }) {
   const { dirty, resetForm } =
     useFormikContext<AgencyPricingFormValues>();
@@ -290,8 +279,8 @@ function PricingActionBar({
           disabled={!dirty}
           className="text-sm bg-primary text-white rounded-lg px-5 py-1.5 disabled:opacity-50"
         >
-          {submitLoading ?"Saving..." :"Save Changes"}
-          
+          {submitLoading ? "Saving..." : "Save Changes"}
+
         </button>
       )}
     </div>
@@ -301,7 +290,7 @@ function PricingActionBar({
 // import { useFormikContext, getIn } from "formik";
 
 function FieldError({ name }: { name: string }) {
-  const { errors, touched } = useFormikContext<any>();
+  const { errors, touched } = useFormikContext<AgencyPricingFormValues>();
 
   const error = getIn(errors, name);
   const isTouched = getIn(touched, name);
