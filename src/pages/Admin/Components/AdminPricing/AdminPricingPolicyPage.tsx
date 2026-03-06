@@ -28,8 +28,8 @@ export default function AdminAgencyPricing() {
         minPricePerKm: policyResponse.minPricePerKm,
         maxPricePerKm: policyResponse.maxPricePerKm,
 
-        minSizePrice: policyResponse.minSizePrice,
-        maxSizePrice: policyResponse.maxSizePrice,
+        minPricePerKg: policyResponse.minPricePerKg,
+        maxPricePerKg: policyResponse.maxPricePerKg,
 
         platformFeePercent: policyResponse.platformFeePercent,
       }
@@ -66,164 +66,167 @@ export default function AdminAgencyPricing() {
   return (
     // <DashboardProvider role="admin">
     //   <DashboardLayout pageTitle="Pricing Policy">
-        <div className="container max-w-5xl">
+    <div className="container max-w-5xl">
 
-          {/* Page Header */}
-          <div className="mb-10">
-            <h1 className="text-2xl font-bold">Pricing Policy</h1>
-            <p className="text-gray-600 mt-1">
-              Define guardrails for agency pricing. Agencies must stay within
-              these limits.
-            </p>
-            {policyResponse && (
-              <p className="text-xs text-gray-500 mb-4">
-                Active Policy Version: v{policyResponse.policyVersion}
-              </p>
-            )}
+      {/* Page Header */}
+      <div className="mb-10">
+        <h1 className="text-2xl font-bold">Pricing Policy</h1>
+        <p className="text-gray-600 mt-1">
+          Define guardrails for agency pricing. Agencies must stay within
+          these limits.
+        </p>
+        {policyResponse && (
+          <p className="text-xs text-gray-500 mb-4">
+            Active Policy Version: v{policyResponse.policyVersion}
+          </p>
+        )}
 
-          </div>
+      </div>
 
-          {editMode && (
-            <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800 mb-6">
-              ⚠️ <strong>Publishing a new pricing policy</strong><br />
-              This will create a <b>new policy version</b>.
-              All agencies must review and update their pricing before accepting new bookings.
-            </div>
-          )}
-
-
-          <Formik<PricingPolicyFormDTO>
-            initialValues={formInitialValues!}
-            enableReinitialize
-            validateOnMount
-            validationSchema={pricingPolicySchema}
-            onSubmit={async (values, { setSubmitting }) => {
-              try {
-                setSubmitLoading(true);
-                const newPolicy = await createAdminAgencyPricing(values);
-                setPolicyResponse(newPolicy);
-                setEditMode(false);
-              } finally {
-                setSubmitLoading(false);
-                setSubmitting(false);
-              }
-            }}
-
-          >
-
-
-            {({ isValid, dirty, resetForm }) => (
-
-              <Form className="space-y-8">
-
-                {/* Pricing Limits Card */}
-                <div className="bg-white rounded-2xl shadow-md p-6 space-y-8">
-
-                  <PricingSection
-                    title="Base Price"
-                    description="Fixed starting charge applied to every delivery"
-                    unit="₹"
-                  >
-                    <RangeField
-                      minName="minBasePrice"
-                      maxName="maxBasePrice"
-                      disabled={!editMode}
-                    />
-                  </PricingSection>
-
-                  <PricingSection
-                    title="Distance Charge"
-                    description="Allowed price range per kilometer"
-                    unit="₹ / km"
-                  >
-                    <RangeField
-                      minName="minPricePerKm"
-                      maxName="maxPricePerKm"
-                      disabled={!editMode}
-                    />
-                  </PricingSection>
-
-                  <PricingSection
-                    title="Size Pricing"
-                    description="Allowed flat price range based on parcel size"
-                    unit="₹"
-                  >
-                    <RangeField
-                      minName="minSizePrice"
-                      maxName="maxSizePrice"
-                      disabled={!editMode}
-                    />
-                  </PricingSection>
-
-                </div>
-
-                {/* Platform Fee Card */}
-                <div className="bg-white rounded-2xl shadow-md p-6">
-                  <h3 className="text-lg font-semibold mb-1">
-                    Platform Fee
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Percentage commission charged by CarryGo
-                  </p>
-
-                  <div className="max-w-xs">
-                    <label className="block text-sm font-medium mb-1">
-                      Platform Fee (%)
-                    </label>
-                    <Field
-                      name="platformFeePercent"
-                      type="number"
-                      disabled={!editMode}
-                    />
-
-                    <ErrorMessage
-                      name="platformFeePercent"
-                      component="p"
-                      className="text-red-500 text-xs mt-1"
-                    />
-                  </div>
-                </div>
-
-                {/* Action Bar */}
-                <div className="sticky bottom-0 bg-white border-t py-3 flex justify-between items-center">
-
-                  {!editMode ? (
-                    <button
-                      type="button"
-                      onClick={() => setEditMode(true)}
-                      className="text-sm border rounded-lg px-4 py-1.5"
-                    >
-                      Edit Pricing Policy
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        resetForm();
-                        setEditMode(false);
-                      }}
-                      className="text-sm border rounded-lg px-4 py-1.5"
-                    >
-                      Cancel
-                    </button>
-                  )}
-
-                  {editMode && (
-                    <button
-                      type="submit"
-                      disabled={!dirty || !isValid || submitLoading}
-                      className="text-sm bg-primary text-white rounded-lg px-5 py-1.5 disabled:opacity-50"
-                    >
-                      {submitLoading ? "Publishing..." : "Publish New Policy Version"}
-                    </button>
-                  )}
-                </div>
-
-
-              </Form>
-            )}
-          </Formik>
+      {editMode && (
+        <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800 mb-6">
+          ⚠️ <strong>Publishing a new pricing policy</strong><br />
+          This will create a <b>new policy version</b>.
+          All agencies must review and update their pricing before accepting new bookings.
         </div>
+      )}
+
+
+      <Formik<PricingPolicyFormDTO>
+        initialValues={formInitialValues!}
+        enableReinitialize
+        validateOnMount
+        validationSchema={pricingPolicySchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            setSubmitLoading(true);
+            const newPolicy = await createAdminAgencyPricing(values);
+            setPolicyResponse(newPolicy);
+            setEditMode(false);
+          } finally {
+            setSubmitLoading(false);
+            setSubmitting(false);
+          }
+        }}
+
+      >
+
+
+        {({ isValid, dirty, resetForm }) => (
+
+          <Form className="space-y-8">
+
+            {/* Pricing Limits Card */}
+            <div className="bg-white rounded-2xl shadow-md p-6 space-y-8">
+
+              <PricingSection
+                title="Base Price"
+                description="Fixed starting charge applied to every delivery"
+                unit="₹"
+              >
+                <RangeField
+                  minName="minBasePrice"
+                  maxName="maxBasePrice"
+                  disabled={!editMode}
+                />
+              </PricingSection>
+
+              <PricingSection
+                title="Distance Charge"
+                description="Allowed price range per kilometer"
+                unit="₹ / km"
+              >
+                <RangeField
+                  minName="minPricePerKm"
+                  maxName="maxPricePerKm"
+                  disabled={!editMode}
+                />
+              </PricingSection>
+
+              <PricingSection
+                title="Weight Pricing"
+                description="Allowed price range per kilogram of parcel weight"
+                unit="₹ / kg"
+              >
+                <RangeField
+                  minName="minPricePerKg"
+                  maxName="maxPricePerKg"
+                  disabled={!editMode}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Chargeable weight = max(actual weight, volumetric weight)
+                </p>
+              </PricingSection>
+
+            </div>
+
+            {/* Platform Fee Card */}
+            <div className="bg-white rounded-2xl shadow-md p-6">
+              <h3 className="text-lg font-semibold mb-1">
+                Platform Fee
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Percentage commission charged by CarryGo
+              </p>
+
+              <div className="max-w-xs">
+                <label className="block text-sm font-medium mb-1">
+                  Platform Fee (%)
+                </label>
+                <Field
+                  name="platformFeePercent"
+                  type="number"
+                  disabled={!editMode}
+                />
+
+                <ErrorMessage
+                  name="platformFeePercent"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+            </div>
+
+            {/* Action Bar */}
+            <div className="sticky bottom-0 bg-white border-t py-3 flex justify-between items-center">
+
+              {!editMode ? (
+                <button
+                  type="button"
+                  onClick={() => setEditMode(true)}
+                  className="text-sm border rounded-lg px-4 py-1.5"
+                >
+                  Edit Pricing Policy
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setEditMode(false);
+                  }}
+                  className="text-sm border rounded-lg px-4 py-1.5"
+                >
+                  Cancel
+                </button>
+              )}
+
+              {editMode && (
+                <button
+                  type="submit"
+                  disabled={!dirty || !isValid || submitLoading}
+                  className="text-sm bg-primary text-white rounded-lg px-5 py-1.5 disabled:opacity-50"
+                >
+                  {submitLoading ? "Publishing..." : "Publish New Policy Version"}
+                </button>
+              )}
+            </div>
+
+
+          </Form>
+        )}
+      </Formik>
+    </div>
 
   );
 }

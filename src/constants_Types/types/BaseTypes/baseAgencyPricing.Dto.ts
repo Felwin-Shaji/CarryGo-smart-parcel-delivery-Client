@@ -3,10 +3,6 @@ export interface BaseAgencyPricingDTO {
 
   basePrice: number;
   pricePerKm: number;
+  pricePerKg: number;
 
-  sizePricing: {
-    SMALL: { price: number };
-    MEDIUM: { price: number };
-    LARGE: { price: number };
-  };
 }

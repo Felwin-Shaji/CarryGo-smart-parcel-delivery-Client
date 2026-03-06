@@ -5,20 +5,26 @@ export interface PricingPolicyFormDTO {
   minPricePerKm: number;
   maxPricePerKm: number;
 
-  minSizePrice: number;
-  maxSizePrice: number;
+  minPricePerKg: number;
+  maxPricePerKg: number;
 
   platformFeePercent: number;
 }
 
 export interface TravelerPricingFormType {
-    basePricePerKg: number;
+  basePrice: number;
 
-    flightMultiplier: number;
-    trainMultiplier: number;
-    carMultiplier: number;
-    busMultiplier: number;
-    bikeMultiplier: number;
+  pricePerKm: number;
 
-    platformFeePercent: number;
+  basePricePerKg: number;
+
+  transportMultipliers: {
+    FLIGHT: number;
+    TRAIN: number;
+    CAR: number;
+    BUS: number;
+    BIKE: number;
+  };
+
+  platformFeePercent: number;
 }
