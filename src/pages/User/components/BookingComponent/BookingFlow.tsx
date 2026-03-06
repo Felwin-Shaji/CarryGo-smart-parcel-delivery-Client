@@ -5,6 +5,7 @@ import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import PricingReviewStep from "./PricingReviewStep";
 import BookingStepOne from "./BookingStepOne";
 import BookingStepTwo from "./BookingStepTwo";
+import BookingStepThree from "./BookingStepThree";
 
 
 const BookingFlow = () => {
@@ -18,8 +19,8 @@ const BookingFlow = () => {
     case 2:
       return <BookingStepTwo />;
 
-    // case 3:
-    //   return <AddressStep />;
+    case 3:
+      return <BookingStepThree />;
 
       return (
         <PricingReviewStep

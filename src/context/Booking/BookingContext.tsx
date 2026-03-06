@@ -19,7 +19,7 @@ type Action =
   | { type: "SELECT_TRAVELER"; payload: { travelerId: string; travelRequestId: string } }
   | { type: "SET_PACKAGE_DETAILS"; payload: PackagePayload }
   | { type: "SET_PRICING"; payload: BookingState["pricing"] }
-  | { type: "SET_STEP"; payload: 1 | 2 | 3 }
+  | { type: "SET_STEP"; payload: 1 | 2 | 3 | 4}
   | { type: "RESET_BOOKING" };
 
 const initialState: BookingState =
