@@ -25,17 +25,17 @@ export const pricingPolicySchema = yup.object({
     .required()
     .min(yup.ref("minPricePerKm"), "Must be ≥ minimum"),
 
-  minSizePrice: yup
+  minPricePerKg: yup
     .number()
-    .typeError("Minimum size price is required")
+    .typeError("Minimum KG price is required")
     .required()
     .min(0),
 
-  maxSizePrice: yup
+  maxPricePerKg: yup
     .number()
-    .typeError("Maximum size price is required")
+    .typeError("Maximum KG price is required")
     .required()
-    .min(yup.ref("minSizePrice"), "Must be ≥ minimum"),
+    .min(yup.ref("minPricePerKg"), "Must be ≥ minimum"),
 
   platformFeePercent: yup
     .number()
