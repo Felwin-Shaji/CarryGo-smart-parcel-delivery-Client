@@ -11,7 +11,7 @@ import AgencyHubsList from "../pages/Agency/AgencyHubsList";
 import PageNotFound from "../pages/PageNotFound";
 import AgencyForgotPassword from "../pages/Agency/AgencyForgotPassword";
 import AgencyResetPassword from "../pages/Agency/AgencyResetPassword";
-import AgencyPricingPage from "../pages/Admin/AgencyPricingPage";
+import AgencyPricingPage from "../pages/Agency/AgencyPricingPage";
 import AgencyProfilePage from "../pages/Agency/AgencyProfilePage";
 import AgencyHubDetailsPage from "../pages/Agency/AgencyHubDetailsPage";
 import AgencyLandingPage from "../pages/Agency/AgencyLandingPage";

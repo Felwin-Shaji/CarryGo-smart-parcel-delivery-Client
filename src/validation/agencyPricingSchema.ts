@@ -17,24 +17,8 @@ export const agencyPricingSchema = (policy: PricingPolicyDTO) =>
       .max(policy.maxPricePerKm, `Maximum ₹${policy.maxPricePerKm}`)
       .required(),
 
-    sizePricing: Yup.object({
-      SMALL: Yup.object({
-        price: Yup.number()
-          .min(policy.minSizePrice)
-          .max(policy.maxSizePrice)
-          .required(),
-      }),
-      MEDIUM: Yup.object({
-        price: Yup.number()
-          .min(policy.minSizePrice)
-          .max(policy.maxSizePrice)
-          .required(),
-      }),
-      LARGE: Yup.object({
-        price: Yup.number()
-          .min(policy.minSizePrice)
-          .max(policy.maxSizePrice)
-          .required(),
-      }),
-    }),
+    pricePerKg: Yup.number()
+      .min(policy.minPricePerKg, `Minimum ₹${policy.minPricePerKg}`)
+      .max(policy.maxPricePerKg, `Maximum ₹${policy.maxPricePerKg}`)
+      .required(),
   });
