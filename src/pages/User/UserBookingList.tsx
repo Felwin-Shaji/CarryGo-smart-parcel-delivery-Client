@@ -5,7 +5,7 @@ import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { UserPagination } from "./components/UserPagination";
 import { NoBookings } from "./components/BookingComponent/BookingListing/NoBookings";
 import { AdvancedBookingFilter } from "./components/BookingComponent/BookingListing/AdvancedBookingFilter";
-import type { BookingStatusType, BookingUI, PackageSizeType, PaymentStatusType } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingStatusFilter, BookingUI, PaymentStatusFilter, } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
 import { BookingCard } from "./components/BookingComponent/BookingListing/BookingCard";
 import { useSearchParams } from "react-router-dom";
 
@@ -14,10 +14,8 @@ export interface BookingFilterParams {
   limit: number;
 
   deliveryType?: "AGENCY" | "TRAVELER" | "ALL";
-  status?: BookingStatusType | "ALL";
-  paymentStatus?: PaymentStatusType | "ALL";
-
-  size?: PackageSizeType | "ALL";
+  status?: BookingStatusFilter;
+  paymentStatus?: PaymentStatusFilter;
 }
 
 const parseDeliveryType = (value: string | null): "AGENCY" | "TRAVELER" | "ALL" => {
@@ -25,23 +23,18 @@ const parseDeliveryType = (value: string | null): "AGENCY" | "TRAVELER" | "ALL" 
   return "ALL";
 };
 
-const parseStatus = (value: string | null): BookingStatusType | "ALL" => {
-  const allowed = ["PENDING", "CONFIRMED", "DELIVERED", "CANCELLED"];
-  if (value && allowed.includes(value)) return value as BookingStatusType;
+const parseStatus = (value: string | null): BookingStatusFilter => {
+  const allowed = ["ACTIVE", "DELIVERED", "CANCELLED"];
+  if (value && allowed.includes(value)) return value as BookingStatusFilter;
   return "ALL";
 };
 
-const parsePaymentStatus = (value: string | null): PaymentStatusType | "ALL" => {
-  const allowed = ["PENDING", "PAID", "FAILED"];
-  if (value && allowed.includes(value)) return value as PaymentStatusType;
+const parsePaymentStatus = (value: string | null): PaymentStatusFilter => {
+  const allowed = ["PENDING", "PAID", "FAILED", "REFUNDED"];
+  if (value && allowed.includes(value)) return value as PaymentStatusFilter;
   return "ALL";
 };
 
-const parseSize = (value: string | null): PackageSizeType | "ALL" => {
-  const allowed = ["SMALL", "MEDIUM", "LARGE"];
-  if (value && allowed.includes(value)) return value as PackageSizeType;
-  return "ALL";
-};
 
 export const UserBookingList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -61,7 +54,6 @@ export const UserBookingList = () => {
       deliveryType: parseDeliveryType(searchParams.get("deliveryType")),
       status: parseStatus(searchParams.get("status")),
       paymentStatus: parsePaymentStatus(searchParams.get("paymentStatus")),
-      size: parseSize(searchParams.get("size")),
     };
   }, [searchParams.toString()]);
   const [draftFilters, setDraftFilters] = useState<Omit<BookingFilterParams, "page" | "limit">>(filters);
@@ -75,13 +67,26 @@ export const UserBookingList = () => {
     let isMounted = true;
 
     const fetchBookings = async () => {
+      const apiFilters = {
+        page: currentPage,
+        limit: 5,
+
+        ...(filters.deliveryType !== "ALL" && {
+          deliveryType: filters.deliveryType,
+        }),
+
+        ...(filters.status !== "ALL" && {
+          status: filters.status,
+        }),
+
+        ...(filters.paymentStatus !== "ALL" && {
+          paymentStatus: filters.paymentStatus,
+        }),
+      };
+
       try {
         setLoading(true);
-        const response = await listBooking({
-          page: currentPage,
-          limit: 5,
-          ...filters,
-        });
+        const response = await listBooking(apiFilters);
 
         if (!isMounted) return;
 
@@ -105,8 +110,8 @@ export const UserBookingList = () => {
   const isDefaultFilter =
     filters.deliveryType === "ALL" &&
     filters.status === "ALL" &&
-    filters.paymentStatus === "ALL" &&
-    filters.size === "ALL";
+    filters.paymentStatus === "ALL";
+
 
   if (isDefaultFilter && totalCount === 0) {
     return (
@@ -176,3 +181,5 @@ export const UserBookingList = () => {
     </>
   );
 };
+
+

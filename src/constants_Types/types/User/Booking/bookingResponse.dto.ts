@@ -1,40 +1,40 @@
 export interface getServiceableHubWithAgencyDTO {
-    agency: {
-        agencyId: string;
-        name: string;
-        commissionRate: number;
-    };
+  agency: {
+    agencyId: string;
+    name: string;
+    commissionRate: number;
+  };
 
-    fromHub: {
-        hubId: string;
-        hubName: string;
-        address: {
-            city: string;
-            state: string;
-            pincode: string;
-        };
-        location: {
-            lat: number;
-            lng: number;
-        };
+  fromHub: {
+    hubId: string;
+    hubName: string;
+    address: {
+      city: string;
+      state: string;
+      pincode: string;
     };
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
 
-    toHub: {
-        hubId: string;
-        hubName: string;
-        address: {
-            city: string;
-            state: string;
-            pincode: string;
-        };
-        location: {
-            lat: number;
-            lng: number;
-        };
+  toHub: {
+    hubId: string;
+    hubName: string;
+    address: {
+      city: string;
+      state: string;
+      pincode: string;
     };
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
 }
 
-export interface getServiceableTravelerDTO{
+export interface getServiceableTravelerDTO {
   traveler: {
     travelerId: string;
     name: string;
@@ -83,7 +83,7 @@ export interface PricingResponseDTO {
 
 
 export interface BookingDetailsUI extends BookingUI {
-  
+
   paymentDetails: {
     gateway: PaymentGatewayType;
     paymentMethod?: PaymentMethodType;
@@ -137,9 +137,9 @@ export interface BookingDetailsUI extends BookingUI {
 }
 
 
-export type HubJourneyStatusType =  "PENDING" | "RECEIVED" | "DISPATCHED";
+export type HubJourneyStatusType = "PENDING" | "RECEIVED" | "DISPATCHED";
 export type AddressLabelType = "Home" | "Office" | "Warehouse" | "Other";
-export type PaymentGatewayType = "RAZORPAY" ;
+export type PaymentGatewayType = "RAZORPAY";
 export type PaymentMethodType = "CARD" | "UPI" | "NETBANKING" | "WALLET";
 
 export type BookingStatusType =
@@ -166,7 +166,21 @@ export type PaymentStatusType =
 
 export type DeliveryPartnerType = "AGENCY" | "TRAVELER";
 
-export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";
+export type BookingStatusFilter =
+  | "ALL"
+  | "ACTIVE"
+  | "DELIVERED"
+  | "CANCELLED";
+
+export type PaymentStatusFilter =
+  | "ALL"
+  | "PENDING"
+  | "PAID"
+  | "FAILED"
+  | "REFUNDED";
+
+
+
 
 export interface BookingUI {
   id: string;
@@ -191,8 +205,18 @@ export interface BookingUI {
 
   packageDetails: {
     category: string;
-    size: PackageSizeType;
+
     weightKg: number;
+
+    dimensions: {
+      lengthCm: number;
+      widthCm: number;
+      heightCm: number;
+    };
+
+    volumetricWeightKg?: number;
+
+    fragile?: boolean;
   };
 
   pricing: {

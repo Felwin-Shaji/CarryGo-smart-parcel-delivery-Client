@@ -3,7 +3,7 @@ import type { BookingStatusType, BookingUI, PaymentStatusType } from "../../../.
 
 export const BookingCard = ({ booking }: { booking: BookingUI }) => {
   const navigate = useNavigate();
-console.log(booking.payment.paymentStatus,'kjjjjjjjjjjjjjjjjjjjjk')
+  console.log(booking.payment.paymentStatus, 'kjjjjjjjjjjjjjjjjjjjjk')
   const style =
     DELIVERY_STYLE_CONFIG[booking.deliveryPartnerType];
 
@@ -68,40 +68,39 @@ console.log(booking.payment.paymentStatus,'kjjjjjjjjjjjjjjjjjjjjk')
 
         <span>
           📦 {booking.packageDetails.category} •{" "}
-          {booking.packageDetails.size} •{" "}
           {booking.packageDetails.weightKg}kg
         </span>
       </div>
 
       {/* Status + Actions */}
+      {/* Status + Actions */}
       <div className="flex items-center justify-between">
         <BookingStatusBadge status={booking.status} />
 
-        <div className="flex gap-4">
+        <div className="flex gap-2">
+
           <button
-            onClick={() =>
-              navigate(`/bookings/${booking.id}`)
-            }
-            className={`text-sm font-medium hover:underline ${style.accent}`}
+            onClick={() => navigate(`/bookings/${booking.id}`)}
+            className="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition"
           >
-            View details
+            View Details
           </button>
 
           <button
-            className={`text-sm font-medium hover:underline ${style.accent}`}
+            className="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition"
           >
             Track
           </button>
 
-{ booking.payment.paymentStatus ==="FAILED" &&
-
+          {booking.payment.paymentStatus === "FAILED" && (
             <button
               onClick={() => navigate(`/booking/${booking.id}/pay`)}
-              className="px-5 py-2 bg-black text-white rounded-lg"
+              className="px-3 py-1.5 text-xs font-medium bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
             >
               Retry Payment
             </button>
-}
+          )}
+
         </div>
       </div>
     </div>
