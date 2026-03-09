@@ -75,17 +75,20 @@ export interface BookingState {
   selectedToHubId?: string;
   selectedTravelRequestId?: string;
 
-  selectedPartner?: PartnerPayload;
   packageDetails?: PackagePayload;
 
   // STEP 3
   pricing?: {
+    distanceKm: number;
+
     basePrice: number;
     distanceCharge: number;
-    distanceKm?: number;
-    sizeCharge: number;
+    volumetricCharge: number;
+
     platformFee: number;
-    totalAmount: number;
+
+    totalPrice: number;
+
     currency: "INR";
   };
 }

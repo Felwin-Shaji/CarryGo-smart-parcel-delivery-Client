@@ -67,14 +67,15 @@ export interface getServiceableTravelerDTO{
 
 
 
-export interface  PricingResponseDTO {
+export interface PricingResponseDTO {
   distanceKm: number;
 
   basePrice: number;
   distanceCharge: number;
-  sizeCharge: number;
+  volumetricCharge: number;
 
   platformFee: number;
+
   totalPrice: number;
 
   currency: "INR";
