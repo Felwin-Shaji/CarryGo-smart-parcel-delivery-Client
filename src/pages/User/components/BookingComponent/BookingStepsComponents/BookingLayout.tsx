@@ -1,75 +1,94 @@
 interface Props {
+  step: number;
+  title: string;
+  description: string;
   left: React.ReactNode;
   right: React.ReactNode;
 }
 
-const BookingLayout = ({ left, right }: Props) => {
+const steps = ["Location", "Service", "Package", "Review"];
+
+const BookingLayout = ({ step, title, description, left, right }: Props) => {
   return (
     <>
+      {/* HEADER */}
+      <div className="max-w-7xl mx-auto px-5 pt-6">
 
-      <div className="max-w-7xl mx-auto px-6 pt-6 pb-2">
         <div className="flex items-center justify-between mb-4">
 
-          {/* Steps */}
+          {/* Step Progress */}
           <div className="flex items-center gap-3 text-sm">
 
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">
-                ✓
-              </div>
-              <span>Location</span>
-            </div>
+            {steps.map((label, index) => {
+              const stepIndex = index + 1;
 
-            <div className="h-[2px] w-10 bg-yellow-400" />
+              const completed = stepIndex < step;
+              const active = stepIndex === step;
 
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">
-                ✓
-              </div>
-              <span>Service</span>
-            </div>
+              return (
+                <div key={label} className="flex items-center gap-3">
 
-            <div className="h-[2px] w-10 bg-yellow-400" />
+                  <div className="flex items-center gap-2">
 
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-yellow-400 text-white flex items-center justify-center text-xs">
-                3
-              </div>
-              <span className="font-medium">Package</span>
-            </div>
+                    {/* Circle */}
+                    <div
+                      className={`
+                        w-7 h-7 rounded-full flex items-center justify-center text-xs
+                        ${completed ? "bg-green-500 text-white" : ""}
+                        ${active ? "bg-yellow-400 text-white" : ""}
+                        ${!completed && !active ? "border text-gray-400" : ""}
+                      `}
+                    >
+                      {completed ? "✓" : stepIndex}
+                    </div>
 
-            <div className="h-[2px] w-10 bg-gray-200" />
+                    <span
+                      className={
+                        active ? "font-medium text-gray-900" : "text-gray-500"
+                      }
+                    >
+                      {label}
+                    </span>
 
-            <div className="flex items-center gap-2 text-gray-400">
-              <div className="w-7 h-7 rounded-full border flex items-center justify-center text-xs">
-                4
-              </div>
-              <span>Review</span>
-            </div>
+                  </div>
 
+                  {/* Connector */}
+                  {index < steps.length - 1 && (
+                    <div
+                      className={`h-[2px] w-10 ${
+                        stepIndex < step ? "bg-yellow-400" : "bg-gray-200"
+                      }`}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <p className="text-xs text-gray-500">
-            STEP 3 OF 4
+            STEP {step} OF {steps.length}
           </p>
         </div>
 
+        {/* Title */}
         <h2 className="text-xl font-semibold">
-          Package Details
+          {title}
         </h2>
 
-        <p className="text-sm text-gray-500 mb-6">
-          Tell us about the package you want to send so we can calculate pricing accurately.
+        <p className="text-sm text-gray-500">
+          {description}
         </p>
       </div>
+
+      {/* CONTENT */}
       <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-12 gap-8">
 
-        {/* LEFT CONTENT */}
+        {/* LEFT */}
         <div className="col-span-8 space-y-6">
           {left}
         </div>
 
-        {/* RIGHT CONTENT */}
+        {/* RIGHT */}
         <div className="col-span-4">
           <div className="sticky top-24">
             {right}

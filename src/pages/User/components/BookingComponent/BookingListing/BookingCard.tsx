@@ -3,7 +3,7 @@ import type { BookingStatusType, BookingUI, PaymentStatusType } from "../../../.
 
 export const BookingCard = ({ booking }: { booking: BookingUI }) => {
   const navigate = useNavigate();
-
+console.log(booking.payment.paymentStatus,'kjjjjjjjjjjjjjjjjjjjjk')
   const style =
     DELIVERY_STYLE_CONFIG[booking.deliveryPartnerType];
 
@@ -92,6 +92,16 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
           >
             Track
           </button>
+
+{ booking.payment.paymentStatus ==="FAILED" &&
+
+            <button
+              onClick={() => navigate(`/booking/${booking.id}/pay`)}
+              className="px-5 py-2 bg-black text-white rounded-lg"
+            >
+              Retry Payment
+            </button>
+}
         </div>
       </div>
     </div>

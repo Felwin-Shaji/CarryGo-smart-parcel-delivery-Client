@@ -24,16 +24,16 @@ const BookingStepTwo = () => {
   const [loadingTravelers, setLoadingTravelers] = useState(false);
 
   const handleBack = () => {
-  dispatch({ type: "SET_STEP", payload: 1 });
-};
+    dispatch({ type: "SET_STEP", payload: 1 });
+  };
 
-const handleReset = () => {
-  dispatch({ type: "RESET_BOOKING" });
-};
+  const handleReset = () => {
+    dispatch({ type: "RESET_BOOKING" });
+  };
 
-const handleContinue = () => {
-  dispatch({ type: "SET_STEP", payload: 3 });
-};
+  const handleContinue = () => {
+    dispatch({ type: "SET_STEP", payload: 3 });
+  };
 
   /**
    * Fetch Agencies
@@ -120,6 +120,9 @@ const handleContinue = () => {
   if (loadingAgencies) {
     return (
       <BookingLayout
+        step={2}
+        title="Choose Service"
+        description="Select the courier service for delivery."
         left={
           <div className="bg-white border rounded-xl p-10 text-center text-gray-500">
             Checking available delivery partners...
@@ -146,6 +149,9 @@ const handleContinue = () => {
   if (noServiceAvailable) {
     return (
       <BookingLayout
+        step={2}
+        title="Choose Service"
+        description="Select the courier service for delivery."
         left={<NoServiceAvailable />}
         right={
           <BookingOverview
@@ -160,6 +166,9 @@ const handleContinue = () => {
 
   return (
     <BookingLayout
+      step={2}
+      title="Choose Service"
+      description="Select the courier service for delivery."
       left={
         <>
           <PartnerTabs
@@ -223,19 +232,19 @@ const handleContinue = () => {
         </>
       }
       right={
-  <BookingOverview
-    pickup={state.pickupAddress?.formattedAddress}
-    delivery={state.deliveryAddress?.formattedAddress}
-    partnerSelected={!!state.partnerId}
-  >
-    <BookingNavigation
-      onBack={handleBack}
-      onReset={handleReset}
-      onContinue={handleContinue}
-      disableContinue={!state.partnerId}
-    />
-  </BookingOverview>
-}
+        <BookingOverview
+          pickup={state.pickupAddress?.formattedAddress}
+          delivery={state.deliveryAddress?.formattedAddress}
+          partnerSelected={!!state.partnerId}
+        >
+          <BookingNavigation
+            onBack={handleBack}
+            onReset={handleReset}
+            onContinue={handleContinue}
+            disableContinue={!state.partnerId}
+          />
+        </BookingOverview>
+      }
     />
   );
 };
