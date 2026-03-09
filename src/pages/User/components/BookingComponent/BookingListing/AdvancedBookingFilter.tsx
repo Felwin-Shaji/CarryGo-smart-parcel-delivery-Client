@@ -1,6 +1,7 @@
-import { Filter, X } from "lucide-react";
+import { Filter, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { BookingFilterParams } from "../../../UserBookingList";
+import { useNavigate } from "react-router-dom";
 
 
 interface AdvancedBookingFilterProps {
@@ -11,31 +12,36 @@ interface AdvancedBookingFilterProps {
   onApply: () => void;
 }
 
-export const AdvancedBookingFilter = ({
-  filters,
-  setFilters,
-  onApply
-}: AdvancedBookingFilterProps) => {
+export const AdvancedBookingFilter = ({ filters, setFilters, onApply }: AdvancedBookingFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
       setFilters(filters);
     }
   }, [isOpen]);
+
   const clearFilters = () => {
     setFilters({
       deliveryType: "ALL",
       status: "ALL",
       paymentStatus: "ALL",
-      size: "ALL",
     });
   };
 
   return (
     <>
       {/* Filter Button */}
-      <div className="max-w-6xl mx-auto mt-24 px-4 flex justify-end">
+      <div className="max-w-6xl gap-3 mx-auto mt-24 px-4 flex justify-end">
+        <button
+          onClick={() => navigate("/booking")}
+          className="flex items-center gap-3 bg-indigo-600 text-white px-4 py-2 rounded-xl shadow-sm hover:bg-indigo-700 transition"
+        >
+          <Plus size={18} />
+          New Parcel
+        </button>
+
         <button
           onClick={() => setIsOpen(true)}
           className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition"
@@ -118,25 +124,6 @@ export const AdvancedBookingFilter = ({
                     { label: "Pending", value: "PENDING" },
                     { label: "Paid", value: "PAID" },
                     { label: "Failed", value: "FAILED" },
-                  ]}
-                />
-              </FilterSection>
-
-              <FilterSection title="Package">
-                <FilterSelect
-                  label="Size"
-                  value={filters.size}
-                  onChange={(value: string) =>
-                    setFilters((prev: any) => ({
-                      ...prev,
-                      size: value,
-                    }))
-                  }
-                  options={[
-                    { label: "All", value: "ALL" },
-                    { label: "Small", value: "SMALL" },
-                    { label: "Medium", value: "MEDIUM" },
-                    { label: "Large", value: "LARGE" },
                   ]}
                 />
               </FilterSection>
