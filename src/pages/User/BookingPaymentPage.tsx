@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { openRazorpayCheckout } from "../../Services/Payment/razorpay";
 import { usePayment } from "../../Services/Payment/usePayment";
 import toast from "react-hot-toast";
@@ -7,9 +7,8 @@ import toast from "react-hot-toast";
 const BookingPaymentPage = () => {
     const { bookingId } = useParams();
 
-    const { initiatePayment, verifyPayment } = usePayment();
+    const { initiatePayment, verifyPayment, paymentCancelled } = usePayment();
 
-    const navigate = useNavigate()
 
     useEffect(() => {
         startPayment();
@@ -25,17 +24,23 @@ const BookingPaymentPage = () => {
             orderId,
             amount,
             currency,
-            role:"user",
+            role: "user",
             title: "CarryGo",
             description: "Parcel Delivery Payment",
             referenceId: bookingId,
             onSuccess: (response, bookingId) => {
                 verifyPayment(response, bookingId!);
             },
-            onFailure: () => {
-                toast.error("Payment cancelled");
-                navigate("/user/booking")
-            },
+            onFailure: async (error) => {
+
+                if (error) {
+                    toast.error( "Payment failed");
+                } else {
+                    toast.error("Payment cancelled");
+                }
+
+                await paymentCancelled(bookingId!, error);
+            }
         });
     };
 

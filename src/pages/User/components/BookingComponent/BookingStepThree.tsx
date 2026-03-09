@@ -75,6 +75,9 @@ export default function BookingStepThree() {
 
     return (
         <BookingLayout
+          step={3}
+  title="Package Details"
+  description="Tell us about your package."
             left={
                 <div className="space-y-6">
 

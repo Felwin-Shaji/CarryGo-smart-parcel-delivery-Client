@@ -1,45 +1,37 @@
-type AgencyPricePayload = {
-    deliveryType: "AGENCY";
-    partnerId: string;
-    packageDetails: {
-        category: string;
-        size: "SMALL" | "MEDIUM" | "LARGE";
-        weightKg: number;
+import type { AddressUI } from "../../../../context/Booking/Booking.types";
+
+type BasePackageDetails = {
+    category: string;
+    weightKg: number;
+
+    dimensions: {
+        lengthCm: number;
+        widthCm: number;
+        heightCm: number;
     };
-    pickupAddressId: string;
-    deliveryAddressId: string;
 };
 
-type TravelerPricePayload = {
-    deliveryType: "TRAVELER";
-    partnerId: string;
-    travelRequestId: string;
-    packageDetails: {
-        category: string;
-        size: "SMALL" | "MEDIUM" | "LARGE";
-        weightKg: number;
-    };
-    pickupAddressId: string;
-    deliveryAddressId: string;
-};
+export interface CalculatePricePayload {
+    deliveryType: "AGENCY" | "TRAVELER";
 
-export type CalculatePricePayload =
-    | AgencyPricePayload
-    | TravelerPricePayload;
+    partnerId?: string;
+    travelRequestId?: string;
+
+    pickupAddress: AddressUI;
+    deliveryAddress: AddressUI;
+
+    packageDetails: BasePackageDetails
+}
 
 
-    type AgencyBookingPayload = {
+export type AgencyBookingPayload = {
     deliveryType: "AGENCY";
     partnerId: string;
 
-    pickupAddressId: string;
-    deliveryAddressId: string;
+    pickupAddress: AddressUI
+    deliveryAddress: AddressUI
 
-    packageDetails: {
-        category: string;
-        size: "SMALL" | "MEDIUM" | "LARGE";
-        weightKg: number;
-    };
+    packageDetails: BasePackageDetails
 };
 
 type TravelerBookingPayload = {
@@ -47,14 +39,10 @@ type TravelerBookingPayload = {
     partnerId: string; // travelerId
     travelRequestId: string; // REQUIRED
 
-    pickupAddressId: string;
-    deliveryAddressId: string;
+    pickupAddress: AddressUI
+    deliveryAddress: AddressUI
 
-    packageDetails: {
-        category: string;
-        size: "SMALL" | "MEDIUM" | "LARGE";
-        weightKg: number;
-    };
+    packageDetails: BasePackageDetails
 };
 
 export type CreateBookingPayload =

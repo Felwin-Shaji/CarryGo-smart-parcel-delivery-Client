@@ -19,11 +19,26 @@ type Action =
   | { type: "SELECT_TRAVELER"; payload: { travelerId: string; travelRequestId: string } }
   | { type: "SET_PACKAGE_DETAILS"; payload: PackagePayload }
   | { type: "SET_PRICING"; payload: BookingState["pricing"] }
-  | { type: "SET_STEP"; payload: 1 | 2 | 3 | 4}
+  | { type: "SET_STEP"; payload: 1 | 2 | 3 | 4 }
   | { type: "RESET_BOOKING" };
 
+  const defaultBookingState: BookingState = {
+  step: 1,
+  pickupAddress: undefined,
+  deliveryAddress: undefined,
+  deliveryType: undefined,
+  partnerId: undefined,
+  selectedFromHubId: undefined,
+  selectedToHubId: undefined,
+  selectedTravelRequestId: undefined,
+  packageDetails: undefined,
+  pricing: undefined,
+  serviceableAgencies: [],
+  serviceableTravelers: [],
+};
+
 const initialState: BookingState =
-  loadBookingState() ?? {};
+  loadBookingState() ?? defaultBookingState;
 
 const BookingContext = createContext<BookingContextValue | null>(null);
 
@@ -95,7 +110,7 @@ const reducer = (state: BookingState, action: Action): BookingState => {
       return {
         ...state,
         pricing: action.payload,
-        step: 3,
+        // step: 3,
       };
 
     case "SET_STEP":
@@ -104,9 +119,8 @@ const reducer = (state: BookingState, action: Action): BookingState => {
         step: action.payload,
       };
 
-    case "RESET_BOOKING":
-      clearBookingState();
-      return { step: 1 };
+case "RESET_BOOKING":
+  return defaultBookingState;
 
     default:
       return state;
@@ -120,7 +134,11 @@ export const BookingProvider = ({ children }: { children: React.ReactNode }) => 
   console.log('ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', state);
 
   useEffect(() => {
-    saveBookingState(state);
+    if (state.step === 1 && Object.keys(state).length === 1) {
+      clearBookingState();
+    } else {
+      saveBookingState(state);
+    }
   }, [state]);
 
   return (

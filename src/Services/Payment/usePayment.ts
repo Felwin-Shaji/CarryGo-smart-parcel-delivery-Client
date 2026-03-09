@@ -1,3 +1,4 @@
+import type { RazorpaySuccessResponse } from "../../constants_Types/types/razorpay";
 import { useAxios } from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +16,7 @@ export const usePayment = () => {
         return res.data.data;
     };
 
-    const verifyPayment = async (response: any, referenceId: string) => {
+    const verifyPayment = async (response: RazorpaySuccessResponse, referenceId: string) => {
         const res = await axiosInstance.post(
             "/api/user/booking/payment/verify",
             {
@@ -28,11 +29,25 @@ export const usePayment = () => {
 
         navigate(`/booking/${referenceId}/success`);
 
-console.log(res.data.message)
+        console.log(res.data.message)
     }
+
+    const paymentCancelled = async (bookingId: string, error?: any) => {
+
+        await axiosInstance.post(
+            "/api/user/booking/payment/failed",
+            {
+                bookingId,
+                reason: error?.description || "User cancelled payment"
+            }
+        );
+
+        navigate(`/booking/${bookingId}/failed`);
+    };
 
     return {
         initiatePayment,
-        verifyPayment
+        verifyPayment,
+        paymentCancelled
     }
 }
