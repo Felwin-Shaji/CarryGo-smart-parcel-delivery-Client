@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useBookingContext } from "../../../../../context/Booking/BookingContext";
 import type { AddressUI, TemporaryAddress } from "../../../../../context/Booking/Booking.types";
 import MapLocationPicker from "../../../../../components/Map/MapLocationPicker";
 import { useAddress } from "../../../../../Services/User/useAddress";
@@ -10,15 +9,17 @@ interface Props {
     onClose: () => void;
     savedAddresses?: AddressUI[];
     loading: boolean;
+    onSelectAddress?: (address: AddressUI) => void;
 }
 
 const AddressModal = ({
     type,
     onClose,
     savedAddresses = [],
-    loading = false
+    loading = false,
+    onSelectAddress
 }: Props) => {
-    const { dispatch } = useBookingContext();
+    // const { dispatch } = useBookingContext();
     const { reverseGeocode, saveAddress } = useAddress();
 
     const [coords, setCoords] = useState<[number, number] | null>(null);
@@ -30,10 +31,7 @@ const AddressModal = ({
 
     const handleConfirm = () => {
         if (!selectedAddress) return;
-        dispatch({
-            type: "SET_ADDRESS",
-            payload: { slot: type, address: selectedAddress },
-        });
+        onSelectAddress?.(selectedAddress);
         onClose();
     };
 
@@ -46,8 +44,6 @@ const AddressModal = ({
 
                 await saveAddress({
                     label: "Other",
-                    // addressLine1: detectedAddress.addressLine1,
-                    // addressLine2: detectedAddress.addressLine2 ?? "",
                     formattedAddress: detectedAddress.formattedAddress ?? "",
                     city: detectedAddress.city,
                     state: detectedAddress.state,
@@ -59,15 +55,10 @@ const AddressModal = ({
                 addressToUse = detectedAddress;
             }
 
-            if(!addressToUse){
-                return 
+            if (!addressToUse) {
+                return
             }
-
-            dispatch({
-                type: "SET_ADDRESS",
-                payload: { slot: type, address: addressToUse },
-            });
-
+            onSelectAddress?.(addressToUse);
             onClose();
 
         } catch (err) {

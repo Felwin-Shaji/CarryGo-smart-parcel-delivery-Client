@@ -66,7 +66,8 @@ const BookingStepTwo = () => {
    */
   useEffect(() => {
     if (tab !== "TRAVELERS") return;
-    if (state.serviceableTravelers !== undefined) return;
+    if (state.serviceableTravelers?.length) return;
+    console.log(tab,'llllllllllllllllllllllllllllllllllll"ssssssssssssssssssssssssssssssssssssssssssss')
 
     const fetchTravelers = async () => {
       if (!state.pickupAddress?.location || !state.deliveryAddress?.location)
@@ -78,6 +79,8 @@ const BookingStepTwo = () => {
         state.pickupAddress.location,
         state.deliveryAddress.location
       );
+
+      console.log(travelers,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
 
       dispatch({
         type: "SET_SERVICEABLE_TRAVELERS",
