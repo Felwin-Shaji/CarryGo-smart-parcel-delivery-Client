@@ -1,27 +1,49 @@
+import { ArrowLeft, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import type { BookingDetailsUI } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
 
-export const HeroStatusCard = ({ booking }: { booking: BookingDetailsUI }) => (
-    <div className="rounded-3xl bg-gradient-to-br from-blue-600 to-indigo-600 p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between">
-            <div>
-                <p className="text-sm opacity-80">Booking ID</p>
-                <p className="font-mono text-lg">#{booking.id.slice(-6)}</p>
-            </div>
+export const HeroStatusCard = ({ booking }: { booking: BookingDetailsUI }) => {
+  const navigate = useNavigate();
 
-            <span className="rounded-full bg-white/20 px-4 py-1 text-sm font-semibold">
-                {booking.status.replaceAll("_", " ")}
-            </span>
+  return (
+    <div className="bg-white border rounded-xl shadow-sm p-6">
+
+      <div className="flex items-center justify-between mb-6">
+
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-sm hover:text-black"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </button>
+
+        <span className="text-sm text-gray-500">
+          Booking ID <span className="font-mono text-gray-800">#{booking.id.slice(-6)}</span>
+        </span>
+
+        <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+          {booking.status.replaceAll("_", " ")}
+        </span>
+
+      </div>
+
+      <div className="flex items-end justify-between">
+
+        <div>
+          <p className="text-sm text-gray-500">Total Paid</p>
+          <p className="text-4xl font-bold text-gray-900">
+            ₹{booking.pricing.totalAmount}
+          </p>
         </div>
 
-        <div className="mt-6 flex items-end justify-between">
-            <div>
-                <p className="text-sm opacity-80">Total Amount</p>
-                <p className="text-3xl font-bold">₹{booking.pricing.totalAmount}</p>
-            </div>
-
-            <div className="text-right text-sm opacity-80">
-                {booking.distanceKm} km delivery
-            </div>
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <MapPin className="w-4 h-4 text-blue-500" />
+          {booking.distanceKm} km delivery
         </div>
+
+      </div>
+
     </div>
-);
+  );
+};

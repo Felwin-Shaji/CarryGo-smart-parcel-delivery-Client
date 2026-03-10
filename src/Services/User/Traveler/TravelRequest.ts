@@ -1,7 +1,8 @@
 import { API_USER } from "../../../constants_Types/apiRoutes";
+import type { BookingListResponse } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
 import type { CreateTravelRequestDTO, TripDetailsUI } from "../../../constants_Types/types/User/Traveler/TravelerType";
 import { useAxios } from "../../../hooks/useAxios"
-import type { TravelRequestUI } from "../../../pages/User/Traveler/TravelerConponents/TravelerBookingContents";
+import type { PaginatedTravelRequestResponse, TravelRequestListParams } from "../../../pages/User/Traveler/TravelerConponents/TravelerTravelRequestList";
 
 export const useTravelRequest = () => {
     const axiosInstance = useAxios();
@@ -10,10 +11,22 @@ export const useTravelRequest = () => {
         await axiosInstance.post(API_USER.TRAVELER_REQUEST, data);
     };
 
-    const getTravelRequestList = async () => {
-        const response = await axiosInstance.get(API_USER.TRAVELER_REQUEST);
-        return response.data.data as  TravelRequestUI[];
+    const getTravelRequestList = async (
+        params?: TravelRequestListParams
+    ): Promise<PaginatedTravelRequestResponse> => {
+
+        const response = await axiosInstance.get(API_USER.TRAVELER_REQUEST, {
+            params
+        });
+
+        return response.data.data;
     };
+
+    const getBookingsForTravelRequest = async (id: string): Promise<BookingListResponse> => {
+        const response = await axiosInstance.get(`${API_USER.TRAVELER_REQUEST}/${id}/bookings`);
+
+        return response.data.data
+    }
 
     const getTripById = async (id: string) => {
         const response = await axiosInstance.get(`${API_USER.TRAVELER_REQUEST}/${id}`);
@@ -23,6 +36,7 @@ export const useTravelRequest = () => {
     return {
         createTravelRequest,
         getTravelRequestList,
-        getTripById
+        getTripById,
+        getBookingsForTravelRequest
     };
 } 

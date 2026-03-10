@@ -50,14 +50,22 @@ const BookingStepOne = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-50/80">
-            {mapFor && (
-                <AddressModal
-                    type={mapFor}
-                    onClose={() => setMapFor(null)}
-                    savedAddresses={savedAddresses}
-                    loading={loadingAddresses}
-                />
-            )}
+{mapFor && (
+  <AddressModal
+    type={mapFor}
+    onClose={() => setMapFor(null)}
+    savedAddresses={savedAddresses}
+    loading={loadingAddresses}
+    onSelectAddress={(addr) => {
+      dispatch({
+        type: "SET_ADDRESS",
+        payload: { slot: mapFor, address: addr }
+      });
+
+      setMapFor(null);
+    }}
+  />
+)}
             <BookingLayout
                 step={1}
                 title="Select Locations"

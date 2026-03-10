@@ -1,13 +1,13 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useTravelRequest } from "../../../Services/User/Traveler/TravelRequest";
 import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import type { TripDetailsUI, TripOrderUI } from "../../../constants_Types/types/User/Traveler/TravelerType";
-import { ArrowLeft } from "lucide-react";
+import BackButton from "../../../components/globelcomponents/BackButton";
 
 export const TravelerTripDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { getTripById } = useTravelRequest();
 
   const [trip, setTrip] = useState<TripDetailsUI | null>(null);
@@ -18,6 +18,7 @@ export const TravelerTripDetails = () => {
       try {
         if (!id) return;
         const data = await getTripById(id);
+        console.log(data)
         setTrip(data);
       } finally {
         setLoading(false);
@@ -27,13 +28,12 @@ export const TravelerTripDetails = () => {
     fetchTrip();
   }, [id]);
 
-
   if (loading)
     return (
       <>
         <Header isLoggedIn />
-        <div className="min-h-screen bg-gray-50 pt-24 px-6 flex items-center justify-center">
-          <p className="text-gray-500">Loading trip details...</p>
+        <div className="min-h-screen bg-gray-50 pt-24 flex justify-center items-center">
+          Loading trip details...
         </div>
       </>
     );
@@ -42,145 +42,173 @@ export const TravelerTripDetails = () => {
     return (
       <>
         <Header isLoggedIn />
-        <div className="min-h-screen bg-gray-50 pt-24 px-6 flex items-center justify-center">
-          <p className="text-gray-500">Trip not found</p>
+        <div className="min-h-screen bg-gray-50 pt-24 flex justify-center items-center">
+          Trip not found
         </div>
       </>
     );
+
+  const usedCapacity = trip.capacityKg - trip.remainingCapacityKg;
 
   return (
     <>
       <Header isLoggedIn />
 
-      <div className="min-h-screen bg-gray-50 pt-24 px-6">
-        <div className="max-w-7xl mx-auto space-y-10">
+      <div className="min-h-screen bg-gray-50 pt-24 px-6 pb-10">
 
-          {/* HERO SECTION */}
-          <div className="bg-white rounded-3xl shadow-sm border p-8 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto space-y-6">
+
+          {/* HEADER */}
+          <div className="bg-white border rounded-xl p-6 flex items-start justify-between shadow-sm">
 
             <div>
-
-              <h1 className="text-3xl font-bold tracking-tight">
+              <h1 className="text-2xl font-semibold text-gray-800">
                 {trip.startCity} → {trip.endCity}
               </h1>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-sm text-gray-500 mt-2">
                 Departure: {new Date(trip.departureAt).toLocaleString()}
               </p>
+
+              {trip.arrivalAt && (
+                <p className="text-sm text-gray-500">
+                  Arrival: {new Date(trip.arrivalAt).toLocaleString()}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col items-end gap-4">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center justify-center 
-                                w-12 h-12 rounded-full bg-white shadow-lg border text-gray-700 hover:bg-gray-100
-                                transition-all">
-                <ArrowLeft size={20} />
-              </button>
+            <div className="flex flex-col items-end gap-3">
+              <BackButton />
               <StatusBadge status={trip.status} />
+            </div>
 
-              <div className="flex gap-3">
-                {/* const hasBookings = trip.orders.length > 0; */}
+          </div>
 
-                <div className="flex gap-3">
 
-                  {/* Edit allowed only if DRAFT and no bookings */}
-                  {/* {trip.status === "DRAFT" && trip.orders.length === 0 && (
-                    <button
-                      onClick={() => navigate(`/traveler/trip/${trip.id}/edit`)}
-                      className="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
-                    >
-                      Edit Trip
-                    </button>
-                  )} */}
+          {/* MAIN GRID */}
+          <div className="grid lg:grid-cols-3 gap-6">
 
-                  {/* Cancel allowed only if ACTIVE / PARTIALLY_BOOKED and no delivered bookings */}
-                  {/* {(trip.status === "ACTIVE" || trip.status === "PARTIALLY_BOOKED" || trip.status === "DRAFT") && (
-                      <button
-                        className="px-5 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700"
-                      >
-                        Cancel Trip
-                      </button>
-                    )} */}
+            {/* LEFT SIDE */}
+            <div className="lg:col-span-2 space-y-6">
+
+              {/* KPI CARDS */}
+              <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+
+                <KpiCard
+                  title="Capacity Used"
+                  value={`${usedCapacity} / ${trip.capacityKg} kg`}
+                />
+
+                <KpiCard
+                  title="Orders"
+                  value={trip.stats.totalOrders}
+                />
+
+                <KpiCard
+                  title="Active Orders"
+                  value={trip.stats.activeOrders}
+                />
+
+                <KpiCard
+                  title="Earnings"
+                  value={`₹${trip.earnings.total}`}
+                  highlight
+                />
+
+              </div>
+
+
+              {/* ORDERS */}
+              <div className="bg-white border rounded-xl shadow-sm">
+                <div className="p-6 border-b flex justify-between items-center">
+
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      Trip Orders
+                    </h2>
+
+                    <p className="text-sm text-gray-500">
+                      Manage parcels assigned to this trip
+                    </p>
+                  </div>
+
+                  <span className="text-sm font-medium text-gray-600">
+                    {trip.orders.length} {trip.orders.length === 1 ? "Order" : "Orders"}
+                  </span>
 
                 </div>
 
+
+                <OrdersTable orders={trip.orders} />
+
               </div>
-            </div>
-          </div>
-
-
-          {/* KPI CARDS */}
-          <div className="grid grid-cols-4 gap-6">
-
-            <KpiCard
-              title="Capacity Used"
-              value={`${trip.capacityKg - trip.remainingCapacityKg} / ${trip.capacityKg} kg`}
-            />
-
-            <KpiCard
-              title="Total Orders"
-              value={trip.stats.totalOrders}
-            />
-
-            <KpiCard
-              title="Active Orders"
-              value={trip.stats.activeOrders}
-            />
-
-            <KpiCard
-              title="Earnings"
-              value={`₹${trip.earnings.total}`}
-              highlight
-            />
-
-          </div>
-
-
-          {/* TRIP DETAILS SECTION */}
-          <div className="bg-white rounded-3xl shadow-sm border p-8 space-y-6">
-
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">
-                Trip Information
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-3 gap-6 text-sm">
-
-              <DetailItem label="Mode">
-                {trip.modeOfTransport}
-              </DetailItem>
-
-              <DetailItem label="Allowed Sizes">
-                {trip.allowedPackageSizes.join(", ")}
-              </DetailItem>
-
-              <DetailItem label="Created At">
-                {new Date(trip.createdAt).toLocaleDateString()}
-              </DetailItem>
 
             </div>
 
-            {trip.description && (
-              <div>
-                <p className="text-gray-500 text-sm mb-1">Description</p>
-                <p className="text-sm">{trip.description}</p>
+
+            {/* RIGHT SIDE - TRIP INFO */}
+            <div className="space-y-6">
+
+              <div className="bg-white border rounded-xl shadow-sm p-6">
+
+                <h2 className="text-lg font-semibold mb-5">
+                  Trip Information
+                </h2>
+
+                <div className="grid grid-cols-2 gap-4">
+
+                  <DetailItem label="Transport" value={trip.modeOfTransport} />
+
+                  <DetailItem
+                    label="Total Volume"
+                    value={`${trip.totalVolumeCm3} cm³`}
+                  />
+
+                  <DetailItem
+                    label="Remaining Volume"
+                    value={`${trip.remainingVolumeCm3} cm³`}
+                  />
+
+                  <DetailItem
+                    label="Max Length"
+                    value={`${trip.allowedPackageDimensions.maxLengthCm} cm`}
+                  />
+
+                  <DetailItem
+                    label="Max Width"
+                    value={`${trip.allowedPackageDimensions.maxWidthCm} cm`}
+                  />
+
+                  <DetailItem
+                    label="Max Height"
+                    value={`${trip.allowedPackageDimensions.maxHeightCm} cm`}
+                  />
+
+                </div>
+
+                {trip.description && (
+                  <div className="mt-6 pt-4 border-t">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                      Notes
+                    </p>
+
+                    <p className="text-sm text-gray-700">
+                      {trip.description}
+                    </p>
+                  </div>
+                )}
+
               </div>
-            )}
+
+            </div>
 
           </div>
-
-          {/* ORDERS SECTION */}
-          <OrdersTable orders={trip.orders} />
-
-
 
         </div>
+
       </div>
     </>
   );
-
 };
 
 
@@ -196,9 +224,17 @@ const StatusBadge = ({ status }: { status: string }) => {
     CANCELLED: "bg-red-100 text-red-700",
   };
 
+  const formatted = status
+    .toLowerCase()
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, l => l.toUpperCase());
+
   return (
-    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${config[status]}`}>
-      {status.replace("_", " ")}
+    <span
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+      ${config[status] || "bg-gray-100 text-gray-600"}`}
+    >
+      {formatted}
     </span>
   );
 };
@@ -207,83 +243,165 @@ const KpiCard = ({
   title,
   value,
   highlight = false,
+  icon
 }: {
   title: string;
   value: string | number;
   highlight?: boolean;
-}) => (
-  <div
-    className={`rounded-2xl p-6 shadow-sm border ${highlight ? "bg-green-50 border-green-200" : "bg-white"
-      }`}
-  >
-    <p className="text-sm text-gray-500">{title}</p>
-    <p className="text-xl font-semibold mt-1">{value}</p>
-  </div>
-);
+  icon?: React.ReactNode;
+}) => {
+
+  return (
+    <div
+      className={`rounded-xl border p-5 transition hover:shadow-md
+      ${highlight
+          ? "bg-green-50 border-green-200"
+          : "bg-white border-gray-200"
+        }`}
+    >
+
+      <div className="flex items-center justify-between">
+
+        <p className="text-sm text-gray-500">
+          {title}
+        </p>
+
+        {icon && (
+          <div className="text-gray-400">
+            {icon}
+          </div>
+        )}
+
+      </div>
+
+      <p className="text-2xl font-semibold mt-2">
+        {value}
+      </p>
+
+    </div>
+  );
+};
 
 const DetailItem = ({
   label,
-  children,
+  value,
 }: {
   label: string;
-  children: React.ReactNode;
-}) => (
-  <div>
-    <p className="text-gray-500 mb-1">{label}</p>
-    <p className="font-medium">{children}</p>
-  </div>
-);
+  value: React.ReactNode;
+}) => {
+
+  return (
+    <div className="bg-gray-50 border rounded-lg px-4 py-3">
+
+      <p className="text-xs text-gray-500 uppercase tracking-wide">
+        {label}
+      </p>
+
+      <p className="text-sm font-semibold text-gray-800 mt-1">
+        {value}
+      </p>
+
+    </div>
+  );
+};
 
 const OrdersTable = ({ orders }: { orders: TripOrderUI[] }) => {
 
+  const getStatusColor = (status: string) => {
+
+    const map: Record<string, string> = {
+      PAID_PENDING_PICKUP: "bg-yellow-100 text-yellow-700",
+      PICKED_UP: "bg-blue-100 text-blue-700",
+      IN_TRANSIT: "bg-indigo-100 text-indigo-700",
+      DELIVERED: "bg-green-100 text-green-700",
+      CANCELLED: "bg-red-100 text-red-700",
+    };
+
+    return map[status] || "bg-gray-100 text-gray-600";
+  };
+
   if (!orders.length) {
     return (
-      <div className="bg-white rounded-3xl shadow-sm border p-8 text-center text-gray-500">
-        No orders yet for this trip.
+      <div className="p-12 text-center">
+
+        <div className="text-4xl mb-3">📦</div>
+
+        <h3 className="text-sm font-semibold text-gray-700">
+          No orders yet
+        </h3>
+
+        <p className="text-sm text-gray-500 mt-1">
+          Once customers book parcels on this trip, they will appear here.
+        </p>
+
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border p-8">
-      <h2 className="text-xl font-semibold mb-6">
-        Orders ({orders.length})
-      </h2>
+    <div className="p-6 space-y-4">
 
-      <div className="divide-y">
+      {orders.map(order => (
+        <div
+          key={order.id}
+          className="flex items-center justify-between p-5 rounded-xl border hover:shadow-md transition"
+        >
 
-        {orders.map(order => (
-          <div
-            key={order.id}
-            className="py-4 flex justify-between items-center"
-          >
-            <div>
-              <p className="font-medium">#{order.id}</p>
-              <p className="text-sm text-gray-500">
-                {order.pickupCity} → {order.deliveryCity}
-              </p>
-            </div>
+          {/* LEFT */}
+          <div className="space-y-1">
 
-            <div className="text-sm">
+            <p className="font-semibold text-gray-800">
+              #{order.id}
+            </p>
+
+            <p className="text-sm text-gray-500">
+              {order.pickupCity} → {order.deliveryCity}
+            </p>
+
+            <p className="text-xs text-gray-400">
               {order.weightKg} kg
-            </div>
+            </p>
 
-            <div className="font-semibold text-green-600">
-              ₹{order.amount}
-            </div>
+          </div>
 
-            <div className="text-xs text-gray-500">
-              {order.status}
-            </div>
+          {/* PRICE */}
+          <div className="text-lg font-semibold text-green-600">
+            ₹{order.amount}
+          </div>
 
-            <button className="text-blue-600 text-sm hover:underline">
+          {/* STATUS */}
+          <span
+            className={`px-3 py-1 text-xs rounded-full font-medium ${getStatusColor(order.status)}`}
+          >
+            {order.status.replaceAll("_", " ")}
+          </span>
+
+          {/* ACTIONS */}
+          <div className="flex gap-3">
+
+            <select
+              className="border rounded-lg text-sm px-3 py-1 bg-gray-50"
+              defaultValue={order.status}
+            >
+              <option value="PAID_PENDING_PICKUP">Pending Pickup</option>
+              <option value="PICKED_UP">Picked Up</option>
+              <option value="IN_TRANSIT">In Transit</option>
+              <option value="DELIVERED">Delivered</option>
+            </select>
+
+            <button className="text-sm px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              Update
+            </button>
+
+            <button className="text-sm px-4 py-1 border rounded-lg hover:bg-gray-50">
               View
             </button>
-          </div>
-        ))}
 
-      </div>
+          </div>
+
+        </div>
+      ))}
+
     </div>
   );
 };
-
