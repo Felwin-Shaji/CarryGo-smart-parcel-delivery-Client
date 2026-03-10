@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import type { TravelRequestStatus, TravelRequestUI } from "./TravelerBookingContents";
+import type { TravelRequestStatus, TravelRequestUI } from "./TravelerTravelRequestList";
+
+const extractCity = (address: string) => {
+    const parts = address.split(",");
+    return parts[parts.length - 4]?.trim() ?? address;
+};
 
 export const TravelRequestCard = ({ trip }: { trip: TravelRequestUI }) => {
 
@@ -20,9 +25,9 @@ export const TravelRequestCard = ({ trip }: { trip: TravelRequestUI }) => {
                 </div>
 
                 <div className="text-right">
-                    <p className="font-semibold text-lg text-green-600">
+                    {/* <p className="font-semibold text-lg text-green-600">
                         ₹{trip.totalEarnings}
-                    </p>
+                    </p> */}
                     <TripStatusBadge status={trip.status} />
                 </div>
             </div>
@@ -32,7 +37,7 @@ export const TravelRequestCard = ({ trip }: { trip: TravelRequestUI }) => {
 
                 <div className="text-sm">
                     <p className="font-medium">
-                        {trip.startAddress.split(",")[trip.startAddress.split(",").length - 3]} ({trip.startAddress.split(",")[trip.startAddress.split(",").length - 2]})
+                        {extractCity(trip.startAddress)}
                     </p>
                     <p className="text-gray-400 text-xs">From</p>
                 </div>
@@ -41,7 +46,7 @@ export const TravelRequestCard = ({ trip }: { trip: TravelRequestUI }) => {
 
                 <div className="text-sm">
                     <p className="font-medium">
-                        {trip.endAddress.split(",")[trip.endAddress.split(",").length - 3]} ({trip.endAddress.split(",")[trip.endAddress.split(",").length - 2]})
+                        {extractCity(trip.endAddress)}
                     </p>
                     <p className="text-gray-400 text-xs">To</p>
                 </div>
@@ -59,13 +64,13 @@ export const TravelRequestCard = ({ trip }: { trip: TravelRequestUI }) => {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-between">
-                <button
-                    onClick={() => navigate(`/traveler/trip/${trip.id}`)}
-                    className="text-sm font-medium"
-                >
-                    View
-                </button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => navigate(`/traveler/trip/${trip.id}`)}
+                        className="text-sm font-medium text-blue-6"
+                    >
+                        View Trip Details
+                    </button>
             </div>
         </div>
     );

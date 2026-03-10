@@ -4,7 +4,7 @@ import { KYCSTATUS } from "../../../constants_Types/types/roles";
 import TravelerKYCWaiting from "./TravelerConponents/TravelerKYCWaiting";
 import TravelerKYCRegistration from "./TravelerConponents/TravelerKYCRegistration";
 import TravelerKYCRejected from "./TravelerConponents/TravelerKYCRejected";
-import TravelerBookingContents from "./TravelerConponents/TravelerBookingContents";
+import TravelerTravelRequestList from "./TravelerConponents/TravelerTravelRequestList";
 import { Header } from "../components/Header";
 
 const TravelerBookingList = () => {
@@ -25,7 +25,7 @@ const TravelerBookingList = () => {
         return <TravelerKYCRejected />;
 
       case KYCSTATUS.APPROVED:
-        return <TravelerBookingContents />;
+        return <TravelerTravelRequestList />;
 
       default:
         return null;
@@ -35,7 +35,7 @@ const TravelerBookingList = () => {
   return (
     <>
       <Header isLoggedIn={true} />
-      <div className="pt-20 mt-10">
+      <div className="pt-24 bg-gray-50 min-h-screen">
         {renderContent()}
       </div>
     </>

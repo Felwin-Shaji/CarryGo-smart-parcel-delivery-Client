@@ -1,17 +1,30 @@
-export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";
+import type { AddressUI } from "../../../../context/Booking/Booking.types";
+
+// export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";
 export type TransportMode = "FLIGHT" | "TRAIN" | "CAR" | "BUS" | "BIKE";
 
 export type CreateTravelRequestDTO = {
-  startAddressId: string;
-  endAddressId: string;
-  departureAt: string;   
-  arrivalAt: string;     
+  startAddress: AddressUI;
+  endAddress: AddressUI;
+
+  departureAt: string;
+  arrivalAt?: string;
+
   capacityKg: number;
-  remainingCapacityKg: number;
-  allowedPackageSizes: PackageSizeType[];
+
+  totalVolumeCm3: number;
+
+  allowedPackageDimensions: {
+    maxLengthCm: number;
+    maxWidthCm: number;
+    maxHeightCm: number;
+  };
+
+  pricePerKg?: number;
+
   modeOfTransport: TransportMode;
-  description: string;
-  status: "DRAFT";
+
+  description?: string;
 };
 
 export interface TripOrderUI {
@@ -49,7 +62,14 @@ export interface TripDetailsUI {
   capacityKg: number;
   remainingCapacityKg: number;
 
-  allowedPackageSizes: string[];
+  totalVolumeCm3: number;
+  remainingVolumeCm3: number;
+
+  allowedPackageDimensions: {
+    maxLengthCm: number;
+    maxWidthCm: number;
+    maxHeightCm: number;
+  };
 
   description?: string;
 

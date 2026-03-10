@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTravelRequest } from "../../../../Services/User/Traveler/TravelRequest";
 import { TravelRequestCard } from "./TravelRequestCard";
+import { UserPagination } from "../../components/UserPagination";
+import { TravelRequestFilter } from "./TravelRequest/TravelRequestFilter";
 
 export type TravelRequestStatus =
   | "DRAFT"
@@ -29,6 +31,18 @@ export interface TravelRequestUI {
   totalEarnings: number;
 }
 
+export interface TravelRequestListParams {
+  page?: number;
+  limit?: number;
+  status?: TravelRequestStatus;
+}
+
+
+export interface PaginatedTravelRequestResponse {
+  data: TravelRequestUI[];
+  totalPages: number;
+  totalItems: number;
+}
 
 const TravelerTravelRequestList = () => {
   const { getTravelRequestList } = useTravelRequest()
@@ -37,12 +51,29 @@ const TravelerTravelRequestList = () => {
   const [travelRequests, setTravelRequests] = useState<TravelRequestUI[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [statusFilter, setStatusFilter] = useState<TravelRequestStatus | "ALL">("ALL");
+
+  const limit = 5;
+
   useEffect(() => {
     const fetchTravelRequests = async () => {
       try {
-        const resonseData = await getTravelRequestList();
-        const data: TravelRequestUI[] = resonseData;
-        setTravelRequests(data);
+        setLoading(true);
+
+        const response = await getTravelRequestList({
+          page: currentPage,
+          limit,
+          status: statusFilter === "ALL" ? undefined : statusFilter,
+        });
+
+        console.log(response)
+
+        setTravelRequests(response.data);
+        setTotalPages(response.totalPages);
+
       } catch (error) {
         console.error("Failed to fetch travel requests", error);
       } finally {
@@ -51,28 +82,47 @@ const TravelerTravelRequestList = () => {
     };
 
     fetchTravelRequests();
-  }, []);
+  }, [currentPage, statusFilter]);
 
   return (
     <>
       <Header isLoggedIn={true} />
 
-      <div className="min-h-screen bg-gray-50 pt-24 px-6">
+
+
+      <div className="px-6">
         <div className="max-w-5xl mx-auto">
+
+          {/* Filter */}
+          <TravelRequestFilter
+            status={statusFilter}
+            setStatus={(status) => {
+              setCurrentPage(1); // reset pagination
+              setStatusFilter(status);
+            }}
+          />
 
           {/* Top Section */}
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">
-              My Travel Requests
-            </h1>
+
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                My Travel Plans
+              </h1>
+
+              <p className="text-sm text-gray-500 mt-1">
+                Manage your trips and earn by delivering parcels.
+              </p>
+            </div>
 
             <button
               onClick={() => navigate("/traveler/request")}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow-md transition"
+              className="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition"
             >
               <Plus size={18} />
-              Publish New Trip
+              Publish Trip
             </button>
+
           </div>
 
           {/* Loading */}
@@ -83,7 +133,7 @@ const TravelerTravelRequestList = () => {
           )}
 
           {/* Empty State */}
-          {!loading && travelRequests.length === 0 && (
+          {!loading && travelRequests?.length === 0 && (
             <div className="bg-white rounded-2xl shadow-md p-10 text-center">
               <p className="text-gray-600 text-lg mb-4">
                 You haven't published any trips yet.
@@ -100,10 +150,15 @@ const TravelerTravelRequestList = () => {
 
           {/* Travel Request Cards */}
           <div className="grid gap-6">
-            {travelRequests.map((trip) => (
+            {travelRequests?.map((trip) => (
               <TravelRequestCard key={trip.id} trip={trip} />
             ))}
           </div>
+          <UserPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </div>
       </div>
     </>
