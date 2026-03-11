@@ -36,6 +36,7 @@ const KYCRegistrationForm = () => {
         },
         validationSchema,
         onSubmit: async (values) => {
+            setLoading(true);  
             const formData = new FormData();
 
             formData.append("tradeLicenseNumber", values.tradeLicenseNumber);

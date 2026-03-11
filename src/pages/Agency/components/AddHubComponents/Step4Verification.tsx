@@ -9,8 +9,9 @@ interface Step4Props {
 
 const Step4Verification = ({ formData, tempHubId }: Step4Props) => {
 
-    const {finalRegister} = useAgencyAddHub()
+    const { finalRegister } = useAgencyAddHub()
     const [preview, setPreview] = useState<string>("");
+    const [loading, setLoading] = useState(false);
 
     const handleImageChange = (file: File | null) => {
         formData.verificationImage = file;
@@ -24,11 +25,17 @@ const Step4Verification = ({ formData, tempHubId }: Step4Props) => {
     };
 
     const handleSubmit = async () => {
-        const success = await finalRegister(formData, tempHubId);
+        try {
+            setLoading(true);
 
-        if (success) {
-            localStorage.removeItem("otpHubMeta");
-            console.log("Hub registration completed");
+            const success = await finalRegister(formData, tempHubId);
+
+            if (success) {
+                localStorage.removeItem("otpHubMeta");
+                console.log("Hub registration completed");
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -94,14 +101,22 @@ const Step4Verification = ({ formData, tempHubId }: Step4Props) => {
             {/* SUBMIT BUTTON */}
             <button
                 onClick={handleSubmit}
-                className="w-full py-3 text-white font-semibold"
+                disabled={loading}
+                className="w-full py-3 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-60"
                 style={{
                     backgroundColor: "var(--color-primary)",
                     borderRadius: "var(--radius-md)",
                     boxShadow: "var(--shadow-base)",
                 }}
             >
-                Finish Registration
+                {loading ? (
+                    <>
+                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        Registering Hub...
+                    </>
+                ) : (
+                    "Finish Registration"
+                )}
             </button>
         </div>
     );
