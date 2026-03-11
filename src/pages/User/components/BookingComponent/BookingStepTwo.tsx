@@ -14,6 +14,7 @@ import NoServiceAvailable from "./BookingStepsComponents/NoServiceAvailable";
 
 import { useBooking } from "../../../../Services/User/Booking/createBooking";
 import BookingNavigation from "./BookingStepsComponents/BookingNavigation";
+import { UserPagination } from "../UserPagination";
 
 const BookingStepTwo = () => {
   const { state, dispatch } = useBookingContext();
@@ -22,6 +23,12 @@ const BookingStepTwo = () => {
   const [tab, setTab] = useState<"AGENCIES" | "TRAVELERS">("AGENCIES");
   const [loadingAgencies, setLoadingAgencies] = useState(true);
   const [loadingTravelers, setLoadingTravelers] = useState(false);
+
+  const [agencyPage, setAgencyPage] = useState(1);
+  const [agencyTotalPages, setAgencyTotalPages] = useState(1);
+
+  const [travelerPage, setTravelerPage] = useState(1);
+  const [travelerTotalPages, setTravelerTotalPages] = useState(1);
 
   const handleBack = () => {
     dispatch({ type: "SET_STEP", payload: 1 });
@@ -45,21 +52,25 @@ const BookingStepTwo = () => {
 
       setLoadingAgencies(true);
 
-      const agencies = await checkServiceableAgency(
+      const res = await checkServiceableAgency(
         state.pickupAddress.location,
-        state.deliveryAddress.location
+        state.deliveryAddress.location,
+        agencyPage,
+        5
       );
 
       dispatch({
         type: "SET_SERVICEABLE_AGENCIES",
-        payload: agencies,
+        payload: res.data,
       });
+
+      setAgencyTotalPages(res.totalPages);
 
       setLoadingAgencies(false);
     };
 
     fetchAgencies();
-  }, [state.pickupAddress, state.deliveryAddress]);
+  }, [state.pickupAddress, state.deliveryAddress, agencyPage]);
 
   /**
    * Fetch Travelers (lazy load)
@@ -67,7 +78,7 @@ const BookingStepTwo = () => {
   useEffect(() => {
     if (tab !== "TRAVELERS") return;
     if (state.serviceableTravelers?.length) return;
-    console.log(tab,'llllllllllllllllllllllllllllllllllll"ssssssssssssssssssssssssssssssssssssssssssss')
+    console.log(tab, 'llllllllllllllllllllllllllllllllllll"ssssssssssssssssssssssssssssssssssssssssssss')
 
     const fetchTravelers = async () => {
       if (!state.pickupAddress?.location || !state.deliveryAddress?.location)
@@ -75,23 +86,25 @@ const BookingStepTwo = () => {
 
       setLoadingTravelers(true);
 
-      const travelers = await checkServiceableTraveler(
+      const res = await checkServiceableTraveler(
         state.pickupAddress.location,
-        state.deliveryAddress.location
+        state.deliveryAddress.location,
+        travelerPage,
+        5
       );
-
-      console.log(travelers,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
 
       dispatch({
         type: "SET_SERVICEABLE_TRAVELERS",
-        payload: travelers,
+        payload: res.data,
       });
+
+      setTravelerTotalPages(res.totalPages);
 
       setLoadingTravelers(false);
     };
 
     fetchTravelers();
-  }, [tab]);
+  }, [tab, travelerPage]);
 
   /**
    * Selection handlers
@@ -177,24 +190,29 @@ const BookingStepTwo = () => {
           <PartnerTabs
             tab={tab}
             setTab={setTab}
-            agenciesCount={state.serviceableAgencies?.length || 0}
-            travelersCount={state.serviceableTravelers?.length || 0}
           />
 
           {/* Agencies */}
           {tab === "AGENCIES" && (
             <>
               {state.serviceableAgencies?.length ? (
-                <div className="space-y-3">
-                  {state.serviceableAgencies.map((agency) => (
-                    <AgencyCard
-                      key={agency.agency.agencyId}
-                      agency={agency}
-                      selected={state.partnerId === agency.agency.agencyId}
-                      onSelect={() => handleSelectAgency(agency)}
-                    />
-                  ))}
-                </div>
+                <>
+                  <div className="space-y-3">
+                    {state.serviceableAgencies.map((agency) => (
+                      <AgencyCard
+                        key={agency.agency.agencyId}
+                        agency={agency}
+                        selected={state.partnerId === agency.agency.agencyId}
+                        onSelect={() => handleSelectAgency(agency)}
+                      />
+                    ))}
+                  </div>
+                  <UserPagination
+                    currentPage={agencyPage}
+                    totalPages={agencyTotalPages}
+                    onPageChange={setAgencyPage}
+                  />
+                </>
               ) : (
                 <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
                   <p className="text-gray-500 text-sm">
@@ -213,16 +231,23 @@ const BookingStepTwo = () => {
                   Finding travelers for this route...
                 </div>
               ) : state.serviceableTravelers?.length ? (
-                <div className="space-y-3">
-                  {state.serviceableTravelers.map((traveler) => (
-                    <TravelerCard
-                      key={traveler.travelRequest.travelRequestId}
-                      traveler={traveler}
-                      selected={state.partnerId === traveler.traveler.travelerId}
-                      onSelect={() => handleSelectTraveler(traveler)}
-                    />
-                  ))}
-                </div>
+                <>
+                  <div className="space-y-3">
+                    {state.serviceableTravelers.map((traveler) => (
+                      <TravelerCard
+                        key={traveler.travelRequest.travelRequestId}
+                        traveler={traveler}
+                        selected={state.partnerId === traveler.traveler.travelerId}
+                        onSelect={() => handleSelectTraveler(traveler)}
+                      />
+                    ))}
+                  </div>
+                  <UserPagination
+                    currentPage={travelerPage}
+                    totalPages={travelerTotalPages}
+                    onPageChange={setTravelerPage}
+                  />
+                </>
               ) : (
                 <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
                   <p className="text-gray-500 text-sm">

@@ -58,6 +58,7 @@ export const API_ADMIN = {
 }
 
 export const API_HUB = {
+  WORKER:"/api/hub/workers",
   TEMP_WORKER_REGISTER: "/api/hub/worker/temp-register",
   WORKER_VERIFY_OTP: "/api/hub/worker/verify-otp",
   WORKER_RESEND_OTP: "/api/hub/worker/resend-otp",

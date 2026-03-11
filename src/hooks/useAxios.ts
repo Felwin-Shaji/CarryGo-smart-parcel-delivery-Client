@@ -119,7 +119,10 @@ export const useAxios = (): AxiosInstance => {
                 } else if (status === 500) {
                     console.log(data)
                 } else if (data?.message) {
-                    toast.error(data.message);
+                    if(status !==401){
+                        toast.error(data.message)
+                    }
+                    console.log(data)
                 } else {
                     toast.error("An unexpected error occurred.");
                 }

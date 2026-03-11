@@ -56,7 +56,7 @@ export function DataTable<T>({
         />}
 
         {/* Filters */}
-        {onFilterChange && sortBy && sortOrder && onSort && <AdvancedFilterSortBar
+        {onFilterChange && onSort && <AdvancedFilterSortBar
           columns={columns.map((col) => ({
             label: col.header,
             field: String(col.accessor),

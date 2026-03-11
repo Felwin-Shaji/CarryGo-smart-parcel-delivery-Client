@@ -1,15 +1,11 @@
 interface Props {
   tab: "AGENCIES" | "TRAVELERS";
   setTab: (tab: "AGENCIES" | "TRAVELERS") => void;
-  agenciesCount: number;
-  travelersCount: number;
 }
 
 const PartnerTabs = ({
   tab,
   setTab,
-  agenciesCount,
-  travelersCount,
 }: Props) => {
   return (
     <div className="flex gap-2">
@@ -21,7 +17,7 @@ const PartnerTabs = ({
             : "bg-gray-100 text-gray-600"
         }`}
       >
-        Agencies ({agenciesCount})
+        Agencies
       </button>
 
       <button
@@ -32,7 +28,7 @@ const PartnerTabs = ({
             : "bg-gray-100 text-gray-600"
         }`}
       >
-        Travelers ({travelersCount})
+        Travelers
       </button>
     </div>
   );

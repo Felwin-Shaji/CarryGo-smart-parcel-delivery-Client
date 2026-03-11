@@ -53,7 +53,6 @@ const AdminUserList = () => {
 
       const rows = response.data.data.map((user: any) => ({
         ...user,
-        // Example if you want a modal or view option in row
         __openModal: (id: string) => {
           console.log("User details modal for ID:", id);
           navigate(`/admin/users/${id}`);

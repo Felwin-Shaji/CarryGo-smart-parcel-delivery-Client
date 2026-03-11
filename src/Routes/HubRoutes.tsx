@@ -9,6 +9,7 @@ import PageNotFound from "../pages/PageNotFound"
 import HubResetPassword from "../pages/Hub/HubResetPassword"
 import HubAddWorker from "../pages/Hub/HubAddWorkers"
 import HubWallet from "../pages/Hub/HubWallet"
+import HubWorkersListPage from "../pages/Hub/HubWorkersListPage"
 
 
 const HubRoutes = () => {
@@ -20,12 +21,13 @@ const HubRoutes = () => {
                     <Route path="login" element={<HubLogin />} />
                     <Route path="forgot-password" element={<HubForgotPassword />} />
                     <Route path="reset-password/:token" element={<HubResetPassword />} />
-
+        
                 </Route>
 
                 <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubDashboard /></ProtectedRoute>} />
                 <Route path="workers/add" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubAddWorker /></ProtectedRoute>} />
                 <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubWallet /></ProtectedRoute>} />
+                <Route path="workers" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubWorkersListPage /></ProtectedRoute>} />
 
 
                 <Route path="*" element={<PageNotFound />} />
