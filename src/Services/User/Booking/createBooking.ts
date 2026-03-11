@@ -10,33 +10,47 @@ export const useBooking = () => {
 
     const checkServiceableAgency = async (
         pickupLocation: { lat: number; lng: number },
-        deliveryLocation: { lat: number; lng: number }
+        deliveryLocation: { lat: number; lng: number },
+        page: number = 1,
+        limit: number = 5
     ) => {
-        const res = await axiosInstance.post(
-            API_USER.SERVICEABLE_AGENCIES,
-            {
-                pickupLocation,
-                deliveryLocation,
-            }
-        );
+        const res = await axiosInstance.post(API_USER.SERVICEABLE_AGENCIES, {
+            pickupLocation,
+            deliveryLocation,
+            page,
+            limit,
+        });
 
-        return res.data.data as getServiceableHubWithAgencyDTO[];
+
+        return res.data.data as {
+            data: getServiceableHubWithAgencyDTO[];
+            page: number;
+            total: number;
+            totalPages: number;
+        };
     };
 
     const checkServiceableTraveler = async (
         pickupLocation: { lat: number; lng: number },
-        deliveryLocation: { lat: number; lng: number }
+        deliveryLocation: { lat: number; lng: number },
+        page: number = 1,
+        limit: number = 5
     ) => {
-        const res = await axiosInstance.post(
-            API_USER.SERVICEABLE_TRAVELERS,
-            {
-                pickupLocation,
-                deliveryLocation,
-            }
-        );
+        const res = await axiosInstance.post(API_USER.SERVICEABLE_TRAVELERS, {
+            pickupLocation,
+            deliveryLocation,
+            page,
+            limit,
+        });
 
-        return res.data.data as getServiceableTravelerDTO[]
-    }
+
+        return res.data as {
+            data: getServiceableTravelerDTO[];
+            page: number;
+            total: number;
+            totalPages: number;
+        };
+    };
 
     const getUserAddresses = async (): Promise<AddressUI[]> => {
         const res = await axiosInstance.get(
