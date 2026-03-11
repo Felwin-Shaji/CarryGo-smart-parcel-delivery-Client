@@ -17,8 +17,8 @@ export default function AdvancedFilterSortBar({
         blocked?: boolean | null;
     };
     onFilterChange: (updated: any) => void;
-    sortBy: string;
-    sortOrder: "asc" | "desc";
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
     onSortChange: (value: string) => void;
 }) {
     const [open, setOpen] = useState(false);
@@ -72,7 +72,7 @@ export default function AdvancedFilterSortBar({
                                 })
                             }
                         >
-                            <option value="">Any</option>
+                            <option value="">All</option>
                             <option value="true">Blocked</option>
                             <option value="false">Active</option>
                         </select>
@@ -86,7 +86,7 @@ export default function AdvancedFilterSortBar({
                             value={localFilters.kycStatus || ""}
                             onChange={(e) => updateLocal({ kycStatus: e.target.value })}
                         >
-                            <option value="">Any</option>
+                            <option value="">All</option>
                             <option value="APPROVED">Approved</option>
                             <option value="PENDING">Pending</option>
                             <option value="REJECTED">Rejected</option>
@@ -113,9 +113,9 @@ export default function AdvancedFilterSortBar({
                     </div>
 
                     {/* SORT */}
-                    <h3 className="font-semibold text-gray-700 mb-3">Sort</h3>
+                    {/* <h3 className="font-semibold text-gray-700 mb-3">Sort</h3>
 
-                    {/* Sort Field */}
+                    {/* Sort Field *
                     <select
                         className="px-3 py-2 border rounded-lg w-full mb-3"
                         value={sortBy}
@@ -136,7 +136,7 @@ export default function AdvancedFilterSortBar({
                         ))}
                     </select>
 
-                    {/* Sort Order */}
+                    {/* Sort Order *
                     <select
                         disabled={!sortBy}
                         className="px-3 py-2 border rounded-lg w-full disabled:bg-gray-100"
@@ -148,7 +148,7 @@ export default function AdvancedFilterSortBar({
                     >
                         <option value="asc">Ascending (A → Z)</option>
                         <option value="desc">Descending (Z → A)</option>
-                    </select>
+                    </select> */}
 
                     {/* APPLY */}
                     {/* APPLY + CLEAR BUTTONS */}
