@@ -3,6 +3,7 @@ import { useAxios } from "../../hooks/useAxios";
 import { API_HUB } from "../../constants_Types/apiRoutes"; // change path if needed
 import toast from "react-hot-toast";
 import type { TempRegisterWorkerResponseDto } from "../../constants_Types/types/Worker/workerResponse.dto";
+import type { GetHubWorkersResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type";
 
 export const useHubAddWorker = () => {
     const axiosInstance = useAxios();
@@ -129,11 +130,33 @@ export const useHubAddWorker = () => {
         return res.data;
     };
 
+
+    const getWrokersList = async ({
+        page = 1,
+        limit = 10,
+        search = "",
+        sortBy = "",
+        sortOrder = "asc",
+        blocked = null,
+        kycStatus = "",
+        startDate = "",
+        endDate = ""
+    }) => {
+        const res = await axiosInstance.get(API_HUB.WORKER, {
+            params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate }
+        })
+        toast.loading
+
+        console.log(res)
+        return res.data.data as GetHubWorkersResponseDTO
+    }
+
     return {
         tempRegisterWorker,
         verifyOtp,
         resendOtp,
         uploadKyc,
         checkTempWorkerStatus,
+        getWrokersList
     };
 };
