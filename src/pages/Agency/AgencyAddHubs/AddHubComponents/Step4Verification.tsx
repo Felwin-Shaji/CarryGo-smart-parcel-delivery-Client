@@ -1,13 +1,16 @@
-import type { AddHubPayload } from "../../AgencyAddHubs";
+import type { AddHubPayload } from "../AgencyAddHubs";
 import { useState } from "react";
 import { useAgencyAddHub } from "../../../../Services/Agency/AgencyAddHub";
 
 interface Step4Props {
     formData: AddHubPayload;
     tempHubId: string | null;
+    resetFlow: () => void;
+    setStep: (n: number) => void;
+
 }
 
-const Step4Verification = ({ formData, tempHubId }: Step4Props) => {
+const Step4Verification = ({ formData, tempHubId,resetFlow,setStep }: Step4Props) => {
 
     const { finalRegister } = useAgencyAddHub()
     const [preview, setPreview] = useState<string>("");
@@ -99,25 +102,60 @@ const Step4Verification = ({ formData, tempHubId }: Step4Props) => {
             </div>
 
             {/* SUBMIT BUTTON */}
-            <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full py-3 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-60"
-                style={{
-                    backgroundColor: "var(--color-primary)",
-                    borderRadius: "var(--radius-md)",
-                    boxShadow: "var(--shadow-base)",
-                }}
-            >
-                {loading ? (
-                    <>
-                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                        Registering Hub...
-                    </>
-                ) : (
-                    "Finish Registration"
-                )}
-            </button>
+            <div className="flex gap-4 pt-4">
+
+    {/* BACK */}
+    <button
+        type="button"
+        onClick={() => setStep(3)}
+        className="px-5 py-3 font-semibold"
+        style={{
+            backgroundColor: "var(--color-secondary)",
+            color: "var(--color-text)",
+            borderRadius: "var(--radius-md)",
+            boxShadow: "var(--shadow-base)"
+        }}
+    >
+        Back
+    </button>
+
+    {/* CANCEL */}
+    <button
+        type="button"
+        onClick={resetFlow}
+        className="px-5 py-3 font-semibold"
+        style={{
+            backgroundColor: "#f3f4f6",
+            border: "1px solid #ccc",
+            borderRadius: "var(--radius-md)",
+            boxShadow: "var(--shadow-base)"
+        }}
+    >
+        Cancel
+    </button>
+
+    {/* FINISH */}
+    <button
+        onClick={handleSubmit}
+        disabled={loading}
+        className="flex-1 py-3 text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-60"
+        style={{
+            backgroundColor: "var(--color-primary)",
+            borderRadius: "var(--radius-md)",
+            boxShadow: "var(--shadow-base)",
+        }}
+    >
+        {loading ? (
+            <>
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                Registering Hub...
+            </>
+        ) : (
+            "Finish Registration"
+        )}
+    </button>
+
+</div>
         </div>
     );
 };

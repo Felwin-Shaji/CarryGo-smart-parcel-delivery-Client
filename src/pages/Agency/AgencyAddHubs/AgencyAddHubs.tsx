@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
-import { ROLES, type Roles } from "../../constants_Types/types/roles"
-import { DashboardProvider } from "../../context/DashboardProvider"
-import { DashboardLayout } from "../../layouts/DashboardLayout"
-import Step1BasicInfo from "./components/AddHubComponents/Step1BasicInfo"
-import Step2OtpVerify from "./components/AddHubComponents/Step2OtpVerify"
-import Step3Address from "./components/AddHubComponents/Step3Address"
-import Step4Verification from "./components/AddHubComponents/Step4Verification"
+import { ROLES, type Roles } from "../../../constants_Types/types/roles"
+import { DashboardProvider } from "../../../context/DashboardProvider"
+import { DashboardLayout } from "../../../layouts/DashboardLayout"
+import Step1BasicInfo from "./AddHubComponents/Step1BasicInfo"
+import Step2OtpVerify from "./AddHubComponents/Step2OtpVerify"
+import Step3Address from "./AddHubComponents/Step3Address"
+import Step4Verification from "./AddHubComponents/Step4Verification"
 import { useSelector } from "react-redux"
-import type { RootState } from "../../store/store"
-import { useAgencyAddHub } from "../../Services/Agency/AgencyAddHub"
+import type { RootState } from "../../../store/store"
+import { useAgencyAddHub } from "../../../Services/Agency/AgencyAddHub"
 
 export interface AddHubPayload {
     agencyId: string
@@ -49,32 +49,63 @@ const AgencyAddHubs = () => {
         verificationImage: null as File | null,
     });
 
+    const resetAddHubFlow = () => {
+        localStorage.removeItem("otpHubMeta");
+
+        setTempHubId(null);
+        setStep(1);
+
+        setFormData(prev => ({
+            ...prev,
+            name: "",
+            email: "",
+            mobile: "",
+            addressLine1: "",
+            city: "",
+            state: "",
+            pincode: "",
+            location_lat: 0,
+            location_lng: 0,
+            verificationImage: null
+        }));
+    };
+
     useEffect(() => {
-    const saved = localStorage.getItem("otpHubMeta");
-    if (!saved) return;
+        const saved = localStorage.getItem("otpHubMeta");
+        if (!saved) return;
 
-    const meta = JSON.parse(saved);
+        const meta = JSON.parse(saved);
 
-    setFormData(prev => ({ ...prev, email: meta.email }));
-    setTempHubId(meta.tempHubId);
+        const expired = new Date(meta.expiresAt) < new Date();
 
-}, []);
+        if (expired) {
+            localStorage.removeItem("otpHubMeta");
+            return;
+        }
 
+        setFormData(prev => ({ ...prev, email: meta.email }));
+        setTempHubId(meta.tempHubId);
+
+    }, []);
 
     useEffect(() => {
         if (!formData.email) return;
 
         const fetchStatus = async () => {
             const data = await checkTempStatus(formData.email);
-
-            if (!data.exists) return;
+            if (!data.exists) {
+                localStorage.removeItem("otpHubMeta");
+                setTempHubId(null);
+                setStep(1);
+                return;
+            }
 
             setTempHubId(data.tempHubId);
 
             if (data.status === "OTP-Verified") {
-                setStep(3); 
+                setStep(3);
             } else {
-                setStep(2); 
+                setStep(2);
             }
         };
 
@@ -100,6 +131,8 @@ const AgencyAddHubs = () => {
                             email={formData.email}
                             tempHubId={tempHubId}
                             setStep={setStep}
+                            resetFlow={resetAddHubFlow}
+
                         />
                     )}
 
@@ -110,6 +143,7 @@ const AgencyAddHubs = () => {
                             setStep={setStep}
                             showMap={showMap}
                             setShowMap={setShowMap}
+                            resetFlow={resetAddHubFlow}
                         />
                     )}
 
@@ -117,6 +151,8 @@ const AgencyAddHubs = () => {
                         <Step4Verification
                             formData={formData}
                             tempHubId={tempHubId}
+                            resetFlow={resetAddHubFlow}
+                            setStep={setStep}
                         />
                     )}
                     {/* </div> */}

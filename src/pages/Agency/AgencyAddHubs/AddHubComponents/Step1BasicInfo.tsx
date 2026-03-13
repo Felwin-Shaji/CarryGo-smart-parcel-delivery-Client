@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import type { AddHubPayload } from "../../AgencyAddHubs";
+import type { AddHubPayload } from "../AgencyAddHubs";
 import { Step1Schema } from "../../../../validation/agencyAddHubb";
 import { useAgencyAddHub } from "../../../../Services/Agency/AgencyAddHub";
 import type { Roles } from "../../../../constants_Types/types/roles";
