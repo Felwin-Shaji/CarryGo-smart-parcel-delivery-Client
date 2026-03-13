@@ -44,7 +44,7 @@ export const useBooking = () => {
         });
 
 
-        return res.data as {
+        return res.data.data as {
             data: getServiceableTravelerDTO[];
             page: number;
             total: number;

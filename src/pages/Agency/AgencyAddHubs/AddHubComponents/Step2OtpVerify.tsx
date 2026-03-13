@@ -5,13 +5,14 @@ interface Step2Props {
     email: string;
     tempHubId: string | null;
     setStep: (n: number) => void;
+    resetFlow: () => void;
 }
 
 interface OtpMeta {
     expiresAt: string;
 }
 
-const Step2OtpVerify = ({ email, tempHubId, setStep }: Step2Props) => {
+const Step2OtpVerify = ({ email, tempHubId, setStep,resetFlow }: Step2Props) => {
 
     const { verifyOtp, resendOtp } = useAgencyAddHub()
 
@@ -173,6 +174,22 @@ const handelResendOtp = async () => {
                         <>OTP expires in {formatTime(timeLeft)}</>
                     )}
                 </p>
+
+                <div className="flex gap-3 mt-4">
+    <button
+        type="button"
+        onClick={resetFlow}
+        className="w-full py-3 font-semibold border"
+        style={{
+            borderRadius: "var(--radius-md)",
+            borderColor: "#ccc",
+            backgroundColor: "#f8f9fa",
+            color: "var(--color-text)",
+        }}
+    >
+        Cancel & Start Over
+    </button>
+</div>
             </form>
         </div>
     );

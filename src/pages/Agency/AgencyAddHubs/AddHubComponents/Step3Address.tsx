@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Step3Schema } from "../../../../validation/agencyAddHubb";
-import type { AddHubPayload } from "../../AgencyAddHubs";
+import type { AddHubPayload } from "../AgencyAddHubs";
 import { lazy, Suspense } from "react";
 
 const MapLocationPicker = lazy(() =>
@@ -22,9 +22,10 @@ interface Step3Props {
     setStep: (n: number) => void;
     showMap: boolean;
     setShowMap: (v: boolean) => void;
+    resetFlow:()=>void;
 }
 
-const Step3Address = ({ formData, setFormData, setStep, showMap, setShowMap }: Step3Props) => {
+const Step3Address = ({ formData, setFormData, setStep, showMap, setShowMap,resetFlow }: Step3Props) => {
 
     const initialValues: Step3AddressPayload = {
         addressLine1: formData.addressLine1,
@@ -281,11 +282,52 @@ const Step3Address = ({ formData, setFormData, setStep, showMap, setShowMap }: S
                     </div>
 
                     {/* FOOTER */}
-                    <div>
-                        <button type="submit" style={{ width: "100%" }}>
-                            Continue to Verification
-                        </button>
-                    </div>
+<div className="flex gap-4">
+
+    {/* BACK */}
+    {/* <button
+        type="button"
+        onClick={() => setStep(2)}
+        className="px-5 py-3 font-semibold"
+        style={{
+            backgroundColor: "var(--color-secondary)",
+            color: "var(--color-text)",
+            borderRadius: "var(--radius-md)",
+            boxShadow: "var(--shadow-base)"
+        }}
+    >
+        Back
+    </button> */}
+
+    {/* CANCEL */}
+    <button
+        type="button"
+        onClick={resetFlow}
+        className="px-5 py-3 font-semibold"
+        style={{
+            backgroundColor: "#f3f4f6",
+            border: "1px solid #ccc",
+            borderRadius: "var(--radius-md)",
+            boxShadow: "var(--shadow-base)"
+        }}
+    >
+        Cancel
+    </button>
+
+    {/* CONTINUE */}
+    <button
+        type="submit"
+        className="flex-1 py-3 font-semibold text-white"
+        style={{
+            backgroundColor: "var(--color-primary)",
+            borderRadius: "var(--radius-md)",
+            boxShadow: "var(--shadow-base)"
+        }}
+    >
+        Continue to Verification
+    </button>
+
+</div>
 
                 </Form>
             )}
