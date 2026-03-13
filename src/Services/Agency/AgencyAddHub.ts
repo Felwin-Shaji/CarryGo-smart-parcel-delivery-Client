@@ -2,8 +2,8 @@ import toast from "react-hot-toast";
 import { useAxios } from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 import { API_AGENCY } from "../../constants_Types/apiRoutes";
-import type { AddHubPayload } from "../../pages/Agency/AgencyAddHubs";
-import type { HubOtpMeta } from "../../pages/Agency/components/AddHubComponents/Step1BasicInfo";
+import type { AddHubPayload } from "../../pages/Agency/AgencyAddHubs/AgencyAddHubs";
+import type { HubOtpMeta } from "../../pages/Agency/AgencyAddHubs/AddHubComponents/Step1BasicInfo";
 
 
 export const useAgencyAddHub = () => {
@@ -21,16 +21,13 @@ export const useAgencyAddHub = () => {
     * }}
     */
     const checkTempStatus = async (email: string) => {
-        try {
+
             const res = await axiosInstance.get(
                 `${API_AGENCY.HUB_TEMP_STATUS}?email=${email}`
             );
 
-            return res.data;
+            return res.data.data;
 
-        } catch (error: any) {
-            return { exists: false };
-        }
     };
 
 

@@ -127,7 +127,8 @@ export const useHubAddWorker = () => {
         const res = await axiosInstance.get(API_HUB.CHECK_TEMP_WORKER_STATUS, {
             params: { email }
         });
-        return res.data;
+
+        return res.data.data;
     };
 
 

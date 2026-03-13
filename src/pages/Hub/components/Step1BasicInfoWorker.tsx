@@ -13,13 +13,12 @@ interface Step1Props {
 export interface WorkerPayload {
     name: string;
     email: string;
-    // tempWorkerId: string;  
     mobile: string;
     role: "worker";
 }
 
 const Step1BasicInfoWorker = ({ formData, setFormData, setTempWorkerId, setStep }: Step1Props) => {
-    
+
     const { tempRegisterWorker } = useHubAddWorker();
     const [loading, setLoading] = useState(false);
 
@@ -31,9 +30,17 @@ const Step1BasicInfoWorker = ({ formData, setFormData, setTempWorkerId, setStep 
 
             if (!result.success) return;
 
-            setFormData({ ...formData, ...values });
+            setFormData(values);
 
-            
+            localStorage.setItem(
+                "workerStep1Data",
+                JSON.stringify({
+                    ...values,
+                    tempWorkerId: result.tempWorkerId
+                })
+            );
+
+
             setTempWorkerId(result.tempWorkerId);
             setStep(2);
 
