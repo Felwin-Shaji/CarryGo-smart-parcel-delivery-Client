@@ -23,6 +23,10 @@ export const API_AGENCY = {
   HUB_TEMP_STATUS: "/api/agency/hub/temp-status",
   GET_HUBS: "/api/agency/hubs",
 
+  ROUTE_GROUPS: "/api/agency/route-groups",
+  ROUTE_SEGMENTS: (routeGroupId: string) => `/api/agency/route-groups/${routeGroupId}/segments`,
+  ROUTE_SEGMENTS_REORDER: (routeGroupId: string) => `/api/agency/route-groups/${routeGroupId}/segments/reorder`,
+
   RESUBMIT_AGENCY_KYC: "/api/agency/dashboard/resubmit-kyc",
 
   GET_PRICING: "/api/agency/agency-pricing-policy",
@@ -58,7 +62,7 @@ export const API_ADMIN = {
 }
 
 export const API_HUB = {
-  WORKER:"/api/hub/workers",
+  WORKER: "/api/hub/workers",
   TEMP_WORKER_REGISTER: "/api/hub/worker/temp-register",
   WORKER_VERIFY_OTP: "/api/hub/worker/verify-otp",
   WORKER_RESEND_OTP: "/api/hub/worker/resend-otp",
@@ -86,8 +90,8 @@ export const API_USER = {
   WITHDRAW_WALLET: "/api/user/wallet/withdraw",
 
   // BOOKING_PINCODE_VALIDATE: "/api/user/booking/pincode/validate",
-  SERVICEABLE_AGENCIES:"/api/user/booking/serviceable-agencies",
-  SERVICEABLE_TRAVELERS:"/api/user/booking/serviceable-travelers",
+  SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
+  SERVICEABLE_TRAVELERS: "/api/user/booking/serviceable-travelers",
 
   // SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
   USER_ADDRESSES: "/api/user/addresses",

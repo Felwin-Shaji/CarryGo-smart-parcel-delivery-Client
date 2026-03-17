@@ -30,27 +30,33 @@ export interface AgencyWithKYCResponseDTO {
 };
 
 export interface HubResponseDTO {
-    id: string;
-    name: string;
-    email: string;
-    mobile: string;
-    isBlocked: boolean;
-    kycStatus: KYCStatus;
-    createdAt: Date;
+  id: string;
+  name: string;
+  email: string;
+  mobile: string;
+  isBlocked: boolean;
+  kycStatus: KYCStatus;
+  createdAt: Date;
+  address: {
+    addressLine1: string;
+    city: string;
+    state: string;
+    pincode: string;
+  }
 };
 
 export interface GetHubsResponseDTO {
-    data: HubResponseDTO[];
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
+  data: HubResponseDTO[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 };
 
 /**
  * Agency over view kyc_detail and  
  */
 export interface GetAgencyOverviewResponseDTO {
-  agency:AgencyWithKYCResponseDTO,
-  hubs:GetHubsResponseDTO 
+  agency: AgencyWithKYCResponseDTO,
+  hubs: GetHubsResponseDTO
 }
