@@ -4,6 +4,7 @@ import {
   Wallet,
   Building2,
   MapPin,
+  RouteIcon,
 } from "lucide-react";
 
 import type { MenuSection } from "./adminMenu";
@@ -36,5 +37,16 @@ export const agencyMenu = (kycStatus?: string): MenuSection[] => [
       },
     ],
   },
+  {
+    section:"Route Management",
+    items:[
+        {
+        name: "Route Groups",
+        icon: <RouteIcon size={20} />,
+        path: "/agency/route-groups",
+        disabled: kycStatus !== "APPROVED",
+      },
+    ]
+  }
 ];
 
