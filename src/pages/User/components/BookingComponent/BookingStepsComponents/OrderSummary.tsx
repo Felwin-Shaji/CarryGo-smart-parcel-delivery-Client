@@ -5,6 +5,7 @@ import { openRazorpayCheckout } from "../../../../../Services/Payment/razorpay";
 import { usePayment } from "../../../../../Services/Payment/usePayment";
 import { useBooking } from "../../../../../Services/User/Booking/createBooking";
 import BookingNavigation from "./BookingNavigation";
+import toast from "react-hot-toast";
 
 export function OrderSummary() {
   const { state, dispatch } = useBookingContext();
@@ -57,13 +58,20 @@ export function OrderSummary() {
           packageDetails: state.packageDetails,
         };
       } else {
+        if(!state.selectedFromHubId || !state.selectedToHubId){
+          toast.error("agency selected not found ")
+          return 
+        }
         payload = {
           deliveryType: "AGENCY",
           partnerId: state.partnerId,
+          fromHubId:state.selectedFromHubId,
+          toHubId:state.selectedToHubId,
           pickupAddress: state.pickupAddress,
           deliveryAddress: state.deliveryAddress,
           packageDetails: state.packageDetails,
         };
+        console.log(payload,"00002222222000033333333")
       }
 
       // 1️⃣ Create booking
