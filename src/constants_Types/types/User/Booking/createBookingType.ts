@@ -27,6 +27,8 @@ export interface CalculatePricePayload {
 export type AgencyBookingPayload = {
     deliveryType: "AGENCY";
     partnerId: string;
+    fromHubId:string;
+    toHubId:string;
 
     pickupAddress: AddressUI
     deliveryAddress: AddressUI
@@ -36,8 +38,8 @@ export type AgencyBookingPayload = {
 
 type TravelerBookingPayload = {
     deliveryType: "TRAVELER";
-    partnerId: string; // travelerId
-    travelRequestId: string; // REQUIRED
+    partnerId: string;
+    travelRequestId: string;
 
     pickupAddress: AddressUI
     deliveryAddress: AddressUI
