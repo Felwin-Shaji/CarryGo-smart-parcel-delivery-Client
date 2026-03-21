@@ -24,8 +24,8 @@ const BookingStepTwo = () => {
   const [loadingAgencies, setLoadingAgencies] = useState(true);
   const [loadingTravelers, setLoadingTravelers] = useState(false);
 
-  const [agencyPage, setAgencyPage] = useState(1);
-  const [agencyTotalPages, setAgencyTotalPages] = useState(1);
+  // const [agencyPage, setAgencyPage] = useState(1);
+  // const [agencyTotalPages, setAgencyTotalPages] = useState(1);
 
   const [travelerPage, setTravelerPage] = useState(1);
   const [travelerTotalPages, setTravelerTotalPages] = useState(1);
@@ -55,22 +55,20 @@ const BookingStepTwo = () => {
       const res = await checkServiceableAgency(
         state.pickupAddress.location,
         state.deliveryAddress.location,
-        agencyPage,
-        5
       );
 
       dispatch({
         type: "SET_SERVICEABLE_AGENCIES",
-        payload: res.data,
+        payload: res,
       });
 
-      setAgencyTotalPages(res.totalPages);
+      // setAgencyTotalPages(res.totalPages);
 
       setLoadingAgencies(false);
     };
 
     fetchAgencies();
-  }, [state.pickupAddress, state.deliveryAddress, agencyPage]);
+  }, [state.pickupAddress, state.deliveryAddress ]);
 
   /**
    * Fetch Travelers (lazy load)
@@ -207,11 +205,11 @@ const BookingStepTwo = () => {
                       />
                     ))}
                   </div>
-                  <UserPagination
+                  {/* <UserPagination
                     currentPage={agencyPage}
                     totalPages={agencyTotalPages}
                     onPageChange={setAgencyPage}
-                  />
+                  /> */}
                 </>
               ) : (
                 <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
