@@ -125,7 +125,7 @@ export default function RouteSummaryHeader({
           </div>
 
           {/* Map */}
-          <div className="h-[220px]">
+          <div className="h-[220px] isolate">
             <RouteMapPreview segments={segments} />
           </div>
 

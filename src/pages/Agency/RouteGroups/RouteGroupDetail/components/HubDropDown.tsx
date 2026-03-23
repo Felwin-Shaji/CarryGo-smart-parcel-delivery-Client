@@ -80,33 +80,42 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
                 <button
                     type="button"
                     onClick={handleToggle}
-                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 border rounded-xl text-sm transition text-left bg-white cursor-pointer ${open
-                            ? "border-[#1E3A8A] ring-2 ring-blue-100"
-                            : "border-gray-200 hover:border-blue-300"
-                        }`}
+                    className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition text-left cursor-pointer"
+                    style={{
+                        backgroundColor: "#ffffff",
+                        border: open ? "1.5px solid #1E3A8A" : "1.5px solid #E5E7EB",
+                        boxShadow: open ? "0 0 0 3px rgba(30,58,138,0.08)" : "none",
+                    }}
                 >
                     {selected ? (
                         <>
-                            <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0">
-                                <MapPin size={13} className="text-[#1E3A8A]" />
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style={{ backgroundColor: "#EEF2FF", border: "1px solid #C7D2FE" }}>
+                                <MapPin size={13} style={{ color: "#1E3A8A" }} />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-gray-900 text-sm leading-tight truncate">
+                                <p className="font-semibold text-sm leading-tight truncate" style={{ color: "#111827" }}>
                                     {selected.name}
                                 </p>
-                                <p className="text-[11px] text-gray-400">
+                                <p className="text-[11px]" style={{ color: "#9CA3AF" }}>
                                     {selected.address.pincode} · {selected.address.city}
                                 </p>
                             </div>
                         </>
                     ) : (
                         <>
-                            <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                <MapPin size={13} className="text-gray-400" />
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style={{ backgroundColor: "#F3F4F6" }}>
+                                <MapPin size={13} style={{ color: "#9CA3AF" }} />
                             </div>
-                            <span className="text-gray-400 flex-1">{placeholder}</span>
+                            <span style={{ color: "#9CA3AF" }} className="flex-1">{placeholder}</span>
                         </>
                     )}
+                    <ChevronDown
+                        size={15}
+                        style={{ color: "#9CA3AF", flexShrink: 0 }}
+                        className={`transition-transform ${open ? "rotate-180" : ""}`}
+                    />
                     <ChevronDown
                         size={15}
                         className={`text-gray-400 flex-shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
@@ -115,8 +124,8 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
 
                 {/* ── Dropdown panel ── */}
                 {open && (
-                    <div className="absolute z-50 top-full mt-1.5 left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-
+                    <div className="absolute z-[999] top-full mt-1.5 left-0 right-0 rounded-xl shadow-lg overflow-hidden"
+                        style={{ backgroundColor: "#ffffff", border: "1px solid #E5E7EB" }}>
                         {/* Search input */}
                         <div className="p-2 border-b border-gray-100">
                             <div className="relative">
@@ -149,22 +158,24 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
                                     key={h.id}
                                     type="button"
                                     onClick={() => handleSelect(h)}
-                                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 hover:bg-blue-50 transition text-left border-b border-gray-50 last:border-0 cursor-pointer ${selected?.id === h.id ? "bg-blue-50" : ""
+                                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 transition text-left border-b border-gray-100 last:border-0 cursor-pointer bg-white hover:bg-gray-50 ${selected?.id === h.id ? "bg-[#EEF2FF]" : ""
                                         }`}
                                 >
-                                    <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0">
-                                        <MapPin size={12} className="text-[#1E3A8A]" />
+                                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                                        style={{ backgroundColor: "#EEF2FF", border: "1px solid #C7D2FE" }}>
+                                        <MapPin size={12} style={{ color: "#1E3A8A" }} />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-medium text-gray-800 leading-tight truncate">
                                             {h.name}
                                         </p>
-                                        <p className="text-[11px] text-gray-400">
+                                        <p className="text-[11px] text-gray-500">
                                             {h.address.pincode} · {h.address.city}
                                         </p>
                                     </div>
                                     {selected?.id === h.id && (
-                                        <div className="ml-auto w-4 h-4 rounded-full bg-[#1E3A8A] flex items-center justify-center flex-shrink-0">
+                                        <div className="ml-auto w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+                                            style={{ backgroundColor: "#1E3A8A" }}>
                                             <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
                                                 <path d="M1.5 4l2 2 3-3" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
