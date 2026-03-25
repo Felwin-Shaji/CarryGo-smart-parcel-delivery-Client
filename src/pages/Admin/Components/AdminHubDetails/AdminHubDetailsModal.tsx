@@ -129,7 +129,10 @@ export default function AdminHubDetailsModal({
                     {/* WORKERS */}
                     <div className="lg:col-span-8 bg-white p-6 rounded-3xl border shadow-sm">
                         {workers && workers.data.length > 0 ? (
-                            <HubWorkersList workers={workers.data} />
+                            <HubWorkersList
+                                workers={workers.data}
+                                getWorkerRoute={(worker) => `/admin/agency/hub/worker/${worker._id}`}
+                            />
                         ) : (
                             <EmptyWorkersState />
                         )}

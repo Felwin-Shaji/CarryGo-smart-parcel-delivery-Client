@@ -8,12 +8,16 @@ import Step2OtpVerify from "./components/Step2OtpVerify";
 import Step3UploadKYCWorker from "./components/Step3UploadKYCWorker";
 import Step1BasicInfoWorker from "./components/Step1BasicInfoWorker";
 
+export type WorkerRole = "PICKUP" | "TRANSPORT" | "OUT_FOR_DELEVERY";
+
+
 export interface AddWorkerPayload {
     hubId: string
     name: string;
     email: string;
     mobile: string;
     role: "worker";
+    workerRole:WorkerRole;
     tempWorkerId: string;  
 }
 
@@ -30,6 +34,7 @@ const HubAddWorker = () => {
         email: "",
         mobile: "",
         role: "worker",
+        workerRole: "TRANSPORT",
         tempWorkerId: ""  
     });
 
