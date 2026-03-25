@@ -10,14 +10,13 @@ import LoadingScreen from "../../components/loading/CarryGoLoadingScreen"
 import { HubWorkersListColumns } from "../../config/TableColumns/HubWorkersListTableColumns"
 
 export type WorkerTableRow = WorkerResponseDTO & {
-    __openModal: (id: string) => void;
+    id: string; 
+    __openModal: (_id: string) => void;
 };
 
 const HubWorkersListPage = () => {
     const { getWrokersList } = useHubAddWorker();
     const navigate = useNavigate();
-    // const { hubId } = useParams();
-
 
     const [rows, setRows] = useState<WorkerTableRow[]>([]);
     const [loading, setLoading] = useState(true);
@@ -57,8 +56,9 @@ const HubWorkersListPage = () => {
 
             const enhanced = response.data.map((worker: WorkerResponseDTO) => ({
                 ...worker,
-                __openModal: (id: string) => {
-                    navigate(`/hub/workers/${id}`);
+                 id: worker._id, 
+                __openModal: (_id: string) => {
+                    navigate(`/hub/workers/${worker._id}`);
                 }
             }));
 

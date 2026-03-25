@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState } from "react";
 import { WorkerStep1Schema } from "../../../validation/hubAddWorker";
 import { useHubAddWorker } from "../../../Services/Hub/HubAddWorkers";
+import type { WorkerRole } from "../HubAddWorkers";
 
 interface Step1Props {
     formData: WorkerPayload;
@@ -15,6 +16,7 @@ export interface WorkerPayload {
     email: string;
     mobile: string;
     role: "worker";
+    workerRole: WorkerRole;
 }
 
 const Step1BasicInfoWorker = ({ formData, setFormData, setTempWorkerId, setStep }: Step1Props) => {
@@ -86,6 +88,21 @@ const Step1BasicInfoWorker = ({ formData, setFormData, setTempWorkerId, setStep 
                     <Field name="mobile" className="px-4 py-2 border rounded-md" placeholder="10-digit mobile number" />
                     <ErrorMessage name="mobile" component="p" className="text-red-500 text-sm" />
                 </div>
+
+                <div className="flex flex-col gap-1">
+                    <label className="text-sm font-medium text-gray-700">Worker Role</label>
+                    <Field
+                        as="select"
+                        name="workerRole"
+                        className="px-4 py-2 border rounded-md"
+                    >
+                        <option value="TRANSPORT">Transport (Hub ↔ Hub)</option>
+                        <option value="PICKUP">Pickup (First Mile)</option>
+                        <option value="OUT_FOR_DELIVERY">Delivery (Last Mile)</option>
+                    </Field>
+                    <ErrorMessage name="workerRole" component="p" className="text-red-500 text-sm" />
+                </div>
+
 
                 {/* SUBMIT */}
                 <button

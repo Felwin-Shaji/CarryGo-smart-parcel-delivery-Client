@@ -72,7 +72,10 @@ export default function AgencyHubDetailsModal({ open, hubId, onClose, }: {
                     {/* RIGHT — WORKERS TABLE */}
                     <div className="lg:col-span-8 rounded-3xl border bg-white p-6 shadow-sm">
                         {workers && workers.data.length > 0 ? (
-                            <HubWorkersList workers={workers.data} />
+                            <HubWorkersList
+                                workers={workers.data}
+                                getWorkerRoute={(worker) => `/agency/hub/workers/${worker._id}`}
+                            />
                         ) : (
                             <EmptyWorkersState />
                         )}

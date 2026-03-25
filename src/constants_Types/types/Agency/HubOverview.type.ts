@@ -31,6 +31,7 @@ export interface HubOverviewResponseDTO {
 }
 
 export interface WorkerResponseDTO {
+    _id: string; 
     hubId: string;
     name: string;
     email: string;
