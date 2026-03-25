@@ -3,8 +3,6 @@ import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { DataTable } from "../../components/Table/Table";
 import toast from "react-hot-toast";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
-
 import { AdminUserListColumns } from "../../config/TableColumns/adminUserListTableColumn";
 import { useAdmin } from "../../Services/Admin/Admin";
 import { useNavigate } from "react-router-dom";
@@ -113,9 +111,7 @@ const AdminUserList = () => {
   return (
     <DashboardProvider role="admin">
       <DashboardLayout pageTitle="Users List">
-        {loading && <LoadingScreen />}
 
-        {!loading && (
           <DataTable
             data={enhancedRows}
             columns={AdminUserListColumns(handleStatusToggle)}
@@ -129,8 +125,8 @@ const AdminUserList = () => {
             sortOrder={sortOrder}
             filters={filters}
             onFilterChange={setFilters}
+            loading={loading}
           />
-        )}
 
         {!loading && users.length === 0 && <p>No users found.</p>}
       </DashboardLayout>

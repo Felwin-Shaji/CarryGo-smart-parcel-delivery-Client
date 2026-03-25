@@ -7,7 +7,6 @@ import { DashboardLayout } from "../../layouts/DashboardLayout"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAgency } from "../../Services/Agency/Agency"
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen"
 import type { HubResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto"
 
 export type HubTableRow = HubResponseDTO & {
@@ -119,7 +118,6 @@ const AgencyHubsList = () => {
     <>
       <DashboardProvider role={ROLES.AGENCY}>
         <DashboardLayout>
-          {loading && <LoadingScreen />}
           <DataTable<HubTableRow>
             data={enhancedRows}
             columns={AgencyHubsListColumns(handleStatusToggle)}
@@ -135,6 +133,7 @@ const AgencyHubsList = () => {
             sortOrder={sortOrder}
             filters={filters}
             onFilterChange={setFilters}
+            loading={loading}
           />
         </DashboardLayout>
       </DashboardProvider></>
