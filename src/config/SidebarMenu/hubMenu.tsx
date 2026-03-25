@@ -4,6 +4,7 @@ import {
   Wallet,
   Users,
   UserPlus,
+  Truck,
 } from "lucide-react";
 
 import type { MenuSection } from "./adminMenu";
@@ -23,6 +24,7 @@ export const hunMenu= (kycStatus?: string): MenuSection[] =>  [
     items: [
       { name: "Worker List", icon: <Users size={20} />, path: "/hub/workers" ,disabled: kycStatus !== "APPROVED",},
       { name: "Add Worker", icon: <UserPlus size={20} />, path: "/hub/workers/add",disabled: kycStatus !== "APPROVED", },
+      { name: "Shipments", icon: <Truck size={20} />, path: "/hub/shipments", disabled: kycStatus !== "APPROVED" }
     ],
   },
 ];
