@@ -22,6 +22,8 @@ export const API_AGENCY = {
   ADD_NEW_HUB: "/api/agency/add-newHub",
   HUB_TEMP_STATUS: "/api/agency/hub/temp-status",
   GET_HUBS: "/api/agency/hubs",
+  GET_HUBS_WORKER: "/api/agency/hubs/worker",
+  UPDATE_WORKER_KYC_STATUS:"",
 
   ROUTE_GROUPS: "/api/agency/route-groups",
   ROUTE_SEGMENTS: (routeGroupId: string) => `/api/agency/route-groups/${routeGroupId}/segments`,
@@ -55,6 +57,7 @@ export const API_ADMIN = {
   GET_PROFILE: "/api/admin/profile",
 
   GET_AGENCY_HUB: "api/admin/agency/hub",
+  AGENCY_HUB_WORKER:"api/admin/agency/hub/worker",
 
   GET_WALLET: "/api/admin/wallet",
   CREATE_ORDER_WALLET: "/api/admin/wallet/create-order",

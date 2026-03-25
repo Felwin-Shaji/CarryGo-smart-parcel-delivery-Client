@@ -4,6 +4,8 @@ import { API_HUB } from "../../constants_Types/apiRoutes"; // change path if nee
 import toast from "react-hot-toast";
 import type { TempRegisterWorkerResponseDto } from "../../constants_Types/types/Worker/workerResponse.dto";
 import type { GetHubWorkersResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type";
+import type { WorkerRole } from "../../pages/Hub/HubAddWorkers";
+import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
 
 export const useHubAddWorker = () => {
     const axiosInstance = useAxios();
@@ -23,16 +25,17 @@ export const useHubAddWorker = () => {
         name: string;
         email: string;
         mobile: string;
-        // tempWorkerId: string;
+        workerRole: WorkerRole;
         role: "worker";
     }) => {
 
         const res = await axiosInstance.post(API_HUB.TEMP_WORKER_REGISTER, values);
 
-        let workerOtpMeta:TempRegisterWorkerResponseDto = {
+        let workerOtpMeta: TempRegisterWorkerResponseDto = {
             email: res.data.data.email,
             expiresAt: res.data.data.expiresAt,
             role: "worker",
+            // workerRole: res.data.data.workerRole,
             tempWorkerId: res.data.data._id
         }
 
@@ -152,12 +155,40 @@ export const useHubAddWorker = () => {
         return res.data.data as GetHubWorkersResponseDTO
     }
 
+    const getWorkerById = async (id: string) => {
+        const res = await axiosInstance.get(`${API_HUB.WORKER}/${id}`);
+
+        return res.data.data as GetWorkerOverviewResponseDTO;
+    };
+
+    const getWorkerKyc = async (workerId: string) => {
+        const res = await axiosInstance.get(`${API_HUB.WORKER}/${workerId}/kyc`);
+        return res.data.data // as 
+    };
+
+    const reSubmitWorkerKyc = async (workerId: string, formData: FormData) => {
+        const res = await axiosInstance.patch(
+            `${API_HUB.WORKER}/${workerId}/kyc/resubmit`,
+            formData,
+            { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        if (res.data.success) {
+            toast.success("KYC resubmitted successfully");
+        }
+
+        // return res.data;
+    };
+
     return {
         tempRegisterWorker,
         verifyOtp,
         resendOtp,
         uploadKyc,
         checkTempWorkerStatus,
-        getWrokersList
+        getWrokersList,
+        getWorkerById,
+        getWorkerKyc,
+        reSubmitWorkerKyc
     };
 };
