@@ -6,7 +6,6 @@ import { useHubAddWorker } from "../../Services/Hub/HubAddWorkers"
 import type { WorkerResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type"
 import { useEffect, useState } from "react"
 import { DataTable } from "../../components/Table/Table"
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen"
 import { HubWorkersListColumns } from "../../config/TableColumns/HubWorkersListTableColumns"
 
 export type WorkerTableRow = WorkerResponseDTO & {
@@ -100,9 +99,7 @@ const HubWorkersListPage = () => {
         <DashboardProvider role={ROLES.HUB}>
             <DashboardLayout pageTitle="Hub Workers">
 
-                {loading && <LoadingScreen />}
 
-                {!loading && (
                     <DataTable<WorkerTableRow>
                         data={rows}
                         columns={HubWorkersListColumns()}
@@ -116,8 +113,8 @@ const HubWorkersListPage = () => {
                         sortOrder={sortOrder}
                         filters={filters}
                         onFilterChange={setFilters}
+                        loading={loading}
                     />
-                )}
 
             </DashboardLayout>
         </DashboardProvider>

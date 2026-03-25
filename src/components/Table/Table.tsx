@@ -24,6 +24,7 @@ interface DataTableProps<T> {
   searchValue?: string;
   filters?: any;
   onFilterChange?: (updated: any) => void;
+  loading?: boolean;
 }
 
 export function DataTable<T>({
@@ -38,7 +39,8 @@ export function DataTable<T>({
   sortOrder,
   searchValue,
   filters,
-  onFilterChange
+  onFilterChange,
+  loading
 }: DataTableProps<T>) {
   return (
     <div className="w-full space-y-4">
@@ -93,25 +95,47 @@ export function DataTable<T>({
           </thead>
 
           <tbody>
-            {data.map((row, i) => (
-              <tr
-                key={i}
-                className="border-b hover:bg-gray-50 transition-colors"
-              >
-                {columns.map((col) => (
-                  <td
-                    key={String(col.accessor)}
-                    className={`py-2 sm:py-3 px-3 sm:px-4 whitespace-nowrap 
-                      ${col.hiddenOnMobile ? "hidden sm:table-cell" : ""}`}
-                  >
-                    {col.render
-                      ? col.render(row[col.accessor], row)
-                      : (row[col.accessor] as any)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
+  {loading ? (
+    [...Array(5)].map((_, i) => (
+      <tr key={i} className="border-b">
+        {columns.map((col, j) => (
+          <td
+            key={j}
+            className={`py-2 sm:py-3 px-3 sm:px-4 
+            ${col.hiddenOnMobile ? "hidden sm:table-cell" : ""}`}
+          >
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+          </td>
+        ))}
+      </tr>
+    ))
+  ) : data.length > 0 ? (
+    data.map((row, i) => (
+      <tr
+        key={i}
+        className="border-b hover:bg-gray-50 transition-colors"
+      >
+        {columns.map((col) => (
+          <td
+            key={String(col.accessor)}
+            className={`py-2 sm:py-3 px-3 sm:px-4 whitespace-nowrap 
+            ${col.hiddenOnMobile ? "hidden sm:table-cell" : ""}`}
+          >
+            {col.render
+              ? col.render(row[col.accessor], row)
+              : (row[col.accessor] as any)}
+          </td>
+        ))}
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={columns.length} className="text-center py-6">
+        No data found
+      </td>
+    </tr>
+  )}
+</tbody>
         </table>
       </div>
 

@@ -3,9 +3,7 @@ import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { DataTable } from "../../components/Table/Table";
 import toast from "react-hot-toast";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { AdminAgencyListcolumns } from "../../config/TableColumns/adminAgencyListTableColumn";
-// import AdminAgencyDetailsModal from "./Components/AdminAgencyDetailsModal";
 import { useNavigate } from "react-router-dom";
 import { useAdmin } from "../../Services/Admin/Admin";
 
@@ -35,11 +33,6 @@ const AdminAgencyList = () => {
         endDate: ""
     });
 
-
-
-
-    // const [modalOpen, setModalOpen] = useState(false);
-    // const [selectedAgencyId, setSelectedAgencyId] = useState<string | null>(null);
 
     const fetchAgencies = async () => {
         try {
@@ -96,7 +89,7 @@ const AdminAgencyList = () => {
     }, [page, search, sortBy, sortOrder, filters]);
 
 
-    
+
     const handleSort = (value: string) => {
         if (!value) {
             setSortBy("");
@@ -128,27 +121,23 @@ const AdminAgencyList = () => {
         <DashboardProvider role="admin">
             <DashboardLayout pageTitle="Agencies List">
 
-                {loading && <LoadingScreen />}
-
-                {!loading && (
-                    <DataTable
-                        data={enhancedRows}
-                        columns={AdminAgencyListcolumns(handleStatusToggle)}
-                        page={page}
-                        totalPages={totalPages}
-                        searchValue={searchInput}
-                        onPageChange={(p) => setPage(p)}
-                        onSearch={(value) => {
-                            setSearchInput(value)
-                        }}
-                        onSort={handleSort}
-                        sortBy={sortBy}
-                        sortOrder={sortOrder}
-                        filters={filters}
-                        onFilterChange={setFilters}
-                    />
-
-                )}
+                <DataTable
+                    data={enhancedRows}
+                    columns={AdminAgencyListcolumns(handleStatusToggle)}
+                    page={page}
+                    totalPages={totalPages}
+                    searchValue={searchInput}
+                    onPageChange={(p) => setPage(p)}
+                    onSearch={(value) => {
+                        setSearchInput(value)
+                    }}
+                    onSort={handleSort}
+                    sortBy={sortBy}
+                    sortOrder={sortOrder}
+                    filters={filters}
+                    onFilterChange={setFilters}
+                    loading = {loading}
+                />
 
                 {!loading && agencies.length === 0 && (
                     <p>No agencies found.</p>
