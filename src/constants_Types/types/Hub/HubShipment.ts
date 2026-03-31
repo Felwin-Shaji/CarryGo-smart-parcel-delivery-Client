@@ -1,20 +1,80 @@
+export type ShipmentType =
+  | "HUB_TRANSFER"
+  | "OUT_FOR_DELIVERY"
+  | "BULK_PICKUP";
+
+export type ShipmentStatus =
+  | "PENDING"
+  | "LOADING"
+  | "DISPATCHED"
+  | "ARRIVED"
+  | "COMPLETED"
+  | "CANCELLED";
+
 export interface Shipment {
   id: string;
-  segmentId: string;
-  fromHub: string;
-  toHub: string;
-  parcelCount: number;
-  status: "PENDING" | "LOADING" | "DISPATCHED" | "ARRIVED" | "COMPLETED" | "CANCELLED";
+
+  type: ShipmentType;
+  status: ShipmentStatus;
+
+  segmentId: string | null;
+
+  fromHubId: string | null;
+  toHubId: string | null;
+
+  assignedWorkerId: string | null;
+  assignedWorkerName?: string; 
+
   vehicleNumber: string | null;
-  assignedWorkerName: string | null;
+
   capacity: number | null;
+  parcelCount: number;
+
+  estimatedDispatchAt: string | null;
+  departedAt: string | null;
+  arrivedAt: string | null;
+
   createdAt: string;
 }
- 
+
 export interface WorkerForShipment {
   id: string;
   name: string;
   mobile: string;
   kycStatus: "VERIFIED" | "PENDING" | "REJECTED";
   isBlocked: boolean;
+}
+
+
+type DateRangeType =
+  | "Today"
+  | "Yesterday"
+  | "Last 7 Days"
+  | "Last 30 Days"
+  | "Last Year"
+  | "Custom";
+
+export interface UIShipmentFilters {
+  search: string;
+  status: string;
+  workerId: string;
+  type: string;
+  dateRange: DateRangeType;
+  fromDate?: string;
+  toDate?: string;
+}
+
+export interface ShipmentUI extends Shipment {
+  fromHubName?: string;
+  toHubName?: string;
+}
+
+export interface GetShipmentsResponse {
+  shipments: Shipment[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
