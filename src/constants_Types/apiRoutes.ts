@@ -23,7 +23,7 @@ export const API_AGENCY = {
   HUB_TEMP_STATUS: "/api/agency/hub/temp-status",
   GET_HUBS: "/api/agency/hubs",
   GET_HUBS_WORKER: "/api/agency/hubs/worker",
-  UPDATE_WORKER_KYC_STATUS:"",
+  UPDATE_WORKER_KYC_STATUS: "",
 
   ROUTE_GROUPS: "/api/agency/route-groups",
   ROUTE_SEGMENTS: (routeGroupId: string) => `/api/agency/route-groups/${routeGroupId}/segments`,
@@ -57,7 +57,7 @@ export const API_ADMIN = {
   GET_PROFILE: "/api/admin/profile",
 
   GET_AGENCY_HUB: "api/admin/agency/hub",
-  AGENCY_HUB_WORKER:"api/admin/agency/hub/worker",
+  AGENCY_HUB_WORKER: "api/admin/agency/hub/worker",
 
   GET_WALLET: "/api/admin/wallet",
   CREATE_ORDER_WALLET: "/api/admin/wallet/create-order",
@@ -75,6 +75,9 @@ export const API_HUB = {
   GET_WALLET: "/api/hub/wallet",
   CREATE_ORDER_WALLET: "/api/hub/wallet/create-order",
   WITHDRAW_WALLET: "/api/hub/wallet/withdraw",
+
+  FIELD_TASKS: "/api/hub/field-task",
+  ASSIGN_PICKUPS: "/api/hub/pickups/assign",
 };
 
 
@@ -114,6 +117,9 @@ export const API_WORKER = {
   GET_WALLET: "/api/worker/wallet",
   CREATE_ORDER_WALLET: "/api/worker/wallet/create-order",
   WITHDRAW_WALLET: "/api/worker/wallet/withdraw",
+
+  WORKER_PICKUPS: "/api/worker/field-task"
+
 }
 
 
