@@ -110,15 +110,21 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
 const BookingStatusBadge = ({ status }: { status: BookingStatusType }) => {
   const config = BOOKING_STATUS_CONFIG[status];
 
+  if (!config) {
+    console.warn("Invalid booking status:", status);
+    return (
+      <span className="px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
+        Unknown
+      </span>
+    );
+  }
+
   return (
-    <span
-      className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${config.className}`}
-    >
+    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${config.className}`}>
       {config.label}
     </span>
   );
 };
-
 
 const PaymentBadge = ({ status }: { status: PaymentStatusType }) => {
   const config = PAYMENT_STATUS_CONFIG[status];
