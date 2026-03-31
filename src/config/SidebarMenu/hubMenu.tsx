@@ -5,11 +5,12 @@ import {
   Users,
   UserPlus,
   Truck,
+  Package,
 } from "lucide-react";
 
 import type { MenuSection } from "./adminMenu";
 
-export const hunMenu= (kycStatus?: string): MenuSection[] =>  [
+export const hunMenu = (kycStatus?: string): MenuSection[] => [
   {
     section: "Overview",
     items: [
@@ -20,11 +21,19 @@ export const hunMenu= (kycStatus?: string): MenuSection[] =>  [
   },
 
   {
+    section: "Operations",
+    items: [
+      { name: "Task Assignment", icon: <Package size={20} />, path: "/hub/field-task", disabled: kycStatus !== "APPROVED", },
+      { name: "Shipments", icon: <Truck size={20} />, path: "/hub/shipments", disabled: kycStatus !== "APPROVED", },
+    ],
+  },
+
+
+  {
     section: "Workers",
     items: [
-      { name: "Worker List", icon: <Users size={20} />, path: "/hub/workers" ,disabled: kycStatus !== "APPROVED",},
-      { name: "Add Worker", icon: <UserPlus size={20} />, path: "/hub/workers/add",disabled: kycStatus !== "APPROVED", },
-      { name: "Shipments", icon: <Truck size={20} />, path: "/hub/shipments", disabled: kycStatus !== "APPROVED" }
+      { name: "Worker List", icon: <Users size={20} />, path: "/hub/workers", disabled: kycStatus !== "APPROVED", },
+      { name: "Add Worker", icon: <UserPlus size={20} />, path: "/hub/workers/add", disabled: kycStatus !== "APPROVED", },
     ],
   },
 ];

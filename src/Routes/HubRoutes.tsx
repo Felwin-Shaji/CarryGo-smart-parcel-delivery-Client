@@ -10,10 +10,9 @@ import HubResetPassword from "../pages/Hub/HubResetPassword"
 import HubAddWorker from "../pages/Hub/HubAddWorkers"
 import HubWallet from "../pages/Hub/HubWallet"
 import HubWorkersListPage from "../pages/Hub/HubWorkersListPage"
-import HubShipmentsPage from "../pages/Hub/HubShipmentPage/HubShipmentsPage"
 import HubWorkerDetailsPage from "../pages/Hub/HubWorkerDetailsPage"
 import WorkerKycResubmit from "../components/Workers/components/WorkerKycResubmit"
-
+import { ShipmentManagementPage } from "../pages/Hub/ShipmentManagement/ShipmentManagementPage"
 
 const HubRoutes = () => {
     return (
@@ -34,7 +33,7 @@ const HubRoutes = () => {
                 <Route path="workers/:id" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubWorkerDetailsPage /></ProtectedRoute>} />
                 <Route path="workers/kyc/resubmit/:id" element={<ProtectedRoute requiredRole={ROLES.HUB}><WorkerKycResubmit /></ProtectedRoute>} />
                 
-                <Route path="shipments" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubShipmentsPage /></ProtectedRoute>} />
+                <Route path="shipments" element={<ProtectedRoute requiredRole={ROLES.HUB}><ShipmentManagementPage /></ProtectedRoute>} />
 
 
                 <Route path="*" element={<PageNotFound />} />
