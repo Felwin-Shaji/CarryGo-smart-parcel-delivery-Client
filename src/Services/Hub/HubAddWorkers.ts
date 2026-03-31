@@ -144,7 +144,9 @@ export const useHubAddWorker = () => {
         blocked = null,
         kycStatus = "",
         startDate = "",
-        endDate = ""
+        endDate = "",
+        workerRole = "",
+        workingStatus = ""
     }) => {
         const res = await axiosInstance.get(API_HUB.WORKER, {
             params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate }
