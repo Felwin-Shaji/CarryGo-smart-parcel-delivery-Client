@@ -78,6 +78,8 @@ export const API_HUB = {
 
   FIELD_TASKS: "/api/hub/field-task",
   ASSIGN_PICKUPS: "/api/hub/pickups/assign",
+
+  SHIPMENT:"/api/hub/shipments",
 };
 
 

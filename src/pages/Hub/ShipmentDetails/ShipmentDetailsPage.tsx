@@ -1,0 +1,69 @@
+import { useLocation, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import HeaderSection from "./components/HeaderSection";
+import SummaryCards from "./components/SummaryCards";
+import RouteCard from "./components/RouteCard";
+import ParcelList from "./components/ParcelList";
+import ActionPanel from "./components/ActionPanel";
+import type { ShipmentParcelsResponse } from "../../../constants_Types/types/Hub/HubShipment";
+import { useHubShipment } from "../../../Services/Hub/HubShipment";
+import { DashboardProvider } from "../../../context/DashboardProvider";
+import { DashboardLayout } from "../../../layouts/DashboardLayout";
+import { ROLES } from "../../../constants_Types/types/roles";
+import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
+
+export default function ShipmentDetailsPage() {
+    const location = useLocation();
+
+    const fromTab = location.state?.fromTab;
+    const { shipmentId } = useParams();
+
+    const { getShipmentById } = useHubShipment();
+
+
+    const breadcrumbItems = [
+        { label: "Dashboard", to: "/hub/dashboard" },
+        {
+            label: "Shipments",
+            to: `/hub/shipments?type=${fromTab || "BULK_PICKUP"}`,
+        },
+        { label: `Shipment #${shipmentId?.slice(-6)}` },
+    ];
+
+    const { data, isLoading } = useQuery<ShipmentParcelsResponse>({
+        queryKey: ["shipment-details", shipmentId],
+        queryFn: () => getShipmentById(shipmentId!),
+        enabled: !!shipmentId,
+    });
+
+    console.log(data, '99999999999999999999999999999999999999999')
+
+    if (isLoading) return <div className="p-6">Loading...</div>;
+    if (!data) return <div className="p-6">Shipment not found</div>;
+
+    return (
+        <>
+            <DashboardProvider role={ROLES.HUB}>
+                <DashboardLayout pageTitle="Shipment Management">
+
+                    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+
+                        <Breadcrumbs items={breadcrumbItems} />
+
+                        <HeaderSection shipment={data.shipmentDetails} />
+
+                        <SummaryCards shipment={data.shipmentDetails} />
+
+                        <RouteCard shipment={data.shipmentDetails} />
+
+                        <ParcelList parcels={data.shipmentDetails.parcels} />
+
+                        <ActionPanel shipment={data.shipmentDetails} />
+
+                    </div>
+                </DashboardLayout>
+            </DashboardProvider>
+        </>
+    );
+}

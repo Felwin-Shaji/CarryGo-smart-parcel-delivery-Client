@@ -23,7 +23,7 @@ export interface Shipment {
   toHubId: string | null;
 
   assignedWorkerId: string | null;
-  assignedWorkerName?: string; 
+  assignedWorkerName?: string;
 
   vehicleNumber: string | null;
 
@@ -71,6 +71,45 @@ export interface ShipmentUI extends Shipment {
 
 export interface GetShipmentsResponse {
   shipments: Shipment[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export type ShipmentParcelStatus =
+  | "LOADED"
+  | "IN_TRANSIT"
+  | "UNLOADED";
+
+export interface ShipmentParcelUI {
+  id: string;
+  bookingId: string;
+
+  customerName?: string;
+  address?: string;
+
+  status: ShipmentParcelStatus;
+}
+
+export interface ShipmentDetailsUI extends Shipment {
+  fromHubName?: string;
+  toHubName?: string;
+
+  assignedWorker?: {
+    id: string;
+    name: string;
+    mobile?: string;
+  };
+
+  parcels: ShipmentParcelUI[];
+}
+
+export interface ShipmentParcelsResponse {
+  shipmentDetails: ShipmentDetailsUI;
+
   pagination: {
     total: number;
     page: number;
