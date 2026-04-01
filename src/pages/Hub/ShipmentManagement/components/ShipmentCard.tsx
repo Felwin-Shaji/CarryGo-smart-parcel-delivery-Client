@@ -11,6 +11,8 @@ interface ShipmentCardProps {
 export const ShipmentCard = ({ shipment, activeTab }: ShipmentCardProps) => {
   const navigate = useNavigate();
 
+  console.log("Rendering ShipmentCard for shipment:", shipment);
+
   const getRoute = () => {
     switch (shipment.type) {
       case "BULK_PICKUP":
