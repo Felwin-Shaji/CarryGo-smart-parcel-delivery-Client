@@ -1,3 +1,4 @@
+import { API_HUB } from "../../constants_Types/apiRoutes";
 import type { GetShipmentsResponse,  UIShipmentFilters,  WorkerForShipment } from "../../constants_Types/types/Hub/HubShipment";
 import { useAxios } from "../../hooks/useAxios";
 
@@ -6,7 +7,7 @@ export const useHubShipment = () => {
     const axiosInstance = useAxios();
 
     const getShipments = async (params: Partial<UIShipmentFilters> & { page?: number; limit?: number; }): Promise<GetShipmentsResponse> => {
-        const res = await axiosInstance.get("/api/hub/shipments", {
+        const res = await axiosInstance.get(API_HUB.SHIPMENT, {
             params: {
                 type: params.type !== "ALL" ? params.type : undefined,
                 status: params.status !== "ALL" ? params.status : undefined,
@@ -65,13 +66,19 @@ export const useHubShipment = () => {
         return res.data.data;
     };
 
+    const getShipmentById = async (shipmentId: string) => {
+        const res = await axiosInstance.get(`${API_HUB.SHIPMENT}/${shipmentId}`);
+        return res.data.data;
+    }
+
     return {
         // getShipments,
         // assignWorker,
         // updateCapacity,
         // setDispatchTime,
         getShipments,
-        getWorkers
+        getWorkers,
+        getShipmentById
     };
 
 };
