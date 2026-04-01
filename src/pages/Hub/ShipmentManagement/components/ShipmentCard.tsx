@@ -1,12 +1,14 @@
 import { Package, User, Calendar, MapPin } from "lucide-react";
 import type { Shipment } from "../../../../constants_Types/types/Hub/HubShipment";
 import { useNavigate } from "react-router-dom";
+import type { ShipmentType } from "../ShipmentManagementPage";
 
 interface ShipmentCardProps {
   shipment: Shipment;
+  activeTab : ShipmentType;
 }
 
-export const ShipmentCard = ({ shipment }: ShipmentCardProps) => {
+export const ShipmentCard = ({ shipment, activeTab }: ShipmentCardProps) => {
   const navigate = useNavigate();
 
   const getRoute = () => {
@@ -32,7 +34,11 @@ export const ShipmentCard = ({ shipment }: ShipmentCardProps) => {
 
   return (
     <div
-      onClick={() => navigate(`/hub/shipments/${shipment.id}`)}
+      onClick={() => navigate(`/hub/shipments/${shipment.id}`, {
+        state: {
+          fromTab: activeTab, // "HUB_TRANSFER" | "BULK_PICKUP" | ...
+        },
+      })}
       className="
         bg-white border border-gray-200
         rounded-xl p-4

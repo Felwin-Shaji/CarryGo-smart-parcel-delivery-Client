@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ShipmentCard } from "./components/ShipmentCard";
 import type { Shipment, UIShipmentFilters, } from "../../../constants_Types/types/Hub/HubShipment";
@@ -7,7 +8,7 @@ import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { ROLES } from "../../../constants_Types/types/roles";
 import { FilterBar } from "./components/FilterBar";
 
-type ShipmentType = "BULK_PICKUP" | "HUB_TRANSFER" | "OUT_FOR_DELIVERY";
+export type ShipmentType = "BULK_PICKUP" | "HUB_TRANSFER" | "OUT_FOR_DELIVERY";
 
 const TAB_CONFIG = [
     { label: "First Mile", type: "BULK_PICKUP" },
@@ -16,13 +17,18 @@ const TAB_CONFIG = [
 ];
 
 export const ShipmentManagementPage = () => {
+
+    const [searchParams] = useSearchParams();
+
+    const typeFromUrl = searchParams.get("type") as ShipmentType | null;
     const { getShipments } = useHubShipment();
 
     const [shipments, setShipments] = useState<Shipment[]>([]);
     const [loading, setLoading] = useState(false);
 
-    const [activeTab, setActiveTab] = useState<ShipmentType>("BULK_PICKUP");
-
+    const [activeTab, setActiveTab] = useState<ShipmentType>(
+        typeFromUrl || "BULK_PICKUP"
+    );
     const [filters, setFilters] = useState<UIShipmentFilters>({
         search: "",
         status: "ALL",
@@ -141,7 +147,7 @@ export const ShipmentManagementPage = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {shipments.map((shipment) => (
-                            <ShipmentCard key={shipment.id} shipment={shipment} />
+                            <ShipmentCard key={shipment.id} shipment={shipment} activeTab={activeTab} />
                         ))}
                     </div>
                 )}
