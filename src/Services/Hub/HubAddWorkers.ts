@@ -149,7 +149,7 @@ export const useHubAddWorker = () => {
         workingStatus = ""
     }) => {
         const res = await axiosInstance.get(API_HUB.WORKER, {
-            params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate }
+            params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate, workerRole, workingStatus }
         })
         toast.loading
 
