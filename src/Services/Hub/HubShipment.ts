@@ -1,5 +1,5 @@
 import { API_HUB } from "../../constants_Types/apiRoutes";
-import type { GetShipmentsResponse,  UIShipmentFilters,  WorkerForShipment } from "../../constants_Types/types/Hub/HubShipment";
+import type { GetShipmentsResponse, UIShipmentFilters, WorkerForShipment } from "../../constants_Types/types/Hub/HubShipment";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useHubShipment = () => {
@@ -23,44 +23,6 @@ export const useHubShipment = () => {
         return res.data.data;
     };
 
-    // const assignWorker = async ({
-    //     shipmentId,
-    //     workerId,
-    // }: AssignWorkerParams): Promise<Shipment> => {
-    //     const res = await axiosInstance.patch(
-    //         `/shipments/${shipmentId}/assign-worker`,
-    //         { workerId }
-    //     );
-
-    //     return res.data.data;
-    // };
-
-    // 🔥 UPDATE CAPACITY
-    // const updateCapacity = async ({
-    //     shipmentId,
-    //     capacity,
-    // }: UpdateCapacityParams): Promise<Shipment> => {
-    //     const res = await axiosInstance.patch(
-    //         `/shipments/${shipmentId}/capacity`,
-    //         { capacity }
-    //     );
-
-    //     return res.data.data;
-    // };
-
-    // 🔥 SET DISPATCH TIME
-    // const setDispatchTime = async ({
-    //     shipmentId,
-    //     estimatedDispatchAt,
-    // }: SetDispatchTimeParams): Promise<Shipment> => {
-    //     const res = await axiosInstance.patch(
-    //         `/shipments/${shipmentId}/dispatch-time`,
-    //         { estimatedDispatchAt }
-    //     );
-
-    //     return res.data.data;
-    // };
-
     const getWorkers = async (): Promise<WorkerForShipment[]> => {
         const res = await axiosInstance.get("/workers");
         return res.data.data;
@@ -71,14 +33,26 @@ export const useHubShipment = () => {
         return res.data.data;
     }
 
+    const updateShipment = async ({ shipmentId, workerId, capacity, estimatedDispatchAt, }: {
+        shipmentId: string;
+        workerId: string;
+        capacity: number;
+        estimatedDispatchAt: string;
+    }) => {
+        const res = await axiosInstance.patch(`${API_HUB.SHIPMENT}/${shipmentId}`, {
+            workerId,
+            capacity,
+            estimatedDispatchAt,
+        });
+
+        return res.data;
+    };
+
     return {
-        // getShipments,
-        // assignWorker,
-        // updateCapacity,
-        // setDispatchTime,
         getShipments,
         getWorkers,
-        getShipmentById
+        getShipmentById,
+        updateShipment,
     };
 
 };

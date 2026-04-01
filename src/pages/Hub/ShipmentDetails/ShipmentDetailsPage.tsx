@@ -12,9 +12,12 @@ import { DashboardProvider } from "../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { ROLES } from "../../../constants_Types/types/roles";
 import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
+import { useState } from "react";
+import EditShipmentModal from "./components/EditShipmentModal";
 
 export default function ShipmentDetailsPage() {
     const location = useLocation();
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const fromTab = location.state?.fromTab;
     const { shipmentId } = useParams();
@@ -46,7 +49,13 @@ export default function ShipmentDetailsPage() {
         <>
             <DashboardProvider role={ROLES.HUB}>
                 <DashboardLayout pageTitle="Shipment Management">
-
+                    
+                    {isEditModalOpen && (
+                        <EditShipmentModal
+                            shipment={data.shipmentDetails}
+                            onClose={() => setIsEditModalOpen(false)}
+                        />
+                    )}
                     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
 
                         <Breadcrumbs items={breadcrumbItems} />
@@ -59,7 +68,10 @@ export default function ShipmentDetailsPage() {
 
                         <ParcelList parcels={data.shipmentDetails.parcels} />
 
-                        <ActionPanel shipment={data.shipmentDetails} />
+                        <ActionPanel
+                            shipment={data.shipmentDetails}
+                            onEdit={() => setIsEditModalOpen(true)}
+                        />
 
                     </div>
                 </DashboardLayout>
