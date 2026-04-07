@@ -120,8 +120,9 @@ export const API_WORKER = {
   CREATE_ORDER_WALLET: "/api/worker/wallet/create-order",
   WITHDRAW_WALLET: "/api/worker/wallet/withdraw",
 
-  WORKER_PICKUPS: "/api/worker/field-task"
+  WORKER_PICKUPS: "/api/worker/field-task",
 
+  SHIPMENTS:"/api/worker/shipments"
 }
 
 

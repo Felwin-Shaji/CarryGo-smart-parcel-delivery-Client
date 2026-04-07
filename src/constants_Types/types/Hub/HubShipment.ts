@@ -46,7 +46,7 @@ export interface WorkerForShipment {
 }
 
 
-type DateRangeType =
+export type DateRangeType =
   | "Today"
   | "Yesterday"
   | "Last 7 Days"
@@ -58,7 +58,7 @@ export interface UIShipmentFilters {
   search: string;
   status: string;
   workerId: string;
-  type: string;
+  type: ShipmentType;
   dateRange: DateRangeType;
   fromDate?: string;
   toDate?: string;
@@ -117,3 +117,5 @@ export interface ShipmentParcelsResponse {
     totalPages: number;
   };
 }
+
+

@@ -9,7 +9,7 @@ export const useHubShipment = () => {
     const getShipments = async (params: Partial<UIShipmentFilters> & { page?: number; limit?: number; }): Promise<GetShipmentsResponse> => {
         const res = await axiosInstance.get(API_HUB.SHIPMENT, {
             params: {
-                type: params.type !== "ALL" ? params.type : undefined,
+                type: params.type,
                 status: params.status !== "ALL" ? params.status : undefined,
                 workerId: params.workerId !== "ALL" ? params.workerId : undefined,
                 search: params.search || undefined,
