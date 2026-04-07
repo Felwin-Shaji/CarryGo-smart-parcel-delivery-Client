@@ -1,29 +1,14 @@
 import { Search, Calendar, Filter } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
-// import { Dispatch, SetStateAction } from "react";
+import type { DateRangeType, UIShipmentFilters } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { ShipmentType } from "../ShipmentManagementPage";
 
-type DateRangeType =
-    | "Today"
-    | "Yesterday"
-    | "Last 7 Days"
-    | "Last 30 Days"
-    | "Last Year"
-    | "Custom";
-
-interface FilterState {
-    search: string;
-    status: string;
-    workerId: string;
-    type: string;
-    dateRange: DateRangeType;
-    fromDate?: string;
-    toDate?: string;
-}
 
 interface FilterBarProps {
-    filters: FilterState;
-    setFilters: Dispatch<SetStateAction<FilterState>>;
-    activeTab: string;
+    filters: UIShipmentFilters;
+    setFilters: Dispatch<SetStateAction<UIShipmentFilters>>;
+    activeTab: ShipmentType;
+    role?: "hub" | "worker";
 }
 
 const getDateRange = (range: DateRangeType) => {
@@ -61,6 +46,7 @@ export const FilterBar = ({
     filters,
     setFilters,
     activeTab,
+    role = "hub",
 }: FilterBarProps) => {
     return (
         <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm mt-4">
@@ -106,19 +92,21 @@ export const FilterBar = ({
                     <option value="COMPLETED">Completed</option>
                 </select>
 
-                {/* Worker */}
-                <select
-                    value={filters.workerId}
-                    onChange={(e) =>
-                        setFilters((prev) => ({
-                            ...prev,
-                            workerId: e.target.value,
-                        }))
-                    }
-                    className="h-9 px-3 bg-gray-50 border rounded-lg text-sm w-[160px] flex-shrink-0"
-                >
-                    <option value="ALL">All Workers</option>
-                </select>
+                {/* Worker (only for HUB) */}
+                {role === "hub" && (
+                    <select
+                        value={filters.workerId}
+                        onChange={(e) =>
+                            setFilters((prev) => ({
+                                ...prev,
+                                workerId: e.target.value,
+                            }))
+                        }
+                        className="h-9 px-3 bg-gray-50 border rounded-lg text-sm w-[160px] flex-shrink-0"
+                    >
+                        <option value="ALL">All Workers</option>
+                    </select>
+                )}
 
                 {/* Date Type */}
                 <select
@@ -180,15 +168,16 @@ export const FilterBar = ({
                 {/* Clear */}
                 <button
                     onClick={() =>
-                        setFilters({
+                        setFilters((prev) => ({
+                            ...prev,
                             search: "",
                             status: "ALL",
-                            workerId: "ALL",
+                            workerId: role === "hub" ? "ALL" : prev.workerId,
                             type: activeTab,
                             dateRange: "Today",
                             fromDate: undefined,
                             toDate: undefined,
-                        })
+                        }))
                     }
                     className=" ml-2 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 
                     border border-gray-200 rounded-lg hover:bg-gray-200 hover:text-gray-800 transition-all duration-150 flex-shrink-0" >
