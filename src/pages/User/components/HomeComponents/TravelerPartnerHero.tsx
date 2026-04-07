@@ -1,3 +1,4 @@
+import travelerHero from "../../../../assets/traveler-hero.jpg";
 import { useNavigate } from "react-router-dom";
 
 interface TravelerPartnerHeroProps {
@@ -28,8 +29,7 @@ const TravelerPartnerHero = ({
     <section
       className="relative min-h-screen w-full flex items-center"
       style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(15, 15, 15, 0.51), rgba(15,15,15,0.4)), url('/src/assets/traveler-hero.jpg')",
+        backgroundImage: `linear-gradient(to right, rgba(15, 15, 15, 0.51), rgba(15,15,15,0.4)), url(${travelerHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

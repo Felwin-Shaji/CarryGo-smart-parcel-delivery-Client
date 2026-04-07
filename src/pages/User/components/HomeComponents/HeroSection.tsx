@@ -1,3 +1,4 @@
+import heroTruck from "../../../../assets/hero-truck.jpg"
 import { useNavigate } from "react-router-dom";
 
 interface HeroSectionProps {
@@ -20,7 +21,7 @@ const HeroSection = ({ isLoggedIn = false }: HeroSectionProps) => {
             className="relative min-h-screen w-full flex items-center"
             style={{
                 backgroundImage:
-                    "linear-gradient(to right, rgba(0, 0, 0, 0.27), rgba(14, 37, 97, 0.08)), url('/src/assets/hero-truck.jpg')",
+                    `linear-gradient(to right, rgba(0, 0, 0, 0.27), rgba(14, 37, 97, 0.08)), url(${heroTruck})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
@@ -38,9 +39,9 @@ const HeroSection = ({ isLoggedIn = false }: HeroSectionProps) => {
                     </p>
 
                     <div className="flex gap-4 pt-4">
-                        <button 
-                        onClick={handleBookDelivery}
-                        className="rounded-full bg-[var(--color-accent)] px-8 py-3 font-semibold text-black hover:opacity-90 transition"
+                        <button
+                            onClick={handleBookDelivery}
+                            className="rounded-full bg-[var(--color-accent)] px-8 py-3 font-semibold text-black hover:opacity-90 transition"
                         >
                             Book a Delivery
                         </button>

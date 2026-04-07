@@ -2,6 +2,8 @@ import { useFormik } from "formik";
 import { useState, } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { loginSchema } from "../../validation/login";
+import logo from "../../assets/carrygo-logo.png";
+
 
 
 interface LoginFormProps {
@@ -35,7 +37,7 @@ const LoginForm = ({ title, onSubmit, role, loading, onGoogleLogin }: LoginFormP
                 {/* Left Section - Logo */}
                 <div className="bg-gray-100 flex justify-center items-center w-full md:w-1/2 p-6 md:p-10">
                     <img
-                        src="\src\assets\carrygo-logo.png"
+                        src={logo}
                         alt="CarryGo Logo"
                         className="max-w-[250px] md:max-w-[300px] w-full object-contain"
                     />
