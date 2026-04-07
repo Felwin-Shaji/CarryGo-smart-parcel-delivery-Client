@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
 export default function AdvancedFilterSortBar({
-    columns,
+    // columns,
     filters,
     onFilterChange,
-    sortBy,
-    sortOrder,
+    // sortBy,
+    // sortOrder,
     onSortChange,
 }: {
     columns: { label: string; field: string; type?: "text" | "number" | "date" }[];
