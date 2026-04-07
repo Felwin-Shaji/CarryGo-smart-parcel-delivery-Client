@@ -2,10 +2,15 @@ import { Route, Routes } from "react-router-dom";
 import { ROLES } from "../constants_Types/types/roles";
 import PublicRoute from "./PublicRoute";
 import WorkerLogin from "../pages/Worker/WorkerLogin";
+import PageNotFound from "../pages/PageNotFound";
 import ProtectedRoute from "./ProtectedRoute";
 import WorkerDashboard from "../pages/Worker/WorkerDashboard";
 import WorkerForgotPassword from "../pages/Worker/WorkerForgotPassword";
 import WrokerResetPassword from "../pages/Worker/WrokerResetPassword";
+import WorkerWallet from "../pages/Worker/WorkerWallet";
+import WorkerShipmentPage from "../pages/Worker/WorkerShipment/WorkerShipmentPagee";
+import WorkerShipmentDetailsPage from "../pages/Worker/WorkerShipmentDetails/WorkerShipmentDetailsPage";
+// import { WorkerShipmentDetailsPage } from "../pages/Worker/WorkerShipmentDetails/WorkerShipmentDetailsPage";
 
 
 
@@ -22,6 +27,11 @@ const WorkerRoutes = () => {
                 </Route>
 
                 <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerDashboard /></ProtectedRoute>} />
+                <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerWallet /></ProtectedRoute>} />
+                <Route path="shipments" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerShipmentPage /></ProtectedRoute>} />
+                <Route path="shipments/:id" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerShipmentDetailsPage /></ProtectedRoute>} />
+
+                <Route path="*" element={<PageNotFound />} />
 
             </Routes>
         </>
