@@ -1,20 +1,22 @@
 import { useFormik } from "formik";
 import { forgotPasswordSchema } from "../../validation/forgotPassword";
 import type { Roles } from "../../constants_Types/types/roles";
+import logo from "../../assets/carrygo-logo.png";
+
 
 
 interface ForgotPasswordProps {
   title: string;
-  onSubmit: (data: { email: string,role:Roles }) => void;
+  onSubmit: (data: { email: string, role: Roles }) => void;
   loading?: boolean;
-  role:Roles;
+  role: Roles;
 }
 
-const ForgotPasswordForm = ({ title, onSubmit, loading , role}: ForgotPasswordProps) => {
+const ForgotPasswordForm = ({ title, onSubmit, loading, role }: ForgotPasswordProps) => {
   const formik = useFormik({
-    initialValues: { 
-        email: "" ,
-        role
+    initialValues: {
+      email: "",
+      role
     },
     validationSchema: forgotPasswordSchema,
     onSubmit: (values) => onSubmit(values),
@@ -27,7 +29,7 @@ const ForgotPasswordForm = ({ title, onSubmit, loading , role}: ForgotPasswordPr
         {/* Left Section - Logo */}
         <div className="bg-gray-100 flex justify-center items-center w-full md:w-1/2 p-6 md:p-10">
           <img
-            src="\src\assets\carrygo-logo.png"
+            src={logo}
             alt="CarryGo Logo"
             className="max-w-[250px] md:max-w-[300px] w-full object-contain"
           />
@@ -54,9 +56,8 @@ const ForgotPasswordForm = ({ title, onSubmit, loading , role}: ForgotPasswordPr
               <input
                 type="email"
                 name="email"
-                className={`w-full border-none rounded-full p-3 focus:outline-none shadow-sm ${
-                  formik.touched.email && formik.errors.email ? "border-red-500" : ""
-                }`}
+                className={`w-full border-none rounded-full p-3 focus:outline-none shadow-sm ${formik.touched.email && formik.errors.email ? "border-red-500" : ""
+                  }`}
                 placeholder="you@example.com"
                 value={formik.values.email}
                 onChange={formik.handleChange}

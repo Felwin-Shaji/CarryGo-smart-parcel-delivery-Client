@@ -4,6 +4,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { resetPasswordSchema } from "../../validation/forgotPassword";
 import type { Roles } from "../../constants_Types/types/roles";
 import { useParams } from "react-router-dom";
+import logo from "../../assets/carrygo-logo.png";
 
 
 interface ResetPasswordProps {
@@ -44,7 +45,7 @@ const ResetPasswordForm = ({ title, onSubmit, loading, role }: ResetPasswordProp
                 {/* Left Section */}
                 <div className="bg-gray-100 flex justify-center items-center w-full md:w-1/2 p-6 md:p-10">
                     <img
-                        src="\src\assets\carrygo-logo.png"
+                        src={logo}
                         alt="CarryGo Logo"
                         className="max-w-[250px] md:max-w-[300px] w-full object-contain"
                     />
