@@ -36,7 +36,7 @@ export const AdminHubColumns = (
 
 {
   header: "Action",
-  accessor: "_id",
+  accessor: "id",
   render: (_value, row) => (
     <button
       onClick={() => handleViewHub(row)}
