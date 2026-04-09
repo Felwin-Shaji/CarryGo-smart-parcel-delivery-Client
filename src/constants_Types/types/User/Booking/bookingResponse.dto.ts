@@ -184,7 +184,7 @@ export type PaymentStatusFilter =
 
 export interface BookingUI {
   id: string;
-
+  bookingId: string;
   createdAt: string;
 
   deliveryPartnerType: DeliveryPartnerType;

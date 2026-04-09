@@ -3,7 +3,6 @@ import type { BookingStatusType, BookingUI, PaymentStatusType } from "../../../.
 
 export const BookingCard = ({ booking }: { booking: BookingUI }) => {
   const navigate = useNavigate();
-  console.log(booking.payment.paymentStatus, 'kjjjjjjjjjjjjjjjjjjjjk')
   const style =
     DELIVERY_STYLE_CONFIG[booking.deliveryPartnerType];
 
@@ -15,7 +14,7 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
       <div className="flex justify-between items-start">
         <div>
           <p className="text-xs text-gray-500">
-            #{booking.id}
+            {booking.bookingId}
           </p>
           <p className="text-xs text-gray-400 mt-1">
             {new Date(booking.createdAt).toLocaleDateString()}
