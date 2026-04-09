@@ -85,20 +85,16 @@ export const useBooking = () => {
                 params,
             }
         );
-
-        console.log(res.data.data)
-
         return res.data.data as BookingListResponse
     };
 
-    const getBookingById = async (bookingId: string): Promise<BookingDetailsUI> => {
-        const res = await axiosInstance.get(`${API_USER.BOOKING}/${bookingId}`);
+    const getBookingById = async (id: string): Promise<BookingDetailsUI> => {
+        const res = await axiosInstance.get(`${API_USER.BOOKING}/${id}`);
 
         return res.data.data as BookingDetailsUI
     }
 
     return {
-        // validatePincode,
         checkServiceableAgency,
         checkServiceableTraveler,
         getUserAddresses,
