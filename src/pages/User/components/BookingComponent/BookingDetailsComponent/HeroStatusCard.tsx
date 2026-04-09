@@ -19,7 +19,7 @@ export const HeroStatusCard = ({ booking }: { booking: BookingDetailsUI }) => {
         </button>
 
         <span className="text-sm text-gray-500">
-          Booking ID <span className="font-mono text-gray-800">#{booking.id.slice(-6)}</span>
+          Booking ID <span className="font-mono text-gray-800"> : {booking.bookingId}</span>
         </span>
 
         <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
