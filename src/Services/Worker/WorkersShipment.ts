@@ -27,7 +27,7 @@ export const useWorkerShipments = () => {
         return res.data.data;
     };
 
-    const updateParcel = async (shipmentId: string, parcelId: string, status: string) => {
+    const  updateParcel = async (shipmentId: string, parcelId: string, status: string) => {
         return axiosInstance.patch(
             `${API_WORKER.SHIPMENTS}/${shipmentId}/parcels/${parcelId}`,
             { status }
