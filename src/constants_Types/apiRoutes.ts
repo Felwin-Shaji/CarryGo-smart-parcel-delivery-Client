@@ -105,6 +105,7 @@ export const API_USER = {
   USER_ADDRESSES: "/api/user/addresses",
   BOOKING_PRICING: "/api/user/booking/calculate_price",
   BOOKING: "/api/user/booking",
+  TRACKING:"/api/user/tracking",
 
   REVERSE_GEOCODE: "/api/user/geocode/reverse",
 

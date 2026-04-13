@@ -86,6 +86,7 @@ export const BookingCard = ({ booking }: { booking: BookingUI }) => {
           </button>
 
           <button
+          onClick={()=>navigate(`/tracking/${booking.bookingId}`)}
             className="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition"
           >
             Track
