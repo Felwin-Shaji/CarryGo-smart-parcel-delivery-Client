@@ -24,6 +24,7 @@ import CreateTravelRequest from "../pages/User/Traveler/CreateTravelRequest"
 import { TravelerTripDetails } from "../pages/User/Traveler/TravelerTripDetailsPage"
 import BookingPaymentSuccessPage from "../pages/User/Booking/BookingPaymentSuccessPage"
 import BookingPaymentFailedPage from "../pages/User/Booking/BookingPaymentFailedPage"
+import UserTrackingPage from "../pages/User/Tracking/UserTrackingPage"
 
 
 
@@ -51,6 +52,8 @@ const UserRoutes = () => {
         <Route path="/booking/:bookingId/failed" element={<ProtectedRoute requiredRole={ROLES.USER}><BookingPaymentFailedPage /></ProtectedRoute>} />
         <Route path="bookings" element={<ProtectedRoute requiredRole={ROLES.USER}><UserBookingList /></ProtectedRoute>} />
         <Route path="/bookings/:bookingId" element={<ProtectedRoute requiredRole={ROLES.USER}><BookingDetailsPage /></ProtectedRoute>} />
+
+        <Route path="/tracking/:bookingId" element={<ProtectedRoute requiredRole={ROLES.USER}><UserTrackingPage /></ProtectedRoute>} />
 
         <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm /></ProtectedRoute>} />
         <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage /></ProtectedRoute>} />
