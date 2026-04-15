@@ -12,7 +12,7 @@ export default function ActionPanel({
   const isDispatched = shipment.status === "DISPATCHED";
 
   return (
-    <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-wrap gap-3">
+    <div >
 
       <button
         onClick={onEdit}
@@ -22,7 +22,7 @@ export default function ActionPanel({
         Assign / Edit
       </button>
 
-      <button
+      {/* <button
         disabled
         className="px-4 py-2 bg-gray-200 rounded"
       >
@@ -34,7 +34,7 @@ export default function ActionPanel({
         className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
       >
         Mark Dispatched
-      </button>
+      </button> */}
 
     </div>
   );

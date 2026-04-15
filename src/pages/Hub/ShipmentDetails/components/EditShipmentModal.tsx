@@ -4,7 +4,6 @@ import { useHubShipment } from "../../../../Services/Hub/HubShipment";
 import type { ShipmentDetailsUI } from "../../../../constants_Types/types/Hub/HubShipment";
 import WorkerSelect from "./WorkerSelect";
 
-
 interface Props {
     shipment: ShipmentDetailsUI;
     onClose: () => void;
@@ -72,6 +71,7 @@ export default function EditShipmentModal({ shipment, onClose }: Props) {
                     <WorkerSelect
                         value={workerId}
                         onChange={setWorkerId}
+                        shipmentType={shipment.type}
                     />
                 </div>
 

@@ -1,13 +1,14 @@
-import { Search, Calendar, Filter } from "lucide-react";
-import type { Dispatch, SetStateAction } from "react";
-import type { DateRangeType, UIShipmentFilters } from "../../../../constants_Types/types/Hub/HubShipment";
+import { Calendar, Filter } from "lucide-react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import type { DateRangeType, UIShipmentFilters, WorkerForShipment } from "../../../../constants_Types/types/Hub/HubShipment";
 import type { ShipmentType } from "../ShipmentManagementPage";
+import { useHubShipment } from "../../../../Services/Hub/HubShipment";
 
 
 interface FilterBarProps {
     filters: UIShipmentFilters;
     setFilters: Dispatch<SetStateAction<UIShipmentFilters>>;
-    activeTab: ShipmentType;
+    activeTab: ShipmentType | "ALL";
     role?: "hub" | "worker";
 }
 
@@ -48,6 +49,21 @@ export const FilterBar = ({
     activeTab,
     role = "hub",
 }: FilterBarProps) => {
+    const { getWorkers } = useHubShipment();
+    const [workers, setWorkers] = useState<WorkerForShipment[]>([]);
+
+    async function fetchWorkers() {
+        const workersData = await getWorkers();
+        setWorkers(workersData);
+    }
+
+    useEffect(() => {
+        if (role === "hub") {
+            fetchWorkers();
+        }
+    }, [role, filters]);
+
+
     return (
         <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm mt-4">
             <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap">
@@ -58,7 +74,7 @@ export const FilterBar = ({
                 </div>
 
                 {/* Search */}
-                <div className="relative w-[220px] flex-shrink-0">
+                {/* <div className="relative w-[220px] flex-shrink-0">
                     <Search size={16} className="absolute left-3 top-2.5 text-gray-400" />
                     <input
                         placeholder="Search ID / vehicle"
@@ -71,7 +87,7 @@ export const FilterBar = ({
                         }
                         className="pl-9 pr-3 py-2 bg-gray-50 border rounded-lg text-sm w-full outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                </div>
+                </div> */}
 
                 {/* Status */}
                 <select
@@ -105,6 +121,12 @@ export const FilterBar = ({
                         className="h-9 px-3 bg-gray-50 border rounded-lg text-sm w-[160px] flex-shrink-0"
                     >
                         <option value="ALL">All Workers</option>
+
+                        {workers.map((worker) => (
+                            <option key={worker._id} value={worker._id}>
+                                {worker.name}
+                            </option>
+                        ))}
                     </select>
                 )}
 

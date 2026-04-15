@@ -8,7 +8,10 @@ import Step2OtpVerify from "./components/Step2OtpVerify";
 import Step3UploadKYCWorker from "./components/Step3UploadKYCWorker";
 import Step1BasicInfoWorker from "./components/Step1BasicInfoWorker";
 
-export type WorkerRole = "PICKUP" | "TRANSPORT" | "OUT_FOR_DELEVERY";
+export type WorkerRole = 
+  | "PICKUP" 
+  | "TRANSPORT" 
+  | "OUT_FOR_DELIVERY";
 
 
 export interface AddWorkerPayload {
