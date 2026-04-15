@@ -14,6 +14,7 @@ import { ROLES } from "../../../constants_Types/types/roles";
 import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
 import { useState } from "react";
 import EditShipmentModal from "./components/EditShipmentModal";
+import ShipmentDetailsSkeleton from "./components/ShipmentDetailsSkeleton";
 
 export default function ShipmentDetailsPage() {
     const location = useLocation();
@@ -26,7 +27,6 @@ export default function ShipmentDetailsPage() {
 
 
     const breadcrumbItems = [
-        { label: "Dashboard", to: "/hub/dashboard" },
         {
             label: "Shipments",
             to: `/hub/shipments?type=${fromTab || "BULK_PICKUP"}`,
@@ -40,9 +40,7 @@ export default function ShipmentDetailsPage() {
         enabled: !!shipmentId,
     });
 
-    console.log(data, '99999999999999999999999999999999999999999')
-
-    if (isLoading) return <div className="p-6">Loading...</div>;
+    if (isLoading) return <ShipmentDetailsSkeleton />;
     if (!data) return <div className="p-6">Shipment not found</div>;
 
     return (
@@ -79,3 +77,4 @@ export default function ShipmentDetailsPage() {
         </>
     );
 }
+

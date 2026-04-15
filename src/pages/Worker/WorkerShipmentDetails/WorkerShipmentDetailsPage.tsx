@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { WorkersBookingDetailsUI, WorkerShipmentDetails } from "../../../constants_Types/types/Worker/workerShipment";
+import type { ParcelAction, ShipmentAction, WorkersBookingDetailsUI, WorkerShipmentDetails } from "../../../constants_Types/types/Worker/workerShipment";
 import ShipmentDetails from "./components/ShipmentDetails/ShipmentDetails";
 import { useWorkerShipments } from "../../../Services/Worker/WorkersShipment";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,8 @@ import { DashboardProvider } from "../../../context/DashboardProvider";
 import { ROLES } from "../../../constants_Types/types/roles";
 import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
 import { BookingDetailsModal } from "./components/BookingDetailsModal";
-import { mapParcelActionToStatus, mapShipmentActionToStatus } from "./utils";
+import { mapParcelActionToStatus, mapShipmentActionToStatus, PARCEL_FLOW } from "./utils";
+import WorkerShipmentDetailsSkeleton from "./components/ShipmentDetails/components/WorkerShipmentDetailsSkeleton";
 
 export default function WorkerShipmentDetailsPage() {
     const { id } = useParams();
@@ -17,12 +18,11 @@ export default function WorkerShipmentDetailsPage() {
     const [loading, setLoading] = useState(true);
     const [selectedBooking, setSelectedBooking] = useState<WorkersBookingDetailsUI | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
 
-    const {
-        getShipmentDetails,
-        getBookingDetails,
-        updateShipmentStatus,
-    } = useWorkerShipments();
+    const { bulkUpdateParcels, getShipmentDetails, updateShipmentStatus, getBookingDetails } = useWorkerShipments();
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,60 +41,75 @@ export default function WorkerShipmentDetailsPage() {
         fetchData();
     }, [id]);
 
-    const handleShipmentAction = async (action: string) => {
+    const handleShipmentAction = async (action: ShipmentAction) => {
         if (!data) return;
 
         const nextStatus = mapShipmentActionToStatus(action);
 
+        //  STRICT VALIDATION
+        const parcels = data.parcels;
+
+        if (action === "DISPATCH" && !parcels.every(p => p.status === "LOADED")) {
+            alert("All parcels must be LOADED before dispatch");
+            return;
+        }
+
+        if (action === "MARK_ARRIVED" && !parcels.every(p => p.status === "IN_TRANSIT")) {
+            alert("All parcels must be IN_TRANSIT before arriving");
+            return;
+        }
+
+        if (action === "COMPLETE" && !parcels.every(p => p.status === "UNLOADED")) {
+            alert("All parcels must be UNLOADED before completing");
+            return;
+        }
+
         try {
             await updateShipmentStatus(data.id, nextStatus);
 
-            setData(prev =>
-                prev ? { ...prev, status: nextStatus } : prev
-            );
+            const fresh = await getShipmentDetails(data.id);
+            setData(fresh);
+
         } catch (err) {
             console.error("Shipment update failed", err);
         }
     };
 
-    const handleParcelAction = async (parcelId: string, action: string) => {
+    const handleParcelAction = async (parcelIds: string[], action: ParcelAction) => {
         if (!data) return;
 
         const nextStatus = mapParcelActionToStatus(action);
 
         try {
-            // 👉 You will add API later (if exists)
-            // await updateParcel(parcelId, nextStatus);
+            await bulkUpdateParcels(data.id, parcelIds, nextStatus);
 
-            // ✅ UI update
-            setData(prev => {
-                if (!prev) return prev;
+            const fresh = await getShipmentDetails(data.id);
+            setData(fresh);
 
-                return {
-                    ...prev,
-                    parcels: prev.parcels.map(p =>
-                        p.id === parcelId
-                            ? { ...p, status: nextStatus }
-                            : p
-                    ),
-                };
-            });
         } catch (err) {
             console.error("Parcel update failed", err);
         }
     };
 
-    // 🔥 OPEN PARCEL MODAL
+    // OPEN PARCEL MODAL
     const handleOpenParcel = async (parcelId: string) => {
         const parcel = data?.parcels.find(p => p.id === parcelId);
         if (!parcel) return;
-        const booking = await getBookingDetails(parcel.bookingId);
-        setSelectedBooking(booking);
-        setIsModalOpen(true);
 
+        try {
+            setModalLoading(true);
+            setIsModalOpen(true);
+
+            const booking = await getBookingDetails(parcel.bookingId);
+            setSelectedBooking(booking);
+        } catch (err) {
+            console.error("Failed to fetch booking", err);
+        } finally {
+            setModalLoading(false);
+        }
     };
 
-    if (loading) return <p className="p-4">Loading...</p>;
+    if (loading) return <WorkerShipmentDetailsSkeleton />
     if (!data) return <p className="p-4">No data</p>;
 
     return (
@@ -104,7 +119,7 @@ export default function WorkerShipmentDetailsPage() {
                 <DashboardLayout pageTitle="My Shipments">
 
 
-                    {/* ✅ Breadcrumbs */}
+                    {/*  Breadcrumbs */}
                     <Breadcrumbs
                         items={[
                             { label: "Shipments", to: "/worker/shipments" },
@@ -121,7 +136,7 @@ export default function WorkerShipmentDetailsPage() {
                     />
 
 
-                    {isModalOpen && (
+                    {isModalOpen && selectedBooking && (
                         <BookingDetailsModal
                             booking={selectedBooking}
                             onClose={() => setIsModalOpen(false)}

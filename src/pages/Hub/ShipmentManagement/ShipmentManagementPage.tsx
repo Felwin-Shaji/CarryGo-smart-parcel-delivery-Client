@@ -8,7 +8,10 @@ import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { ROLES } from "../../../constants_Types/types/roles";
 import { FilterBar } from "./components/FilterBar";
 
-export type ShipmentType = "BULK_PICKUP" | "HUB_TRANSFER" | "OUT_FOR_DELIVERY";
+export type ShipmentType =
+    | "HUB_TRANSFER"
+    | "OUT_FOR_DELIVERY"
+    | "BULK_PICKUP";
 
 const TAB_CONFIG = [
     { label: "First Mile", type: "BULK_PICKUP" },

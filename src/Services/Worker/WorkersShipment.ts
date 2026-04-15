@@ -1,6 +1,6 @@
 import { API_WORKER } from "../../constants_Types/apiRoutes";
 import type { ShipmentStatus, UIShipmentFilters } from "../../constants_Types/types/Hub/HubShipment";
-import type { HubShipmentPaginatedData, WorkersBookingDetailsUI } from "../../constants_Types/types/Worker/workerShipment";
+import type { HubShipmentPaginatedData, WorkersBookingDetailsUI, WorkerShipmentParcel } from "../../constants_Types/types/Worker/workerShipment";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useWorkerShipments = () => {
@@ -34,7 +34,7 @@ export const useWorkerShipments = () => {
         );
     };
 
-    const bulkUpdateParcels = async (shipmentId: string, parcelIds: string[], status: string) => {
+    const bulkUpdateParcels = async (shipmentId: string, parcelIds: string[], status: WorkerShipmentParcel["status"]) => {
         return axiosInstance.patch(
             `${API_WORKER.SHIPMENTS}/${shipmentId}/parcels/bulk`,
             { parcelIds, status }
@@ -45,8 +45,6 @@ export const useWorkerShipments = () => {
         const res = await axiosInstance.get(`${API_WORKER.SHIPMENTS}/${bookingId}/booking-details`);
         return res.data.data;
     }
-
-
 
 
     const updateShipmentStatus = async (shipmentId: string, status: ShipmentStatus) => {

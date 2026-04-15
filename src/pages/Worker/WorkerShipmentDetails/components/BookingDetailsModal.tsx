@@ -4,6 +4,7 @@ import type { WorkersBookingDetailsUI } from "../../../../constants_Types/types/
 interface BookingDetailsModalProps {
   booking: WorkersBookingDetailsUI | null;
   onClose: () => void;
+  loading?: boolean;
 
   // optional (for future extensibility)
   onUpdateStatus?: (bookingId: string) => void;
@@ -36,7 +37,17 @@ const StatusBadge = ({ status }: { status: string }) => {
   );
 };
 
-export const BookingDetailsModal = ({ booking, onClose }: BookingDetailsModalProps) => {
+export const BookingDetailsModal = ({ booking, onClose,loading }: BookingDetailsModalProps) => {
+  if(loading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center"> 
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
+        <div className="relative bg-white p-6 rounded-xl shadow-2xl">
+          <p className="text-gray-700">Loading booking details...</p>
+        </div>
+      </div>
+    )
+  }
   if (!booking) return null;
 
   return (

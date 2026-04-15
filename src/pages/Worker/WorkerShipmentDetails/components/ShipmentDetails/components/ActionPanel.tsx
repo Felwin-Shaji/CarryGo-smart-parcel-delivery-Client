@@ -1,24 +1,30 @@
+import type { ShipmentAction } from "../../../../../../constants_Types/types/Worker/workerShipment";
+
 export function ActionPanel({
   status,
   onAction,
 }: {
   status: string;
-  onAction?: (a: string) => void;
+  onAction?: (a: ShipmentAction) => void;
 }) {
-  const getAction = () => {
-    switch (status) {
-      case "CREATED":
-        return "START_LOADING";
-      case "LOADING":
-        return "DISPATCH";
-      case "DISPATCHED":
-        return "MARK_ARRIVED";
-      case "ARRIVED":
-        return "COMPLETE";
-      default:
-        return null;
-    }
-  };
+const getAction = (): ShipmentAction | null => {
+  switch (status) {
+    case "PENDING":
+      return "START_LOADING";
+
+    case "LOADING":
+      return "DISPATCH";
+
+    case "DISPATCHED":
+      return "MARK_ARRIVED";
+
+    case "ARRIVED":
+      return "COMPLETE";
+
+    default:
+      return null;
+  }
+};
 
   const action = getAction();
 

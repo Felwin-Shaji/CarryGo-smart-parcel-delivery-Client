@@ -1,7 +1,8 @@
 import type { KYCStatus, Roles } from "../roles";
+import type { WorkerRole, WorkingStatus } from "../Worker/workerRequest.dto";
 
 export interface HubOverviewResponseDTO {
- id: string;
+    id: string;
     agencyId: string;
 
     name: string;
@@ -31,12 +32,14 @@ export interface HubOverviewResponseDTO {
 }
 
 export interface WorkerResponseDTO {
-    _id: string; 
+    _id: string;
     hubId: string;
     name: string;
     email: string;
     mobile: string;
     role: Roles;
+    workerRole: WorkerRole;
+    workingStatus: WorkingStatus;
     kycStatus: KYCStatus;
     createdAt: Date;
 };
