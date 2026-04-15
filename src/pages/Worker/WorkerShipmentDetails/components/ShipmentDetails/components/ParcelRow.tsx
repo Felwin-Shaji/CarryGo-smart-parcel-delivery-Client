@@ -1,9 +1,9 @@
+import type { Roles } from "../../../../../../constants_Types/types/roles";
 import type { ParcelAction, WorkerShipmentParcel } from "../../../../../../constants_Types/types/Worker/workerShipment";
 
 type ParcelRowProps = {
-    key: string;
     parcel: WorkerShipmentParcel;
-    role: string;
+    role: Roles;
     selectionMode: boolean;
     selected: boolean;
     onSelect: () => void;
@@ -12,15 +12,14 @@ type ParcelRowProps = {
 };
 
 export function ParcelRow({
-    key,
     parcel,
-    role,
+    role = "worker",
     selectionMode,
     selected,
     onSelect,
-    // onAction,
     onOpen,
 }: ParcelRowProps) {
+
 
     return (
         <div className="flex items-center justify-between px-4 py-3 border-t hover:bg-gray-50">
@@ -28,7 +27,7 @@ export function ParcelRow({
             {/* LEFT */}
             <div className="flex items-center gap-3">
 
-                {selectionMode && (
+                {selectionMode && role == "worker" && (
                     <input
                         type="checkbox"
                         checked={selected}

@@ -1,9 +1,10 @@
+import type { Roles } from "../../../../../../constants_Types/types/roles";
 import type { ParcelAction, WorkerShipmentParcel } from "../../../../../../constants_Types/types/Worker/workerShipment";
 import { ParcelRow } from "./ParcelRow";
 
 type Props = {
     parcels: WorkerShipmentParcel[];
-    role: string;
+    role: Roles;
     selected: string[];
     setSelected: React.Dispatch<React.SetStateAction<string[]>>;
     selectionMode: boolean;
@@ -121,7 +122,6 @@ export function ParcelList({
             {/* Rows */}
             {parcels.map((parcel: WorkerShipmentParcel) => (
                 <ParcelRow
-                    key={parcel.id}
                     parcel={parcel}
                     role={role}
                     selectionMode={selectionMode}
