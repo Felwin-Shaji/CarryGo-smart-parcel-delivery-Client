@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
-import type { WorkerShipmentDetails } from "../../../../../constants_Types/types/Worker/workerShipment";
+import type { ParcelAction, ShipmentAction, WorkerShipmentDetails } from "../../../../../constants_Types/types/Worker/workerShipment";
 import { ShipmentHeader } from "./components/ShipmentHeader";
 import { ShipmentStats } from "./components/ShipmentStats";
-import { ActionPanel } from "./components/ActionPanel";
 import { ParcelList } from "./components/ParcelList";
 import { ShipmentProgress } from "./components/ShipmentProgress";
 
@@ -12,9 +11,8 @@ type Props = {
   data: WorkerShipmentDetails;
   role: Roles;
 
-  // callbacks (UI only)
-  onShipmentAction?: (action: string) => void;
-  onParcelAction?: (parcelId: string, action: string) => void;
+  onShipmentAction?: (action: ShipmentAction) => void;
+  onParcelAction?: (parcelId: string[], action: ParcelAction) => void;
   onOpenParcel?: (parcelId: string) => void;
 };
 
@@ -23,19 +21,68 @@ export default function ShipmentDetails({ data, role, ...actions }: Props) {
   const [selectionMode, setSelectionMode] = useState(false);
 
   const stats = useMemo(() => {
-    const loaded = data.parcels.filter(p => p.status === "LOADED").length;
-    const transit = data.parcels.filter(p => p.status === "IN_TRANSIT").length;
-    const completed = data.parcels.filter(p => p.status === "UNLOADED").length;
+    let loaded = 0, transit = 0, completed = 0;
+
+    for (const p of data.parcels) {
+      if (p.status === "LOADED") loaded++;
+      else if (p.status === "IN_TRANSIT") transit++;
+      else if (p.status === "UNLOADED") completed++;
+    }
+
 
     return { loaded, transit, completed };
-  }, [data]);
+  }, [data.parcels]);
+
+  const canShipmentProceed = useMemo(() => {
+    const parcels = data.parcels;
+
+    if (parcels.length === 0) return false;
+
+    switch (data.status) {
+      case "PENDING":
+        return true;
+
+      case "LOADING":
+        return parcels.every(p => p.status === "LOADED");
+
+      case "DISPATCHED":
+        return parcels.every(p => p.status === "IN_TRANSIT");
+
+      case "ARRIVED":
+        return parcels.every(p => p.status === "UNLOADED");
+
+      default:
+        return false;
+    }
+  }, [data.parcels, data.status]);
+
+
+  const canParcelProceed = (action: ParcelAction) => {
+    switch (action) {
+      case "LOAD":
+        return data.status === "LOADING";
+
+      case "TRANSIT":
+        return data.status === "DISPATCHED";
+
+      case "UNLOAD":
+        return data.status === "ARRIVED";
+
+      default:
+        return false;
+    }
+  };
 
   return (
     <div className="p-4 space-y-4">
 
       <ShipmentHeader data={data} />
 
-      <ShipmentProgress status={data.status} />
+      <ShipmentProgress
+        status={data.status}
+        onShipmentAction={actions.onShipmentAction}
+        canProceed={canShipmentProceed}
+      />
 
       <ShipmentStats
         total={data.parcelCount}
@@ -44,12 +91,6 @@ export default function ShipmentDetails({ data, role, ...actions }: Props) {
         completed={stats.completed}
       />
 
-      {role === "worker" && (
-        <ActionPanel
-          status={data.status}
-          onAction={actions.onShipmentAction}
-        />
-      )}
 
       <ParcelList
         parcels={data.parcels}
@@ -60,6 +101,7 @@ export default function ShipmentDetails({ data, role, ...actions }: Props) {
         setSelectionMode={setSelectionMode}
         onParcelAction={actions.onParcelAction}
         onOpenParcel={actions.onOpenParcel}
+        canParcelProceed={canParcelProceed}
       />
     </div>
   );

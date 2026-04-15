@@ -1,3 +1,18 @@
+import type { ParcelAction, WorkerShipmentParcel } from "../../../../../../constants_Types/types/Worker/workerShipment";
+import { ParcelRow } from "./ParcelRow";
+
+type Props = {
+    parcels: WorkerShipmentParcel[];
+    role: string;
+    selected: string[];
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>;
+    selectionMode: boolean;
+    setSelectionMode: (v: boolean) => void;
+    onParcelAction?: (ids: string[], action: ParcelAction) => void;
+    onOpenParcel?: (id: string) => void;
+    canParcelProceed: (action: ParcelAction) => boolean;
+};
+
 export function ParcelList({
     parcels,
     role,
@@ -7,21 +22,49 @@ export function ParcelList({
     setSelectionMode,
     onParcelAction,
     onOpenParcel,
-}: any) {
+    canParcelProceed,
+}: Props) {
 
     const handleSelectAll = () => {
         if (selected.length === parcels.length) {
             setSelected([]);
         } else {
-            setSelected(parcels.map((p: any) => p.id));
+            setSelected(parcels.map((p: WorkerShipmentParcel) => p.id));
         }
     };
+
+    const getBulkAction = () => {
+        const selectedParcels = parcels.filter((p: WorkerShipmentParcel) =>
+            selected.includes(p.id)
+        );
+
+        if (selectedParcels.length === 0) return null;
+
+        // get first parcel status
+        const firstStatus = selectedParcels[0].status;
+
+        // ensure all same status
+        const allSame = selectedParcels.every(p => p.status === firstStatus);
+
+        if (!allSame) return null;
+
+        if (firstStatus === "PENDING") return "LOAD";
+        if (firstStatus === "LOADED") return "TRANSIT";
+        if (firstStatus === "IN_TRANSIT") return "UNLOAD";
+
+        return null;
+    };
+
+    const bulkAction = getBulkAction();
+
+    const isBulkAllowed = bulkAction && canParcelProceed(bulkAction);
 
     return (
         <div className="bg-white rounded-xl border">
 
-            {/* 🔥 Header */}
+            {/*  Header */}
             <div className="p-3 flex justify-between items-center">
+
 
                 <span className="text-sm text-gray-600">
                     Parcels ({parcels.length})
@@ -30,6 +73,18 @@ export function ParcelList({
                 {role === "worker" && (
                     <div className="flex gap-2">
 
+                        {selectionMode && selected.length > 0 && bulkAction && (
+                            <button
+                                disabled={!isBulkAllowed}
+                                onClick={() => onParcelAction?.(selected, bulkAction)}
+                                className={`px-4 py-2 rounded-lg ${isBulkAllowed
+                                        ? "bg-orange-500 text-white"
+                                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    }`}
+                            >
+                                {bulkAction} Selected ({selected.length})
+                            </button>
+                        )}
                         {!selectionMode ? (
                             <button
                                 onClick={() => setSelectionMode(true)}
@@ -64,7 +119,7 @@ export function ParcelList({
             </div>
 
             {/* Rows */}
-            {parcels.map((parcel: any) => (
+            {parcels.map((parcel: WorkerShipmentParcel) => (
                 <ParcelRow
                     key={parcel.id}
                     parcel={parcel}
@@ -78,101 +133,10 @@ export function ParcelList({
                                 : [...prev, parcel.id]
                         )
                     }
-                    onAction={onParcelAction}
+                    // onAction={onParcelAction}
                     onOpen={onOpenParcel}
                 />
             ))}
         </div>
     );
-}
-
-function ParcelRow({
-    parcel,
-    selectionMode,
-    selected,
-    onSelect,
-    onAction,
-    onOpen,
-}: any) {
-    const getNextAction = () => {
-        if (parcel.status === "LOADED") return "Transit";
-        if (parcel.status === "IN_TRANSIT") return "Unload";
-        return null;
-    };
-
-    const action = getNextAction();
-
-    return (
-        <div className="flex items-center justify-between px-4 py-3 border-t hover:bg-gray-50">
-
-            {/* LEFT */}
-            <div className="flex items-center gap-3">
-
-                {selectionMode && (
-                    <input
-                        type="checkbox"
-                        checked={selected}
-                        onChange={onSelect}
-                    />
-                )}
-
-                <div>
-                    <p className="font-medium">
-                        {parcel.id}
-                        <span className="text-xs text-gray-400 ml-2">
-                            {parcel.bookingId}
-                        </span>
-                    </p>
-
-                    <p className="text-xs text-gray-500">
-                        Loaded {parcel.loadedAt}
-                    </p>
-                </div>
-            </div>
-
-            {/* RIGHT */}
-            <div className="flex items-center gap-4">
-
-                <StatusBadge status={parcel.status} />
-
-                {!selectionMode && action && (
-                    <button
-                        onClick={() => onAction?.(parcel.id, action)}
-                        className="text-blue-600 text-sm font-medium"
-                    >
-                        {action} →
-                    </button>
-                )}
-
-                <button
-                    onClick={() => onOpen?.(parcel.id)}
-                    className="text-gray-400"
-                >
-                    👁
-                </button>
-            </div>
-        </div>
-    );
-}
-
-function StatusBadge({ status }: any) {
-    const styles: any = {
-        LOADED: "bg-blue-100 text-blue-600",
-        IN_TRANSIT: "bg-orange-100 text-orange-600",
-        UNLOADED: "bg-green-100 text-green-600",
-    };
-
-    return (
-        <span className={`px-3 py-1 text-xs rounded-full ${styles[status]}`}>
-            {status.replace("_", " ")}
-        </span>
-    );
-}
-
-export function Badge({ text }: { text: string }) {
-    return (
-        <span className="px-2 py-1 bg-gray-200 text-xs rounded">
-            {text}
-        </span>
-    );
-}
+};
