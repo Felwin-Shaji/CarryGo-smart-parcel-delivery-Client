@@ -1,6 +1,4 @@
-// constants_Types/types/Worker/WorkerShipment.ts
-
-import type { ShipmentStatus, ShipmentType } from "../Hub/HubShipment";
+import type { ShipmentType } from "../Hub/HubShipment";
 import type { AddressLabelType, BookingStatusType, DeliveryPartnerType, HubJourneyStatusType, PaymentGatewayType, PaymentMethodType, PaymentStatusType } from "../User/Booking/bookingResponse.dto";
 
 export type WorkerShipment = {
@@ -27,6 +25,20 @@ export interface HubShipmentPaginatedData {
     totalPages: number;
 }
 
+export type ShipmentStatus =
+    | "PENDING"
+    | "LOADING"
+    | "DISPATCHED"
+    | "ARRIVED"
+    | "COMPLETED"
+    | "CANCELLED";
+
+    export type ShipmentAction =
+  | "START_LOADING"
+  | "DISPATCH"
+  | "MARK_ARRIVED"
+  | "COMPLETE";
+
 
 export type WorkerShipmentDetails = {
   id: string;
@@ -41,11 +53,13 @@ export type WorkerShipmentDetails = {
   parcels: WorkerShipmentParcel[];
 };
 
+export type ParcelAction = "PENDING" | "LOAD" | "TRANSIT" | "UNLOAD";
+
 export type WorkerShipmentParcel = {
   id: string;
   bookingId: string;
 
-  status: "LOADED" | "IN_TRANSIT" | "UNLOADED";
+  status: "PENDING" | "LOADED" | "IN_TRANSIT" | "UNLOADED";
 
   loadedAt: string;
   unloadedAt: string | null;

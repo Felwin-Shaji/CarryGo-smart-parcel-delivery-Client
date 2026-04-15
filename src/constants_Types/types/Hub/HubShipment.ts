@@ -1,3 +1,5 @@
+import type { WorkerRole } from "../Worker/workerRequest.dto";
+
 export type ShipmentType =
   | "HUB_TRANSFER"
   | "OUT_FOR_DELIVERY"
@@ -10,6 +12,13 @@ export type ShipmentStatus =
   | "ARRIVED"
   | "COMPLETED"
   | "CANCELLED";
+
+  export type WorkingStatus =
+  | "AVAILABLE"   // ready for assignment
+  | "BUSY"        // already assigned to shipment
+  | "OFF_DUTY"
+  | "ON_LEAVE"
+  | "BREAK";
 
 export interface Shipment {
   id: string;
@@ -38,11 +47,13 @@ export interface Shipment {
 }
 
 export interface WorkerForShipment {
-  id: string;
+  _id: string;
   name: string;
   mobile: string;
   kycStatus: "VERIFIED" | "PENDING" | "REJECTED";
   isBlocked: boolean;
+  workerRole: WorkerRole;
+  workingStatus:WorkingStatus;
 }
 
 
@@ -58,7 +69,7 @@ export interface UIShipmentFilters {
   search: string;
   status: string;
   workerId: string;
-  type: ShipmentType;
+  type: ShipmentType | "ALL";
   dateRange: DateRangeType;
   fromDate?: string;
   toDate?: string;
