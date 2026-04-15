@@ -57,7 +57,7 @@ const UserRoutes = () => {
 
         <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm /></ProtectedRoute>} />
         <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage /></ProtectedRoute>} />
-        
+
         <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.USER}><UserWallet /></ProtectedRoute>} />
 
 
