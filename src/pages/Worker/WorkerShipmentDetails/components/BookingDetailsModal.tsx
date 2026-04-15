@@ -28,19 +28,18 @@ const StatusBadge = ({ status }: { status: string }) => {
 
   return (
     <span
-      className={`px-2 py-1 text-xs rounded-full font-medium ${
-        colors[status] || "bg-gray-100 text-gray-700"
-      }`}
+      className={`px-2 py-1 text-xs rounded-full font-medium ${colors[status] || "bg-gray-100 text-gray-700"
+        }`}
     >
       {status}
     </span>
   );
 };
 
-export const BookingDetailsModal = ({ booking, onClose,loading }: BookingDetailsModalProps) => {
-  if(loading) {
+export const BookingDetailsModal = ({ booking, onClose, loading }: BookingDetailsModalProps) => {
+  if (loading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center"> 
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
         <div className="relative bg-white p-6 rounded-xl shadow-2xl">
           <p className="text-gray-700">Loading booking details...</p>
@@ -170,11 +169,10 @@ export const BookingDetailsModal = ({ booking, onClose,loading }: BookingDetails
                   return (
                     <div
                       key={hub.hubId}
-                      className={`min-w-[200px] p-4 rounded-xl border ${
-                        isActive
-                          ? "bg-blue-50 border-blue-300"
-                          : "bg-gray-50"
-                      }`}
+                      className={`min-w-[200px] p-4 rounded-xl border ${isActive
+                        ? "bg-blue-50 border-blue-300"
+                        : "bg-gray-50"
+                        }`}
                     >
                       <p className="font-medium">{hub.hubName}</p>
                       <p className="text-xs text-gray-500">

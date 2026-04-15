@@ -8,7 +8,7 @@ import { DashboardProvider } from "../../../context/DashboardProvider";
 import { ROLES } from "../../../constants_Types/types/roles";
 import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
 import { BookingDetailsModal } from "./components/BookingDetailsModal";
-import { mapParcelActionToStatus, mapShipmentActionToStatus, PARCEL_FLOW } from "./utils";
+import { mapParcelActionToStatus, mapShipmentActionToStatus } from "./utils";
 import WorkerShipmentDetailsSkeleton from "./components/ShipmentDetails/components/WorkerShipmentDetailsSkeleton";
 
 export default function WorkerShipmentDetailsPage() {
@@ -140,6 +140,7 @@ export default function WorkerShipmentDetailsPage() {
                         <BookingDetailsModal
                             booking={selectedBooking}
                             onClose={() => setIsModalOpen(false)}
+                            loading={modalLoading}
                         />
                     )}
                 </DashboardLayout>
