@@ -13,7 +13,7 @@ export type ShipmentStatus =
   | "COMPLETED"
   | "CANCELLED";
 
-  export type WorkingStatus =
+export type WorkingStatus =
   | "AVAILABLE"   // ready for assignment
   | "BUSY"        // already assigned to shipment
   | "OFF_DUTY"
@@ -53,7 +53,7 @@ export interface WorkerForShipment {
   kycStatus: "VERIFIED" | "PENDING" | "REJECTED";
   isBlocked: boolean;
   workerRole: WorkerRole;
-  workingStatus:WorkingStatus;
+  workingStatus: WorkingStatus;
 }
 
 
@@ -91,6 +91,7 @@ export interface GetShipmentsResponse {
 }
 
 export type ShipmentParcelStatus =
+  | "PENDING"
   | "LOADED"
   | "IN_TRANSIT"
   | "UNLOADED";
@@ -98,11 +99,15 @@ export type ShipmentParcelStatus =
 export interface ShipmentParcelUI {
   id: string;
   bookingId: string;
+  bookingTrackId: string;
+
 
   customerName?: string;
   address?: string;
 
   status: ShipmentParcelStatus;
+    loadedAt: string;
+  unloadedAt: string | null;
 }
 
 export interface ShipmentDetailsUI extends Shipment {
