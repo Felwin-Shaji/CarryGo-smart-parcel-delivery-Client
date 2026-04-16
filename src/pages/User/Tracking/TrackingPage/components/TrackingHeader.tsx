@@ -21,7 +21,7 @@ export default function TrackingHeader({ booking, currentStatus }: Props) {
           </div>
 
           <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700">
-            {currentStatus.status}
+            {booking.status}
           </span>
         </div>
 

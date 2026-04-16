@@ -8,22 +8,15 @@ interface Props {
 }
 
 export default function RouteProgress({ legs }: Props) {
-    const getStatus = (status: string) => {
-        if (status === "COMPLETED") return "completed";
-        if (status === "IN_PROGRESS") return "active";
-        return "pending";
-    };
 
     const steps = [
         {
             city: legs[0]?.fromHub.address.city,
             hub: legs[0]?.fromHub.name,
-            status: getStatus(legs[0]?.status),
         },
         ...legs.map((leg) => ({
             city: leg.toHub.address.city,
             hub: leg.toHub.name,
-            status: getStatus(leg.status),
         })),
     ];
 
@@ -37,8 +30,16 @@ export default function RouteProgress({ legs }: Props) {
             <div className="flex items-center">
 
                 {steps.map((step, index) => {
-                    const isCompleted = step.status === "completed";
-                    const isActive = step.status === "active";
+                    const lastCompletedIndex = legs.reduce(
+                        (acc, l, i) => (l.status === "COMPLETED" ? i : acc),
+                        -1
+                    );
+
+                    const activeIndex = legs.findIndex(l => l.status === "IN_PROGRESS");
+
+                    const isCompleted = index <= lastCompletedIndex;
+                    const isActive = index === activeIndex + 1;
+
 
                     return (
                         <div key={index} className="flex items-center flex-1">

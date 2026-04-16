@@ -30,11 +30,11 @@ export default function ParcelList({
           <tbody>
             {parcels.map((parcel) => (
               <tr
-                key={parcel.id}
+                key={parcel.bookingId}
                 className="border-b hover:bg-gray-50"
               >
                 <td className="p-3 font-medium">
-                  {parcel.bookingId}
+                  {parcel.bookingTrackId}
                 </td>
 
                 <td className="p-3">

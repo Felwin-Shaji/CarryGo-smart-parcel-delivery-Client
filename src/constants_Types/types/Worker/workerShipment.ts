@@ -1,4 +1,4 @@
-import type { ShipmentType } from "../Hub/HubShipment";
+import type { ShipmentParcelUI, ShipmentType } from "../Hub/HubShipment";
 import type { AddressLabelType, BookingStatusType, DeliveryPartnerType, HubJourneyStatusType, PaymentGatewayType, PaymentMethodType, PaymentStatusType } from "../User/Booking/bookingResponse.dto";
 
 export type WorkerShipment = {
@@ -50,20 +50,20 @@ export type WorkerShipmentDetails = {
 
   createdAt: string;
 
-  parcels: WorkerShipmentParcel[];
+  parcels: ShipmentParcelUI[];
 };
 
 export type ParcelAction = "PENDING" | "LOAD" | "TRANSIT" | "UNLOAD";
 
-export type WorkerShipmentParcel = {
-  id: string;
-  bookingId: string;
+// export type WorkerShipmentParcel = {
+//   id: string;
+//   bookingId: string;
 
-  status: "PENDING" | "LOADED" | "IN_TRANSIT" | "UNLOADED";
+//   status: "PENDING" | "LOADED" | "IN_TRANSIT" | "UNLOADED";
 
-  loadedAt: string;
-  unloadedAt: string | null;
-};
+//   loadedAt: string;
+//   unloadedAt: string | null;
+// };
 
 export interface AddressEntity {
     label: AddressLabelType,
