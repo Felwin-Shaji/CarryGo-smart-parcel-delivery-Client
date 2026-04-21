@@ -55,15 +55,15 @@ export type WorkerShipmentDetails = {
 
 export type ParcelAction = "PENDING" | "LOAD" | "TRANSIT" | "UNLOAD";
 
-// export type WorkerShipmentParcel = {
-//   id: string;
-//   bookingId: string;
+export type WorkerShipmentParcel = {
+  id: string;
+  bookingId: string;
 
-//   status: "PENDING" | "LOADED" | "IN_TRANSIT" | "UNLOADED";
+  status: "PENDING" | "LOADED" | "IN_TRANSIT" | "UNLOADED";
 
-//   loadedAt: string;
-//   unloadedAt: string | null;
-// };
+  loadedAt: string;
+  unloadedAt: string | null;
+};
 
 export interface AddressEntity {
     label: AddressLabelType,

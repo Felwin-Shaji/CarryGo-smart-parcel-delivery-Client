@@ -33,10 +33,20 @@ export const useTravelRequest = () => {
         return response.data.data as TripDetailsUI;
     }
 
+    const updateOrderStatus = async (orderId: string, status: string) => {
+        const response = await axiosInstance.patch(
+            `${API_USER.TRAVELER_REQUEST}/order/${orderId}/status`,
+            { status }
+        );
+
+        return response.data.data;
+    };
+
     return {
         createTravelRequest,
         getTravelRequestList,
         getTripById,
-        getBookingsForTravelRequest
+        getBookingsForTravelRequest,
+        updateOrderStatus
     };
 } 
