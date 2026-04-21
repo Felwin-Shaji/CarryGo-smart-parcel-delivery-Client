@@ -21,10 +21,11 @@ import { BookingDetailsPage } from "../pages/User/PackageDetailsCard"
 import TravelerKyc from "../pages/User/Traveler/TravelerKyc"
 import TravelerBookingList from "../pages/User/Traveler/TravelerBookingList"
 import CreateTravelRequest from "../pages/User/Traveler/CreateTravelRequest"
-import { TravelerTripDetails } from "../pages/User/Traveler/TravelerTripDetailsPage"
+import { TravelerTripDetails } from "../pages/User/Traveler/TravelerTripDetails/TravelerTripDetailsPage"
 import BookingPaymentSuccessPage from "../pages/User/Booking/BookingPaymentSuccessPage"
 import BookingPaymentFailedPage from "../pages/User/Booking/BookingPaymentFailedPage"
 import UserTrackingPage from "../pages/User/Tracking/UserTrackingPage"
+import TravelerBookingDetails from "../pages/User/Traveler/BookingDetails/TravelerBookingDetails"
 
 
 
@@ -65,6 +66,7 @@ const UserRoutes = () => {
         <Route path="/traveler" element={<ProtectedRoute requiredRole={ROLES.USER}><TravelerBookingList /></ProtectedRoute>} />
         <Route path="/traveler/request" element={<ProtectedRoute requiredRole={ROLES.USER}><CreateTravelRequest /></ProtectedRoute>} />
         <Route path="/traveler/trip/:id" element={<ProtectedRoute requiredRole={ROLES.USER}><TravelerTripDetails /></ProtectedRoute>} />
+        <Route path="/traveler/trip/:id/bookings/:bookingId" element={<ProtectedRoute requiredRole={ROLES.USER}><TravelerBookingDetails /></ProtectedRoute>} />
 
 
 

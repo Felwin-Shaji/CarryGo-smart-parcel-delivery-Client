@@ -97,7 +97,7 @@ const TravelerTravelRequestList = () => {
           <TravelRequestFilter
             status={statusFilter}
             setStatus={(status) => {
-              setCurrentPage(1); // reset pagination
+              setCurrentPage(1);
               setStatusFilter(status);
             }}
           />

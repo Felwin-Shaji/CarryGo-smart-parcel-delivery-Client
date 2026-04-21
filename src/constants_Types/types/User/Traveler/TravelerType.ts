@@ -1,4 +1,5 @@
 import type { AddressUI } from "../../../../context/Booking/Booking.types";
+import type { BaseUserDTO } from "../../BaseTypes/baseTypes.dto";
 
 // export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";
 export type TransportMode = "FLIGHT" | "TRAIN" | "CAR" | "BUS" | "BIKE";
@@ -27,20 +28,26 @@ export type CreateTravelRequestDTO = {
   description?: string;
 };
 
+export type TravelerActionStatus =
+  | "PAID_PENDING_PICKUP"
+  | "READY_FOR_PICKUP"
+  | "PICKUP_STARTED"
+  | "IN_TRANSIT"
+  | "DELIVERED";
+
+
 export interface TripOrderUI {
   id: string;
+  customerDetails: Omit<BaseUserDTO, "isBlocked" | "kycStatus" | "createdAt">;
 
-  customerName: string;
-
-  pickupCity: string;
-  deliveryCity: string;
+  pickupAddress: AddressUI;
+  deliveryAddress: AddressUI;
 
   weightKg: number;
   amount: number;
-
+  platformFee:number;
   status: string;
 }
-
 
 export interface TripEarningsUI {
   total: number;
