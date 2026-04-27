@@ -1,9 +1,9 @@
 import { MapPin, Calendar } from "lucide-react";
-import type { ParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
 
 interface Props {
-  booking: ParcelTrackingDTO["booking"];
-  shipment?: ParcelTrackingDTO["shipment"];
+  booking: AgencyParcelTrackingDTO["booking"];
+  shipment?: AgencyParcelTrackingDTO["shipment"];
 }
 
 export default function ShipmentDetails({ booking, shipment }: Props) {
