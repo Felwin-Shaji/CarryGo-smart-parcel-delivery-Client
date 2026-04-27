@@ -1,9 +1,9 @@
-import type { ParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
 import { Package, MapPin } from "lucide-react";
+import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
 
 interface Props {
-  booking: ParcelTrackingDTO["booking"];
-  currentStatus: ParcelTrackingDTO["currentStatus"];
+  booking: AgencyParcelTrackingDTO["booking"];
+  currentStatus: AgencyParcelTrackingDTO["currentStatus"];
 }
 
 export default function TrackingHeader({ booking, currentStatus }: Props) {

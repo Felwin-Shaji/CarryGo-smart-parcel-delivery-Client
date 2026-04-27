@@ -1,8 +1,8 @@
 import { Truck } from "lucide-react";
-import type { ParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
 
 interface Props {
-    shipment: ParcelTrackingDTO["shipment"] | null;
+    shipment: AgencyParcelTrackingDTO["shipment"] | null;
 }
 
 export default function ActiveShipmentCard({ shipment }: Props) {

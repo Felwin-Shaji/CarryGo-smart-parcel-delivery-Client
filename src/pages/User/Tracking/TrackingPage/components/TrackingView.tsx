@@ -1,13 +1,13 @@
-import type { ParcelTrackingDTO } from "../../../../constants_Types/types/User/Booking/ParcelTracking";
-import CurrentStatusCard from "./components/CurrentStatusCard";
-import RouteProgress from "./components/RouteProgress";
-import ShipmentDetails from "./components/ShipmentDetails";
-import TrackingHeader from "./components/TrackingHeader";
-import TrackingTimeline from "./components/TrackingTimeline";
+import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import CurrentStatusCard from "./CurrentStatusCard";
+import RouteProgress from "./RouteProgress";
+import ShipmentDetails from "./ShipmentDetails";
+import TrackingHeader from "./TrackingHeader";
+import TrackingTimeline from "./TrackingTimeline";
 
 
 interface Props {
-  data: ParcelTrackingDTO;
+  data: AgencyParcelTrackingDTO;
 }
 
 export default function TrackingView({ data }: Props) {
