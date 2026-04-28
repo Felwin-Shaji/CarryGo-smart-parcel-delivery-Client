@@ -8,7 +8,7 @@ const UserTrackingPage = () => {
     return (
         <>
             <Header isLoggedIn />
-            <div className="pt-24 bg-gray-50 min-h-screen">
+            <div className="p-14 bg-gray-50 min-h-screen">
 
                 <TrackingPage fetchAgencyTracking={getAgencyTracking} fetchTravelerTracking={getTravelerTracking} />
             </div>
