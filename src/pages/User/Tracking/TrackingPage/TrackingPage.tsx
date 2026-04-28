@@ -84,7 +84,7 @@ export default function TrackingPage({ fetchAgencyTracking, fetchTravelerTrackin
       return;
     }
 
-    setInputError(null); // only clear input error
+    setInputError(null);
 
     if (trimmed === bookingId) {
       fetchData(trimmed);
@@ -96,9 +96,7 @@ export default function TrackingPage({ fetchAgencyTracking, fetchTravelerTrackin
 
   return (
 
-    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-
-      {/* Back Button */}
+    <div className="max-w-4xl mx-auto py-4 space-y-4">
 
       {/* Search Card */}
       <div className="bg-white shadow-md rounded-xl p-5 space-y-4 border">

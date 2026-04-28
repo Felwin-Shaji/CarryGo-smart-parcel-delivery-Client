@@ -1,4 +1,4 @@
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, ArrowRight } from "lucide-react";
 import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
 
 interface Props {
@@ -8,81 +8,67 @@ interface Props {
 
 export default function ShipmentDetails({ booking, shipment }: Props) {
   return (
-    <div className="bg-white border rounded-2xl p-6 shadow-sm space-y-5">
+    <div className="bg-white border rounded-xl p-5 shadow-sm space-y-4">
 
       {/* Header */}
       <div className="flex items-center gap-2">
-        <MapPin className="w-5 h-5 text-gray-600" />
+        <MapPin className="w-4 h-4 text-gray-600" />
         <h3 className="font-semibold text-gray-800">
           Shipment Details
         </h3>
       </div>
 
-      {/* PICKUP */}
-      <div>
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-          Pickup
-        </p>
+      {/* ROUTE CARD */}
+      <div className="bg-gray-50 border rounded-lg p-4 space-y-3">
 
-        <p className="text-sm text-gray-800 leading-relaxed">
-          {booking.from.formattedAddress}
-        </p>
+        {/* Pickup */}
+        <div>
+          <p className="text-[11px] text-gray-500 uppercase tracking-wide">
+            Pickup
+          </p>
+          <p className="text-sm font-medium text-gray-800">
+            {booking.from.city}
+          </p>
+          <p className="text-xs text-gray-500 leading-snug">
+            {booking.from.formattedAddress}
+          </p>
+        </div>
 
-        <p className="text-xs text-gray-500 mt-1">
-          {booking.from.city}
-        </p>
+        {/* Arrow */}
+        <div className="flex justify-center">
+          <ArrowRight className="w-4 h-4 text-gray-400" />
+        </div>
+
+        {/* Delivery */}
+        <div>
+          <p className="text-[11px] text-gray-500 uppercase tracking-wide">
+            Delivery
+          </p>
+          <p className="text-sm font-medium text-gray-800">
+            {booking.to.city}
+          </p>
+          <p className="text-xs text-gray-500 leading-snug">
+            {booking.to.formattedAddress}
+          </p>
+        </div>
       </div>
 
-      <hr className="border-gray-200" />
+      {/* META INFO */}
+      <div className="flex items-center justify-between text-xs text-gray-500">
 
-      {/* DELIVERY */}
-      <div>
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-          Delivery
-        </p>
+        <div className="flex items-center gap-1">
+          <Calendar className="w-3.5 h-3.5" />
+          <span>
+            {new Date(booking.createdAt).toLocaleString()}
+          </span>
+        </div>
 
-        <p className="text-sm text-gray-800 leading-relaxed">
-          {booking.to.formattedAddress}
-        </p>
-
-        <p className="text-xs text-gray-500 mt-1">
-          {booking.to.city}
-        </p>
+        {shipment && (
+          <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 font-medium">
+            {shipment.status || "Pending"}
+          </span>
+        )}
       </div>
-
-      <hr className="border-gray-200" />
-
-      {/* BOOKED DATE */}
-      <div className="flex items-center gap-2 text-sm text-gray-600">
-        <Calendar className="w-4 h-4" />
-        <span>
-          Booked on{" "}
-          {new Date(booking.createdAt).toLocaleString()}
-        </span>
-      </div>
-
-      {/* OPTIONAL SHIPMENT INFO */}
-      {shipment && (
-        <>
-          <hr className="border-gray-200" />
-
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <p className="text-xs text-gray-500">Vehicle</p>
-              <p className="font-medium text-gray-800">
-                {shipment.vehicleNumber || "Not assigned"}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-xs text-gray-500">Status</p>
-              <p className="font-medium text-gray-800">
-                {shipment.status || "Pending"}
-              </p>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 }

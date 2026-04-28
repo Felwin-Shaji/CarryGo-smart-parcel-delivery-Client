@@ -1,4 +1,4 @@
-import { MapPin, User, Truck  } from "lucide-react";
+import { MapPin, User, Truck } from "lucide-react";
 import type { TravelerParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
 
 interface Props {
@@ -14,13 +14,12 @@ const steps = [
 ];
 
 export default function TravelerTrackingView({ data }: Props) {
-    console.log(data.booking)
     const { booking, traveler, currentStatus, trip } = data;
 
-
-    const normalizedStatus = currentStatus.status
+    const normalizedStatus = booking.status
         .trim()
-        .toUpperCase();
+        .toUpperCase()
+        .replace(/\s+/g, "_");
 
     const statusMap: Record<string, number> = {
         PAID_PENDING_PICKUP: 0,
@@ -31,23 +30,48 @@ export default function TravelerTrackingView({ data }: Props) {
     };
 
     const currentStepIndex =
-        statusMap[normalizedStatus] ?? steps.length - 1;
+        statusMap[normalizedStatus] ?? 0;
 
-    console.log("STATUS:", normalizedStatus);
-    console.log("INDEX:", currentStepIndex);
 
     return (
         <div className="space-y-6">
 
             {/* 🔵 STATUS HEADER */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-2xl p-6 shadow">
-                <p className="text-sm opacity-80">Tracking ID</p>
-                <h2 className="text-lg font-semibold">{booking.bookingId}</h2>
+            <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
 
-                <div className="mt-3">
-                    <h3 className="text-xl font-bold">{currentStatus.status}</h3>
-                    <p className="text-sm opacity-90">{currentStatus.message}</p>
+                {/* subtle background glow */}
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
+
+                {/* top section */}
+                <div className="flex justify-between items-start">
+                    <div>
+                        <p className="text-xs uppercase tracking-wide opacity-80">
+                            Tracking ID
+                        </p>
+                        <h2 className="text-lg font-semibold tracking-wide">
+                            {booking.bookingId}
+                        </h2>
+                    </div>
+
+                    {/* status badge */}
+                    <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/20 backdrop-blur">
+                        {booking.status.replaceAll("_", " ")}
+                    </span>
                 </div>
+
+                {/* divider */}
+                <div className="my-4 h-[1px] bg-white/20" />
+
+                {/* status info */}
+                <div>
+                    <h3 className="text-2xl font-bold capitalize">
+                        {currentStatus.status.replaceAll("_", " ").toLowerCase()}
+                    </h3>
+                    <p className="text-sm opacity-90 mt-1">
+                        {currentStatus.message}
+                    </p>
+                </div>
+
             </div>
 
             {/* 🟢 PROGRESS STEPPER */}
