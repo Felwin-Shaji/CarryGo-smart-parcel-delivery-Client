@@ -79,7 +79,7 @@ export const API_HUB = {
   FIELD_TASKS: "/api/hub/field-task",
   ASSIGN_PICKUPS: "/api/hub/pickups/assign",
 
-  SHIPMENT:"/api/hub/shipments",
+  SHIPMENT: "/api/hub/shipments",
 };
 
 
@@ -105,7 +105,7 @@ export const API_USER = {
   USER_ADDRESSES: "/api/user/addresses",
   BOOKING_PRICING: "/api/user/booking/calculate_price",
   BOOKING: "/api/user/booking",
-  TRACKING:"/api/user/tracking",
+  TRACKING: "/api/user/tracking",
 
   REVERSE_GEOCODE: "/api/user/geocode/reverse",
 
@@ -123,8 +123,11 @@ export const API_WORKER = {
 
   WORKER_PICKUPS: "/api/worker/field-task",
 
-  SHIPMENTS:"/api/worker/shipments"
+  SHIPMENTS: "/api/worker/shipments"
 }
 
-
+export const API_CHAT = {
+  GET_OR_CREATE_CHAT: "/api/chat/get-or-create",
+  MESSAGES: "/api/chat/messages",
+};
 
