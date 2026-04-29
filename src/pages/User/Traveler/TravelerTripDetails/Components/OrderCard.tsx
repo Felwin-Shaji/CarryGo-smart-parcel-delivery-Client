@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import type { TravelerActionStatus, TripOrderUI } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
 import TrackingModal from "./TrackingModal";
 import { getStatusButtonColor, getStatusColor, STATUS_FLOW, STATUS_LABELS, STATUS_TRANSITIONS } from "../utils/TravelerTripDetailsHelper";
+import type { RootState } from "../../../../../store/store";
+import { useSelector } from "react-redux";
+import ChatModal from "../../../../../components/chat/ChatModal";
+import { useChat } from "../../../../../Services/Chat/useChat";
 
 export interface OrderCardProps {
     order: TripOrderUI;
@@ -14,6 +18,21 @@ export const OrderCard = ({ order, onStatusUpdate }: OrderCardProps) => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [showTracking, setShowTracking] = useState(false);
+
+    const { user } = useSelector((state: RootState) => state.userState);
+    const { getOrCreateChatId } = useChat();
+    const [chatId, setChatId] = useState<string | null>(null);
+    const [showChat, setShowChat] = useState(false);
+
+    const handleOpenChat = async () => {
+        const id = await getOrCreateChatId([user?.id!, order.customerDetails.id!], order.id);
+
+        if (!id) return;
+
+        setChatId(id);
+        setShowChat(true);
+    };
+
 
     const currentStatus = order.status as TravelerActionStatus;
     const isTravelerStatus = STATUS_FLOW.includes(currentStatus);
@@ -137,30 +156,35 @@ export const OrderCard = ({ order, onStatusUpdate }: OrderCardProps) => {
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    navigate(`/chat/${order.id}`);
+                                    handleOpenChat();
                                 }}
                                 className="text-xs border px-2 py-1 rounded text-blue-600"
                             >
                                 <MessageCircle size={12} /> Chat
                             </button>
-
                         </div>
                     </div>
                 )}
-
-
-            </div>
+            </div >
 
             {/* ✅ MOVE MODAL OUTSIDE */}
+            {showChat && chatId && (
+                <ChatModal
+                    isOpen={showChat}
+                    onClose={() => setShowChat(false)}
+                    chatId={chatId}
+                    currentUserId={user?.id!}
+                    receiverId={order.customerDetails.id!}
+                    receiverName={order.customerDetails.name}
+                    bookingId={order.id}
+                />
+            )}
             {showTracking && (
                 <TrackingModal
                     order={order}
                     onClose={() => setShowTracking(false)}
                 />
             )}
-
         </>
-
-
     );
 };

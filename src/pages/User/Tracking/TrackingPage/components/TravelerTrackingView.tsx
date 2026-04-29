@@ -1,5 +1,10 @@
-import { MapPin, User, Truck } from "lucide-react";
+import { MapPin, User, Truck, Phone, MessageCircle } from "lucide-react";
 import type { TravelerParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../../store/store";
+import ChatModal from "../../../../../components/chat/ChatModal";
+import { useChat } from "../../../../../Services/Chat/useChat";
 
 interface Props {
     data: TravelerParcelTrackingDTO;
@@ -15,6 +20,11 @@ const steps = [
 
 export default function TravelerTrackingView({ data }: Props) {
     const { booking, traveler, currentStatus, trip } = data;
+
+    const { user } = useSelector((state: RootState) => state.userState);
+    const { getOrCreateChatId } = useChat();
+    const [chatId, setChatId] = useState<string | null>(null);
+    const [showChat, setShowChat] = useState(false);
 
     const normalizedStatus = booking.status
         .trim()
@@ -32,6 +42,14 @@ export default function TravelerTrackingView({ data }: Props) {
     const currentStepIndex =
         statusMap[normalizedStatus] ?? 0;
 
+    const handleOpenChat = async () => {
+        const id = await getOrCreateChatId([user?.id!, traveler.id], booking.id);
+
+        if (!id) return;
+
+        setChatId(id);
+        setShowChat(true);
+    };
 
     return (
         <div className="space-y-6">
@@ -137,21 +155,48 @@ export default function TravelerTrackingView({ data }: Props) {
             </div>
 
             {/* 👤 TRAVELER CARD */}
-            <div className="bg-white rounded-2xl shadow p-5 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                    <User className="text-blue-600" />
+            <div className="bg-white rounded-2xl shadow p-5 space-y-4">
+
+                {/* Top Section */}
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                        <User className="text-blue-600" />
+                    </div>
+
+                    <div className="flex-1">
+                        <h3 className="font-semibold">{traveler.name}</h3>
+                        <p className="text-sm text-gray-500">{traveler.email}</p>
+                    </div>
+
+                    <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full">
+                        {traveler.kycStatus}
+                    </span>
                 </div>
 
-                <div className="flex-1">
-                    <h3 className="font-semibold">{traveler.name}</h3>
-                    <p className="text-sm text-gray-500">{traveler.email}</p>
-                </div>
+                {/* 🔹 ACTION BUTTONS */}
+                <div className="flex items-center gap-2">
 
-                <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full">
-                    {traveler.kycStatus}
-                </span>
+                    {/* 📞 Call Button */}
+                    {traveler.phone && (
+                        <a
+                            href={`tel:${traveler.phone}`}
+                            className="p-2 rounded-full bg-green-100 hover:bg-green-200 transition"
+                        >
+                            <Phone size={16} className="text-green-600" />
+                        </a>
+                    )}
+
+                    {/* 💬 Chat Button */}
+                    <button
+                        onClick={handleOpenChat}
+                        title="Chat"
+                        className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition"
+                    >
+                        <MessageCircle size={16} className="text-blue-600" />
+                    </button>
+
+                </div>
             </div>
-
             {/* 📦 PARCEL CARD */}
             <div className="bg-white rounded-2xl shadow p-5 space-y-3">
                 <h3 className="font-semibold text-lg">Parcel</h3>
@@ -194,6 +239,17 @@ export default function TravelerTrackingView({ data }: Props) {
                     </span>
                 </div>
             </div>
+            {showChat && chatId && (
+                <ChatModal
+                    isOpen={showChat}
+                    onClose={() => setShowChat(false)}
+                    chatId={chatId}
+                    currentUserId={user?.id!}
+                    receiverId={traveler?.id!}
+                    receiverName={traveler.name}
+                    bookingId={data.booking.id}
+                />
+            )}
         </div>
     );
 }
