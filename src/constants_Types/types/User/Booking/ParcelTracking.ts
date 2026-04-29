@@ -84,10 +84,11 @@ export interface HubDTO {
 
 
 export interface TravelerParcelTrackingDTO {
-        type: "TRAVELER";
+    type: "TRAVELER";
 
     // Booking Info
     booking: {
+        id: string
         bookingId: string;
         status: string;
 

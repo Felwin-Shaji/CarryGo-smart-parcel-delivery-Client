@@ -9,6 +9,7 @@ import { API_AUTH } from "../constants_Types/apiRoutes";
 import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 import { workerLogin, workerLogout } from "../store/Slice/workerSlice";
 import { refreshEnd } from "../store/Slice/authMetaSlice";
+import { socket } from "../Services/socket";
 
 
 export const useAuthRehydration = (role: Roles) => {
@@ -22,6 +23,19 @@ export const useAuthRehydration = (role: Roles) => {
 
                 if (response.data?.success) {
                     const { user, accessToken } = response.data.data;
+
+                    // Attach auth to socket
+                    socket.auth = {
+                        token: accessToken,
+                        userId: user.id,
+                    };
+
+                    //  Connect only if not already connected
+                    if (!socket.connected) {
+                        socket.connect();
+                        console.log(" Socket connected:", socket.id);
+                    }
+
 
                     switch (user.role) {
                         case ROLES.USER:
@@ -45,6 +59,10 @@ export const useAuthRehydration = (role: Roles) => {
                             dispatch(agencyLogout())
                             dispatch(hubLogout());
                             dispatch(workerLogout());
+                            if (socket.connected) {
+                                socket.disconnect();
+                                console.log("Socket disconnected");
+                            }
                             break;
                     }
                 } else {
@@ -53,6 +71,10 @@ export const useAuthRehydration = (role: Roles) => {
                     dispatch(agencyLogout())
                     dispatch(hubLogout());
                     dispatch(workerLogout());
+                    if (socket.connected) {
+                        socket.disconnect();
+                        console.log(" Socket disconnected");
+                    }
                 }
             } catch (error) {
                 dispatch(userLogout());
@@ -60,7 +82,11 @@ export const useAuthRehydration = (role: Roles) => {
                 dispatch(agencyLogout());
                 dispatch(hubLogout());
                 dispatch(workerLogout());
-            }finally {
+                if (socket.connected) {
+                    socket.disconnect();
+                    console.log(" Socket disconnected");
+                }
+            } finally {
                 dispatch(refreshEnd());
             }
         }
