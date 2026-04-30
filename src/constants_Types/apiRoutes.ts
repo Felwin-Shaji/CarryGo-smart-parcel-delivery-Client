@@ -123,7 +123,12 @@ export const API_WORKER = {
 
   WORKER_PICKUPS: "/api/worker/field-task",
 
-  SHIPMENTS: "/api/worker/shipments"
+  SHIPMENTS: "/api/worker/shipments",
+
+  GET_DASHBOARD: "/api/worker/dashboard",
+  GET_ANALYTICS_GRAPH: "/api/worker/analytics/graph",
+  GET_PARCELS: "/api/worker/parcels",
+  EXPORT_PARCELS: "/api/worker/parcels/export",
 }
 
 export const API_CHAT = {
