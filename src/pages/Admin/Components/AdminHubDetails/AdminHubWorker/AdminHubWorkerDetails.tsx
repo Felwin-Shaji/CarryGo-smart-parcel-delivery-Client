@@ -6,11 +6,14 @@ import { DashboardLayout } from '../../../../../layouts/DashboardLayout';
 import WorkerDetailsBase from '../../../../../components/Workers/WorkerKycDetailsBase';
 import type { GetWorkerOverviewResponseDTO } from '../../../../../constants_Types/types/Worker/workerRequest.dto';
 import { useAdminHubWorkers } from "../../../../../Services/Admin/AdminHubWorkers";
+import { SecondaryHeader } from "../../../../../layouts/SecondaryHeader";
+import WorkerDashboardView from "../../../../Worker/WorkerDashboard/WorkerDashboardView";
 
 const AdminHubWorkerDetails = () => {
     const { id } = useParams();
     const { getWorkerById } = useAdminHubWorkers();
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<"details" | "dashboard">("details");
 
     const [worker, setWorker] = useState<GetWorkerOverviewResponseDTO | null>(null);
     const [loading, setLoading] = useState(true);
@@ -35,16 +38,33 @@ const AdminHubWorkerDetails = () => {
     return (
         <DashboardProvider role={ROLES.ADMIN}>
             <DashboardLayout pageTitle="Worker Details">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-4 flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
-                >
-                    ← Back
-                </button>
-                <WorkerDetailsBase
-                    worker={worker}
-                    showActions={false}
+
+                {/* TAB HEADER */}
+                <SecondaryHeader
+                    title="Worker Dashboard"
+                    showBack
+                    onBack={() => navigate(-1)}
+                    tabs={[
+                        { key: "details", label: "Details" },
+                        { key: "dashboard", label: "Dashboard" },
+                    ]}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
                 />
+
+                {activeTab === "details" && worker && (
+                    <WorkerDetailsBase
+                        worker={worker}
+                        showActions={false}
+                    />
+                )}
+
+                {activeTab === "dashboard" && worker && (
+                    <WorkerDashboardView
+                        role={ROLES.ADMIN}
+                        workerId={worker.id}
+                    />
+                )}
             </DashboardLayout>
         </DashboardProvider>
     );

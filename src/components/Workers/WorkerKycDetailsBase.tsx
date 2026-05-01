@@ -9,7 +9,7 @@ type Props = {
   showActions?: boolean;
   onApprove?: () => void;
   onReject?: () => void;
-  canResubmit?:boolean;
+  canResubmit?: boolean;
   actionLoading?: boolean;
 };
 
@@ -27,7 +27,7 @@ export default function WorkerDetailsBase({
     worker.kycStatus === "REGISTERED" || worker.kycStatus === "RESUBMITTED";
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
       {/* ================= LEFT PROFILE ================= */}
       <div className="lg:col-span-4 bg-white p-6 rounded-3xl shadow-sm">
