@@ -6,34 +6,49 @@ import { useAxios } from "../../../hooks/useAxios";
 export const useWorkerDashboardService = () => {
     const axiosInstance = useAxios();
 
-    const getDashboard = async (): Promise<GetWorkerDashboardResponseDTO> => {
-        const res = await axiosInstance.get(API_WORKER.GET_DASHBOARD);
+    const getDashboard = async (
+        workerId?: string
+    ): Promise<GetWorkerDashboardResponseDTO> => {
+        const url = workerId
+            ? `${API_WORKER.GET_DASHBOARD}/${workerId}`
+            : API_WORKER.GET_DASHBOARD;
+
+        const res = await axiosInstance.get(url);
         return res.data.data;
     };
 
-    const getParcels = async (params: {
-        page: number;
-        limit: number;
-        status?: string;
-        fromDate?: string;
-        toDate?: string;
-    }): Promise<GetParcelsResponse> => {
+    const getParcels = async (
+        params: {
+            page: number;
+            limit: number;
+            status?: string;
+            fromDate?: string;
+            toDate?: string;
+        },
+        workerId?: string
+    ): Promise<GetParcelsResponse> => {
+        const url = workerId
+            ? `${API_WORKER.GET_PARCELS}/${workerId}`
+            : API_WORKER.GET_PARCELS;
 
-        const res = await axiosInstance.get(API_WORKER.GET_PARCELS, {
-            params,
-        });
+        const res = await axiosInstance.get(url, { params });
 
         return res.data.data;
     };
 
-    const getGraph = async (params?: {
-        fromDate?: string;
-        toDate?: string;
-        granularity?: "DAY" | "WEEK" | "MONTH";
-    }) => {
-        const res = await axiosInstance.get(API_WORKER.GET_ANALYTICS_GRAPH, {
-            params,
-        });
+    const getGraph = async (
+        params?: {
+            fromDate?: string;
+            toDate?: string;
+            granularity?: "DAY" | "WEEK" | "MONTH";
+        },
+        workerId?: string
+    ) => {
+        const url = workerId
+            ? `${API_WORKER.GET_ANALYTICS_GRAPH}/${workerId}`
+            : API_WORKER.GET_ANALYTICS_GRAPH;
+
+        const res = await axiosInstance.get(url, { params });
 
         return res.data.data;
     };
