@@ -132,14 +132,14 @@ export const DashboardLayout = ({
                             <span className="absolute top-0 right-0 h-2 w-2 bg-purple-500 rounded-full"></span>
                         </button>
 
-                        <button onClick={()=>confirmToast("Are you sure you need to logout",handleLogout)} className="hover:text-blue-400">
+                        <button onClick={() => confirmToast("Are you sure you need to logout", handleLogout)} className="hover:text-blue-400">
                             <LogOut size={22} />
                         </button>
                     </div>
                 </header>
 
                 {/* Page Content */}
-                <main className="flex-1 overflow-y-auto p-6">{children}</main>
+                <main className="flex-1 overflow-y-auto">{children}</main>
             </div>
         </div>
     );
