@@ -1,6 +1,6 @@
-import { API_ADMIN } from "../../constants_Types/apiRoutes";
-import type { GetAgencyOverviewResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto";
-import type { KYCStatus } from "../../constants_Types/types/roles";
+import { API_ADMIN } from "../../shared/constants_Types/apiRoutes";
+import type { GetAgencyOverviewResponseDTO } from "../../shared/constants_Types/types/Admin/AdminAgency.dto";
+import type { KYCStatus } from "../../shared/constants_Types/types/roles";
 import { useAxios } from "../../hooks/useAxios";
 
 

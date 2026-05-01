@@ -1,6 +1,6 @@
 import { Calendar, Filter } from "lucide-react";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import type { DateRangeType, UIShipmentFilters, WorkerForShipment } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { DateRangeType, UIShipmentFilters, WorkerForShipment } from "../../../../shared/constants_Types/types/Hub/HubShipment";
 import type { ShipmentType } from "../ShipmentManagementPage";
 import { useHubShipment } from "../../../../Services/Hub/HubShipment";
 

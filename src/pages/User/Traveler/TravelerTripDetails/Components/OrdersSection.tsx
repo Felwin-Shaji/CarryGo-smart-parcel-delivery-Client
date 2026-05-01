@@ -1,5 +1,5 @@
 import { OrderCard } from "./OrderCard";
-import type { TravelerActionStatus, TripOrderUI } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TravelerActionStatus, TripOrderUI } from "../../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 import { useNavigate } from "react-router-dom";
 
 type OrdersSectionProps = {

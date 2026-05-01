@@ -1,5 +1,5 @@
 import { useAxios } from "../../hooks/useAxios";
-import { API_CHAT } from "../../constants_Types/apiRoutes";
+import { API_CHAT } from "../../shared/constants_Types/apiRoutes";
 import toast from "react-hot-toast";
 
 export const useChat = () => {

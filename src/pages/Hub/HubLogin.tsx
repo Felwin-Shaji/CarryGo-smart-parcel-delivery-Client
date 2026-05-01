@@ -1,5 +1,5 @@
 import LoginForm from "../../components/Forms/LoginForm"
-import { ROLES } from "../../constants_Types/types/roles"
+import { ROLES } from "../../shared/constants_Types/types/roles"
 import { useAuth } from "../../Services/Auth"
 
 const HubLogin = () => {

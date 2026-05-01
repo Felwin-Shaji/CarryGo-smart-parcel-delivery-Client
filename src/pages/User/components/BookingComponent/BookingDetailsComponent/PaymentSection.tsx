@@ -1,5 +1,5 @@
 import { CreditCard } from "lucide-react";
-import type { BookingDetailsUI } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingDetailsUI } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 export const PaymentSection = ({ booking }: { booking: BookingDetailsUI }) => (
     <div className="rounded-2xl border bg-white p-6 space-y-4">

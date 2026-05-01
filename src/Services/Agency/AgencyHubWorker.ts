@@ -1,6 +1,6 @@
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
-import type { KYCStatus } from "../../constants_Types/types/roles";
-import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
+import type { KYCStatus } from "../../shared/constants_Types/types/roles";
+import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAgencyHubWorker = () => {

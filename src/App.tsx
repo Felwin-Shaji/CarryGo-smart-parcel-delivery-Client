@@ -9,7 +9,7 @@ import AgencyRoutes from './Routes/AgencyRoutes';
 import HubRoutes from './Routes/HubRoutes';
 import ResetLinkSentPage from './pages/ResetLinkSentPage';
 import WorkerRoutes from './Routes/WorkerRoutes';
-import { ROLES } from './constants_Types/types/roles';
+import { ROLES } from './shared/constants_Types/types/roles';
 import { useAuthRehydration } from './hooks/useAuthRehydration';
 
 function App() {

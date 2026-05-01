@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserWallet } from "../../Services/User/userWallet";
-import type { WalletOverview } from "../../constants_Types/types/walletType";
+import type { WalletOverview } from "../../shared/constants_Types/types/walletType";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { Header } from "./components/Header";
 import { WalletCard } from "../../components/Wallet/WalletCard";

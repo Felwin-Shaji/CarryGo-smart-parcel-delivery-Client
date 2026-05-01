@@ -1,5 +1,5 @@
-import { API_HUB } from "../../constants_Types/apiRoutes";
-import type { GetShipmentsResponse, UIShipmentFilters, WorkerForShipment } from "../../constants_Types/types/Hub/HubShipment";
+import { API_HUB } from "../../shared/constants_Types/apiRoutes";
+import type { GetShipmentsResponse, UIShipmentFilters, WorkerForShipment } from "../../shared/constants_Types/types/Hub/HubShipment";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useHubShipment = () => {

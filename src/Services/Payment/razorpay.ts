@@ -1,5 +1,5 @@
-import type { RazorpayError, RazorpayFailureResponse, RazorpaySuccessResponse } from "../../constants_Types/types/razorpay";
-import type { Roles } from "../../constants_Types/types/roles";
+import type { RazorpayError, RazorpayFailureResponse, RazorpaySuccessResponse } from "../../shared/constants_Types/types/razorpay";
+import type { Roles } from "../../shared/constants_Types/types/roles";
 
 export const openRazorpayCheckout = (options: {
   key: string;

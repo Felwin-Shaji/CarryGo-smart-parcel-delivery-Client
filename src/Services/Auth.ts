@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { userLogin, userLogout } from "../store/Slice/userSlice";
 import { adminLogin, adminLogout } from "../store/Slice/adminSlice";
 import { agencyLogin, agencyLogout } from "../store/Slice/agencySlice";
-import { ROLES, type Roles } from "../constants_Types/types/roles";
-import { API_AUTH } from "../constants_Types/apiRoutes";
+import { ROLES, type Roles } from "../shared/constants_Types/types/roles";
+import { API_AUTH } from "../shared/constants_Types/apiRoutes";
 import { hubLogin, hubLogout } from "../store/Slice/hubSlice";
 import { workerLogin, workerLogout } from "../store/Slice/workerSlice";
-import type { LoginResponseType } from "../constants_Types/types/Auth/Auth.type";
+import type { LoginResponseType } from "../shared/constants_Types/types/Auth/Auth.type";
 import type { AxiosError } from "axios";
 
 export const useAuth = () => {

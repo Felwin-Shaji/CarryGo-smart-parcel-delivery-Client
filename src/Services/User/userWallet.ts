@@ -1,5 +1,5 @@
-import { API_USER } from "../../constants_Types/apiRoutes";
-import type { WalletOverview } from "../../constants_Types/types/walletType";
+import { API_USER } from "../../shared/constants_Types/apiRoutes";
+import type { WalletOverview } from "../../shared/constants_Types/types/walletType";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useUserWallet = () => {

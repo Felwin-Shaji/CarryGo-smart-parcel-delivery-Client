@@ -1,4 +1,4 @@
-import type { TripDetailsUI } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TripDetailsUI } from "../../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 
 export const CapacityCard = ({ trip }: { trip: TripDetailsUI }) => {
     const usedWeight = trip.capacityKg - trip.remainingCapacityKg;

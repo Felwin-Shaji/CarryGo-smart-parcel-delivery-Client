@@ -1,9 +1,9 @@
 import { X } from "lucide-react";
 import { useState } from "react";
 import { HubDropdown } from "./HubDropDown";
-import type { HubResponseDTO } from "../../../../../constants_Types/types/Admin/AdminAgency.dto";
+import type { HubResponseDTO } from "../../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
 import { useAgencyRouteSegmant } from "../../../../../Services/Agency/AgencyRouteSegmant";
-import type { CreateRouteSegmentDTO } from "../../../../../constants_Types/types/Agency/AgencyRouteSegment.dto";
+import type { CreateRouteSegmentDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 
 
 interface Props {

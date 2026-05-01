@@ -7,7 +7,7 @@ import UserEditProfileModal from "../User/components/ProfileComponents/UserEditP
 import UserResetPasswordModal from "../User/components/ProfileComponents/UserResetPasswordModal";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useAdminProfile } from "../../Services/Admin/AdminProfile";
-import type { AdminResetPasswordRequestDTO, GetAdminProfileDTO } from "../../constants_Types/types/Admin/AdminProfile.dto";
+import type { AdminResetPasswordRequestDTO, GetAdminProfileDTO } from "../../shared/constants_Types/types/Admin/AdminProfile.dto";
 
 
 const capitalize = (value?: string) =>

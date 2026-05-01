@@ -4,7 +4,7 @@ import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../../layouts/DashboardLayout";
 import CreateRouteGroupModal from "./Components/CreateRouteGroupModal";
 import RouteGroupCard from "./Components/RouteGroupCard";
-import type { RouteGroupDTO } from "../../../../constants_Types/types/Agency/AgencyRouteGroup.dto";
+import type { RouteGroupDTO } from "../../../../shared/constants_Types/types/Agency/AgencyRouteGroup.dto";
 import { useAgencyRouteGroup } from "../../../../Services/Agency/AgencyRouteGroup";
 import { UserPagination } from "../../../User/components/UserPagination";
 

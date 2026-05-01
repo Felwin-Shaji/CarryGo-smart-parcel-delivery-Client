@@ -1,6 +1,6 @@
 import { FaIdCard, FaCalendarAlt, FaUser } from "react-icons/fa";
-import type { IDType } from "../../constants_Types/types/Worker/workerRequest.dto";
-import type { KYCStatus } from "../../constants_Types/types/roles";
+import type { IDType } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
+import type { KYCStatus } from "../../shared/constants_Types/types/roles";
 
 type Props = {
   kyc: {

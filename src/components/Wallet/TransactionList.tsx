@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import { TransactionItem } from "./TransactionItem";
-import type { Transaction } from "../../constants_Types/types/walletType";
+import type { Transaction } from "../../shared/constants_Types/types/walletType";
 
 interface TransactionListProps {
   transactions: Transaction[];

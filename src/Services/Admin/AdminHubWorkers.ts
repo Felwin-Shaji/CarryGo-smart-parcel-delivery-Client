@@ -1,5 +1,5 @@
-import { API_ADMIN } from "../../constants_Types/apiRoutes";
-import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
+import { API_ADMIN } from "../../shared/constants_Types/apiRoutes";
+import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAdminHubWorkers = () => {

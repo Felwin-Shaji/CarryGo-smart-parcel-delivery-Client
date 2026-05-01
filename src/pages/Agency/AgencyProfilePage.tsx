@@ -8,7 +8,7 @@ import UserResetPasswordModal from "../User/components/ProfileComponents/UserRes
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import KycBadge from "../../components/globelcomponents/KycBadge";
 import { useAgencyProfile } from "../../Services/Agency/AgencyProfile";
-import type { AgencyResetPasswordRequestDTO, GetAgencyProfileDTO } from "../../constants_Types/types/Agency/AgencyProfile.dto";
+import type { AgencyResetPasswordRequestDTO, GetAgencyProfileDTO } from "../../shared/constants_Types/types/Agency/AgencyProfile.dto";
 
 const capitalize = (value?: string) =>
     value ? value.charAt(0).toUpperCase() + value.slice(1) : "-";

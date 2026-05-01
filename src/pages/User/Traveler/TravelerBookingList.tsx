@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
-import { KYCSTATUS } from "../../../constants_Types/types/roles";
+import { KYCSTATUS } from "../../../shared/constants_Types/types/roles";
 import TravelerKYCWaiting from "./TravelerConponents/TravelerKYCWaiting";
 import TravelerKYCRegistration from "./TravelerConponents/TravelerKYCRegistration";
 import TravelerKYCRejected from "./TravelerConponents/TravelerKYCRejected";

@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, Polyline, Popup, useMap } from "react-
 import { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import type { RouteSegmentDTO } from "../../constants_Types/types/Agency/AgencyRouteSegment.dto";
+import type { RouteSegmentDTO } from "../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 // import type { RouteSegmentDTO } from "../../pages/Agency/RouteGroups/RouteGroupDetailPage";
 
 // 🔧 Fix default marker icons (important for React + Vite)

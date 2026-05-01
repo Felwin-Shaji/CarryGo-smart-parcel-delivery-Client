@@ -1,4 +1,4 @@
-import type { AddressUI } from "../../../../context/Booking/Booking.types";
+import type { AddressUI } from "../../../../../context/Booking/Booking.types";
 
 type BasePackageDetails = {
     category: string;

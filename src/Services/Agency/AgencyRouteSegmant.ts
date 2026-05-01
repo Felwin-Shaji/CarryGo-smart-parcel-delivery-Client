@@ -1,5 +1,5 @@
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
-import type { CreateRouteSegmentDTO, ReorderRouteSegmentsDTO, RouteSegmentResponseDTO } from "../../constants_Types/types/Agency/AgencyRouteSegment.dto";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
+import type { CreateRouteSegmentDTO, ReorderRouteSegmentsDTO, RouteSegmentResponseDTO } from "../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAgencyRouteSegmant = () => {

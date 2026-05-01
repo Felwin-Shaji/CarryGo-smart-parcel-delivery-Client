@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useHubShipment } from "../../../../Services/Hub/HubShipment";
-import type { ShipmentDetailsUI } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { ShipmentDetailsUI } from "../../../../shared/constants_Types/types/Hub/HubShipment";
 import WorkerSelect from "./WorkerSelect";
 
 interface Props {

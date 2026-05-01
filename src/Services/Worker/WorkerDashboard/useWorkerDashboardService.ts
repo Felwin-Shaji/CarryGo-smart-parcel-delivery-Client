@@ -1,5 +1,5 @@
-import { API_WORKER } from "../../../constants_Types/apiRoutes";
-import type { GetParcelsResponse, GetWorkerDashboardResponseDTO } from "../../../constants_Types/types/Worker/WorkerDashboard";
+import { API_WORKER } from "../../../shared/constants_Types/apiRoutes";
+import type { GetParcelsResponse, GetWorkerDashboardResponseDTO } from "../../../shared/constants_Types/types/Worker/WorkerDashboard";
 import { useAxios } from "../../../hooks/useAxios";
 
 

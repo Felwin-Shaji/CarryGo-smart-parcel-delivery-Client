@@ -1,6 +1,6 @@
-import type { ShipmentParcelUI } from "../../../../../../constants_Types/types/Hub/HubShipment";
-import type { Roles } from "../../../../../../constants_Types/types/roles";
-import type { ParcelAction,  } from "../../../../../../constants_Types/types/Worker/workerShipment";
+import type { ShipmentParcelUI } from "../../../../../../shared/constants_Types/types/Hub/HubShipment";
+import type { Roles } from "../../../../../../shared/constants_Types/types/roles";
+import type { ParcelAction,  } from "../../../../../../shared/constants_Types/types/Worker/workerShipment";
 import { ParcelRow } from "./ParcelRow";
 
 type Props = {

@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
-import type { Coordinates, ReverseGeocodeResponse, SaveAddressPayload } from "../../constants_Types/types/User/Address/address.type";
+import type { Coordinates, ReverseGeocodeResponse, SaveAddressPayload } from "../../shared/constants_Types/types/User/Address/address.type";
 import { useAxios } from "../../hooks/useAxios";
-import { API_USER } from "../../constants_Types/apiRoutes";
+import { API_USER } from "../../shared/constants_Types/apiRoutes";
 import type { Address } from "../../pages/User/AddressListPage";
 
 export const useAddress = () => {

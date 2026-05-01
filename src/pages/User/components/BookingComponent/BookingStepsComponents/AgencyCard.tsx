@@ -1,5 +1,5 @@
 import { FaBuilding } from "react-icons/fa6";
-import type { getServiceableHubWithAgencyDTO } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 interface Props {
     agency: getServiceableHubWithAgencyDTO;

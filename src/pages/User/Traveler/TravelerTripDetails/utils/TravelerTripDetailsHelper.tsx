@@ -1,4 +1,4 @@
-import type { TravelerActionStatus } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TravelerActionStatus } from "../../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 
     export const STATUS_TRANSITIONS: Record<TravelerActionStatus, TravelerActionStatus[]> = {
         PAID_PENDING_PICKUP: ["READY_FOR_PICKUP"],

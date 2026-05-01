@@ -1,4 +1,4 @@
-import type { WorkerShipmentDetails } from "../../../../../../constants_Types/types/Worker/workerShipment";
+import type { WorkerShipmentDetails } from "../../../../../../shared/constants_Types/types/Worker/workerShipment";
 
 export function ShipmentHeader({ data }: { data: WorkerShipmentDetails }) {
   return (

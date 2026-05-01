@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useWorkerDashboardService } from "./useWorkerDashboardService";
-import type { GetParcelsResponse, GetWorkerDashboardResponseDTO, WorkerGraphPointDTO, } from "../../../constants_Types/types/Worker/WorkerDashboard";
-import type { ShipmentParcelStatus } from "../../../constants_Types/types/Hub/HubShipment";
+import type { GetParcelsResponse, GetWorkerDashboardResponseDTO, WorkerGraphPointDTO, } from "../../../shared/constants_Types/types/Worker/WorkerDashboard";
+import type { ShipmentParcelStatus } from "../../../shared/constants_Types/types/Hub/HubShipment";
 
 export interface WorkerParcelFilters {
     fromDate?: string;

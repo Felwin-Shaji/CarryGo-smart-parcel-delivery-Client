@@ -1,5 +1,5 @@
-import type { ParcelAction, ShipmentAction, WorkerShipmentParcel } from "../../../constants_Types/types/Worker/workerShipment";
-import type { ShipmentStatus } from "../../../constants_Types/types/Hub/HubShipment";
+import type { ParcelAction, ShipmentAction, WorkerShipmentParcel } from "../../../shared/constants_Types/types/Worker/workerShipment";
+import type { ShipmentStatus } from "../../../shared/constants_Types/types/Hub/HubShipment";
 
 export const mapShipmentActionToStatus = (action: ShipmentAction): ShipmentStatus => {
 

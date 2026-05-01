@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useTravelRequest } from "../../../../Services/User/Traveler/TravelRequest";
 import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
-import type { TravelerActionStatus, TripDetailsUI } from "../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TravelerActionStatus, TripDetailsUI } from "../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 import { KpiSection } from "./Components/KpiSection";
 import { OrdersSection } from "./Components/OrdersSection";
 import { TripCard } from "./Components/TripCard";

@@ -1,4 +1,4 @@
-import type { getServiceableHubWithAgencyDTO } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 interface Props {
   agencies: getServiceableHubWithAgencyDTO[];

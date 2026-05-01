@@ -1,7 +1,7 @@
 // pages/Agency/RouteGroups/Components/RouteGroupCard.tsx
 
 import { ArrowRight } from "lucide-react";
-import type { RouteGroupDTO } from "../../../../../constants_Types/types/Agency/AgencyRouteGroup.dto";
+import type { RouteGroupDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteGroup.dto";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { KYCStatus } from "../../constants_Types/types/roles";
+import type { KYCStatus } from "../../shared/constants_Types/types/roles";
 
 interface User {
   id: string;

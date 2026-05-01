@@ -1,4 +1,4 @@
-import type { AddressUI } from "../../../../context/Booking/Booking.types";
+import type { AddressUI } from "../../../../../context/Booking/Booking.types";
 import type { BaseUserDTO } from "../../BaseTypes/baseTypes.dto";
 
 // export type PackageSizeType = "SMALL" | "MEDIUM" | "LARGE";

@@ -1,7 +1,7 @@
-import { API_USER } from "../../../constants_Types/apiRoutes";
+import { API_USER } from "../../../shared/constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
-import type { BookingDetailsUI, PricingResponseDTO, BookingListResponse, getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
-import type { CalculatePricePayload, CreateBookingPayload } from "../../../constants_Types/types/User/Booking/createBookingType";
+import type { BookingDetailsUI, PricingResponseDTO, BookingListResponse, getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
+import type { CalculatePricePayload, CreateBookingPayload } from "../../../shared/constants_Types/types/User/Booking/createBookingType";
 import type { BookingFilterParams } from "../../../pages/User/UserBookingList";
 import type { AddressUI } from "../../../context/Booking/Booking.types";
 

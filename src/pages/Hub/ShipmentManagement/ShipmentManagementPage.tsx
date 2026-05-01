@@ -1,11 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ShipmentCard } from "./components/ShipmentCard";
-import type { Shipment, UIShipmentFilters, } from "../../../constants_Types/types/Hub/HubShipment";
+import type { Shipment, UIShipmentFilters, } from "../../../shared/constants_Types/types/Hub/HubShipment";
 import { useHubShipment } from "../../../Services/Hub/HubShipment";
 import { DashboardProvider } from "../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
-import { ROLES } from "../../../constants_Types/types/roles";
+import { ROLES } from "../../../shared/constants_Types/types/roles";
 import { FilterBar } from "./components/FilterBar";
 
 export type ShipmentType =

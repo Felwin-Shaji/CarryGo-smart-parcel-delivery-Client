@@ -1,5 +1,5 @@
 import { Package, Truck, MapPin, Activity } from "lucide-react";
-import type { GetWorkerDashboardResponseDTO } from "../../../../constants_Types/types/Worker/WorkerDashboard";
+import type { GetWorkerDashboardResponseDTO } from "../../../../shared/constants_Types/types/Worker/WorkerDashboard";
 import { StatCard } from "./StatCard";
 
 type WorkerRole = "PICKUP" | "TRANSPORT" | "OUT_FOR_DELIVERY";

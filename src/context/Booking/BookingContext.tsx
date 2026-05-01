@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import type { AddressUI, BookingState, DeliveryType, PackagePayload } from "./Booking.types";
 import { clearBookingState, loadBookingState, saveBookingState } from "./bookingStorage";
-import type { getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 type BookingContextValue = {
   state: BookingState;

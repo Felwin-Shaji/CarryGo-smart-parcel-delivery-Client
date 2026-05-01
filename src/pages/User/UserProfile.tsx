@@ -6,9 +6,9 @@ import ProfileField from "./components/ProfileComponents/ProfileField";
 import UserEditProfileModal from "./components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "./components/ProfileComponents/UserResetPasswordModal";
 import { useUserProfile } from "../../Services/User/userProfile";
-import type { GetUserProfileDTO } from "../../constants_Types/types/User/userResponse.dto";
+import type { GetUserProfileDTO } from "../../shared/constants_Types/types/User/userResponse.dto";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
-import type { UserResetPasswordRequestDTO } from "../../constants_Types/types/User/userRequest.dto";
+import type { UserResetPasswordRequestDTO } from "../../shared/constants_Types/types/User/userRequest.dto";
 
 const capitalize = (value?: string) => {
     if (!value) return "-";

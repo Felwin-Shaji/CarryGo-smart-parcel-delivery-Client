@@ -1,8 +1,8 @@
 import { useAxios } from "../../hooks/useAxios";
-import { API_USER } from "../../constants_Types/apiRoutes";
+import { API_USER } from "../../shared/constants_Types/apiRoutes";
 import toast from "react-hot-toast";
-import type { GetUserProfileDTO,  } from "../../constants_Types/types/User/userResponse.dto";
-import type { UserResetPasswordRequestDTO } from "../../constants_Types/types/User/userRequest.dto";
+import type { GetUserProfileDTO,  } from "../../shared/constants_Types/types/User/userResponse.dto";
+import type { UserResetPasswordRequestDTO } from "../../shared/constants_Types/types/User/userRequest.dto";
 
 export const useUserProfile = () => {
     const axiosInstance = useAxios();

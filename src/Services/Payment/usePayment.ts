@@ -1,4 +1,4 @@
-import type { RazorpaySuccessResponse } from "../../constants_Types/types/razorpay";
+import type { RazorpaySuccessResponse } from "../../shared/constants_Types/types/razorpay";
 import { useAxios } from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 

@@ -1,5 +1,5 @@
-import type { AgencyWithKYCResponseDTO } from "../../../../constants_Types/types/Admin/AdminAgency.dto";
-import type { KYCStatus } from "../../../../constants_Types/types/roles";
+import type { AgencyWithKYCResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
+import type { KYCStatus } from "../../../../shared/constants_Types/types/roles";
 
 export interface AgencyProfileCardProps {
   agency: AgencyWithKYCResponseDTO;

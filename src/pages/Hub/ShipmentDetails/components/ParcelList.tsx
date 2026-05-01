@@ -1,4 +1,4 @@
-import type { ShipmentParcelUI } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { ShipmentParcelUI } from "../../../../shared/constants_Types/types/Hub/HubShipment";
 
 export default function ParcelList({
   parcels,

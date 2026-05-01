@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { CreateBookingPayload } from "../../../../../constants_Types/types/User/Booking/createBookingType";
+import type { CreateBookingPayload } from "../../../../../shared/constants_Types/types/User/Booking/createBookingType";
 import { useBookingContext } from "../../../../../context/Booking/BookingContext";
 import { openRazorpayCheckout } from "../../../../../Services/Payment/razorpay";
 import { usePayment } from "../../../../../Services/Payment/usePayment";

@@ -5,11 +5,11 @@ import { confirmToast } from "../../../../components/globelcomponents/confirmToa
 import RejectReasonModal from "../../../../components/globelcomponents/RejectReasonModal";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
 import Breadcrumbs from "../../../../components/globelcomponents/Breadcrumbs";
-import { KYCSTATUS, type KYCStatus } from "../../../../constants_Types/types/roles";
+import { KYCSTATUS, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
 import UserProfileCard from "./UserProfileCard";
 import KycDetails from "./KycDetails";
 import AdminAgencyDashboard from "../AdminAgencyDetails/AdminAgencyDashboard";
-import type { UserWithKYCResponseDTO } from "../../../../constants_Types/types/Admin/AdminUserTypes";
+import type { UserWithKYCResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminUserTypes";
 import { useAdminUser } from "../../../../Services/Admin/AdminUser";
 
 export default function AdminUserDetails({

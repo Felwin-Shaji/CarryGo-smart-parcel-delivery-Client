@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { ParcelAction, ShipmentAction, WorkerShipmentDetails } from "../../../../../constants_Types/types/Worker/workerShipment";
+import type { ParcelAction, ShipmentAction, WorkerShipmentDetails } from "../../../../../shared/constants_Types/types/Worker/workerShipment";
 import { ShipmentHeader } from "./components/ShipmentHeader";
 import { ShipmentStats } from "./components/ShipmentStats";
 import { ParcelList } from "./components/ParcelList";

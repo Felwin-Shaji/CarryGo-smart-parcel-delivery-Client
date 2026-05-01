@@ -1,4 +1,4 @@
-import type { getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableHubWithAgencyDTO, getServiceableTravelerDTO } from "../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 export type DeliveryType = "AGENCY" | "TRAVELER";
 

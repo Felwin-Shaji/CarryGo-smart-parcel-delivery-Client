@@ -1,4 +1,4 @@
-import type { TransactionType, TransactionStatus } from "../../constants_Types/types/walletType";
+import type { TransactionType, TransactionStatus } from "../../shared/constants_Types/types/walletType";
 import { ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 
 export const getTransactionIcon = (type: string) => {

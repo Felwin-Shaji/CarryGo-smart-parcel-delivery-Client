@@ -1,8 +1,8 @@
 import toast from "react-hot-toast";
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
 import { useAxios } from "../../hooks/useAxios";
-import type { GetHubOverviewResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type";
-import type { GetHubsResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto";
+import type { GetHubOverviewResponseDTO } from "../../shared/constants_Types/types/Agency/HubOverview.type";
+import type { GetHubsResponseDTO } from "../../shared/constants_Types/types/Admin/AdminAgency.dto";
 
 export const useAgency = () => {
     const axiosInstance = useAxios();

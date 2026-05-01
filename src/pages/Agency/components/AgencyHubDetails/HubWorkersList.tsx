@@ -1,5 +1,5 @@
 import { Eye } from "lucide-react";
-import type { WorkerResponseDTO } from "../../../../constants_Types/types/Agency/HubOverview.type";
+import type { WorkerResponseDTO } from "../../../../shared/constants_Types/types/Agency/HubOverview.type";
 import { FiUsers } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 

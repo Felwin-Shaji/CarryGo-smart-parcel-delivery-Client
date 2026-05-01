@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { useAxios } from "../../hooks/useAxios";
-import { API_ADMIN } from "../../constants_Types/apiRoutes";
-import type { AdminResetPasswordRequestDTO, GetAdminProfileDTO } from "../../constants_Types/types/Admin/AdminProfile.dto";
+import { API_ADMIN } from "../../shared/constants_Types/apiRoutes";
+import type { AdminResetPasswordRequestDTO, GetAdminProfileDTO } from "../../shared/constants_Types/types/Admin/AdminProfile.dto";
 
 export const useAdminProfile = () => {
     const axiosInstance = useAxios();
