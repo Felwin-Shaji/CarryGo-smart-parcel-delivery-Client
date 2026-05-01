@@ -63,9 +63,8 @@ export const FilterBar = ({
         }
     }, [role, filters]);
 
-
     return (
-        <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm mt-4">
+        <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm mt-2 mb-2">
             <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap">
 
                 {/* Filter Icon */}

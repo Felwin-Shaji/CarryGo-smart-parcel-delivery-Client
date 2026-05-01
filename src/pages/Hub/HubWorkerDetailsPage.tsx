@@ -7,10 +7,13 @@ import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useHubAddWorker } from "../../Services/Hub/HubAddWorkers";
 import WorkerDetailsBase from "../../components/Workers/WorkerKycDetailsBase";
 import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
+import WorkerDashboardView from "../Worker/WorkerDashboard/WorkerDashboardView";
+import { SecondaryHeader } from "../../layouts/SecondaryHeader";
 
 export default function HubWorkerDetailsPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<"details" | "dashboard">("details");
 
     const { getWorkerById } = useHubAddWorker();
 
@@ -37,24 +40,38 @@ export default function HubWorkerDetailsPage() {
         <DashboardProvider role={ROLES.HUB}>
             <DashboardLayout pageTitle="Worker Details">
 
-                {/* BACK BUTTON */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-4 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
-                >
-                    ← Back
-                </button>
-
                 {loading && <LoadingScreen />}
 
-                {!loading && worker && (
-                    <WorkerDetailsBase
-                        worker={worker}
-                        showActions={false}
-                        canResubmit={worker.kycStatus === "REJECTED"}
-                    />
-                )}
+                {/* TAB HEADER */}
+                <SecondaryHeader
+                    title="Worker Dashboard"
+                    showBack
+                    onBack={() => navigate(-1)}
+                    tabs={[
+                        { key: "details", label: "Details" },
+                        { key: "dashboard", label: "Dashboard" },
+                    ]}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                />
 
+                {/* TAB CONTENT */}
+                <div className="mt-4">
+                    {activeTab === "details" && worker && (
+                        <WorkerDetailsBase
+                            worker={worker}
+                            showActions={false}
+                            canResubmit={worker.kycStatus === "REJECTED"}
+                        />
+                    )}
+
+                    {activeTab === "dashboard" && worker && (
+                        <WorkerDashboardView
+                            role={ROLES.HUB}
+                            workerId={worker.id}
+                        />
+                    )}
+                </div>
             </DashboardLayout>
         </DashboardProvider>
     );

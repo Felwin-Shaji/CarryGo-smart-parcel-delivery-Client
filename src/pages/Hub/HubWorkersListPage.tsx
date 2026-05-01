@@ -9,7 +9,7 @@ import { DataTable } from "../../components/Table/Table"
 import { HubWorkersListColumns } from "../../config/TableColumns/HubWorkersListTableColumns"
 
 export type WorkerTableRow = WorkerResponseDTO & {
-    id: string; 
+    id: string;
     __openModal: (_id: string) => void;
 };
 
@@ -55,7 +55,7 @@ const HubWorkersListPage = () => {
 
             const enhanced = response.data.map((worker: WorkerResponseDTO) => ({
                 ...worker,
-                 id: worker._id, 
+                id: worker._id,
                 __openModal: (_id: string) => {
                     navigate(`/hub/workers/${worker._id}`);
                 }
@@ -99,7 +99,7 @@ const HubWorkersListPage = () => {
         <DashboardProvider role={ROLES.HUB}>
             <DashboardLayout pageTitle="Hub Workers">
 
-
+                <div className="m-4 ">
                     <DataTable<WorkerTableRow>
                         data={rows}
                         columns={HubWorkersListColumns()}
@@ -115,7 +115,7 @@ const HubWorkersListPage = () => {
                         onFilterChange={setFilters}
                         loading={loading}
                     />
-
+                </div>
             </DashboardLayout>
         </DashboardProvider>
     )

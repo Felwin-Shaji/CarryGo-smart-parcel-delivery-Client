@@ -7,8 +7,14 @@ import { ActiveShipment } from "./Components/ActiveShipment";
 import { useNavigate } from "react-router-dom";
 import { ActiveShipmentSkeleton, GraphSkeleton, TableSkeleton, WorkerInfoSkeleton } from "./Components/WorkerSkeleton";
 import WorkerGraph from "./Components/WorkerGraph";
+import type { Roles } from "../../../constants_Types/types/roles";
 
-export default function WorkerDashboardView() {
+type prop = {
+  role: Roles
+  workerId?: string
+}
+
+export default function WorkerDashboardView({ role, workerId }: prop) {
   const navigate = useNavigate();
 
   const [page, setPage] = useState(1);
@@ -17,7 +23,7 @@ export default function WorkerDashboardView() {
     toDate?: string;
     status?: ShipmentParcelStatus;
   }>({});
-  const { parcels, graph, exportParcels, dashboard } = useWorkerDashboard(filters, page);
+  const { parcels, graph, exportParcels, dashboard } = useWorkerDashboard(filters, page, workerId);
 
 
   const handleFilterChange = (newFilters: WorkerParcelFilters) => {
@@ -32,7 +38,7 @@ export default function WorkerDashboardView() {
 
   if (!dashboard || !parcels || !graph) {
     return (
-      <div className="p-6">
+      <div className="m-4">
         <h1 className="text-2xl font-bold mb-4">
           Logistics Worker Dashboard
         </h1>
@@ -59,7 +65,7 @@ export default function WorkerDashboardView() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-2xl font-bold m-4">
         Logistics Worker Dashboard
       </h1>
 
@@ -83,7 +89,7 @@ export default function WorkerDashboardView() {
             className={`bg-white p-4 rounded-2xl shadow cursor-pointer transition hover:shadow-md ${activeShipment ? "hover:bg-gray-50" : "opacity-60 cursor-not-allowed"
               }`}
             onClick={() => {
-              if (activeShipment) {
+              if (activeShipment && role === "worker") {
                 navigate(`/worker/shipment/${activeShipment.id}`);
               }
             }}

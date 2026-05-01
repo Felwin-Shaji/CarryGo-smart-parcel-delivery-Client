@@ -7,7 +7,7 @@ const WorkerDashboardPage = () => {
   return (
     <DashboardProvider role={ROLES.WORKER}>
       <DashboardLayout>
-        <WorkerDashboardView />
+        <WorkerDashboardView role={ROLES.WORKER} />
       </DashboardLayout>
     </DashboardProvider>
   );

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import WorkerDetailsBase from "../../../../components/Workers/WorkerKycDetailsBase";
 import { useEffect, useState } from "react";
 import type { GetWorkerOverviewResponseDTO, KYCStatus } from "../../../../constants_Types/types/Worker/workerRequest.dto";
@@ -9,6 +9,8 @@ import { useAgencyHubWorker } from "../../../../Services/Agency/AgencyHubWorker"
 import toast from "react-hot-toast";
 import { confirmToast } from "../../../../components/globelcomponents/confirmToast";
 import RejectReasonModal from "../../../../components/globelcomponents/RejectReasonModal";
+import { SecondaryHeader } from "../../../../layouts/SecondaryHeader";
+import WorkerDashboardView from "../../../Worker/WorkerDashboard/WorkerDashboardView";
 
 export default function AgencyHubWorkerDetailsPage() {
     const { getAgencyHubWorker, updateWorkerKycStatus } = useAgencyHubWorker()
@@ -17,6 +19,9 @@ export default function AgencyHubWorkerDetailsPage() {
     const { id } = useParams();
     const [worker, setWorker] = useState<GetWorkerOverviewResponseDTO | null>(null);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<"details" | "dashboard">("details");
 
     useEffect(() => {
         const fetchWorker = async () => {
@@ -108,13 +113,35 @@ export default function AgencyHubWorkerDetailsPage() {
                         }}
                     />)}
 
-                    <WorkerDetailsBase
-                        worker={worker}
-                        showActions
-                        onApprove={() => updateKYC("APPROVED")}
-                        onReject={() => setShowRejectModal(true)}
-                        actionLoading={actionLoading}
+                    <SecondaryHeader
+                        title="Worker Dashboard"
+                        showBack
+                        onBack={() => navigate(-1)}
+                        tabs={[
+                            { key: "details", label: "Details" },
+                            { key: "dashboard", label: "Dashboard" },
+                        ]}
+                        activeTab={activeTab}
+                        onTabChange={setActiveTab}
                     />
+
+                    {activeTab === "details" && worker && (
+                        <WorkerDetailsBase
+                            worker={worker}
+                            showActions
+                            onApprove={() => updateKYC("APPROVED")}
+                            onReject={() => setShowRejectModal(true)}
+                            actionLoading={actionLoading}
+                        />
+                    )}
+
+                    {activeTab === "dashboard" && worker && (
+                        <WorkerDashboardView
+                            role={ROLES.AGENCY}
+                            workerId={worker.id}
+                        />
+                    )}
+
                 </DashboardLayout>
             </DashboardProvider>
         </>

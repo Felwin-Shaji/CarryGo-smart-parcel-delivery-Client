@@ -8,10 +8,10 @@ import Step2OtpVerify from "./components/Step2OtpVerify";
 import Step3UploadKYCWorker from "./components/Step3UploadKYCWorker";
 import Step1BasicInfoWorker from "./components/Step1BasicInfoWorker";
 
-export type WorkerRole = 
-  | "PICKUP" 
-  | "TRANSPORT" 
-  | "OUT_FOR_DELIVERY";
+export type WorkerRole =
+    | "PICKUP"
+    | "TRANSPORT"
+    | "OUT_FOR_DELIVERY";
 
 
 export interface AddWorkerPayload {
@@ -20,8 +20,8 @@ export interface AddWorkerPayload {
     email: string;
     mobile: string;
     role: "worker";
-    workerRole:WorkerRole;
-    tempWorkerId: string;  
+    workerRole: WorkerRole;
+    tempWorkerId: string;
 }
 
 const HubAddWorker = () => {
@@ -38,7 +38,7 @@ const HubAddWorker = () => {
         mobile: "",
         role: "worker",
         workerRole: "TRANSPORT",
-        tempWorkerId: ""  
+        tempWorkerId: ""
     });
 
     useEffect(() => {
@@ -73,39 +73,41 @@ const HubAddWorker = () => {
     return (
         <DashboardProvider role="hub">
             <DashboardLayout pageTitle="Add Worker">
+                <div className="m-4">
 
-                {step === 1 && (
-                    <Step1BasicInfoWorker
-                        formData={formData}
-                        setFormData={(data) =>
-                            setFormData((prev: AddWorkerPayload) => ({
-                                ...prev,
-                                ...data,   
-                            }))
-                        }
-                        setTempWorkerId={setTempWorkerId}
-                        setStep={setStep}
-                    />
+                    {step === 1 && (
+                        <Step1BasicInfoWorker
+                            formData={formData}
+                            setFormData={(data) =>
+                                setFormData((prev: AddWorkerPayload) => ({
+                                    ...prev,
+                                    ...data,
+                                }))
+                            }
+                            setTempWorkerId={setTempWorkerId}
+                            setStep={setStep}
+                        />
 
-                )}
+                    )}
 
 
-                {step === 2 && (
-                    <Step2OtpVerify
-                        email={formData.email}
-                        tempWorkerId={tempWorkerId}
-                        setStep={setStep}
-                    />
-                )}
+                    {step === 2 && (
+                        <Step2OtpVerify
+                            email={formData.email}
+                            tempWorkerId={tempWorkerId}
+                            setStep={setStep}
+                        />
+                    )}
 
-                {step === 3 && (
-                    <Step3UploadKYCWorker
-                        formData={formData}
-                        tempWorkerId={tempWorkerId}
-                        setStep={setStep}
-                    />
-                )}
+                    {step === 3 && (
+                        <Step3UploadKYCWorker
+                            formData={formData}
+                            tempWorkerId={tempWorkerId}
+                            setStep={setStep}
+                        />
+                    )}
 
+                </div>
             </DashboardLayout>
         </DashboardProvider>
     );

@@ -8,7 +8,7 @@ export interface WorkerParcelFilters {
     toDate?: string;
     status?: ShipmentParcelStatus;
 }
-export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: number) => {
+export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: number, workerId?: string) => {
     const service = useWorkerDashboardService();
 
     const [dashboard, setDashboard] = useState<GetWorkerDashboardResponseDTO>();
@@ -17,7 +17,7 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
     const [totalPages, setTotalPages] = useState(1);
 
     const fetchDashboard = async () => {
-        const res = await service.getDashboard();
+        const res = await service.getDashboard(workerId);
         console.log(res)
         setDashboard(res);
 
@@ -28,7 +28,9 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
             page,
             limit: 5,
             ...filters,
-        });
+        },
+            workerId
+        );
 
         setParcels(res);
         setTotalPages(res.totalPages);
@@ -36,7 +38,7 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
 
     const fetchGraph = async () => {
         try {
-            const res = await service.getGraph(filters);
+            const res = await service.getGraph(filters, workerId);
             console.log(res);
             setGraph(res.series);
         } catch (err) {
@@ -44,19 +46,17 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
         }
     };
 
-
     useEffect(() => {
         fetchDashboard();
-    }, []);
+    }, [workerId]);
 
     useEffect(() => {
         fetchParcels();
+    }, [page, filters, workerId]);
+
+    useEffect(() => {
         fetchGraph();
-    }, [filters]);
-
-    useEffect(() => {
-        fetchParcels();
-    }, [page, filters]);
+    }, [filters, workerId]);
 
     return {
         dashboard,
