@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, MapPin, MessageCircle, Phone, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import type { TravelerActionStatus, TripOrderUI } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TravelerActionStatus, TripOrderUI } from "../../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 import TrackingModal from "./TrackingModal";
 import { getStatusButtonColor, getStatusColor, STATUS_FLOW, STATUS_LABELS, STATUS_TRANSITIONS } from "../utils/TravelerTripDetailsHelper";
 import type { RootState } from "../../../../../store/store";

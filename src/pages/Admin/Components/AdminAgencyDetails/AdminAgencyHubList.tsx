@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { DataTable } from '../../../../components/Table/Table';
 import { AdminHubColumns } from '../../../../config/TableColumns/AdminAgencyHubTableColumn';
 import { FiPackage } from "react-icons/fi";
-import type { HubResponseDTO } from '../../../../constants_Types/types/Admin/AdminAgency.dto';
+import type { HubResponseDTO } from '../../../../shared/constants_Types/types/Admin/AdminAgency.dto';
 import { useNavigate } from 'react-router-dom';
 
 type AdminAgencyHubListProps = {

@@ -1,13 +1,13 @@
 import toast from "react-hot-toast"
 import { DataTable } from "../../components/Table/Table"
 import { AgencyHubsListColumns } from "../../config/TableColumns/AgencyHubsListTableColumns"
-import { ROLES } from "../../constants_Types/types/roles"
+import { ROLES } from "../../shared/constants_Types/types/roles"
 import { DashboardProvider } from "../../context/DashboardProvider"
 import { DashboardLayout } from "../../layouts/DashboardLayout"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAgency } from "../../Services/Agency/Agency"
-import type { HubResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto"
+import type { HubResponseDTO } from "../../shared/constants_Types/types/Admin/AdminAgency.dto"
 
 export type HubTableRow = HubResponseDTO & {
   __openModal: (id: string) => void;

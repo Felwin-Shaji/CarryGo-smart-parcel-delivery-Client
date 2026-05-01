@@ -3,10 +3,10 @@ import { pricingPolicySchema } from "../../../../validation/pricingPolicySchema"
 import { DashboardLayout } from "../../../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { useEffect, useState } from "react";
-import type { PricingPolicyResponseDTO } from "../../../../constants_Types/types/Admin/PricingPolicy.dto";
+import type { PricingPolicyResponseDTO } from "../../../../shared/constants_Types/types/Admin/PricingPolicy.dto";
 import { useAdminPricingPolicy } from "../../../../Services/Admin/AdminPricingPolicy";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
-import type { PricingPolicyFormDTO } from "../../../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
+import type { PricingPolicyFormDTO } from "../../../../shared/constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 
 export default function AdminAgencyPricing() {
 

@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
-import type { AgencyResetPasswordRequestDTO, GetAgencyProfileDTO } from "../../constants_Types/types/Agency/AgencyProfile.dto";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
+import type { AgencyResetPasswordRequestDTO, GetAgencyProfileDTO } from "../../shared/constants_Types/types/Agency/AgencyProfile.dto";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAgencyProfile = () => {

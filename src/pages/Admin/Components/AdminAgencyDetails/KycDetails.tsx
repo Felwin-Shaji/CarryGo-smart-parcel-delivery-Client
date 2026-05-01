@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { KycResponseDTO } from "../../../../constants_Types/types/Admin/AdminAgency.dto";
+import type { KycResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
 
 export interface KycDetailsProps {
   open: boolean;

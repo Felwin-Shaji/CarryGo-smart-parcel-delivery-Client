@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import RegistrationForm from '../../components/Forms/RegistrationForm';
-import { ROLES } from '../../constants_Types/types/roles';
+import { ROLES } from '../../shared/constants_Types/types/roles';
 import { useAuth } from '../../Services/Auth';
 
 

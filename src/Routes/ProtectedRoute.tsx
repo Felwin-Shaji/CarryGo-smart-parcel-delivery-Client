@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import type { RootState } from "../store/store";
-import { ROLES } from "../constants_Types/types/roles";
+import { ROLES } from "../shared/constants_Types/types/roles";
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
 
 

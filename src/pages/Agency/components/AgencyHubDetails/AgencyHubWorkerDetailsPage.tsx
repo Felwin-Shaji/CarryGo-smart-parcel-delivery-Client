@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import WorkerDetailsBase from "../../../../components/Workers/WorkerKycDetailsBase";
 import { useEffect, useState } from "react";
-import type { GetWorkerOverviewResponseDTO, KYCStatus } from "../../../../constants_Types/types/Worker/workerRequest.dto";
+import type { GetWorkerOverviewResponseDTO, KYCStatus } from "../../../../shared/constants_Types/types/Worker/workerRequest.dto";
 import { DashboardProvider } from "../../../../context/DashboardProvider";
-import { ROLES } from "../../../../constants_Types/types/roles";
+import { ROLES } from "../../../../shared/constants_Types/types/roles";
 import { DashboardLayout } from "../../../../layouts/DashboardLayout";
 import { useAgencyHubWorker } from "../../../../Services/Agency/AgencyHubWorker";
 import toast from "react-hot-toast";

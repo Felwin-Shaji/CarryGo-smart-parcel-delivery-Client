@@ -1,4 +1,4 @@
-import { API_USER } from "../../../constants_Types/apiRoutes";
+import { API_USER } from "../../../shared/constants_Types/apiRoutes";
 import { useAxios } from "../../../hooks/useAxios";
 import type { ExistingKyc } from "../../../pages/User/Traveler/TravelerConponents/TravelerKYCRejected";
 

@@ -1,4 +1,4 @@
-import { ROLES } from "../../constants_Types/types/roles";
+import { ROLES } from "../../shared/constants_Types/types/roles";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import WorkerDashboardView from "./WorkerDashboard/WorkerDashboardView";

@@ -1,5 +1,5 @@
 import { MapPin, User, Truck, Phone, MessageCircle } from "lucide-react";
-import type { TravelerParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import type { TravelerParcelTrackingDTO } from "../../../../../shared/constants_Types/types/User/Booking/ParcelTracking";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../../store/store";

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { ROLES } from "../constants_Types/types/roles";
+import { ROLES } from "../shared/constants_Types/types/roles";
 import PublicRoute from "./PublicRoute";
 import WorkerLogin from "../pages/Worker/WorkerLogin";
 import PageNotFound from "../pages/PageNotFound";

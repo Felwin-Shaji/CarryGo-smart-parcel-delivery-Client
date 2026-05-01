@@ -1,5 +1,5 @@
 import { FaStar, FaMapMarkerAlt, FaBox } from "react-icons/fa";
-import type { getServiceableTravelerDTO } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { getServiceableTravelerDTO } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 interface Props {
   traveler: getServiceableTravelerDTO;

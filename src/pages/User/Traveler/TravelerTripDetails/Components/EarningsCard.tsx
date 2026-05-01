@@ -1,4 +1,4 @@
-import type { TripDetailsUI } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TripDetailsUI } from "../../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 
 export const EarningsCard = ({ trip }: { trip: TripDetailsUI }) => {
   const completed = trip.orders

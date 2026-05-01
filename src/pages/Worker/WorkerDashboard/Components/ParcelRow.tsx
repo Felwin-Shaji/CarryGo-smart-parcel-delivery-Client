@@ -1,5 +1,5 @@
 
-import type { WorkerParcelItemDTO } from "../../../../constants_Types/types/Worker/WorkerDashboard";
+import type { WorkerParcelItemDTO } from "../../../../shared/constants_Types/types/Worker/WorkerDashboard";
 
 export const ParcelRow = ({ item }: { item: WorkerParcelItemDTO }) => {
   const formatDate = (date?: string | Date | null) => {

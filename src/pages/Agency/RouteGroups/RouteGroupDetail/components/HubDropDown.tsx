@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, MapPin, Search } from "lucide-react";
 import { useAgency } from "../../../../../Services/Agency/Agency";
-import type { HubResponseDTO } from "../../../../../constants_Types/types/Admin/AdminAgency.dto";
+import type { HubResponseDTO } from "../../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
 
 
 interface Props {

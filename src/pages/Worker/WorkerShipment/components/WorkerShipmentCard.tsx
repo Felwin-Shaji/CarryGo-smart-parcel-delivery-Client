@@ -1,5 +1,5 @@
 import { MapPin, Package, Calendar, ChevronRight } from "lucide-react";
-import type { WorkerShipment } from "../../../../constants_Types/types/Worker/workerShipment";
+import type { WorkerShipment } from "../../../../shared/constants_Types/types/Worker/workerShipment";
 import { useNavigate } from "react-router-dom";
 
 interface WorkerShipmentCardProps {

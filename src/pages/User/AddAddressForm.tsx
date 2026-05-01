@@ -6,7 +6,7 @@ import { Header } from "./components/Header";
 import { useAddress } from "../../Services/User/useAddress";
 import { useDebounce } from "../../hooks/useDebounce";
 import toast from "react-hot-toast";
-import type { AddressFormState, SaveAddressPayload } from "../../constants_Types/types/User/Address/address.type";
+import type { AddressFormState, SaveAddressPayload } from "../../shared/constants_Types/types/User/Address/address.type";
 import { confirmToast } from "../../components/globelcomponents/confirmToast";
 
 

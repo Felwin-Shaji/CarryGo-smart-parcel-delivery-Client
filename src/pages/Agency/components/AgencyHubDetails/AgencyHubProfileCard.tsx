@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { HubOverviewResponseDTO } from "../../../../constants_Types/types/Agency/HubOverview.type";
-import type { KYCStatus } from "../../../../constants_Types/types/roles";
+import type { HubOverviewResponseDTO } from "../../../../shared/constants_Types/types/Agency/HubOverview.type";
+import type { KYCStatus } from "../../../../shared/constants_Types/types/roles";
 import VerificationImageModal from "./VerificationImageModal";
 
 export default function AgencyHubProfileCard({ hub }: { hub: HubOverviewResponseDTO }) {

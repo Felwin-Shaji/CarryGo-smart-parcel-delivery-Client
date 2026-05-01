@@ -1,4 +1,4 @@
-import type { RouteSegmentDTO } from "../../../../../constants_Types/types/Agency/AgencyRouteSegment.dto";
+import type { RouteSegmentDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 
 export function formatTime(minutes: number | null) {
     if (!minutes) return "—";

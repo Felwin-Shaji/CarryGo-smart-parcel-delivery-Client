@@ -5,7 +5,7 @@ import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../../layouts/DashboardLayout";
 import AddSegmentModal from "./components/AddSegmentModal";
 import { useAgencyRouteGroup } from "../../../../Services/Agency/AgencyRouteGroup";
-import type { RouteGroupDetailDTO } from "../../../../constants_Types/types/Agency/AgencyRouteSegment.dto";
+import type { RouteGroupDetailDTO } from "../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 import { SegmentRow } from "./components/SegmentRow copy";
 import RouteSummaryHeader from "./components/RouteSummaryHeader";
 

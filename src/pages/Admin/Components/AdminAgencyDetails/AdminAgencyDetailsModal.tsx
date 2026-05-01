@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaLeftLong } from "react-icons/fa6";
 import { confirmToast } from "../../../../components/globelcomponents/confirmToast";
-import { KYCSTATUS, type KYCStatus } from "../../../../constants_Types/types/roles";
+import { KYCSTATUS, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
 import KycDetails from "./KycDetails";
 import RejectReasonModal from "../../../../components/globelcomponents/RejectReasonModal";
 import AgencyProfileCard from "./AgencyProfileCard";
@@ -10,7 +10,7 @@ import { useAdmin } from "../../../../Services/Admin/Admin";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
 import AdminAgencyHubList, { EmptyHubsState } from "./AdminAgencyHubList";
 import AdminAgencyDashboard from "./AdminAgencyDashboard";
-import type { AgencyWithKYCResponseDTO, GetHubsResponseDTO } from "../../../../constants_Types/types/Admin/AdminAgency.dto";
+import type { AgencyWithKYCResponseDTO, GetHubsResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
 import Breadcrumbs from "../../../../components/globelcomponents/Breadcrumbs";
 
 

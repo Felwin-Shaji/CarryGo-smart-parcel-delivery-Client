@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ROLES, type Roles } from "../../../constants_Types/types/roles"
+import { ROLES, type Roles } from "../../../shared/constants_Types/types/roles"
 import { DashboardProvider } from "../../../context/DashboardProvider"
 import { DashboardLayout } from "../../../layouts/DashboardLayout"
 import Step1BasicInfo from "./AddHubComponents/Step1BasicInfo"

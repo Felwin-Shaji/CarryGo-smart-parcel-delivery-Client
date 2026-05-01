@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ROLES } from '../../../../../constants_Types/types/roles';
+import { ROLES } from '../../../../../shared/constants_Types/types/roles';
 import { DashboardProvider } from '../../../../../context/DashboardProvider';
 import { DashboardLayout } from '../../../../../layouts/DashboardLayout';
 import WorkerDetailsBase from '../../../../../components/Workers/WorkerKycDetailsBase';
-import type { GetWorkerOverviewResponseDTO } from '../../../../../constants_Types/types/Worker/workerRequest.dto';
+import type { GetWorkerOverviewResponseDTO } from '../../../../../shared/constants_Types/types/Worker/workerRequest.dto';
 import { useAdminHubWorkers } from "../../../../../Services/Admin/AdminHubWorkers";
 import { SecondaryHeader } from "../../../../../layouts/SecondaryHeader";
 import WorkerDashboardView from "../../../../Worker/WorkerDashboard/WorkerDashboardView";

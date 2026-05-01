@@ -1,4 +1,4 @@
-import type { WorkerGraphPointDTO } from "../../../../constants_Types/types/Worker/WorkerDashboard";
+import type { WorkerGraphPointDTO } from "../../../../shared/constants_Types/types/Worker/WorkerDashboard";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, type TooltipProps } from "recharts";
 import { DashboardFilters } from "./DashboardFilters";
 import { BarChart3 } from "lucide-react";

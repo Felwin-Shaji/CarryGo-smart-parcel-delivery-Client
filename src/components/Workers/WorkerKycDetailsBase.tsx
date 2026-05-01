@@ -1,6 +1,6 @@
 import { FaEnvelope, FaPhoneAlt, FaWallet } from "react-icons/fa";
 import WorkerKycDetails from "./WorkerKycDetails";
-import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
+import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
 import { FaUser } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 

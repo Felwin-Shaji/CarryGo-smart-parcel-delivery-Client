@@ -1,7 +1,7 @@
-import { API_ADMIN } from "../../constants_Types/apiRoutes";
+import { API_ADMIN } from "../../shared/constants_Types/apiRoutes";
 import { useAxios } from "../../hooks/useAxios";
-import type { GetHubOverviewResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type";
-import type { KYCStatus } from "../../constants_Types/types/roles";
+import type { GetHubOverviewResponseDTO } from "../../shared/constants_Types/types/Agency/HubOverview.type";
+import type { KYCStatus } from "../../shared/constants_Types/types/roles";
 
 export const useAdminHub = () => {
     const axiosInstance = useAxios();

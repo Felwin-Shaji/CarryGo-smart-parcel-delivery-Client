@@ -9,7 +9,7 @@ import AgencyHubDashboard from "./AgencyHubDashboard";
 import type {
     HubOverviewResponseDTO,
     GetHubWorkersResponseDTO,
-} from "../../../../constants_Types/types/Agency/HubOverview.type";
+} from "../../../../shared/constants_Types/types/Agency/HubOverview.type";
 import HubWorkersList, { EmptyWorkersState } from "./HubWorkersList";
 
 export default function AgencyHubDetailsModal({ open, hubId, onClose, }: {

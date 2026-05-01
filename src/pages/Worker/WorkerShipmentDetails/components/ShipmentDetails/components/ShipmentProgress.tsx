@@ -1,5 +1,5 @@
-import type { ShipmentStatus } from "../../../../../../constants_Types/types/Hub/HubShipment";
-import type { ShipmentAction } from "../../../../../../constants_Types/types/Worker/workerShipment";
+import type { ShipmentStatus } from "../../../../../../shared/constants_Types/types/Hub/HubShipment";
+import type { ShipmentAction } from "../../../../../../shared/constants_Types/types/Worker/workerShipment";
 
 const steps: ShipmentStatus[] = [
   "PENDING",

@@ -1,6 +1,6 @@
 import { useAxios } from "../../hooks/useAxios";
-import type { CreateRouteGroupDTO, PaginatedRouteGroupResponseDTO, RouteGroupPaginationRequestDTO } from "../../constants_Types/types/Agency/AgencyRouteGroup.dto";
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
+import type { CreateRouteGroupDTO, PaginatedRouteGroupResponseDTO, RouteGroupPaginationRequestDTO } from "../../shared/constants_Types/types/Agency/AgencyRouteGroup.dto";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
 
 export const useAgencyRouteGroup = () => {
     const axiosInstance = useAxios();

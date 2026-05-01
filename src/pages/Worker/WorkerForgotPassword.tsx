@@ -1,5 +1,5 @@
 import ForgotPasswordForm from "../../components/Forms/ForgotPasswordForm"
-import { ROLES } from "../../constants_Types/types/roles"
+import { ROLES } from "../../shared/constants_Types/types/roles"
 import { useAuth } from "../../Services/Auth"
 
 const WorkerForgotPassword = () => {

@@ -1,4 +1,4 @@
-import type { Transaction } from "../../constants_Types/types/walletType";
+import type { Transaction } from "../../shared/constants_Types/types/walletType";
 // import { getTransactionIcon } from "./wallet.icons";
 import { getTransactionIcon, getTransactionStyles } from "./wallet.utils";
 

@@ -1,6 +1,6 @@
 import { ArrowLeft, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import type { BookingDetailsUI } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingDetailsUI } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 export const HeroStatusCard = ({ booking }: { booking: BookingDetailsUI }) => {
   const navigate = useNavigate();

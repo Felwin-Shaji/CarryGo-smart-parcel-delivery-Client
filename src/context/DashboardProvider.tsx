@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useAuth } from "../Services/Auth";
 import type { RootState } from "../store/store";
 import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
-import { ROLES, type Roles } from "../constants_Types/types/roles";
+import { ROLES, type Roles } from "../shared/constants_Types/types/roles";
 import { hunMenu } from "../config/SidebarMenu/hubMenu";
 import { workerMenu } from "../config/SidebarMenu/workerMenu";
 import LoadingScreen from "../components/loading/CarryGoLoadingScreen";

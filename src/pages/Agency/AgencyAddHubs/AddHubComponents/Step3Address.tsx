@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Step3Schema } from "../../../../validation/agencyAddHubb";
 import type { AddHubPayload } from "../AgencyAddHubs";
 import { lazy, Suspense } from "react";
-import { INDIA_STATE_CITY_MAP } from "../../../../constants_Types/Indiacities";
+import { INDIA_STATE_CITY_MAP } from "../../../../shared/constants_Types/Indiacities";
 
 const MapLocationPicker = lazy(() =>
     import("../../../../components/Map/MapLocationPicker")

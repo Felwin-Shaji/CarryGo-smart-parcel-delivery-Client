@@ -2,7 +2,7 @@ import { Formik, Form, } from "formik";
 import { Header } from "../components/Header";
 import { travelRequestValidationSchema } from "../../../validation/createTravelRequestSchema";
 import { useEffect, useState } from "react";
-import type { CreateTravelRequestDTO, TransportMode } from "../../../constants_Types/types/User/Traveler/TravelerType";
+import type { CreateTravelRequestDTO, TransportMode } from "../../../shared/constants_Types/types/User/Traveler/TravelerType";
 import { useTravelRequest } from "../../../Services/User/Traveler/TravelRequest";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";

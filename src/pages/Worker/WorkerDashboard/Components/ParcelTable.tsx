@@ -1,4 +1,4 @@
-import type { WorkerParcelItemDTO } from "../../../../constants_Types/types/Worker/WorkerDashboard";
+import type { WorkerParcelItemDTO } from "../../../../shared/constants_Types/types/Worker/WorkerDashboard";
 import { ParcelRow } from "./ParcelRow";
 
 export interface ParcelTableProps {

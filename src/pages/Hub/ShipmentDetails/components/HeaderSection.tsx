@@ -1,4 +1,4 @@
-import type { ShipmentDetailsUI } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { ShipmentDetailsUI } from "../../../../shared/constants_Types/types/Hub/HubShipment";
 
 export default function HeaderSection({
   shipment,

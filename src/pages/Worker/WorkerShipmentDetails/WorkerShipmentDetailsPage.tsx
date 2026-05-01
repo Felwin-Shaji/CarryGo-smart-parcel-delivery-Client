@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { ParcelAction, ShipmentAction, WorkersBookingDetailsUI, WorkerShipmentDetails } from "../../../constants_Types/types/Worker/workerShipment";
+import type { ParcelAction, ShipmentAction, WorkersBookingDetailsUI, WorkerShipmentDetails } from "../../../shared/constants_Types/types/Worker/workerShipment";
 import ShipmentDetails from "./components/ShipmentDetails/ShipmentDetails";
 import { useWorkerShipments } from "../../../Services/Worker/WorkersShipment";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../../context/DashboardProvider";
-import { ROLES } from "../../../constants_Types/types/roles";
+import { ROLES } from "../../../shared/constants_Types/types/roles";
 import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
 import { BookingDetailsModal } from "./components/BookingDetailsModal";
 import { mapParcelActionToStatus, mapShipmentActionToStatus } from "./utils";

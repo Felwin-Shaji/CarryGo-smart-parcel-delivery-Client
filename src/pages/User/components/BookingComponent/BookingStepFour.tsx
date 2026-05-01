@@ -5,7 +5,7 @@ import PricingBreakdownCard from "./BookingStepsComponents/PricingBreakdownCard"
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import ServicePartnerCard from "./BookingStepsComponents/ServicePartnerCard";
 import { useBooking } from "../../../../Services/User/Booking/createBooking";
-import type { CalculatePricePayload } from "../../../../constants_Types/types/User/Booking/createBookingType";
+import type { CalculatePricePayload } from "../../../../shared/constants_Types/types/User/Booking/createBookingType";
 import { useEffect } from "react";
 import { OrderSummary } from "./BookingStepsComponents/OrderSummary";
 

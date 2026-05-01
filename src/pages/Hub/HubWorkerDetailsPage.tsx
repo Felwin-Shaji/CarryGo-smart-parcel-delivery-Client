@@ -2,11 +2,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
-import { ROLES } from "../../constants_Types/types/roles";
+import { ROLES } from "../../shared/constants_Types/types/roles";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useHubAddWorker } from "../../Services/Hub/HubAddWorkers";
 import WorkerDetailsBase from "../../components/Workers/WorkerKycDetailsBase";
-import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
+import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
 import WorkerDashboardView from "../Worker/WorkerDashboard/WorkerDashboardView";
 import { SecondaryHeader } from "../../layouts/SecondaryHeader";
 

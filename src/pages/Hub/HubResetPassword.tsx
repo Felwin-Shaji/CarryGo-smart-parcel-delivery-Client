@@ -1,5 +1,5 @@
 import ResetPasswordForm from "../../components/Forms/ResetPasswordForm"
-import { ROLES } from "../../constants_Types/types/roles"
+import { ROLES } from "../../shared/constants_Types/types/roles"
 import { useAuth } from "../../Services/Auth"
 
 const HubResetPassword = () => {

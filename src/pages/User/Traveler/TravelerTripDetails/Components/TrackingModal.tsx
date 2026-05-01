@@ -1,5 +1,5 @@
 import { MapPin, Navigation } from "lucide-react";
-import type { TripOrderUI } from "../../../../../constants_Types/types/User/Traveler/TravelerType";
+import type { TripOrderUI } from "../../../../../shared/constants_Types/types/User/Traveler/TravelerType";
 
 export default function TrackingModal({
     order,

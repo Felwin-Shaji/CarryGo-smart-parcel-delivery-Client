@@ -1,6 +1,6 @@
 import { Eye } from "lucide-react";
 import type { Column } from "../../components/Table/Table";
-import type { HubResponseDTO } from "../../constants_Types/types/Admin/AdminAgency.dto";
+import type { HubResponseDTO } from "../../shared/constants_Types/types/Admin/AdminAgency.dto";
 
 export const AdminHubColumns = (
   handleViewHub: (hub: HubResponseDTO) => void

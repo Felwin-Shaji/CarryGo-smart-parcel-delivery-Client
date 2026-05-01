@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
-import { ROLES } from "../../constants_Types/types/roles";
+import { ROLES } from "../../shared/constants_Types/types/roles";
 
 const AdminHubDetailsModal = React.lazy(() =>
     import("./Components/AdminHubDetails/AdminHubDetailsModal")

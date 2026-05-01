@@ -6,7 +6,7 @@ import AgencyDashboard from "../pages/Agency/AgencyDashboard";
 import AgencyOtpVarification from "../pages/Agency/AgencyOtpVarification";
 import AgencyLogin from "../pages/Agency/AgencyLogin";
 import AgencyAddHubs from "../pages/Agency/AgencyAddHubs/AgencyAddHubs";
-import { ROLES } from "../constants_Types/types/roles";
+import { ROLES } from "../shared/constants_Types/types/roles";
 import AgencyHubsList from "../pages/Agency/AgencyHubsList";
 import PageNotFound from "../pages/PageNotFound";
 import AgencyForgotPassword from "../pages/Agency/AgencyForgotPassword";

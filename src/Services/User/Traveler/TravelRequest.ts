@@ -1,6 +1,6 @@
-import { API_USER } from "../../../constants_Types/apiRoutes";
-import type { BookingListResponse } from "../../../constants_Types/types/User/Booking/bookingResponse.dto";
-import type { CreateTravelRequestDTO, TripDetailsUI } from "../../../constants_Types/types/User/Traveler/TravelerType";
+import { API_USER } from "../../../shared/constants_Types/apiRoutes";
+import type { BookingListResponse } from "../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
+import type { CreateTravelRequestDTO, TripDetailsUI } from "../../../shared/constants_Types/types/User/Traveler/TravelerType";
 import { useAxios } from "../../../hooks/useAxios"
 import type { PaginatedTravelRequestResponse, TravelRequestListParams } from "../../../pages/User/Traveler/TravelerConponents/TravelerTravelRequestList";
 

@@ -1,5 +1,5 @@
 import { Package, User, Calendar, MapPin } from "lucide-react";
-import type { Shipment } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { Shipment } from "../../../../shared/constants_Types/types/Hub/HubShipment";
 import { useNavigate } from "react-router-dom";
 import type { ShipmentType } from "../ShipmentManagementPage";
 

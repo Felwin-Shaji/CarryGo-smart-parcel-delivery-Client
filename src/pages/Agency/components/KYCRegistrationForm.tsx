@@ -9,7 +9,7 @@ import type { RootState } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 import { updateAgencyKycStatus } from "../../../store/Slice/agencySlice";
 import { useState } from "react";
-import { API_AGENCY } from "../../../constants_Types/apiRoutes";
+import { API_AGENCY } from "../../../shared/constants_Types/apiRoutes";
 
 
 

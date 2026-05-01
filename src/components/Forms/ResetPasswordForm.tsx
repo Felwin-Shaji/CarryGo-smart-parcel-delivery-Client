@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { resetPasswordSchema } from "../../validation/forgotPassword";
-import type { Roles } from "../../constants_Types/types/roles";
+import type { Roles } from "../../shared/constants_Types/types/roles";
 import { useParams } from "react-router-dom";
 import logo from "../../assets/carrygo-logo.png";
 

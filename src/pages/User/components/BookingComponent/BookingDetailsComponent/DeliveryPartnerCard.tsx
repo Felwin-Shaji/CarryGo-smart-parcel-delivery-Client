@@ -1,5 +1,5 @@
 import { Truck } from "lucide-react";
-import type { BookingDetailsUI } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingDetailsUI } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 export const DeliveryPartnerCard = ( {booking} :{booking:BookingDetailsUI}) => (
   <div className="bg-white border rounded-xl p-6 shadow-sm">

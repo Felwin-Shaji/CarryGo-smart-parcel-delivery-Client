@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import TrackingView from "./components/TrackingView";
-import type { AgencyParcelTrackingDTO, TravelerParcelTrackingDTO } from "../../../../constants_Types/types/User/Booking/ParcelTracking";
+import type { AgencyParcelTrackingDTO, TravelerParcelTrackingDTO } from "../../../../shared/constants_Types/types/User/Booking/ParcelTracking";
 import TrackingEmptyState from "./components/TrackingEmptyState";
 import TravelerTrackingView from "./components/TravelerTrackingView";
 

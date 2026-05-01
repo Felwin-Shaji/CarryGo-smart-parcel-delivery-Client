@@ -1,9 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import type { TravelerPricingFormType } from "../../../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
+import type { TravelerPricingFormType } from "../../../../shared/constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 import { useAdminPricingPolicy } from "../../../../Services/Admin/AdminPricingPolicy";
-import type { TravelerPricingPolicyResponseDTO } from "../../../../constants_Types/types/Admin/PricingPolicy.dto";
+import type { TravelerPricingPolicyResponseDTO } from "../../../../shared/constants_Types/types/Admin/PricingPolicy.dto";
 import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../../layouts/DashboardLayout";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";

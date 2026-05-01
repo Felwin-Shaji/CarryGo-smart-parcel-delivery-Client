@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { BookingStatusType, BookingUI, PaymentStatusType } from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingStatusType, BookingUI, PaymentStatusType } from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 export const BookingCard = ({ booking }: { booking: BookingUI }) => {
   const navigate = useNavigate();

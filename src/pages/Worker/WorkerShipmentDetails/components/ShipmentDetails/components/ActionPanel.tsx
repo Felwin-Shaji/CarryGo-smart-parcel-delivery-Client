@@ -1,4 +1,4 @@
-import type { ShipmentAction } from "../../../../../../constants_Types/types/Worker/workerShipment";
+import type { ShipmentAction } from "../../../../../../shared/constants_Types/types/Worker/workerShipment";
 
 export function ActionPanel({
   status,

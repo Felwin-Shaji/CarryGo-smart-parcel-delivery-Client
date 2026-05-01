@@ -1,5 +1,5 @@
 import { Check, Truck } from "lucide-react";
-import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import type { AgencyParcelTrackingDTO } from "../../../../../shared/constants_Types/types/User/Booking/ParcelTracking";
 
 interface Props {
     legs: AgencyParcelTrackingDTO["route"]["legs"];

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { ShipmentParcelStatus } from "../../../../constants_Types/types/Hub/HubShipment";
+import type { ShipmentParcelStatus } from "../../../../shared/constants_Types/types/Hub/HubShipment";
 
 interface Props {
     onApply: (filters: {

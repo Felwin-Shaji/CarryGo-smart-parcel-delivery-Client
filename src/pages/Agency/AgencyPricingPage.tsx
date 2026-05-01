@@ -5,7 +5,7 @@ import { DashboardProvider } from "../../context/DashboardProvider";
 import { useAgencyPricing } from "../../Services/Agency/AgencyPricing";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { agencyPricingSchema } from "../../validation/agencyPricingSchema";
-import type { AgencyPricingResponseDTO } from "../../constants_Types/types/Agency/AgencyPricing.dto";
+import type { AgencyPricingResponseDTO } from "../../shared/constants_Types/types/Agency/AgencyPricing.dto";
 import { confirmToast } from "../../components/globelcomponents/confirmToast";
 
 interface AgencyPricingFormValues {

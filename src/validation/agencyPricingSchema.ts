@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { PricingPolicyDTO } from "../constants_Types/types/Admin/PricingPolicy.dto";
+import type { PricingPolicyDTO } from "../shared/constants_Types/types/Admin/PricingPolicy.dto";
 
 export const agencyPricingSchema = (policy: PricingPolicyDTO) =>
   Yup.object({

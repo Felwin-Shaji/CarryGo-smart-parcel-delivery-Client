@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../hooks/useAxios";
-import { API_HUB } from "../../constants_Types/apiRoutes"; // change path if needed
+import { API_HUB } from "../../shared/constants_Types/apiRoutes"; // change path if needed
 import toast from "react-hot-toast";
-import type { TempRegisterWorkerResponseDto } from "../../constants_Types/types/Worker/workerResponse.dto";
-import type { GetHubWorkersResponseDTO } from "../../constants_Types/types/Agency/HubOverview.type";
+import type { TempRegisterWorkerResponseDto } from "../../shared/constants_Types/types/Worker/workerResponse.dto";
+import type { GetHubWorkersResponseDTO } from "../../shared/constants_Types/types/Agency/HubOverview.type";
 import type { WorkerRole } from "../../pages/Hub/HubAddWorkers";
-import type { GetWorkerOverviewResponseDTO } from "../../constants_Types/types/Worker/workerRequest.dto";
+import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
 
 export const useHubAddWorker = () => {
     const axiosInstance = useAxios();

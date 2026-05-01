@@ -1,5 +1,5 @@
-import { API_ADMIN } from "../../constants_Types/apiRoutes";
-import type { UserWithKYCResponseDTO } from "../../constants_Types/types/Admin/AdminUserTypes";
+import { API_ADMIN } from "../../shared/constants_Types/apiRoutes";
+import type { UserWithKYCResponseDTO } from "../../shared/constants_Types/types/Admin/AdminUserTypes";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAdminUser = () => {

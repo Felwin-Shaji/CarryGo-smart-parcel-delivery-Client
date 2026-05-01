@@ -1,5 +1,5 @@
 import { User, Mail, Phone, Wallet, ShieldCheck, ShieldX } from "lucide-react";
-import { type KYCStatus } from "../../../../constants_Types/types/roles";
+import { type KYCStatus } from "../../../../shared/constants_Types/types/roles";
 
 interface UserProfileCardProps {
   user: {

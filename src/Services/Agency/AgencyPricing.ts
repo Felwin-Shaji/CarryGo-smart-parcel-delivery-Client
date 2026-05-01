@@ -1,6 +1,6 @@
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
 import { useAxios } from "../../hooks/useAxios";
-import type { AgencyPricingRequestDTO, AgencyPricingResponseDTO } from "../../constants_Types/types/Agency/AgencyPricing.dto";
+import type { AgencyPricingRequestDTO, AgencyPricingResponseDTO } from "../../shared/constants_Types/types/Agency/AgencyPricing.dto";
 import toast from "react-hot-toast";
 
 

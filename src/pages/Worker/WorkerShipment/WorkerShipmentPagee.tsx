@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { DashboardProvider } from "../../../context/DashboardProvider";
-import { ROLES } from "../../../constants_Types/types/roles";
+import { ROLES } from "../../../shared/constants_Types/types/roles";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { FilterBar } from "../../Hub/ShipmentManagement/components/FilterBar";
-import type { UIShipmentFilters } from "../../../constants_Types/types/Hub/HubShipment";
+import type { UIShipmentFilters } from "../../../shared/constants_Types/types/Hub/HubShipment";
 import { useWorkerShipments } from "../../../Services/Worker/WorkersShipment";
 import { WorkerShipmentCard } from "./components/WorkerShipmentCard";
-import type { WorkerShipment } from "../../../constants_Types/types/Worker/workerShipment";
+import type { WorkerShipment } from "../../../shared/constants_Types/types/Worker/workerShipment";
 
 const WorkerShipmentPage = () => {
   const { getShipments } = useWorkerShipments();

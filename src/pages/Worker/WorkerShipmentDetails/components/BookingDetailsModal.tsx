@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { WorkersBookingDetailsUI } from "../../../../constants_Types/types/Worker/workerShipment";
+import type { WorkersBookingDetailsUI } from "../../../../shared/constants_Types/types/Worker/workerShipment";
 
 interface BookingDetailsModalProps {
   booking: WorkersBookingDetailsUI | null;

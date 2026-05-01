@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { useAxios } from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
-import { API_AGENCY } from "../../constants_Types/apiRoutes";
+import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
 import type { AddHubPayload } from "../../pages/Agency/AgencyAddHubs/AgencyAddHubs";
 import type { HubOtpMeta } from "../../pages/Agency/AgencyAddHubs/AddHubComponents/Step1BasicInfo";
 

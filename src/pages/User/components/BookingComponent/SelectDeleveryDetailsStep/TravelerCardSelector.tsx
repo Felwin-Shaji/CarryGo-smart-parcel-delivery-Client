@@ -1,6 +1,6 @@
 import type {
   getServiceableTravelerDTO,
-} from "../../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+} from "../../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 interface Props {
   travelers: getServiceableTravelerDTO[];

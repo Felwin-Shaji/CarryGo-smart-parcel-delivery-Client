@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import type { AddHubPayload } from "../AgencyAddHubs";
 import { Step1Schema } from "../../../../validation/agencyAddHubb";
 import { useAgencyAddHub } from "../../../../Services/Agency/AgencyAddHub";
-import type { Roles } from "../../../../constants_Types/types/roles";
+import type { Roles } from "../../../../shared/constants_Types/types/roles";
 import { useState } from "react";
 
 interface Step1Props {

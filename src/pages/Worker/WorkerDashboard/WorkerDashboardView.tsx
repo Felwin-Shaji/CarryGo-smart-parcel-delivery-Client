@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ShipmentParcelStatus } from "../../../constants_Types/types/Hub/HubShipment";
+import type { ShipmentParcelStatus } from "../../../shared/constants_Types/types/Hub/HubShipment";
 import { useWorkerDashboard, type WorkerParcelFilters } from "../../../Services/Worker/WorkerDashboard/useWorkerDashboard";
 import { ParcelTable } from "./Components/ParcelTable";
 import { WorkerInfo } from "./Components/WorkerInfo";
@@ -7,7 +7,7 @@ import { ActiveShipment } from "./Components/ActiveShipment";
 import { useNavigate } from "react-router-dom";
 import { ActiveShipmentSkeleton, GraphSkeleton, TableSkeleton, WorkerInfoSkeleton } from "./Components/WorkerSkeleton";
 import WorkerGraph from "./Components/WorkerGraph";
-import type { Roles } from "../../../constants_Types/types/roles";
+import type { Roles } from "../../../shared/constants_Types/types/roles";
 
 type prop = {
   role: Roles

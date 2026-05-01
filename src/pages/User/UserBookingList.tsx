@@ -5,7 +5,7 @@ import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { UserPagination } from "./components/UserPagination";
 import { NoBookings } from "./components/BookingComponent/BookingListing/NoBookings";
 import { AdvancedBookingFilter } from "./components/BookingComponent/BookingListing/AdvancedBookingFilter";
-import type { BookingStatusFilter, BookingUI, PaymentStatusFilter, } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingStatusFilter, BookingUI, PaymentStatusFilter, } from "../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 import { BookingCard } from "./components/BookingComponent/BookingListing/BookingCard";
 import { useSearchParams } from "react-router-dom";
 

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useHubAddWorker } from "../../../../Services/Hub/HubAddWorkers";
 import type { ShipmentType } from "../../ShipmentManagement/ShipmentManagementPage";
 import type { WorkerRole } from "../../HubAddWorkers";
-import type { WorkerResponseDTO } from "../../../../constants_Types/types/Agency/HubOverview.type";
+import type { WorkerResponseDTO } from "../../../../shared/constants_Types/types/Agency/HubOverview.type";
 
 interface Props {
     value: string;

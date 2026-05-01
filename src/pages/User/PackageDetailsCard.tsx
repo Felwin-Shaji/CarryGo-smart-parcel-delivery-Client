@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useBooking } from "../../Services/User/Booking/createBooking";
 import { Header } from "./components/Header";
-import type { BookingDetailsUI } from "../../constants_Types/types/User/Booking/bookingResponse.dto";
+import type { BookingDetailsUI } from "../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 import { HeroStatusCard } from "./components/BookingComponent/BookingDetailsComponent/HeroStatusCard";
 import { DeliveryPartnerCard } from "./components/BookingComponent/BookingDetailsComponent/DeliveryPartnerCard";
 import { PaymentSection } from "./components/BookingComponent/BookingDetailsComponent/PaymentSection";

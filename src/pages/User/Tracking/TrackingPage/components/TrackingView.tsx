@@ -1,4 +1,4 @@
-import type { AgencyParcelTrackingDTO } from "../../../../../constants_Types/types/User/Booking/ParcelTracking";
+import type { AgencyParcelTrackingDTO } from "../../../../../shared/constants_Types/types/User/Booking/ParcelTracking";
 import RouteProgress from "./RouteProgress";
 import ShipmentDetails from "./ShipmentDetails";
 import TrackingHeader from "./TrackingHeader";

@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
-import { API_ADMIN } from "../../constants_Types/apiRoutes";
-import type { PricingPolicyResponseDTO, TravelerPricingPolicyResponseDTO } from "../../constants_Types/types/Admin/PricingPolicy.dto";
-import type { PricingPolicyFormDTO, TravelerPricingFormType } from "../../constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
+import { API_ADMIN } from "../../shared/constants_Types/apiRoutes";
+import type { PricingPolicyResponseDTO, TravelerPricingPolicyResponseDTO } from "../../shared/constants_Types/types/Admin/PricingPolicy.dto";
+import type { PricingPolicyFormDTO, TravelerPricingFormType } from "../../shared/constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useAdminPricingPolicy = () => {

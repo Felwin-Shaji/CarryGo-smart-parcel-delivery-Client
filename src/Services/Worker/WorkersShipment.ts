@@ -1,6 +1,6 @@
-import { API_WORKER } from "../../constants_Types/apiRoutes";
-import type { ShipmentStatus, UIShipmentFilters } from "../../constants_Types/types/Hub/HubShipment";
-import type { HubShipmentPaginatedData, WorkersBookingDetailsUI, WorkerShipmentParcel } from "../../constants_Types/types/Worker/workerShipment";
+import { API_WORKER } from "../../shared/constants_Types/apiRoutes";
+import type { ShipmentStatus, UIShipmentFilters } from "../../shared/constants_Types/types/Hub/HubShipment";
+import type { HubShipmentPaginatedData, WorkersBookingDetailsUI, WorkerShipmentParcel } from "../../shared/constants_Types/types/Worker/workerShipment";
 import { useAxios } from "../../hooks/useAxios";
 
 export const useWorkerShipments = () => {

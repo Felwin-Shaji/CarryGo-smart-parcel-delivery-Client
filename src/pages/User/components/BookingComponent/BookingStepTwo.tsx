@@ -3,7 +3,7 @@ import { useBookingContext } from "../../../../context/Booking/BookingContext";
 import type {
   getServiceableHubWithAgencyDTO,
   getServiceableTravelerDTO,
-} from "../../../../constants_Types/types/User/Booking/bookingResponse.dto";
+} from "../../../../shared/constants_Types/types/User/Booking/bookingResponse.dto";
 
 import BookingLayout from "./BookingStepsComponents/BookingLayout";
 import PartnerTabs from "./BookingStepsComponents/PartnerTabs";
