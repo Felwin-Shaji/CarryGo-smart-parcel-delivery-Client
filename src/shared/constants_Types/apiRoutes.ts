@@ -79,6 +79,10 @@ export const API_HUB = {
   FIELD_TASKS: "/api/hub/field-task",
   ASSIGN_PICKUPS: "/api/hub/pickups/assign",
 
+  GET_PROFILE: "/api/hub/profile",
+  UPDATE_PROFILE: "/api/hub/edit-profile",
+  RESET_PASSWORD: "/api/hub/reset-password",
+
   SHIPMENT: "/api/hub/shipments",
 };
 

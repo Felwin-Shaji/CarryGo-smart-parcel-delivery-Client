@@ -14,6 +14,7 @@ import HubWorkerDetailsPage from "../pages/Hub/HubWorkerDetailsPage"
 import WorkerKycResubmit from "../components/Workers/components/WorkerKycResubmit"
 import { ShipmentManagementPage } from "../pages/Hub/ShipmentManagement/ShipmentManagementPage"
 import ShipmentDetailsPage from "../pages/Hub/ShipmentDetails/ShipmentDetailsPage"
+import HubProfilePage from "../pages/Hub/Profile/HubProfilePage"
 
 const HubRoutes = () => {
     return (
@@ -33,6 +34,7 @@ const HubRoutes = () => {
                 <Route path="workers" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubWorkersListPage /></ProtectedRoute>} />
                 <Route path="workers/:id" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubWorkerDetailsPage /></ProtectedRoute>} />
                 <Route path="workers/kyc/resubmit/:id" element={<ProtectedRoute requiredRole={ROLES.HUB}><WorkerKycResubmit /></ProtectedRoute>} />
+                <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubProfilePage /></ProtectedRoute>} />
                 
                 <Route path="shipments" element={<ProtectedRoute requiredRole={ROLES.HUB}><ShipmentManagementPage /></ProtectedRoute>} />
                 <Route path="shipments/:shipmentId" element={<ProtectedRoute requiredRole={ROLES.HUB}><ShipmentDetailsPage /></ProtectedRoute>} />
