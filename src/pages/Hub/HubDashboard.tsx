@@ -5,7 +5,7 @@ import { DashboardLayout } from "../../layouts/DashboardLayout"
 import type { RootState } from "../../store/store";
 import HubKYCWaiting from "./components/HubDashboard/KYCWaiting";
 import HubKYCRejected from "./components/HubDashboard/HubKYCRejected";
-import HubDashboardContents from "./components/HubDashboard/HubDashboardContents";
+import HubDashboardContents from "./components/HubDashboard/HubDashboardView";
 
 const HubDashboard = () => {
   const { hub } = useSelector((state: RootState) => state.hubState);
@@ -24,7 +24,7 @@ const HubDashboard = () => {
         return <HubKYCRejected />;
 
       case KYCSTATUS.APPROVED:
-        return <HubDashboardContents />;
+        return <HubDashboardContents role={ROLES.HUB} />;
     }
   }
 
