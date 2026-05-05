@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { SectionCard } from "./Components/SectionCard";
 import { StatsGrid } from "./Components/StatCard";
 import { DonutChart } from "./Components/DonutChart";
@@ -16,6 +16,7 @@ import { SectionActionButton } from "./Components/SectionActionButton";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { HubDashboardSkeleton } from "./Components/HubDashboardSkeleton";
+import { TrendFilter } from "./Components/TrendFilter";
 
 type Props = {
   role?: Roles;
@@ -23,9 +24,13 @@ type Props = {
 
 const HubDashboardView = ({ role }: Props) => {
   const navigate = useNavigate();
-  const { summary, trend, types, shipments } = useHubDashboard();
+  const { summary, trend, types, shipments, fetchTrend } = useHubDashboard();
+
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   const columns = useMemo(() => getShipmentColumns(), []);
+
 
   const isHub = role === "hub";
 
@@ -48,7 +53,23 @@ const HubDashboardView = ({ role }: Props) => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
-          <SectionCard title="Shipment Trend">
+          <SectionCard
+            title="Shipment Trend"
+            action={
+              <TrendFilter
+                fromDate={fromDate}
+                toDate={toDate}
+                onChangeFrom={setFromDate}
+                onChangeTo={setToDate}
+                onApply={() => fetchTrend({ from: fromDate, to: toDate })}
+                onClear={() => {
+                  setFromDate("");
+                  setToDate("");
+                  fetchTrend();
+                }}
+              />
+            }
+          >
             <TrendChart
               data={trend.map((t) => ({
                 date: t.date,
