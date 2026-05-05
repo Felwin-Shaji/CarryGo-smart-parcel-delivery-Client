@@ -11,16 +11,15 @@ export const useHubDashboard = () => {
     const [types, setTypes] = useState<GetHubDashboardTypesResponseDTO>();
     const [shipments, setShipments] = useState<HubShipmentListItemDTO[]>([]);
 
+
+
     const fetchSummary = async () => {
-        const res = await service.getSummary({
-            from: "2026-05-01",
-            to: "2026-05-05",
-        });
+        const res = await service.getSummary();
         setSummary(res);
     };
 
-    const fetchTrend = async () => {
-        const res = await service.getTrend();
+    const fetchTrend = async (params?: { from?: string; to?: string }) => {
+        const res = await service.getTrend(params);
         setTrend(res.trend);
     };
 
@@ -46,5 +45,6 @@ export const useHubDashboard = () => {
         trend,
         types,
         shipments,
+        fetchTrend
     };
 };

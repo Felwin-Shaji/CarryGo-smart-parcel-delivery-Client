@@ -1,4 +1,4 @@
-import type { Shipment, ShipmentStatus, ShipmentType } from "./HubShipment";
+import type {  ShipmentStatus, ShipmentType } from "./HubShipment";
 
 /**
  * GET /hub/dashboard/summary

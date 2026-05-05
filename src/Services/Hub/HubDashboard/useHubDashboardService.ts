@@ -6,15 +6,11 @@ export const useHubDashboardService = () => {
     const axiosInstance = useAxios();
 
     const getSummary = async (
-        params?: { from?: string; to?: string }
     ): Promise<GetHubDashboardSummaryResponseDTO> => {
 
         const res = await axiosInstance.get(
             API_HUB.GET_DASHBOARD_SUMMARY,
-            // { params }
         );
-
-        console.log("111111111111111111111", res.data.data)
 
         return res.data.data;
     };
@@ -40,6 +36,8 @@ export const useHubDashboardService = () => {
             );
             return res.data.data;
         };
+
+
 
     return {
         getSummary,
