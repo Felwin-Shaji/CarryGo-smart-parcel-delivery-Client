@@ -161,3 +161,7 @@ select:focus {
   }
 }
 
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none !important;
+}

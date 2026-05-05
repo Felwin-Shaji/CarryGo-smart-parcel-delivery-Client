@@ -84,6 +84,11 @@ export const API_HUB = {
   RESET_PASSWORD: "/api/hub/reset-password",
 
   SHIPMENT: "/api/hub/shipments",
+
+  GET_DASHBOARD_SUMMARY: "/api/hub/dashboard/summary",
+  GET_DASHBOARD_TREND: "/api/hub/dashboard/trend",
+  GET_DASHBOARD_TYPES: "/api/hub/dashboard/types",
+  GET_DASHBOARD_SHIPMENTS_PREVIEW: "/api/hub/dashboard/shipments-preview",
 };
 
 
