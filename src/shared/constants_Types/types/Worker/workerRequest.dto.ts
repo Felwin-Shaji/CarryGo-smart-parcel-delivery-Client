@@ -31,6 +31,8 @@ export interface GetWorkerOverviewResponseDTO {
   email: string;
   mobile?: string;
 
+  hubId:string;
+
   role: Roles;
   workerRole: WorkerRole;
   workingStatus: WorkingStatus;

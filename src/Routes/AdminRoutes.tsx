@@ -37,8 +37,8 @@ const AdminRoutes = () => {
 
         <Route path="agency" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyList /></ProtectedRoute>} />
         <Route path="agency/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminAgencyDetailsPage /></ProtectedRoute>} />
-        <Route path="agency/:agencyId/hubs/:hubId" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminHubDetailsPage /></ProtectedRoute>} />           
-        <Route path="agency/hub/worker/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminHubWorkerDetails /></ProtectedRoute>} />           
+        <Route path="agency/:agencyId/hubs/:hubId" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminHubDetailsPage /></ProtectedRoute>} />
+        <Route path="agency/:agencyId/hubs/worker/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminHubWorkerDetails /></ProtectedRoute>} />
 
         <Route path="users" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserList /></ProtectedRoute>} />
         <Route path="users/:id" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminUserDetailsPage /></ProtectedRoute>} />
