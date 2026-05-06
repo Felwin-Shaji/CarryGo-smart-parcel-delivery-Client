@@ -20,11 +20,12 @@ import { TrendFilter } from "./Components/TrendFilter";
 
 type Props = {
   role?: Roles;
+  hubId?: string;
 };
 
-const HubDashboardView = ({ role }: Props) => {
+const HubDashboardView = ({ role, hubId }: Props) => {
   const navigate = useNavigate();
-  const { summary, trend, types, shipments, fetchTrend } = useHubDashboard();
+  const { summary, trend, types, shipments, fetchTrend } = useHubDashboard(hubId);
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");

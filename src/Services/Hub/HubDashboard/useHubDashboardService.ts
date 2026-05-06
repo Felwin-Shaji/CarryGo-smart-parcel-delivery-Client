@@ -5,39 +5,50 @@ import type { GetHubDashboardShipmentsPreviewResponseDTO, GetHubDashboardSummary
 export const useHubDashboardService = () => {
     const axiosInstance = useAxios();
 
-    const getSummary = async (
-    ): Promise<GetHubDashboardSummaryResponseDTO> => {
+    const getSummary = async (hubId?: string): Promise<GetHubDashboardSummaryResponseDTO> => {
 
-        const res = await axiosInstance.get(
-            API_HUB.GET_DASHBOARD_SUMMARY,
-        );
+        const url = hubId
+            ? `${API_HUB.GET_DASHBOARD_SUMMARY}/${hubId}`
+            : API_HUB.GET_DASHBOARD_SUMMARY;
 
-        return res.data.data;
-    };
-    const getTrend = async (params?: {
-        from?: string;
-        to?: string;
-    }): Promise<GetHubDashboardTrendResponseDTO> => {
-        const res = await axiosInstance.get(API_HUB.GET_DASHBOARD_TREND, {
-            params,
-        });
+        const res = await axiosInstance.get(url);
         return res.data.data;
     };
 
-    const getTypes = async (): Promise<GetHubDashboardTypesResponseDTO> => {
-        const res = await axiosInstance.get(API_HUB.GET_DASHBOARD_TYPES);
+    const getTrend = async (
+        params?: { from?: string; to?: string },
+        hubId?: string
+    ): Promise<GetHubDashboardTrendResponseDTO> => {
+
+        const url = hubId
+            ? `${API_HUB.GET_DASHBOARD_TREND}/${hubId}`
+            : API_HUB.GET_DASHBOARD_TREND;
+
+        const res = await axiosInstance.get(url, { params });
         return res.data.data;
     };
 
-    const getShipmentsPreview =
-        async (): Promise<GetHubDashboardShipmentsPreviewResponseDTO> => {
-            const res = await axiosInstance.get(
-                API_HUB.GET_DASHBOARD_SHIPMENTS_PREVIEW
-            );
-            return res.data.data;
-        };
+    const getTypes = async (hubId?: string): Promise<GetHubDashboardTypesResponseDTO> => {
 
+        const url = hubId
+            ? `${API_HUB.GET_DASHBOARD_TYPES}/${hubId}`
+            : API_HUB.GET_DASHBOARD_TYPES;
 
+        const res = await axiosInstance.get(url);
+
+        return res.data.data;
+    };
+
+    const getShipmentsPreview = async (hubId?: string): Promise<GetHubDashboardShipmentsPreviewResponseDTO> => {
+
+        const url = hubId
+            ? `${API_HUB.GET_DASHBOARD_SHIPMENTS_PREVIEW}/${hubId}`
+            : API_HUB.GET_DASHBOARD_SHIPMENTS_PREVIEW;
+
+        const res = await axiosInstance.get(url);
+
+        return res.data.data;
+    };
 
     return {
         getSummary,
