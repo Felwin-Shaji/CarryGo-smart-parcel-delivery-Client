@@ -11,6 +11,7 @@ import { confirmToast } from "../../../../components/globelcomponents/confirmToa
 import RejectReasonModal from "../../../../components/globelcomponents/RejectReasonModal";
 import { SecondaryHeader } from "../../../../layouts/SecondaryHeader";
 import WorkerDashboardView from "../../../Worker/WorkerDashboard/WorkerDashboardView";
+import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
 
 export default function AgencyHubWorkerDetailsPage() {
     const { getAgencyHubWorker, updateWorkerKycStatus } = useAgencyHubWorker()
@@ -123,6 +124,14 @@ export default function AgencyHubWorkerDetailsPage() {
                         ]}
                         activeTab={activeTab}
                         onTabChange={setActiveTab}
+                    />
+
+                    <Breadcrumbs
+                        items={[
+                            { label: "Hubs", to: "/agency/hubs" },
+                            { label: "Hub", to: `/agency/hub/${worker?.hubId}` },
+                            { label: worker?.name || "Worker" },
+                        ]}
                     />
 
                     {activeTab === "details" && worker && (

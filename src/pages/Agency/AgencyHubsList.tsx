@@ -115,9 +115,10 @@ const AgencyHubsList = () => {
     }
   };
   return (
-    <>
-      <DashboardProvider role={ROLES.AGENCY}>
-        <DashboardLayout>
+
+    <DashboardProvider role={ROLES.AGENCY}>
+      <DashboardLayout>
+        <div className="p-4">
           <DataTable<HubTableRow>
             data={enhancedRows}
             columns={AgencyHubsListColumns(handleStatusToggle)}
@@ -135,8 +136,10 @@ const AgencyHubsList = () => {
             onFilterChange={setFilters}
             loading={loading}
           />
-        </DashboardLayout>
-      </DashboardProvider></>
+        </div>
+      </DashboardLayout>
+    </DashboardProvider>
+
   )
 }
 
