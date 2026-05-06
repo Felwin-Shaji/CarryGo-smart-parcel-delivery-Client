@@ -3,7 +3,7 @@ import { useHubDashboardService } from "./useHubDashboardService";
 import type { GetHubDashboardSummaryResponseDTO, GetHubDashboardTypesResponseDTO, HubShipmentListItemDTO, HubShipmentTrendItemDTO } from "../../../shared/constants_Types/types/Hub/HubDashboard";
 
 
-export const useHubDashboard = () => {
+export const useHubDashboard = (hubId?: string) => {
     const service = useHubDashboardService();
 
     const [summary, setSummary] = useState<GetHubDashboardSummaryResponseDTO>();
@@ -11,25 +11,23 @@ export const useHubDashboard = () => {
     const [types, setTypes] = useState<GetHubDashboardTypesResponseDTO>();
     const [shipments, setShipments] = useState<HubShipmentListItemDTO[]>([]);
 
-
-
     const fetchSummary = async () => {
-        const res = await service.getSummary();
+        const res = await service.getSummary(hubId);
         setSummary(res);
     };
 
     const fetchTrend = async (params?: { from?: string; to?: string }) => {
-        const res = await service.getTrend(params);
+        const res = await service.getTrend(params, hubId);
         setTrend(res.trend);
     };
 
     const fetchTypes = async () => {
-        const res = await service.getTypes();
+        const res = await service.getTypes(hubId);
         setTypes(res);
     };
 
     const fetchShipments = async () => {
-        const res = await service.getShipmentsPreview();
+        const res = await service.getShipmentsPreview(hubId);
         setShipments(res.recentShipments);
     };
 
@@ -38,7 +36,7 @@ export const useHubDashboard = () => {
         fetchTrend();
         fetchTypes();
         fetchShipments();
-    }, []);
+    }, [hubId]);
 
     return {
         summary,

@@ -3,13 +3,16 @@ import toast from "react-hot-toast";
 import { confirmToast } from "../../../../components/globelcomponents/confirmToast";
 import RejectReasonModal from "../../../../components/globelcomponents/RejectReasonModal";
 import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
-import { KYCSTATUS, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
+import { KYCSTATUS, ROLES, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
 import type { GetHubOverviewResponseDTO } from "../../../../shared/constants_Types/types/Agency/HubOverview.type";
-import HubWorkersList, { EmptyWorkersState } from "../../../Agency/components/AgencyHubDetails/HubWorkersList";
 import AdminHubProfileCard from "./AdminHubProfileCard";
-import Breadcrumbs from "../../../../components/globelcomponents/Breadcrumbs";
 import { useAdminHub } from "../../../../Services/Admin/AdminHub";
 import AgencyHubDashboard from "../../../Agency/components/AgencyHubDetails/AgencyHubDashboard";
+import { SecondaryHeader } from "../../../../layouts/SecondaryHeader";
+import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
+import { useNavigate } from "react-router-dom";
+import { HubWorkersTable } from "../../../Agency/components/AgencyHubDetails/HubWorkersTable";
+import { useAgency } from "../../../../Services/Agency/Agency";
 
 
 export default function AdminHubDetailsModal({
@@ -24,6 +27,11 @@ export default function AdminHubDetailsModal({
     onUpdated: () => void;
 }) {
     const { getHubDetailsById, updateHubKycStatus } = useAdminHub();
+    const { getHubWrokersList } = useAgency();
+
+    const navigate = useNavigate();
+
+    const [activeTab, setActiveTab] = useState<"details" | "workers" | "dashboard">("details");
 
 
     const [loading, setLoading] = useState(false);
@@ -56,7 +64,7 @@ export default function AdminHubDetailsModal({
     if (loading) return <LoadingScreen />;
     if (!hubData) return null;
 
-    const { hub, workers } = hubData;
+    const { hub } = hubData;
 
     const breadcrumbs = [
         { label: "Agency", to: "/admin/agency" },
@@ -64,10 +72,7 @@ export default function AdminHubDetailsModal({
         { label: hub.name },
     ];
 
-    const canTakeAction =
-        hub.kycStatus === "REGISTERED" ||
-        hub.kycStatus === "RESUBMITTED" ||
-        hub.kycStatus === "PENDING";
+
 
     const updateKYC = async (status: KYCStatus, reason?: string) => {
         let message = "Are you sure?";
@@ -100,8 +105,8 @@ export default function AdminHubDetailsModal({
 
     return (
         <>
-            <Breadcrumbs items={breadcrumbs} />
 
+            {/* MODALS */}
             {showRejectReasonModal && (
                 <RejectReasonModal
                     open
@@ -111,36 +116,66 @@ export default function AdminHubDetailsModal({
                 />
             )}
 
-            {/* BODY */}
-            <div className="mt-6 space-y-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* HEADER */}
+            <SecondaryHeader
+                title="Hub Dashboard"
+                showBack
+                onBack={() => navigate(-1)}
+                tabs={[
+                    { key: "details", label: "Details" },
+                    { key: "dashboard", label: "Dashboard" },
+                    { key: "workers", label: "Workers" },
+                ]}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+            />
 
-                    {/* HUB PROFILE */}
-                    <div className="lg:col-span-4 bg-white p-5 rounded-2xl shadow-sm">
+            {/* BREADCRUMB */}
+            <Breadcrumbs items={breadcrumbs} />
+
+            {/* BODY */}
+            <div className="p-4">
+
+
+                {/* HUB PROFILE */}
+                {activeTab === "details" &&
+                    <div className="">
                         <AdminHubProfileCard
+                            role={ROLES.ADMIN}
                             hub={hub}
-                            canTakeAction={canTakeAction}
                             loading={actionLoading}
                             onApprove={() => updateKYC("APPROVED")}
                             onReject={() => setShowRejectReasonModal(true)}
                         />
                     </div>
+                }
 
-                    {/* WORKERS */}
-                    <div className="lg:col-span-8 bg-white p-6 rounded-3xl border shadow-sm">
-                        {workers && workers.data.length > 0 ? (
-                            <HubWorkersList
-                                workers={workers.data}
-                                getWorkerRoute={(worker) => `/admin/agency/hub/worker/${worker._id}`}
+
+                {/* WORKERS */}
+                {activeTab === "workers" &&
+
+                    <div className="lg:col-span-8">
+                        <div className="bg-white p-6 rounded-3xl border shadow-sm">
+                            <HubWorkersTable
+                                fetchFn={(params) =>
+                                    getHubWrokersList(hubId, params)
+                                }
+                                onRowClick={(id) => {
+                                    return (navigate(`/admin/agency/${hub.agencyId}/hubs/worker/${id}`))
+                                }}
                             />
-                        ) : (
-                            <EmptyWorkersState />
-                        )}
+                        </div>
                     </div>
-                </div>
-                {/* BOTTOM — DASHBOARD */}
-                <AgencyHubDashboard hubId={hub.id} />
+                }
+
+                {/* DASHBOARD */}
+                {activeTab === "dashboard" &&
+                    <AgencyHubDashboard hubId={hub.id} />
+                }
+
             </div>
+
+
         </>
     );
 }

@@ -12,27 +12,33 @@ export default function Breadcrumbs({
   items: BreadcrumbItem[];
 }) {
   return (
-    <nav className="mb-4 flex items-center text-sm text-gray-600">
-      {items.map((item, index) => (
-        <div key={index} className="flex items-center">
-          {item.to ? (
-            <Link
-              to={item.to}
-              className="hover:text-gray-900 font-medium"
-            >
-              {item.label}
-            </Link>
-          ) : (
-            <span className="font-semibold text-gray-900">
-              {item.label}
-            </span>
-          )}
+    <div className="w-full bg-blue-50 border-b border-blue-100">
+      <nav className="px-6 py-1.5 flex items-center text-xs">
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1;
 
-          {index < items.length - 1 && (
-            <ChevronRight className="mx-2 h-4 w-4 text-gray-400" />
-          )}
-        </div>
-      ))}
-    </nav>
+          return (
+            <div key={index} className="flex items-center">
+              {item.to && !isLast ? (
+                <Link
+                  to={item.to}
+                  className="text-blue-700 hover:text-blue-900 font-medium transition"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <span className="text-gray-800 font-semibold">
+                  {item.label}
+                </span>
+              )}
+
+              {!isLast && (
+                <ChevronRight className="mx-1.5 h-3.5 w-3.5 text-blue-300" />
+              )}
+            </div>
+          );
+        })}
+      </nav>
+    </div>
   );
 }

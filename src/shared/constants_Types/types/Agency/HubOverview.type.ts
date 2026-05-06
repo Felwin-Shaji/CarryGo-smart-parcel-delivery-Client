@@ -56,3 +56,14 @@ export interface GetHubOverviewResponseDTO {
     hub: HubOverviewResponseDTO;
     workers: GetHubWorkersResponseDTO;
 }
+
+export type GetHubWorkersParams = {
+  page: number;
+  limit: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  kycStatus?: string;
+  startDate?: string;
+  endDate?: string;
+};
