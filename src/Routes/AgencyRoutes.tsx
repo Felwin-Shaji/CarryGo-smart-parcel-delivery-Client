@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import PublicRoute from "./PublicRoute";
 import AgencyRegistration from "../pages/Agency/AgencyRegistration";
 import ProtectedRoute from "./ProtectedRoute";
-import AgencyDashboard from "../pages/Agency/AgencyDashboard";
+import AgencyDashboard from "../pages/Agency/AgencyDashboard/AgencyDashboard";
 import AgencyOtpVarification from "../pages/Agency/AgencyOtpVarification";
 import AgencyLogin from "../pages/Agency/AgencyLogin";
 import AgencyAddHubs from "../pages/Agency/AgencyAddHubs/AgencyAddHubs";

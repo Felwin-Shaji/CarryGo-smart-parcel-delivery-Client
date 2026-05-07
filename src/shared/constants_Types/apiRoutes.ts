@@ -41,6 +41,12 @@ export const API_AGENCY = {
   GET_WALLET: "/api/agency/wallet",
   CREATE_ORDER_WALLET: "/api/agency/wallet/create-order",
   WITHDRAW_WALLET: "/api/agency/wallet/withdraw",
+
+  GET_DASHBOARD: "/api/agency/dashboard",
+  GET_SALES_CHART: "/api/agency/dashboard/sales-chart",
+  GET_DELIVERIES_CHART: "/api/agency/dashboard/deliveries-chart",
+  GET_SALES_REPORT: "/api/agency/dashboard/sales-report",
+  GET_SALES_REPORT_EXPORT: "/api/agency/dashboard/sales-report/export",
 }
 
 

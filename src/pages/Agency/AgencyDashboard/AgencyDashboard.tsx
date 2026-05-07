@@ -1,12 +1,12 @@
-import { DashboardLayout } from "../../layouts/DashboardLayout";
-import { DashboardProvider } from "../../context/DashboardProvider";
+import { DashboardLayout } from "../../../layouts/DashboardLayout";
+import { DashboardProvider } from "../../../context/DashboardProvider";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
-import KYCRegistrationForm from "./components/KYCRegistrationForm";
-import KYCWaiting from "./components/KYCWaiting";
-import KYCRejected from "./components/KYCRejected";
-import DashboardContents from "./components/DashboardContents";
-import { KYCSTATUS, ROLES } from "../../shared/constants_Types/types/roles";
+import type { RootState } from "../../../store/store";
+import KYCRegistrationForm from "../components/KYCRegistrationForm";
+import KYCWaiting from "../components/KYCWaiting";
+import KYCRejected from "../components/KYCRejected";
+import { KYCSTATUS, ROLES } from "../../../shared/constants_Types/types/roles";
+import AgencyDashboardPage from "./Components/AgencyDashboardPage";
 
 
 
@@ -29,7 +29,7 @@ const AgencyDashboard = () => {
                 return <KYCRejected />;
 
             case KYCSTATUS.APPROVED:
-                return <DashboardContents/>;
+                return <AgencyDashboardPage />;
         }
     };
 
