@@ -8,6 +8,8 @@ import "react-tooltip/dist/react-tooltip.css";
 import { useDashboard } from "../context/DashboardContext";
 import toast from "react-hot-toast";
 import { confirmToast } from "../components/globelcomponents/confirmToast";
+import NotificationModal from "../components/globelcomponents/NotificationModal";
+import { useNotificationsState } from "../Services/Notification/useNotificationsState";
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -20,12 +22,14 @@ export const DashboardLayout = ({
     pageTitle = "Dashboard",
 
 }: DashboardLayoutProps) => {
+    const { notifications, unreadCount, handleMarkAsRead, handleMarkAllAsRead } = useNotificationsState();
 
     const { menuItems, handleLogout, userName } = useDashboard();
 
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -127,10 +131,25 @@ export const DashboardLayout = ({
                         <div className="flex items-center gap-2">
                             <span className="text-lg font-medium">{userName}</span>
                         </div>
-                        <button className="relative">
-                            <Bell size={20} />
-                            <span className="absolute top-0 right-0 h-2 w-2 bg-purple-500 rounded-full"></span>
-                        </button>
+                        <div className="relative">
+                            <button onClick={() => setIsOpen(!isOpen)} className="relative">
+                                <Bell size={20} />
+
+                                {unreadCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 text-xs bg-red-500 px-1 rounded-full">
+                                        {unreadCount}
+                                    </span>
+                                )}
+                            </button>
+
+                            <NotificationModal
+                                isOpen={isOpen}
+                                notifications={notifications}
+                                onClose={() => setIsOpen(false)}
+                                onMarkAsRead={handleMarkAsRead}
+                                onMarkAllAsRead={handleMarkAllAsRead}
+                            />
+                        </div>
 
                         <button onClick={() => confirmToast("Are you sure you need to logout", handleLogout)} className="hover:text-blue-400">
                             <LogOut size={22} />

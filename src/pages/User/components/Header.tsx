@@ -9,6 +9,8 @@ import { NavItem } from "./NavItem";
 import { Dropdown, DropdownItem, DropdownSeparator } from "../../../components/globelcomponents/DropdownMenu";
 // import CarryGoLogo from "../../../assets/CarryGoLogo";
 import Logo from "../../../assets/CarryGo-Transparent-icon.png";
+import { useNotificationsState } from "../../../Services/Notification/useNotificationsState";
+import NotificationModal from "../../../components/globelcomponents/NotificationModal";
 
 
 interface HeaderProps {
@@ -31,6 +33,15 @@ const navItems: NavItem[] = [
 export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
   const { handleLogoutt } = useAuth();
   const navigate = useNavigate()
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    notifications,
+    unreadCount,
+    handleMarkAsRead,
+    handleMarkAllAsRead,
+  } = useNotificationsState();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.userState)
@@ -95,21 +106,36 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
                 icon={<Package className="h-5 w-5" />}
               />
 
-              <div
-                className="relative flex items-center justify-center
-                h-9 w-9 rounded-lg
-                text-white/70
-                transition-all duration-200
-                hover:bg-white/5 hover:text-white
-                active:scale-95"
-              >
-                <Bell className="h-5 w-5 transition-transform duration-200 group-hover:scale-105" />
+              <div className="relative">
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="relative flex items-center justify-center
+                    rounded-full
+                    text-white
+                    transition-all duration-200
+                    hover:bg-white/10 hover:text-white"
+                >
+                  <Bell className="h-5 w-5" />
 
-                {/* Notification Dot */}
-                <span
-                  className="absolute top-2 right-2 h-2.5 w-2.5
-               rounded-full bg-yellow-400
-               ring-2 ring-[#0A2374]"
+                  {unreadCount > 0 && (
+                    <span
+                      className="absolute -top-1 -right-1 min-w-[20px] h-[20px]
+                        flex items-center justify-center
+                        text-[11px] font-bold
+                        bg-red-500 text-white
+                        rounded-full shadow-md"
+                    >
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+
+                <NotificationModal
+                  isOpen={isOpen}
+                  notifications={notifications}
+                  onClose={() => setIsOpen(false)}
+                  onMarkAsRead={handleMarkAsRead}
+                  onMarkAllAsRead={handleMarkAllAsRead}
                 />
               </div>
 
