@@ -152,3 +152,9 @@ export const API_CHAT = {
   MESSAGES: "/api/chat/messages",
 };
 
+export const API_NOTIFICATION = {
+  GET_ALL: "/api/notifications",
+  MARK_AS_READ: "/api/notifications/read",
+  MARK_ALL_AS_READ: "/api/notifications/read-all",
+  UNREAD_COUNT: "/api/notifications/unread-count",
+};
