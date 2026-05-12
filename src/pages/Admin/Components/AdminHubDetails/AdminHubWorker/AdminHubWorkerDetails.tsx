@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ROLES } from '../../../../../shared/constants_Types/types/roles';
 import { DashboardProvider } from '../../../../../context/DashboardProvider';
 import { DashboardLayout } from '../../../../../layouts/DashboardLayout';
-import WorkerDetailsBase from '../../../../../components/Workers/WorkerKycDetailsBase';
+import WorkerDetailsBase from "../../../../../shared/components/Workers/WorkerKycDetailsBase";
 import type { GetWorkerOverviewResponseDTO } from '../../../../../shared/constants_Types/types/Worker/workerRequest.dto';
 import { useAdminHubWorkers } from "../../../../../Services/Admin/AdminHubWorkers";
 import { SecondaryHeader } from "../../../../../layouts/SecondaryHeader";

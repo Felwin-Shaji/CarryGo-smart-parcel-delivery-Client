@@ -5,7 +5,7 @@ import { DashboardProvider } from "../../context/DashboardProvider";
 import { ROLES } from "../../shared/constants_Types/types/roles";
 import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
 import { useHubAddWorker } from "../../Services/Hub/HubAddWorkers";
-import WorkerDetailsBase from "../../components/Workers/WorkerKycDetailsBase";
+import WorkerDetailsBase from "../../shared/components/Workers/WorkerKycDetailsBase";
 import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";
 import WorkerDashboardView from "../Worker/WorkerDashboard/WorkerDashboardView";
 import { SecondaryHeader } from "../../layouts/SecondaryHeader";

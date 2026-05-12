@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import WorkerDetailsBase from "../../../../components/Workers/WorkerKycDetailsBase";
+import WorkerDetailsBase from "../../../../shared/components/Workers/WorkerKycDetailsBase";
 import { useEffect, useState } from "react";
 import type { GetWorkerOverviewResponseDTO, KYCStatus } from "../../../../shared/constants_Types/types/Worker/workerRequest.dto";
 import { DashboardProvider } from "../../../../context/DashboardProvider";

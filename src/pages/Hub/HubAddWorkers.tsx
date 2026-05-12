@@ -70,6 +70,26 @@ const HubAddWorker = () => {
         fetchStatus();
     }, [formData.email]);
 
+    const resetWorkerFlow = () => {
+        localStorage.removeItem("otpWorkerMeta");
+        localStorage.removeItem("workerStep1Data");
+        localStorage.removeItem("workerRegistrationSession");
+
+        setTempWorkerId(null);
+
+        setFormData({
+            hubId: hubId!,
+            name: "",
+            email: "",
+            mobile: "",
+            role: "worker",
+            workerRole: "TRANSPORT",
+            tempWorkerId: ""
+        });
+
+        setStep(1);
+    };
+
     return (
         <DashboardProvider role="hub">
             <DashboardLayout pageTitle="Add Worker">
@@ -103,7 +123,7 @@ const HubAddWorker = () => {
                         <Step3UploadKYCWorker
                             formData={formData}
                             tempWorkerId={tempWorkerId}
-                            setStep={setStep}
+                            resetWorkerFlow={resetWorkerFlow}
                         />
                     )}
 

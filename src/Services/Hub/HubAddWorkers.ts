@@ -79,7 +79,7 @@ export const useHubAddWorker = () => {
      */
     const resendOtp = async (email: string) => {
         const res = await axiosInstance.post(API_HUB.WORKER_RESEND_OTP, { email });
-        return res.data;
+        return res.data.data;
     };
 
 
