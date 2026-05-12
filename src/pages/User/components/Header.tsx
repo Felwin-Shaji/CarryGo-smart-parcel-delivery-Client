@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { FaAddressBook } from "react-icons/fa6";
 import { NavItem } from "./NavItem";
 import { Dropdown, DropdownItem, DropdownSeparator } from "../../../components/globelcomponents/DropdownMenu";
-// import CarryGoLogo from "../../../assets/CarryGoLogo";
 import Logo from "../../../assets/CarryGo-Transparent-icon.png";
 import { useNotificationsState } from "../../../Services/Notification/useNotificationsState";
-import NotificationModal from "../../../components/globelcomponents/NotificationModal";
+import NotificationModal from "../../../shared/components/globelcomponents/NotificationModal";
+import type { Roles } from "../../../shared/constants_Types/types/roles";
 
 
 interface HeaderProps {
@@ -32,6 +32,9 @@ const navItems: NavItem[] = [
 
 export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
   const { handleLogoutt } = useAuth();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useSelector((state: RootState) => state.userState)
   const navigate = useNavigate()
 
   const [isOpen, setIsOpen] = useState(false);
@@ -41,10 +44,11 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
     unreadCount,
     handleMarkAsRead,
     handleMarkAllAsRead,
-  } = useNotificationsState();
+    hasMore,
+    loadMoreNotifications,
+    loading
+  } = useNotificationsState(user?.role as Roles);
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { user } = useSelector((state: RootState) => state.userState)
   const LoginButton = () => (
     <button
       onClick={() => navigate("/login")}
@@ -133,6 +137,9 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
                 <NotificationModal
                   isOpen={isOpen}
                   notifications={notifications}
+                  loading={loading}
+                  hasMore={hasMore}
+                  loadMoreNotifications={loadMoreNotifications}
                   onClose={() => setIsOpen(false)}
                   onMarkAsRead={handleMarkAsRead}
                   onMarkAllAsRead={handleMarkAllAsRead}

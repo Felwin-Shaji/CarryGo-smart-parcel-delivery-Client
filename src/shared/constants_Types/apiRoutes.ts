@@ -1,3 +1,4 @@
+import type { Roles } from "./types/roles";
 
 export const API_AUTH = {
   SEND_OTP: "/api/auth/send-otp",
@@ -47,6 +48,11 @@ export const API_AGENCY = {
   GET_DELIVERIES_CHART: "/api/agency/dashboard/deliveries-chart",
   GET_SALES_REPORT: "/api/agency/dashboard/sales-report",
   GET_SALES_REPORT_EXPORT: "/api/agency/dashboard/sales-report/export",
+
+  GET_ALL: "/api/agency/notifications",
+  MARK_AS_READ: "/api/agency/notifications/read",
+  MARK_ALL_AS_READ: "/api/agency/notifications/read-all",
+  UNREAD_COUNT: "/api/agency/notifications/unread-count",
 }
 
 
@@ -68,6 +74,11 @@ export const API_ADMIN = {
   GET_WALLET: "/api/admin/wallet",
   CREATE_ORDER_WALLET: "/api/admin/wallet/create-order",
   WITHDRAW_WALLET: "/api/admin/wallet/withdraw",
+
+  GET_ALL: "/api/admin/notifications",
+  MARK_AS_READ: "/api/admin/notifications/read",
+  MARK_ALL_AS_READ: "/api/admin/notifications/read-all",
+  UNREAD_COUNT: "/api/admin/notifications/unread-count",
 }
 
 export const API_HUB = {
@@ -96,6 +107,11 @@ export const API_HUB = {
   GET_DASHBOARD_TREND: "/api/hub/dashboard/trend",
   GET_DASHBOARD_TYPES: "/api/hub/dashboard/types",
   GET_DASHBOARD_SHIPMENTS_PREVIEW: "/api/hub/dashboard/shipments-preview",
+
+  GET_ALL: "/api/hub/notifications",
+  MARK_AS_READ: "/api/hub/notifications/read",
+  MARK_ALL_AS_READ: "/api/hub/notifications/read-all",
+  UNREAD_COUNT: "/api/hub/notifications/unread-count",
 };
 
 
@@ -113,11 +129,9 @@ export const API_USER = {
   CREATE_ORDER_WALLET: "/api/user/wallet/create-order",
   WITHDRAW_WALLET: "/api/user/wallet/withdraw",
 
-  // BOOKING_PINCODE_VALIDATE: "/api/user/booking/pincode/validate",
   SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
   SERVICEABLE_TRAVELERS: "/api/user/booking/serviceable-travelers",
 
-  // SERVICEABLE_AGENCIES: "/api/user/booking/serviceable-agencies",
   USER_ADDRESSES: "/api/user/addresses",
   BOOKING_PRICING: "/api/user/booking/calculate_price",
   BOOKING: "/api/user/booking",
@@ -130,6 +144,11 @@ export const API_USER = {
   RESUBMIT_KYC: "/api/user/traveler/kyc",
 
   TRAVELER_REQUEST: "/api/user/traveler/travel-requests",
+
+  GET_ALL: "/api/user/notifications",
+  MARK_AS_READ: "/api/user/notifications/read",
+  MARK_ALL_AS_READ: "/api/user/notifications/read-all",
+  UNREAD_COUNT: "/api/user/notifications/unread-count",
 }
 
 export const API_WORKER = {
@@ -145,6 +164,11 @@ export const API_WORKER = {
   GET_ANALYTICS_GRAPH: "/api/worker/analytics/graph",
   GET_PARCELS: "/api/worker/parcels",
   EXPORT_PARCELS: "/api/worker/parcels/export",
+
+  GET_ALL: "/api/worker/notifications",
+  MARK_AS_READ: "/api/worker/notifications/read",
+  MARK_ALL_AS_READ: "/api/worker/notifications/read-all",
+  UNREAD_COUNT: "/api/worker/notifications/unread-count",
 }
 
 export const API_CHAT = {
@@ -152,9 +176,10 @@ export const API_CHAT = {
   MESSAGES: "/api/chat/messages",
 };
 
-export const API_NOTIFICATION = {
-  GET_ALL: "/api/notifications",
-  MARK_AS_READ: "/api/notifications/read",
-  MARK_ALL_AS_READ: "/api/notifications/read-all",
-  UNREAD_COUNT: "/api/notifications/unread-count",
-};
+
+export const getNotificationApi = (role: Roles) => ({
+  GET_ALL: `/api/${role}/notifications`,
+  MARK_AS_READ: `/api/${role}/notifications/read`,
+  MARK_ALL_AS_READ: `/api/${role}/notifications/read-all`,
+  UNREAD_COUNT: `/api/${role}/notifications/unread-count`,
+});

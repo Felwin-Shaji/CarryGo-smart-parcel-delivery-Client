@@ -11,7 +11,7 @@ import HubAddWorker from "../pages/Hub/HubAddWorkers"
 import HubWallet from "../pages/Hub/HubWallet"
 import HubWorkersListPage from "../pages/Hub/HubWorkersListPage"
 import HubWorkerDetailsPage from "../pages/Hub/HubWorkerDetailsPage"
-import WorkerKycResubmit from "../components/Workers/components/WorkerKycResubmit"
+import WorkerKycResubmit from "../shared/components/Workers/components/WorkerKycResubmit"
 import { ShipmentManagementPage } from "../pages/Hub/ShipmentManagement/ShipmentManagementPage"
 import ShipmentDetailsPage from "../pages/Hub/ShipmentDetails/ShipmentDetailsPage"
 import HubProfilePage from "../pages/Hub/Profile/HubProfilePage"
@@ -25,7 +25,7 @@ const HubRoutes = () => {
                     <Route path="login" element={<HubLogin />} />
                     <Route path="forgot-password" element={<HubForgotPassword />} />
                     <Route path="reset-password/:token" element={<HubResetPassword />} />
-        
+
                 </Route>
 
                 <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubDashboard /></ProtectedRoute>} />
@@ -35,7 +35,7 @@ const HubRoutes = () => {
                 <Route path="workers/:id" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubWorkerDetailsPage /></ProtectedRoute>} />
                 <Route path="workers/kyc/resubmit/:id" element={<ProtectedRoute requiredRole={ROLES.HUB}><WorkerKycResubmit /></ProtectedRoute>} />
                 <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.HUB}><HubProfilePage /></ProtectedRoute>} />
-                
+
                 <Route path="shipments" element={<ProtectedRoute requiredRole={ROLES.HUB}><ShipmentManagementPage /></ProtectedRoute>} />
                 <Route path="shipments/:shipmentId" element={<ProtectedRoute requiredRole={ROLES.HUB}><ShipmentDetailsPage /></ProtectedRoute>} />
 

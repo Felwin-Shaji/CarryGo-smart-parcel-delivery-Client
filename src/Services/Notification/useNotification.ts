@@ -1,8 +1,9 @@
 import { useAxios } from "../../hooks/useAxios";
-import { API_NOTIFICATION } from "../../shared/constants_Types/apiRoutes";
+import { getNotificationApi } from "../../shared/constants_Types/apiRoutes";
+import type { Roles } from "../../shared/constants_Types/types/roles";
 
 export type Notification = {
-    _id: string;
+    id: string;
     title: string;
     message: string;
     isRead: boolean;
@@ -18,9 +19,10 @@ export const NotificationFilter = {
 export type NotificationFilter =
     typeof NotificationFilter[keyof typeof NotificationFilter];
 
-export const useNotification = () => {
+export const useNotification = (role: Roles) => {
 
     const axiosInstance = useAxios();
+    const API = getNotificationApi(role);
 
     const getNotifications = async (
         page: number = 1,
@@ -28,7 +30,7 @@ export const useNotification = () => {
         filter: NotificationFilter = NotificationFilter.ALL
     ) => {
 
-        const res = await axiosInstance.get(API_NOTIFICATION.GET_ALL, {
+        const res = await axiosInstance.get(API.GET_ALL, {
             params: { page, limit, filter },
         });
 
@@ -40,7 +42,7 @@ export const useNotification = () => {
     const markAsRead = async (notificationId: string) => {
 
         const res = await axiosInstance.patch(
-            `${API_NOTIFICATION.MARK_AS_READ}/${notificationId}`
+            `${API.MARK_AS_READ}/${notificationId}`
         );
 
         return res.data.success;
@@ -51,7 +53,7 @@ export const useNotification = () => {
     const markAllAsRead = async () => {
 
         const res = await axiosInstance.patch(
-            API_NOTIFICATION.MARK_ALL_AS_READ
+            API.MARK_ALL_AS_READ
         );
 
         return res.data.success;
@@ -61,7 +63,7 @@ export const useNotification = () => {
     const getUnreadCount = async () => {
 
         const res = await axiosInstance.get(
-            API_NOTIFICATION.UNREAD_COUNT
+            API.UNREAD_COUNT
         );
 
         if (res.data.success) {
