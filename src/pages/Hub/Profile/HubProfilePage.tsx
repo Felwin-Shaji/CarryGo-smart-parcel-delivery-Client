@@ -3,12 +3,12 @@ import { useHubProfile } from "../../../Services/Hub/HubProfile";
 import type { GetHubProfileDTO, HubResetPasswordRequestDTO } from "../../../shared/constants_Types/types/Hub/HubProfile";
 import { DashboardProvider } from "../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
-import LoadingScreen from "../../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../../shared/components/loading/CarryGoLoadingScreen";
 import UserEditProfileModal from "../../User/components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "../../User/components/ProfileComponents/UserResetPasswordModal";
 import ProfileSection from "../../User/components/ProfileComponents/ProfileSection";
 import ProfileField from "../../User/components/ProfileComponents/ProfileField";
-import KycBadge from "../../../components/globelcomponents/KycBadge";
+import KycBadge from "../../../shared/components/globelcomponents/KycBadge";
 
 
 const capitalize = (value?: string) =>

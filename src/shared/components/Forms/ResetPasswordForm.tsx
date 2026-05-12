@@ -4,7 +4,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { resetPasswordSchema } from "../../../validation/forgotPassword";
 import type { Roles } from "../../constants_Types/types/roles";
 import { useParams } from "react-router-dom";
-import logo from "../../assets/carrygo-logo.png";
+import logo from "../../../assets/carrygo-logo.png";
 
 
 interface ResetPasswordProps {

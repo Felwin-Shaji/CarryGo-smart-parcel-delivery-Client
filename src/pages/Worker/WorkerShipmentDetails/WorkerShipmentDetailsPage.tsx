@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../../context/DashboardProvider";
 import { ROLES } from "../../../shared/constants_Types/types/roles";
-import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
+import Breadcrumbs from "../../../shared/components/globelcomponents/Breadcrumbs";
 import { BookingDetailsModal } from "./components/BookingDetailsModal";
 import { mapParcelActionToStatus, mapShipmentActionToStatus } from "./utils";
 import WorkerShipmentDetailsSkeleton from "./components/ShipmentDetails/components/WorkerShipmentDetailsSkeleton";

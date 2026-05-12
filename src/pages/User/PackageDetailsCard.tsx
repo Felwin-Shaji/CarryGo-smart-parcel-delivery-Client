@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { useBooking } from "../../Services/User/Booking/createBooking";
 import { Header } from "./components/Header";
 import type { BookingDetailsUI } from "../../shared/constants_Types/types/User/Booking/bookingResponse.dto";

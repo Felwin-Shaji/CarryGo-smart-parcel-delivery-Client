@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { useState, } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import logo from "../../assets/carrygo-logo.png";
+import logo from "../../../assets/carrygo-logo.png";
 import { loginSchema } from "../../../validation/login";
 
 

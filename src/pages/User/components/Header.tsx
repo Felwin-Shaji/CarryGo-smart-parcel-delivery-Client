@@ -6,7 +6,7 @@ import { useAuth } from "../../../Services/Auth";
 import { useNavigate } from "react-router-dom";
 import { FaAddressBook } from "react-icons/fa6";
 import { NavItem } from "./NavItem";
-import { Dropdown, DropdownItem, DropdownSeparator } from "../../../components/globelcomponents/DropdownMenu";
+import { Dropdown, DropdownItem, DropdownSeparator } from "../../../shared/components/globelcomponents/DropdownMenu";
 import Logo from "../../../assets/CarryGo-Transparent-icon.png";
 import { useNotificationsState } from "../../../Services/Notification/useNotificationsState";
 import NotificationModal from "../../../shared/components/globelcomponents/NotificationModal";

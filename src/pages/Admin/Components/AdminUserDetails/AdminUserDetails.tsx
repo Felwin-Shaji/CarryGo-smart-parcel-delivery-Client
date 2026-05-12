@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaLeftLong } from "react-icons/fa6";
-import { confirmToast } from "../../../../components/globelcomponents/confirmToast";
-import RejectReasonModal from "../../../../components/globelcomponents/RejectReasonModal";
-import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
-import Breadcrumbs from "../../../../components/globelcomponents/Breadcrumbs";
+import { confirmToast } from "../../../../shared/components/globelcomponents/confirmToast";
+import RejectReasonModal from "../../../../shared/components/globelcomponents/RejectReasonModal";
+import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingScreen";
+import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
 import { KYCSTATUS, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
 import UserProfileCard from "./UserProfileCard";
 import KycDetails from "./KycDetails";

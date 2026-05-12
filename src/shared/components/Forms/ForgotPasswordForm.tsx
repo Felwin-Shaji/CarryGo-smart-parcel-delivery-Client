@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import type { Roles } from "../../constants_Types/types/roles";
-import logo from "../../assets/carrygo-logo.png";
+import logo from "../../../assets/carrygo-logo.png";
 import { forgotPasswordSchema } from "../../../validation/forgotPassword";
 
 

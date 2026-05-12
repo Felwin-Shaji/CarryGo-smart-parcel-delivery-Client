@@ -3,8 +3,8 @@ import type { TravelerParcelTrackingDTO } from "../../../../../shared/constants_
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../../store/store";
-import ChatModal from "../../../../../components/chat/ChatModal";
 import { useChat } from "../../../../../Services/Chat/useChat";
+import ChatModal from "../../../../../shared/components/chat/ChatModal";
 
 interface Props {
     data: TravelerParcelTrackingDTO;

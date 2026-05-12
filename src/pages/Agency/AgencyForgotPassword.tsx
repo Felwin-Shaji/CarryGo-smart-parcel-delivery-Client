@@ -1,6 +1,6 @@
-import ForgotPasswordForm from "../../components/Forms/ForgotPasswordForm"
 import { ROLES } from "../../shared/constants_Types/types/roles"
 import { useAuth } from "../../Services/Auth"
+import ForgotPasswordForm from "../../shared/components/Forms/ForgotPasswordForm"
 
 const AgencyForgotPassword = () => {
     const {handleForgotPassword} = useAuth()

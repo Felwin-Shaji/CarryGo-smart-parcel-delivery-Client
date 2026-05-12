@@ -1,4 +1,4 @@
-import RouteMapPreview from "../../../../../components/Map/RouteMapPreview";
+import RouteMapPreview from "../../../../../shared/components/Map/RouteMapPreview";
 import type { RouteSegmentDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 import { formatTime, totalDistance, totalTime } from "../utils/routeHelpers";
 

@@ -6,7 +6,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { useDashboard } from "../context/DashboardContext";
 import toast from "react-hot-toast";
-import { confirmToast } from "../components/globelcomponents/confirmToast";
+import { confirmToast } from "../shared/components/globelcomponents/confirmToast";
 import NotificationModal from "../shared/components/globelcomponents/NotificationModal";
 import { useNotificationsState } from "../Services/Notification/useNotificationsState";
 import type { Roles } from "../shared/constants_Types/types/roles";

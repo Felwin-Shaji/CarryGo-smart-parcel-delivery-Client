@@ -1,4 +1,4 @@
-import type { Column } from "../../components/Table/Table";
+import type { Column } from "../../shared/components/Table/Table";
 import type { HubTableRow } from "../../pages/Agency/AgencyHubsList";
 
 export const AgencyHubsListColumns = (

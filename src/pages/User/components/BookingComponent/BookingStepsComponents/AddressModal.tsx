@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AddressUI, TemporaryAddress } from "../../../../../context/Booking/Booking.types";
-import MapLocationPicker from "../../../../../components/Map/MapLocationPicker";
+import MapLocationPicker from "../../../../../shared/components/Map/MapLocationPicker";
 import { useAddress } from "../../../../../Services/User/useAddress";
 import { FaSpinner } from "react-icons/fa6";
 

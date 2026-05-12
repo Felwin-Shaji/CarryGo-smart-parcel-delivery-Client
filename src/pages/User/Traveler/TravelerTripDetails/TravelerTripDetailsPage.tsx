@@ -8,7 +8,7 @@ import { OrdersSection } from "./Components/OrdersSection";
 import { TripCard } from "./Components/TripCard";
 import { CapacityCard } from "./Components/CapacityCard";
 import { EarningsCard } from "./Components/EarningsCard";
-import Breadcrumbs from "../../../../components/globelcomponents/Breadcrumbs";
+import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
 import TravelerTripDetailsLoading from "./Components/TravelerTripDetailsLoading";
 
 export const TravelerTripDetails = () => {

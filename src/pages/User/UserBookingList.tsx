@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBooking } from "../../Services/User/Booking/createBooking";
 import { Header } from "./components/Header";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { UserPagination } from "./components/UserPagination";
 import { NoBookings } from "./components/BookingComponent/BookingListing/NoBookings";
 import { AdvancedBookingFilter } from "./components/BookingComponent/BookingListing/AdvancedBookingFilter";

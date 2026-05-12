@@ -8,7 +8,7 @@ import { agencyMenu } from "../config/SidebarMenu/agencyMenu";
 import { ROLES, type Roles } from "../shared/constants_Types/types/roles";
 import { hunMenu } from "../config/SidebarMenu/hubMenu";
 import { workerMenu } from "../config/SidebarMenu/workerMenu";
-import LoadingScreen from "../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../shared/components/loading/CarryGoLoadingScreen";
 
 
 type DashboardRoles = Exclude<Roles, "user">;

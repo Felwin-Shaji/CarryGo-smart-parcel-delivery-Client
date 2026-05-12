@@ -1,7 +1,7 @@
 import { useState, useRef, type FormEvent, type ChangeEvent, useEffect } from "react";
 import type { OtpMeta } from "../../../pages/User/OtpVarificationpage";
 import LoadingScreen from "../loading/CarryGoLoadingScreen";
-import logo from "../../assets/carrygo-logo.png";
+import logo from "../../../assets/carrygo-logo.png";
 
 
 interface OtpVerificationFormProps {
