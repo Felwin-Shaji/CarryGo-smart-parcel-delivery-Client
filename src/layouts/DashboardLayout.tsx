@@ -4,12 +4,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-
 import { useDashboard } from "../context/DashboardContext";
 import toast from "react-hot-toast";
 import { confirmToast } from "../components/globelcomponents/confirmToast";
-import NotificationModal from "../components/globelcomponents/NotificationModal";
+import NotificationModal from "../shared/components/globelcomponents/NotificationModal";
 import { useNotificationsState } from "../Services/Notification/useNotificationsState";
+import type { Roles } from "../shared/constants_Types/types/roles";
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -22,9 +22,18 @@ export const DashboardLayout = ({
     pageTitle = "Dashboard",
 
 }: DashboardLayoutProps) => {
-    const { notifications, unreadCount, handleMarkAsRead, handleMarkAllAsRead } = useNotificationsState();
+    const { menuItems, handleLogout, userName, role } = useDashboard();
+    const {
+        notifications,
+        unreadCount,
+        loading,
+        hasMore,
+        loadMoreNotifications,
+        handleMarkAsRead,
+        handleMarkAllAsRead
+    } = useNotificationsState(role as Roles);
 
-    const { menuItems, handleLogout, userName } = useDashboard();
+
 
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -47,7 +56,7 @@ export const DashboardLayout = ({
             <motion.div
                 animate={{ width: isSidebarOpen ? 240 : 80 }}
                 className={`${isMobileMenuOpen ? "absolute z-40" : "hidden md:flex"}
-          h-screen bg-[#0B1C44] text-gray-100 flex flex-col transition-all duration-300`}
+                    h-screen bg-[#0B1C44] text-gray-100 flex flex-col transition-all duration-300`}
             >
                 {/* Sidebar Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-000">
@@ -87,7 +96,7 @@ export const DashboardLayout = ({
                                             navigate(item.path);
                                         }}
                                         className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition
-        ${item.disabled ? "opacity-40 cursor-not-allowed" :
+                                            ${item.disabled ? "opacity-40 cursor-not-allowed" :
                                                 isActive ? "bg-blue-700" : "hover:bg-blue-800"
                                             }`}
                                     >
@@ -141,10 +150,12 @@ export const DashboardLayout = ({
                                     </span>
                                 )}
                             </button>
-
                             <NotificationModal
                                 isOpen={isOpen}
                                 notifications={notifications}
+                                loading={loading}
+                                hasMore={hasMore}
+                                loadMoreNotifications={loadMoreNotifications}
                                 onClose={() => setIsOpen(false)}
                                 onMarkAsRead={handleMarkAsRead}
                                 onMarkAllAsRead={handleMarkAllAsRead}
