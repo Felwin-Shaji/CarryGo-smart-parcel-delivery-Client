@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { useAgencyPricing } from "../../Services/Agency/AgencyPricing";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { agencyPricingSchema } from "../../validation/agencyPricingSchema";
 import type { AgencyPricingResponseDTO } from "../../shared/constants_Types/types/Agency/AgencyPricing.dto";
-import { confirmToast } from "../../components/globelcomponents/confirmToast";
+import { confirmToast } from "../../shared/components/globelcomponents/confirmToast";
 
 interface AgencyPricingFormValues {
   serviceType: "STANDARD" | "EXPRESS";

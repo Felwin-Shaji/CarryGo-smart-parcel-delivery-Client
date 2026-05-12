@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
-import { DataTable } from "../../components/Table/Table";
+import { DataTable } from "../../shared/components/Table/Table";
 import toast from "react-hot-toast";
 import { AdminUserListColumns } from "../../config/TableColumns/adminUserListTableColumn";
 import { useAdmin } from "../../Services/Admin/Admin";

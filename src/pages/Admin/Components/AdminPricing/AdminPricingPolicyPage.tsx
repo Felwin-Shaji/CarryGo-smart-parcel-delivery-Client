@@ -5,7 +5,7 @@ import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { useEffect, useState } from "react";
 import type { PricingPolicyResponseDTO } from "../../../../shared/constants_Types/types/Admin/PricingPolicy.dto";
 import { useAdminPricingPolicy } from "../../../../Services/Admin/AdminPricingPolicy";
-import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingScreen";
 import type { PricingPolicyFormDTO } from "../../../../shared/constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 
 export default function AdminAgencyPricing() {

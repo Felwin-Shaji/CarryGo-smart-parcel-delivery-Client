@@ -6,8 +6,8 @@ import TrackingModal from "./TrackingModal";
 import { getStatusButtonColor, getStatusColor, STATUS_FLOW, STATUS_LABELS, STATUS_TRANSITIONS } from "../utils/TravelerTripDetailsHelper";
 import type { RootState } from "../../../../../store/store";
 import { useSelector } from "react-redux";
-import ChatModal from "../../../../../components/chat/ChatModal";
 import { useChat } from "../../../../../Services/Chat/useChat";
+import ChatModal from "../../../../../shared/components/chat/ChatModal";
 
 export interface OrderCardProps {
     order: TripOrderUI;

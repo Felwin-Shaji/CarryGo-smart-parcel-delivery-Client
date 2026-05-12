@@ -1,6 +1,6 @@
 import { FiHome, FiBriefcase, FiMapPin } from "react-icons/fi";
 import { MdDeleteOutline, MdEdit } from "react-icons/md";
-import { confirmToast } from "../../../../components/globelcomponents/confirmToast";
+import { confirmToast } from "../../../../shared/components/globelcomponents/confirmToast";
 import { Header } from "../Header";
 
 export interface AddressItem {

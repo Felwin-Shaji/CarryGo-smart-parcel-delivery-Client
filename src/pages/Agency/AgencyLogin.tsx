@@ -1,5 +1,5 @@
 import { useAuth } from "../../Services/Auth"
-import LoginForm from "../../components/Forms/LoginForm";
+import LoginForm from "../../shared/components/Forms/LoginForm";
 import { ROLES } from "../../shared/constants_Types/types/roles";
 
 const AgencyLogin = () => {

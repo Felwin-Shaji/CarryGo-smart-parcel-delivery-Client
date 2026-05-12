@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import RegistrationForm from '../../components/Forms/RegistrationForm';
 import { ROLES } from '../../shared/constants_Types/types/roles';
 import { useAuth } from '../../Services/Auth';
+import RegistrationForm from '../../shared/components/Forms/RegistrationForm';
 
 const RegistrationPage = () => {
     const { handleRegistration } = useAuth();
@@ -22,7 +22,7 @@ const RegistrationPage = () => {
     };
 
     return (
-        <div><RegistrationForm title='User Registarion' onSubmit={onSubmit} role={ROLES.USER} loading={loading} /></div>
+        <div><RegistrationForm title='User Registration' onSubmit={onSubmit} role={ROLES.USER} loading={loading} /></div>
     )
 }
 

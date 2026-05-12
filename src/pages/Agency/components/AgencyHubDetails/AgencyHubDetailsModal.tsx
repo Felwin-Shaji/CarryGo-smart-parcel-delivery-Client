@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingScreen";
 import { useAgency } from "../../../../Services/Agency/Agency";
 import AgencyHubProfileCard from "./AgencyHubProfileCard";
 import AgencyHubDashboard from "./AgencyHubDashboard";

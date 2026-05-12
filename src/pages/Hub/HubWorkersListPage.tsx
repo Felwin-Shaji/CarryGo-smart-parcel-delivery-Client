@@ -5,7 +5,7 @@ import { DashboardLayout } from "../../layouts/DashboardLayout"
 import { useHubAddWorker } from "../../Services/Hub/HubAddWorkers"
 import type { WorkerResponseDTO } from "../../shared/constants_Types/types/Agency/HubOverview.type"
 import { useEffect, useState } from "react"
-import { DataTable } from "../../components/Table/Table"
+import { DataTable } from "../../shared/components/Table/Table"
 import { HubWorkersListColumns } from "../../config/TableColumns/HubWorkersListTableColumns"
 
 export type WorkerTableRow = WorkerResponseDTO & {

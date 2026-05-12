@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { ROLES } from "../../shared/constants_Types/types/roles";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { useHubAddWorker } from "../../Services/Hub/HubAddWorkers";
 import WorkerDetailsBase from "../../shared/components/Workers/WorkerKycDetailsBase";
 import type { GetWorkerOverviewResponseDTO } from "../../shared/constants_Types/types/Worker/workerRequest.dto";

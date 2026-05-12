@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userLogin } from '../../store/Slice/userSlice';
-import OtpVerificationForm from '../../components/Forms/otpVarification';
 import { useAuth } from '../../Services/Auth';
+import OtpVerificationForm from '../../shared/components/Forms/otpVarification';
 
 
 

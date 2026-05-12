@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useUserWallet } from "../../Services/User/userWallet";
 import type { WalletOverview } from "../../shared/constants_Types/types/walletType";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { Header } from "./components/Header";
-import { WalletCard } from "../../components/Wallet/WalletCard";
-import { TransactionList } from "../../components/Wallet/TransactionList";
+import { WalletCard } from "../../shared/components/Wallet/WalletCard";
+import { TransactionList } from "../../shared/components/Wallet/TransactionList";
 import toast from "react-hot-toast";
 import { openRazorpayCheckout } from "../../Services/Payment/razorpay";
-import { AddMoneyModal } from "../../components/Wallet/AddMoneyModal";
-import { WithdrawMoneyModal } from "../../components/Wallet/WithdrawMoneyModal";
+import { AddMoneyModal } from "../../shared/components/Wallet/AddMoneyModal";
+import { WithdrawMoneyModal } from "../../shared/components/Wallet/WithdrawMoneyModal";
 
 const UserWallet = () => {
     const { getWallet, createWalletOrder, withdrawMoney } = useUserWallet();

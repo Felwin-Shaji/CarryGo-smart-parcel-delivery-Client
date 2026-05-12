@@ -5,8 +5,8 @@ import ProfileSection from "../User/components/ProfileComponents/ProfileSection"
 import ProfileField from "../User/components/ProfileComponents/ProfileField";
 import UserEditProfileModal from "../User/components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "../User/components/ProfileComponents/UserResetPasswordModal";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
-import KycBadge from "../../components/globelcomponents/KycBadge";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
+import KycBadge from "../../shared/components/globelcomponents/KycBadge";
 import { useAgencyProfile } from "../../Services/Agency/AgencyProfile";
 import type { AgencyResetPasswordRequestDTO, GetAgencyProfileDTO } from "../../shared/constants_Types/types/Agency/AgencyProfile.dto";
 

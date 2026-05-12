@@ -1,4 +1,4 @@
-import BaseModal, { ModalInput } from "../../../../components/globelcomponents/BaseModal";
+import BaseModal, { ModalInput } from "../../../../shared/components/globelcomponents/BaseModal";
 import { useFormik } from "formik";
 import { userResetPasswordSchema } from "../../../../validation/userResetPassword";
 

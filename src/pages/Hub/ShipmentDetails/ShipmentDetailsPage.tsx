@@ -11,7 +11,7 @@ import { useHubShipment } from "../../../Services/Hub/HubShipment";
 import { DashboardProvider } from "../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
 import { ROLES } from "../../../shared/constants_Types/types/roles";
-import Breadcrumbs from "../../../components/globelcomponents/Breadcrumbs";
+import Breadcrumbs from "../../../shared/components/globelcomponents/Breadcrumbs";
 import { useState } from "react";
 import EditShipmentModal from "./components/EditShipmentModal";
 import ShipmentDetailsSkeleton from "./components/ShipmentDetailsSkeleton";

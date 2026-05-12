@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
-import { DataTable } from "../../components/Table/Table";
+import { DataTable } from "../../shared/components/Table/Table";
 import toast from "react-hot-toast";
 import { AdminAgencyListcolumns } from "../../config/TableColumns/adminAgencyListTableColumn";
 import { useNavigate } from "react-router-dom";

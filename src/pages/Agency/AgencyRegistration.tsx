@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import RegistrationForm from '../../components/Forms/RegistrationForm';
 import { ROLES } from '../../shared/constants_Types/types/roles';
 import { useAuth } from '../../Services/Auth';
+import RegistrationForm from '../../shared/components/Forms/RegistrationForm';
 
 
 export interface OtpMeta {
@@ -31,7 +31,7 @@ const AgencyRegistration = () => {
     };
 
     return (
-        <div><RegistrationForm title='Agency Registarion' onSubmit={onSubmit} role={ROLES.AGENCY} loading={loading} /></div>
+        <div><RegistrationForm title='Agency Registration' onSubmit={onSubmit} role={ROLES.AGENCY} loading={loading} /></div>
     )
 }
 

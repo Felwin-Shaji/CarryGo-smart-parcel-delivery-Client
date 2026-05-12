@@ -6,7 +6,7 @@ import { useAdminPricingPolicy } from "../../../../Services/Admin/AdminPricingPo
 import type { TravelerPricingPolicyResponseDTO } from "../../../../shared/constants_Types/types/Admin/PricingPolicy.dto";
 import { DashboardProvider } from "../../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../../layouts/DashboardLayout";
-import LoadingScreen from "../../../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingScreen";
 
 const travelerPricingSchema = Yup.object({
   basePrice: Yup.number().min(0).required(),

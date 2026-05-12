@@ -4,7 +4,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAddress } from "../../Services/User/useAddress";
-import { confirmToast } from "../../components/globelcomponents/confirmToast";
+import { confirmToast } from "../../shared/components/globelcomponents/confirmToast";
 import { Header } from "./components/Header";
 
 

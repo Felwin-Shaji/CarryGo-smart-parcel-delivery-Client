@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { DataTable } from '../../../../components/Table/Table';
+import { DataTable } from '../../../../shared/components/Table/Table';
 import { AdminHubColumns } from '../../../../config/TableColumns/AdminAgencyHubTableColumn';
 import { FiPackage } from "react-icons/fi";
 import type { HubResponseDTO } from '../../../../shared/constants_Types/types/Admin/AdminAgency.dto';

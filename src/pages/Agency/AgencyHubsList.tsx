@@ -1,5 +1,5 @@
 import toast from "react-hot-toast"
-import { DataTable } from "../../components/Table/Table"
+import { DataTable } from "../../shared/components/Table/Table"
 import { AgencyHubsListColumns } from "../../config/TableColumns/AgencyHubsListTableColumns"
 import { ROLES } from "../../shared/constants_Types/types/roles"
 import { DashboardProvider } from "../../context/DashboardProvider"

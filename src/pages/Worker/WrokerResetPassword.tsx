@@ -1,5 +1,5 @@
-import ResetPasswordForm from '../../components/Forms/ResetPasswordForm'
 import { useAuth } from '../../Services/Auth'
+import ResetPasswordForm from '../../shared/components/Forms/ResetPasswordForm'
 import { ROLES } from '../../shared/constants_Types/types/roles'
 
 const WrokerResetPassword = () => {

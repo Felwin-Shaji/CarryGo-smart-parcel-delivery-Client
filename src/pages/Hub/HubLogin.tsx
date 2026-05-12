@@ -1,6 +1,6 @@
-import LoginForm from "../../components/Forms/LoginForm"
 import { ROLES } from "../../shared/constants_Types/types/roles"
 import { useAuth } from "../../Services/Auth"
+import LoginForm from "../../shared/components/Forms/LoginForm"
 
 const HubLogin = () => {
     const { handleLogin } = useAuth()

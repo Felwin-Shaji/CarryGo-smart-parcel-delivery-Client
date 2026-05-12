@@ -5,7 +5,7 @@ import { lazy, Suspense } from "react";
 import { INDIA_STATE_CITY_MAP } from "../../../../shared/constants_Types/Indiacities";
 
 const MapLocationPicker = lazy(() =>
-    import("../../../../components/Map/MapLocationPicker")
+    import("../../../../shared/components/Map/MapLocationPicker")
 );
 
 interface Step3AddressPayload {

@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import MapLocationPicker from "../../components/Map/MapLocationPicker";
+import MapLocationPicker from "../../shared/components/Map/MapLocationPicker";
 import { MdMyLocation } from "react-icons/md";
 import { Header } from "./components/Header";
 import { useAddress } from "../../Services/User/useAddress";
 import { useDebounce } from "../../hooks/useDebounce";
 import toast from "react-hot-toast";
 import type { AddressFormState, SaveAddressPayload } from "../../shared/constants_Types/types/User/Address/address.type";
-import { confirmToast } from "../../components/globelcomponents/confirmToast";
+import { confirmToast } from "../../shared/components/globelcomponents/confirmToast";
 
 
 
 export default function AddAddressMapFirst() {
     const { reverseGeocode, saveAddress } = useAddress();
 
-/////////////////////////////////////////
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -25,7 +24,6 @@ export default function AddAddressMapFirst() {
             pincode: string;
         }
         | undefined;
-        //////////////////////////////
 
     const [coords, setCoords] = useState<[number, number] | null>(null);
     const [loadingAddress, setLoadingAddress] = useState(false);
@@ -106,30 +104,30 @@ export default function AddAddressMapFirst() {
             },
         };
 
-confirmToast(
-  "Save this address for future deliveries?",
-  async () => {
-    await saveAddress(payload);
+        confirmToast(
+            "Save this address for future deliveries?",
+            async () => {
+                await saveAddress(payload);
 
-    toast.success("Address saved successfully");
+                toast.success("Address saved successfully");
 
-    // If opened from booking, go back to booking
-    if (bookingContext?.from === "BOOKING") {
-      navigate("/booking", {
-        state: {
-          resumeStep: "ADDRESS",
-          refreshAddresses: true,
-          for: bookingContext.for,
-        },
-        replace: true,
-      });
-      return;
-    }
+                // If opened from booking, go back to booking
+                if (bookingContext?.from === "BOOKING") {
+                    navigate("/booking", {
+                        state: {
+                            resumeStep: "ADDRESS",
+                            refreshAddresses: true,
+                            for: bookingContext.for,
+                        },
+                        replace: true,
+                    });
+                    return;
+                }
 
-    // Normal profile flow
-    navigate("/addresses");
-  }
-);
+                // Normal profile flow
+                navigate("/addresses");
+            }
+        );
 
     };
 

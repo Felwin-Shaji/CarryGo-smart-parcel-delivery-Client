@@ -1,4 +1,4 @@
-import type { Column } from "../../components/Table/Table";
+import type { Column } from "../../shared/components/Table/Table";
 import type { WorkerTableRow } from "../../pages/Hub/HubWorkersListPage";
 
 export const HubWorkersListColumns = (): Column<WorkerTableRow>[] => [

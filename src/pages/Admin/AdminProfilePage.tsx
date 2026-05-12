@@ -5,7 +5,7 @@ import ProfileSection from "../User/components/ProfileComponents/ProfileSection"
 import ProfileField from "../User/components/ProfileComponents/ProfileField";
 import UserEditProfileModal from "../User/components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "../User/components/ProfileComponents/UserResetPasswordModal";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { useAdminProfile } from "../../Services/Admin/AdminProfile";
 import type { AdminResetPasswordRequestDTO, GetAdminProfileDTO } from "../../shared/constants_Types/types/Admin/AdminProfile.dto";
 

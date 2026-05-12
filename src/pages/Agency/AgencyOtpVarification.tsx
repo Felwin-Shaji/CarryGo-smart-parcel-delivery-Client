@@ -3,8 +3,8 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { agencyLogin } from '../../store/Slice/agencySlice';
-import OtpVerificationForm from '../../components/Forms/otpVarification';
 import { useAuth } from '../../Services/Auth';
+import OtpVerificationForm from '../../shared/components/Forms/otpVarification';
 
 const AgencyOtpVarification = () => {
   const navigate = useNavigate()

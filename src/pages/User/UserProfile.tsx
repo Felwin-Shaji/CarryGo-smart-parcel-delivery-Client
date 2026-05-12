@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Header } from "./components/Header";
-import KycBadge from "../../components/globelcomponents/KycBadge";
+import KycBadge from "../../shared/components/globelcomponents/KycBadge";
 import ProfileSection from "./components/ProfileComponents/ProfileSection";
 import ProfileField from "./components/ProfileComponents/ProfileField";
 import UserEditProfileModal from "./components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "./components/ProfileComponents/UserResetPasswordModal";
 import { useUserProfile } from "../../Services/User/userProfile";
 import type { GetUserProfileDTO } from "../../shared/constants_Types/types/User/userResponse.dto";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import type { UserResetPasswordRequestDTO } from "../../shared/constants_Types/types/User/userRequest.dto";
 
 const capitalize = (value?: string) => {

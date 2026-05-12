@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
-import LoadingScreen from "../../components/loading/CarryGoLoadingScreen";
+import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { ROLES } from "../../shared/constants_Types/types/roles";
 
 const AgencyHubDetailsModal = React.lazy(() =>

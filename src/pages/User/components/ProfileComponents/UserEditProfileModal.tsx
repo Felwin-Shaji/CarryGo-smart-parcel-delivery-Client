@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import BaseModal, { ModalInput } from "../../../../components/globelcomponents/BaseModal";
+import BaseModal, { ModalInput } from "../../../../shared/components/globelcomponents/BaseModal";
 import { userEditProfileSchema } from "../../../../validation/editProfileValidation";
 
 interface UserEditProfileModalProps {
