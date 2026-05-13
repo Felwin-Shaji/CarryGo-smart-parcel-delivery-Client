@@ -7,8 +7,11 @@ import ExportActions from "./ExportActions";
 import { useAgencyDashboard } from "../../../../Services/Agency/AgencyDashboard/useAgencyDashboard";
 import DashboardFilters from "./DashboardFilters";
 
+type prop = {
+    agencyId?: string
+}
 
-const AgencyDashboardPage = () => {
+const AgencyDashboardPage = ({ agencyId }: prop) => {
     const {
         dashboard,
         salesChart,
@@ -18,7 +21,7 @@ const AgencyDashboardPage = () => {
         handleExport,
         setFilters,
         setPage,
-    } = useAgencyDashboard();
+    } = useAgencyDashboard(agencyId);
 
     return (
         <div className="min-h-screen bg-slate-50 px-4 py-5 lg:px-6">

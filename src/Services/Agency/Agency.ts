@@ -23,7 +23,28 @@ export const useAgency = () => {
         });
         toast.loading
         return res.data.data as GetHubsResponseDTO
-    }
+    };
+
+    const getAllHubsById = async (
+        agencyId: string,
+        {
+            page = 1,
+            limit = 10,
+            search = "",
+            sortBy = "",
+            sortOrder = "asc",
+            blocked = null,
+            kycStatus = "",
+            startDate = "",
+            endDate = ""
+        }) => {
+        const res = await axiosInstance.get(`${API_AGENCY.GET_HUBS_BY_ID}/${agencyId}/hubs`, {
+            params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate }
+        });
+        toast.loading
+        return res.data.data as GetHubsResponseDTO
+    };
+
 
     const getHubDetailsById = async (hubId: string) => {
 
@@ -56,10 +77,9 @@ export const useAgency = () => {
         })
         toast.loading
 
-        console.log(res)
         return res.data.data as GetHubWorkersResponseDTO
     }
 
-    return { getAllHubs, getHubDetailsById, getHubWrokersList }
+    return { getAllHubs, getAllHubsById, getHubDetailsById, getHubWrokersList }
 
 }

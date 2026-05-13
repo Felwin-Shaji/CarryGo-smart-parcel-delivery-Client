@@ -23,6 +23,7 @@ export const API_AGENCY = {
   ADD_NEW_HUB: "/api/agency/add-newHub",
   HUB_TEMP_STATUS: "/api/agency/hub/temp-status",
   GET_HUBS: "/api/agency/hubs",
+  GET_HUBS_BY_ID:"/api/agency",
   GET_HUBS_WORKER: "/api/agency/hubs/worker",
   UPDATE_WORKER_KYC_STATUS: "",
 

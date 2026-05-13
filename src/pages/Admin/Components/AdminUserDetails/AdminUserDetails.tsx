@@ -7,8 +7,7 @@ import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingS
 import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
 import { KYCSTATUS, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
 import UserProfileCard from "./UserProfileCard";
-import KycDetails from "./KycDetails";
-import AdminAgencyDashboard from "../AdminAgencyDetails/AdminAgencyDashboard";
+import KycDetails, { type KycDetailsProps } from "./KycDetails";
 import type { UserWithKYCResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminUserTypes";
 import { useAdminUser } from "../../../../Services/Admin/AdminUser";
 
@@ -80,8 +79,6 @@ export default function AdminUserDetails({
 
         onUpdated();
         onClose();
-      } catch (error: any) {
-        toast.error(error.response?.data?.message || "Failed");
       } finally {
         setActionLoading(false);
       }
@@ -153,7 +150,7 @@ export default function AdminUserDetails({
           {/* RIGHT — INLINE KYC DETAILS */}
           <div className="lg:col-span-8 rounded-3xl border bg-white p-6 shadow-sm">
             {user.kyc ? (
-              <KycDetails kyc={user.kyc as any} />
+              <KycDetails kyc={user.kyc as KycDetailsProps["kyc"]} />
             ) : (
               <div className="flex h-full items-center justify-center text-gray-500">
                 No KYC submitted yet
@@ -162,9 +159,6 @@ export default function AdminUserDetails({
           </div>
 
         </div>
-
-        {/* OPTIONAL DASHBOARD */}
-        <AdminAgencyDashboard />
 
       </div>
     </>

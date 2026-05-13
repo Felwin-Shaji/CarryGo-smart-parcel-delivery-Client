@@ -121,28 +121,29 @@ const AdminAgencyList = () => {
         <DashboardProvider role="admin">
             <DashboardLayout pageTitle="Agencies List">
 
-                <DataTable
-                    data={enhancedRows}
-                    columns={AdminAgencyListcolumns(handleStatusToggle)}
-                    page={page}
-                    totalPages={totalPages}
-                    searchValue={searchInput}
-                    onPageChange={(p) => setPage(p)}
-                    onSearch={(value) => {
-                        setSearchInput(value)
-                    }}
-                    onSort={handleSort}
-                    sortBy={sortBy}
-                    sortOrder={sortOrder}
-                    filters={filters}
-                    onFilterChange={setFilters}
-                    loading = {loading}
-                />
+                <div className="p-4">
+                    <DataTable
+                        data={enhancedRows}
+                        columns={AdminAgencyListcolumns(handleStatusToggle)}
+                        page={page}
+                        totalPages={totalPages}
+                        searchValue={searchInput}
+                        onPageChange={(p) => setPage(p)}
+                        onSearch={(value) => {
+                            setSearchInput(value)
+                        }}
+                        onSort={handleSort}
+                        sortBy={sortBy}
+                        sortOrder={sortOrder}
+                        filters={filters}
+                        onFilterChange={setFilters}
+                        loading={loading}
+                    />
 
-                {!loading && agencies.length === 0 && (
-                    <p>No agencies found.</p>
-                )}
-
+                    {!loading && agencies.length === 0 && (
+                        <p>No agencies found.</p>
+                    )}
+                </div>
             </DashboardLayout>
         </DashboardProvider>
     );
