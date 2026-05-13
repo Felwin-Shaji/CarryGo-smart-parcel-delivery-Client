@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaLeftLong } from "react-icons/fa6";
 import { confirmToast } from "../../../../shared/components/globelcomponents/confirmToast";
 import { KYCSTATUS, type KYCStatus } from "../../../../shared/constants_Types/types/roles";
-import KycDetails from "./KycDetails";
 import RejectReasonModal from "../../../../shared/components/globelcomponents/RejectReasonModal";
-import AgencyProfileCard from "./AgencyProfileCard";
+import AgencyProfileCard from "./components/AgencyProfileCard";
 import { useAdmin } from "../../../../Services/Admin/Admin";
 import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingScreen";
-import AdminAgencyHubList, { EmptyHubsState } from "./AdminAgencyHubList";
-import AdminAgencyDashboard from "./AdminAgencyDashboard";
-import type { AgencyWithKYCResponseDTO, GetHubsResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
+import type { AgencyWithKYCResponseDTO } from "../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
 import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
+import { SecondaryHeader } from "../../../../layouts/SecondaryHeader";
+import { useNavigate } from "react-router-dom";
+import AdminAgencyHubList from "./components/AdminAgencyHubList";
+import AgencyDashboardPage from "../../../Agency/AgencyDashboard/Components/AgencyDashboardPage";
 
+export type AgencyTab =
+  | "details"
+  | "dashboard"
+  | "hubs";
 
 export default function AdminAgencyDetailsModal({
   open,
@@ -25,45 +29,21 @@ export default function AdminAgencyDetailsModal({
   onClose: () => void;
   onUpdated: () => void;
 }) {
+  const navigate = useNavigate()
   const { getAgencyOverview, updateAgencyKycStatus } = useAdmin();
 
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<AgencyTab>("details");
 
   const [agency, setAgency] = useState<AgencyWithKYCResponseDTO | null>(null);
-  const [hubLists, setHubLists] = useState<GetHubsResponseDTO | null>(null);
-
   const [actionLoading, setActionLoading] = useState(false);
-  const [showKycDetailsModal, setShowKycDetailsModal] = useState(false);
-
-
   const [showRejectReasonModal, setShowRejectReasonModal] = useState(false);
-
-  const fetchHubs = async () => {
-    if (!agencyId) return;
-
-    try {
-      const response = await getAgencyOverview(agencyId);
-
-      setHubLists(response.hubs);
-    } catch {
-      toast.error("Failed to load hubs");
-    }
-  };
-
-  useEffect(() => {
-    if (!open || !agencyId) return;
-    fetchHubs();
-  }, [open, agencyId]);
-
-
-
 
   async function fetchAgencyDetails(agencyId: string) {
     setLoading(true);
     try {
       const response = await getAgencyOverview(agencyId);
       setAgency(response.agency);
-      setHubLists(response.hubs);
     } catch (error) {
       toast.error("Failed to load agency details");
     } finally {
@@ -87,7 +67,6 @@ export default function AdminAgencyDetailsModal({
   ];
 
   const kycStatus = agency.kycStatus as KYCStatus;
-  const canViewKyc = kycStatus !== "PENDING";
 
   const canTakeAction =
     kycStatus === "REGISTERED" ||
@@ -110,8 +89,6 @@ export default function AdminAgencyDetailsModal({
         onUpdated();
         onClose();
 
-      } catch (error: any) {
-        toast.error(error.response?.data?.message || "Failed");
       } finally {
         setActionLoading(false);
       }
@@ -141,6 +118,28 @@ export default function AdminAgencyDetailsModal({
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
+      <SecondaryHeader
+        title="Agency Details"
+        showBack
+        onBack={() => navigate(-1)}
+        tabs={[
+          {
+            key: "details",
+            label: "Details",
+          },
+          {
+            key: "dashboard",
+            label: "Dashboard",
+          },
+          {
+            key: "hubs",
+            label: "Hubs",
+          },
+        ]}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+
       {showRejectReasonModal && (
         <RejectReasonModal
           open
@@ -151,63 +150,36 @@ export default function AdminAgencyDetailsModal({
       )}
 
 
-      {showKycDetailsModal && agency.kyc && <KycDetails
-        open={showKycDetailsModal}
-        onClose={() => setShowKycDetailsModal(false)}
-        kyc={agency?.kyc}
-      />
-      }
-
-      {/* HEADER */}
-      <div className="sticky top-0">
-        <button
-          onClick={onClose}
-          className="flex items-center justify-center w-11 h-11 rounded-full bg-white/70 
-          backdrop-blur-md shadow-md text-gray-700 hover:bg-white hover:text-black transition">
-          <FaLeftLong className="text-lg" />
-        </button>
-      </div>
 
       {/* BODY */}
-      {!loading && agency && (
-        <div className="mt-6 space-y-8">
+      <div className="mt-2 px-2">
 
-          {/* TOP SECTION */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* DETAILS TAB */}
+        {activeTab === "details" && (
+          <AgencyProfileCard
+            agency={agency}
+            canTakeAction={canTakeAction}
+            actionLoading={actionLoading}
+            onReject={() =>
+              setShowRejectReasonModal(true)
+            }
+            onApprove={() =>
+              updateKYC("APPROVED")
+            }
+          />
+        )}
 
-            {/* LEFT — AGENCY PROFILE */}
-            <div className="lg:col-span-4 rounded-2xl  bg-white p-5 shadow-sm">
-              <AgencyProfileCard
-                agency={agency}
-                canViewKyc={canViewKyc}
-                canTakeAction={canTakeAction}
-                actionLoading={actionLoading}
-                onViewKyc={() => setShowKycDetailsModal(true)}
-                onReject={() => setShowRejectReasonModal(true)}
-                onApprove={() => updateKYC("APPROVED")}
-              />
-            </div>
+        {/* HUBS TAB */}
+        {activeTab === "hubs" && (
+          <AdminAgencyHubList />
+        )}
 
-            {/* RIGHT — HUBS TABLE */}
-            <div className="lg:col-span-8 rounded-3xl border bg-white p-6 shadow-sm">
-              {hubLists && hubLists.data.length > 0 ? (
-                <AdminAgencyHubList
-                  hubs={hubLists?.data ?? []}
-                  agencyId={agencyId!}
-                />
+        {/* DASHBOARD TAB */}
+        {activeTab === "dashboard" && (
+          <AgencyDashboardPage agencyId={agencyId!} />
+        )}
 
-              ) : (
-                <EmptyHubsState />
-              )}
-            </div>
-
-          </div>
-
-          {/* BOTTOM — DASHBOARD ANALYTICS */}
-          <AdminAgencyDashboard />
-
-        </div>
-      )}
+      </div>
     </>
   );
 }

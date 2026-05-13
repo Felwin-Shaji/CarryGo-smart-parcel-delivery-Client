@@ -23,7 +23,7 @@ const downloadFile = (blob: Blob, type: "excel" | "pdf") => {
     window.URL.revokeObjectURL(url);
 };
 
-export const useAgencyDashboard = () => {
+export const useAgencyDashboard = (agencyId?: string) => {
     const service = useAgencyDashboardService();
 
     const [dashboard, setDashboard] = useState<AgencyDashboardResponseDTO>();
@@ -44,19 +44,30 @@ export const useAgencyDashboard = () => {
 
     // Dashboard
     const fetchDashboard = async () => {
-        const res = await service.getDashboard();
+
+        let res: AgencyDashboardResponseDTO
+
+        if (agencyId) res = await service.getDashboardById(agencyId)
+        else res = await service.getDashboard();
+
         setDashboard(res);
     };
 
-    // Charts (use same filter)
     const fetchSalesChart = async () => {
-        const res = await service.getSalesChart(filters);
-        // const res = await service.getSalesChart();
+        let res: SalesChartResponseDTO;
+
+        if (agencyId) res = await service.getSalesChartById(agencyId)
+        else res = await service.getSalesChart(filters);
+
         setSalesChart(res.data);
     };
 
     const fetchDeliveriesChart = async () => {
-        const res = await service.getDeliveriesChart(filters);
+        let res: DeliveriesChartResponseDTO
+
+        if (agencyId) res = await service.getDeliveriesChartById(agencyId);
+        else res = await service.getDeliveriesChart(filters);
+
         setDeliveriesChart(res.data);
     };
 
@@ -64,23 +75,45 @@ export const useAgencyDashboard = () => {
     const fetchSalesReport = async () => {
         setLoading(true);
 
-        const res = await service.getSalesReport({
-            ...filters,
-            page,
-            limit,
-        });
+        let res: SalesReportResponseDTO
+        if (agencyId) {
+            res = await service.getSalesReportById(
+                agencyId,
+                {
+                    ...filters,
+                    page,
+                    limit,
+                }
+            );
+        } else {
+            res = await service.getSalesReport({
+                ...filters,
+                page,
+                limit,
+            });
+        }
 
         setReport(res);
         setLoading(false);
     };
 
-    // 🔹 Export
+    //  Export
     const handleExport = async (type: "excel" | "pdf") => {
         try {
-            const blob = await service.exportSalesReport({
-                type,
-                ...filters,
-            });
+            let blob: Blob
+            if (agencyId) {
+                blob = await service.exportSalesReportById(
+                    agencyId,
+                    {
+                        type,
+                        ...filters,
+                    });
+            } else {
+                blob = await service.exportSalesReport({
+                    type,
+                    ...filters,
+                });
+            }
 
             downloadFile(blob, type);
         } catch (err) {
@@ -88,7 +121,7 @@ export const useAgencyDashboard = () => {
         }
     };
 
-    // 🔹 Sync all
+    // Sync all
     useEffect(() => {
         fetchDashboard();
     }, []);

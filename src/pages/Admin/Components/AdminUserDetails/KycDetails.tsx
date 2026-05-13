@@ -1,6 +1,6 @@
 import { IdCard, User, FileText, Calendar } from "lucide-react";
 
-interface KycDetailsProps {
+export interface KycDetailsProps {
   kyc: {
     idType: "AADHAAR" | "DL" | "PASSPORT";
     documentUrl: string;
