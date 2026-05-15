@@ -11,6 +11,8 @@ import NotificationModal from "../shared/components/globelcomponents/Notificatio
 import { useNotificationsState } from "../Services/Notification/useNotificationsState";
 import type { Roles } from "../shared/constants_Types/types/roles";
 
+import carrygoLogo from "../assets/CarryGoIcon.png";
+
 interface DashboardLayoutProps {
     children: ReactNode;
     pageTitle?: string | ReactNode;
@@ -62,9 +64,8 @@ export const DashboardLayout = ({
                 <div className="flex items-center justify-between p-4 border-b border-gray-000">
 
                     {isSidebarOpen &&
-
                         <img
-                            src="\src\assets\CarryGoIcon.png"
+                            src={carrygoLogo}
                             alt="CarryGo Logo"
                             className="max-w-[60px] md:max-w-[60px] w-full object-contain"
                         />
