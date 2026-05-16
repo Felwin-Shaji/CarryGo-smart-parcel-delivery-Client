@@ -4,7 +4,7 @@ import { useAuth } from '../../Services/Auth';
 import RegistrationForm from '../../shared/components/Forms/RegistrationForm';
 
 const RegistrationPage = () => {
-    const { handleRegistration } = useAuth();
+    const { handleRegistration, handleGoogleAuth } = useAuth();
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data: {
@@ -21,8 +21,26 @@ const RegistrationPage = () => {
         }
     };
 
+    const onGoogleSignUp = async (credential: string) => {
+        try {
+            setLoading(true);
+            await handleGoogleAuth(credential);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     return (
-        <div><RegistrationForm title='User Registration' onSubmit={onSubmit} role={ROLES.USER} loading={loading} /></div>
+        <div>
+            <RegistrationForm
+                title='User Registration'
+                onSubmit={onSubmit}
+                role={ROLES.USER}
+                loading={loading}
+                onGoogleSignUp={onGoogleSignUp}
+            />
+        </div>
     )
 }
 

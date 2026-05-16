@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
-import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
 import logo from "../../../assets/carrygo-logo.png";
 import { registrationSchema } from "../../../validation/registration";
+import { GoogleLogin } from "@react-oauth/google";
 
 interface RegistrationFormProps {
   title: string;
@@ -15,7 +15,7 @@ interface RegistrationFormProps {
     role: string;
   }) => void;
   role: string;
-  onGoogleSignUp?: () => void;
+  onGoogleSignUp?: (credential: string) => void;
   loading?: boolean;
 }
 
@@ -199,14 +199,18 @@ const RegistrationForm = ({
 
               {/* Google Sign Up */}
               {onGoogleSignUp && (
-                <button
-                  type="button"
-                  onClick={onGoogleSignUp}
-                  className="flex-1 flex items-center justify-center gap-2 bg-white text-[#111827] py-3 rounded-full font-semibold border border-gray-300 hover:bg-gray-100 transition"
-                >
-                  <FcGoogle className="text-2xl" />
-                  <span>Google</span>
-                </button>
+                <div className="mt-4">
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      if (credentialResponse.credential && onGoogleSignUp) {
+                        onGoogleSignUp(credentialResponse.credential);
+                      }
+                    }}
+                    onError={() => {
+                      console.log("Google Login Failed");
+                    }}
+                  />
+                </div>
               )}
             </div>
 

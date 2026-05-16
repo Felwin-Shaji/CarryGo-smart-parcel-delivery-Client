@@ -270,7 +270,63 @@ export const useAuth = () => {
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong!");
     }
-  }
+  };
 
-  return { handleRegistration, handleLogin, handleLogoutt, handleForgotPassword, handleResetPassword, handleVerifyOtp, handleResendOtp };
+  /**
+* Handles Google Authentication for Users
+*
+* @param credential Google OAuth credential token
+*
+* @returns Promise<void>
+*/
+  const handleGoogleAuth = async (credential: string) => {
+    try {
+      const response = await axiosInstance.post(
+        API_AUTH.GOOGLE_AUTH,
+        {
+          credential,
+          role: ROLES.USER,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data?.success) {
+        const { users, accessToken } = response.data.data;
+
+        toast.success(
+          response.data.message || "Google login successful"
+        );
+
+        dispatch(
+          userLogin({
+            user: users,
+            accessToken,
+          })
+        );
+
+        navigate("/home");
+      }
+    } catch (error: unknown) {
+      const err = error as AxiosError<{ message?: string }>;
+
+      toast.error(
+        err.response?.data?.message ||
+        "Google authentication failed!"
+      );
+    }
+  };
+
+
+  return {
+    handleRegistration,
+    handleLogin,
+    handleLogoutt,
+    handleForgotPassword,
+    handleResetPassword,
+    handleVerifyOtp,
+    handleResendOtp,
+    handleGoogleAuth
+  };
 };
