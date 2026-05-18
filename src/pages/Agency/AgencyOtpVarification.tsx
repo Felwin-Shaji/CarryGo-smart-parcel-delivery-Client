@@ -94,7 +94,7 @@ const AgencyOtpVarification = () => {
   };
 
   return (
-    <OtpVerificationForm title='Varify your Agency email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} loading={loading} />
+    <OtpVerificationForm role='agency' title='Varify your Agency email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} loading={loading} />
   )
 }
 

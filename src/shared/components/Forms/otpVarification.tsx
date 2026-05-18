@@ -2,9 +2,12 @@ import { useState, useRef, type FormEvent, type ChangeEvent, useEffect } from "r
 import type { OtpMeta } from "../../../pages/User/OtpVarificationpage";
 import LoadingScreen from "../loading/CarryGoLoadingScreen";
 import logo from "../../../assets/carrygo-logo.png";
+import { loginTheme } from "../../../context/loginTheme";
+import type { Roles } from "../../constants_Types/types/roles";
 
 
 interface OtpVerificationFormProps {
+    role: Roles;
     title?: string;
     onSubmit: (otp: string) => void;
     loading?: boolean;
@@ -13,6 +16,7 @@ interface OtpVerificationFormProps {
 }
 
 const OtpVerificationForm = ({
+    role,
     title = "Verify Your Account",
     onSubmit,
     loading,
@@ -23,6 +27,8 @@ const OtpVerificationForm = ({
     const [timeLeft, setTimeLeft] = useState(0);
     const [canResend, setCanResend] = useState(false);
     const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+
+    const theme = loginTheme[role as Roles];
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
         const value = e.target.value.replace(/\D/, "");
@@ -103,72 +109,133 @@ const OtpVerificationForm = ({
             onSubmit(otpValue);
         }
     };
-
+    console.log("loading :", loading);
     if (loading) return <LoadingScreen />
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 font-[Inter] p-4 md:p-8">
-            <div className="flex flex-col md:flex-row bg-gray-100 rounded-2xl max-w-5xl w-full mx-auto md:rounded-tr-[60px]">
-                {/* Left Section */}
-                <div className="bg-gray-100 flex justify-center items-center w-full md:w-1/2 p-6 md:p-10">
-                    <img
-                        src={logo}
-                        alt="CarryGo Logo"
-                        className="max-w-[250px] md:max-w-[300px] w-full object-contain"
-                    />
+        <div
+            className={`min-h-screen bg-gradient-to-br ${theme.pageBg} flex items-center justify-center px-4 py-8 overflow-y-auto`}
+        >
+            {/* Main Card */}
+            <div
+                className={`relative w-full max-w-5xl rounded-[36px] shadow-2xl overflow-hidden ${theme.cardBg} grid md:grid-cols-2`}
+            >
+                {/* Glow Effects */}
+                <div
+                    className={`absolute top-0 left-0 w-72 h-72 rounded-full blur-3xl ${theme.glow}`}
+                />
+
+                <div
+                    className={`absolute bottom-0 right-0 w-72 h-72 rounded-full blur-3xl ${theme.glow}`}
+                />
+
+                {/* LEFT SIDE */}
+                <div
+                    className={`hidden md:flex relative flex-col justify-center items-center bg-gradient-to-br ${theme.leftBg} p-12 overflow-hidden`}
+                >
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/10" />
+
+                    {/* Content */}
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/15 border border-white/20 backdrop-blur-md text-sm font-medium mb-8 text-white">
+                            OTP Verification
+                        </div>
+
+                        <img
+                            src={logo}
+                            alt="CarryGo Logo"
+                            className="w-[240px] object-contain drop-shadow-2xl"
+                        />
+
+                        <p className="mt-6 text-white/80 text-base leading-relaxed max-w-sm">
+                            Securely verify your account and continue accessing CarryGo services.
+                        </p>
+                    </div>
                 </div>
 
-                {/* Right Section */}
-                <div className="bg-[#FACC15] w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center rounded-t-2xl md:rounded-t-none md:rounded-l-[60px] md:rounded-tr-[60px]">
-                    <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto">
-                        <h2 className="text-3xl font-bold text-[#1E3A8A] mb-2 text-center md:text-left">
-                            {title}
-                        </h2>
+                {/* RIGHT SIDE */}
+                <div
+                    className={`${theme.cardBg} backdrop-blur-xl p-8 md:p-14 flex items-center`}
+                >
+                    <form
+                        onSubmit={handleSubmit}
+                        className="w-full max-w-md mx-auto"
+                    >
+                        {/* Heading */}
+                        <div className="mb-8">
+                            <h2 className={`text-4xl font-bold ${theme.heading}`}>
+                                {title}
+                            </h2>
 
-                        {email && (
-                            <p className="text-sm text-[#102467] mb-4 text-center md:text-left">
-                                We’ve sent a 4-digit OTP to <span className="font-semibold">{email}</span>
-                            </p>
-                        )}
+                            {email && (
+                                <p className={`mt-3 text-base ${theme.subtext}`}>
+                                    We’ve sent a 4-digit OTP to{" "}
+                                    <span className="font-semibold">
+                                        {email}
+                                    </span>
+                                </p>
+                            )}
+                        </div>
 
-                        {/* OTP Inputs */}
-                        <div className="flex justify-between gap-3 mb-6 mt-6">
+                        {/* OTP INPUTS */}
+                        <div className="flex justify-between gap-4 mb-8">
                             {otp.map((digit, index) => (
                                 <input
                                     key={index}
                                     type="text"
                                     maxLength={1}
                                     inputMode="numeric"
-                                    ref={(el) => { (inputsRef.current[index] = el) }}
+                                    ref={(el) => {
+                                        inputsRef.current[index] = el;
+                                    }}
                                     value={digit}
                                     onChange={(e) => handleChange(e, index)}
                                     onKeyDown={(e) => handleKeyDown(e, index)}
-                                    className="w-14 h-14 text-center text-xl font-semibold rounded-xl border-none shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] bg-white"
+                                    className={`
+                                    w-16 h-16 rounded-2xl text-center text-2xl font-bold
+                                    outline-none transition-all duration-300
+                                    ${theme.input}
+                                    focus:scale-105
+                                `}
                                 />
                             ))}
                         </div>
 
+                        {/* VERIFY BUTTON */}
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-[#1E3A8A] text-white py-3 rounded-full font-semibold text-lg hover:bg-[#102467] transition disabled:opacity-60"
+                            className={`
+                            w-full bg-gradient-to-r ${theme.button}
+                            ${theme.buttonHover}
+                            text-white py-4 rounded-2xl font-semibold text-lg
+                            shadow-xl hover:scale-[1.02]
+                            transition-all duration-300 disabled:opacity-60
+                        `}
                         >
                             Verify OTP
                         </button>
 
-                        {/* Timer + Resend */}
-                        <p className="text-sm text-[#102467] mt-4 text-center">
+                        {/* TIMER / RESEND */}
+                        <div className="mt-6 text-center">
                             {canResend ? (
-                                <span
-                                    className="underline cursor-pointer hover:text-[#1E3A8A]"
+                                <button
+                                    type="button"
                                     onClick={onResendOtp}
+                                    className={`text-sm font-semibold hover:underline ${theme.accent}`}
                                 >
                                     Resend OTP
-                                </span>
+                                </button>
                             ) : (
-                                <>Otp expires in {formatTime(timeLeft)}s</>
+                                <p className={`text-sm ${theme.subtext}`}>
+                                    OTP expires in{" "}
+                                    <span className="font-semibold">
+                                        {formatTime(timeLeft)}
+                                    </span>
+                                </p>
                             )}
-                        </p>
+                        </div>
                     </form>
                 </div>
             </div>
