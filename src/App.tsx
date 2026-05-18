@@ -36,7 +36,7 @@ function App() {
         <Route path='/hub/*' element={<HubRoutes />} />
         <Route path='/worker/*' element={<WorkerRoutes />} />
 
-        <Route path="/reset-link-sent" element={<ResetLinkSentPage />} />
+        <Route path="/reset-link-sent" element={<ResetLinkSentPage role={role} />} />
 
       </Routes>
     </>

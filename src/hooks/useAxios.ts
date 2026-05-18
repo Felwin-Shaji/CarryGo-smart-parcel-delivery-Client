@@ -37,7 +37,7 @@ export const useAxios = (): AxiosInstance => {
                     toast.error("Cannot connect to the server.");
                     return Promise.reject(error);
                 }
-                
+
                 const data = error.response?.data as { message?: string } | undefined;
                 const status = error.response?.status;
                 const originalRequest = error.config as AxiosRequestConfig & {
@@ -55,6 +55,10 @@ export const useAxios = (): AxiosInstance => {
                     else if (url.startsWith("/api/hub")) role = ROLES.HUB;
                     else if (url.startsWith("/api/worker")) role = ROLES.WORKER;
                     else if (url.startsWith("/api/user")) role = ROLES.USER;
+
+                    if (!role) {
+                        return Promise.reject(error);
+                    }
 
                     // START REFRESH (ONLY ONCE)
                     if (!isRefreshing) {
@@ -98,33 +102,43 @@ export const useAxios = (): AxiosInstance => {
                                     dispatch(workerLogout());
                                 }
                             })
-                            .catch(() => {
+                            .catch((err) => {
                                 dispatch(userLogout());
                                 dispatch(adminLogout());
                                 dispatch(agencyLogout());
                                 dispatch(hubLogout());
                                 dispatch(workerLogout());
+                                throw err;
                             })
                             .finally(() => {
                                 isRefreshing = false;
+                                refreshPromise = null;
                                 dispatch(refreshEnd());
                             });
                     }
 
-                    //WAIT for refresh, then retry
-                    await refreshPromise;
-                    return axiosInstance(originalRequest);
-                } else if (status === 403) {
+                    try {
+                        await refreshPromise;
+                        return axiosInstance(originalRequest);
+                    } catch {
+                        return Promise.reject(error);
+                    };
+                }
+
+                if (status === 401) {
+                    return Promise.reject(error);
+                }
+
+                if (status === 403) {
                     toast.error("Access denied. Please check your permissions.");
                 } else if (status === 500) {
+                    toast.error("server error")
                     console.log(data)
                 } else if (data?.message) {
-                    if(status !==401){
-                        toast.error(data.message)
-                    }
+                    toast.error(data.message)
                     console.log(data)
                 } else {
-                    toast.error("An unexpected error occurred.");
+                    console.error('Login agnin')
                 }
 
                 return Promise.reject(error);
@@ -134,7 +148,7 @@ export const useAxios = (): AxiosInstance => {
         return () => {
             axiosInstance.interceptors.response.eject(responseInterceptor);
         }
-    }, [axiosInstance]);
+    }, [axiosInstance, dispatch]);
 
     return axiosInstance;
 }
