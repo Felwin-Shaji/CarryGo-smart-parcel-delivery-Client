@@ -34,7 +34,6 @@ const RegistrationPage = () => {
     return (
         <div>
             <RegistrationForm
-                title='User Registration'
                 onSubmit={onSubmit}
                 role={ROLES.USER}
                 loading={loading}

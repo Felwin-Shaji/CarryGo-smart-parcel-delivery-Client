@@ -1,12 +1,12 @@
 import { useFormik } from "formik";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiMail, FiPhone, FiUser, FiLock } from "react-icons/fi";
 import { useState } from "react";
 import logo from "../../../assets/carrygo-logo.png";
 import { registrationSchema } from "../../../validation/registration";
 import { GoogleLogin } from "@react-oauth/google";
+import { roleConfigRegistration } from "../../../context/roleConfigRegistration";
 
 interface RegistrationFormProps {
-  title: string;
   onSubmit: (data: {
     name: string;
     email: string;
@@ -19,191 +19,429 @@ interface RegistrationFormProps {
   loading?: boolean;
 }
 
+
+
 const RegistrationForm = ({
-  title,
   onSubmit,
   onGoogleSignUp,
   loading,
-  role
+  role,
 }: RegistrationFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const config = roleConfigRegistration[role as "user" | "agency"];
 
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
-      role: role,
+      role,
       mobile: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: registrationSchema,
     onSubmit: (values) => {
-      console.log("Form submitted:", { ...values, role });
-      onSubmit({ ...values, role })
-    }
-  })
-
+      onSubmit({ ...values, role });
+    },
+  });
 
   return (
-    <div className="flex justify-center items-center max-h-screen bg-gray-100 font-[Inter] p-4 md:p-8">
-      <div className="flex flex-col md:flex-row bg-gray-100 rounded-2xl max-w-5xl w-full mx-auto md:rounded-tr-[60px]">
+    <div
+      className={`min-h-screen bg-gradient-to-br ${config.pageBg} flex items-center justify-center px-4 py-10 font-[Inter] overflow-hidden relative`}
+    >
 
-        {/* Left Section - Logo */}
-        <div className="bg-gray-100 flex justify-center items-center w-full md:w-1/2 p-6 md:p-10">
-          <img
-            src={logo}
-            alt="CarryGo Logo"
-            className="max-w-[250px] md:max-w-[300px] w-full object-contain"
-          />
+      {/* Background Glow */}
+      <div
+        className={`absolute top-10 left-10 w-72 h-72 rounded-full blur-3xl ${config.glow}`}
+      />
+
+      <div
+        className={`w-full max-w-6xl rounded-[36px] overflow-hidden ${config.cardBg} shadow-[0_20px_80px_rgba(0,0,0,0.25)] grid md:grid-cols-2 relative z-10`}
+      >
+
+        {/* LEFT SIDE */}
+        <div
+          className={`hidden md:flex relative flex-col justify-between bg-gradient-to-br ${config.leftBg} p-12 overflow-hidden`}
+        >
+
+          {/* Decorative circles */}
+          <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-white/10 blur-2xl" />
+          <div className="absolute bottom-0 left-0 w-52 h-52 rounded-full bg-black/10 blur-2xl" />
+
+          {/* Top */}
+          <div className="relative z-10">
+
+            {/* Badge */}
+            <div
+              className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-8"
+            >
+              {config.badge}
+            </div>
+
+            {/* Hero */}
+            <h1 className="text-5xl font-black text-white leading-tight max-w-md">
+              {config.heroTitle}
+            </h1>
+
+            <p className="text-white/80 text-lg leading-relaxed mt-6 max-w-md">
+              {config.heroText}
+            </p>
+          </div>
+
+          {/* Bottom Logo */}
+          <div className="relative z-10 flex flex-col items-start">
+
+            <img
+              src={logo}
+              alt="CarryGo Logo"
+              className="w-[240px] object-contain drop-shadow-2xl"
+            />
+
+            <div className="mt-6 flex items-center gap-3">
+
+              <div className="flex -space-x-3">
+                <div className="w-10 h-10 rounded-full bg-white/30 border border-white/30" />
+                <div className="w-10 h-10 rounded-full bg-white/20 border border-white/30" />
+                <div className="w-10 h-10 rounded-full bg-white/10 border border-white/30" />
+              </div>
+
+              <p className="text-white/70 text-sm">
+                Trusted by thousands of deliveries daily
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Right Section - Sign Up Form */}
-        <div className="bg-[#FACC15] w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center rounded-t-2xl md:rounded-t-none md:rounded-l-[60px] md:rounded-tr-[60px]">
+        {/* RIGHT SIDE */}
+        <div
+          className={`p-8 md:p-14 flex items-center ${role === "agency"
+            ? "bg-[#0F172A]/70"
+            : "bg-white/80"
+            } backdrop-blur-xl`}
+        >
+
           <form
             onSubmit={formik.handleSubmit}
-            className="w-full max-w-sm mx-auto"
+            className="w-full"
           >
-            <h2 className="text-3xl font-bold text-[#1E3A8A] mb-2 text-center md:text-left">
-              {title}
-            </h2>
-            {role === "user" && (
-              <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
-                Already have an account?{" "}
-                <a href="/login" className="text-[#1E3A8A] underline font-medium">
-                  Login here.
-                </a>
-              </p>
-            )}
 
-            {role === "agency" && (
-              <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
-                Already have an account?{" "}
-                <a href="/agency/login" className="text-[#1E3A8A] underline font-medium">
-                  Login here.
-                </a>
-              </p>
-            )}
+            {/* Heading */}
+            <div className="mb-10">
 
+              <h2
+                className={`text-4xl font-bold ${config.heading}`}
+              >
+                {config.title}
+              </h2>
+
+              <p
+                className={`mt-3 text-base leading-relaxed ${config.subtext}`}
+              >
+                {config.subtitle}
+              </p>
+            </div>
+
+            {/* Login Link */}
+            <p className={`text-sm mb-8 ${config.subtext}`}>
+              Already have an account?{" "}
+
+              <a
+                href={config.loginLink}
+                className={`font-semibold ${config.accent} hover:underline`}
+              >
+                {config.loginText}
+              </a>
+            </p>
 
             {/* Name */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-[#111827] mb-2">Name</label>
-              <input
-                type="text"
-                className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm h-10"
-                name="name"
-                id="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-              />
+            <div className="mb-5">
+              <div className="relative">
+
+                <FiUser
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
+                />
+
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  className={`
+                  w-full
+                  pl-12
+                  pr-4
+                  py-4
+                  rounded-2xl
+                  outline-none
+                  transition-all
+                  focus:ring-4
+                  ${config.input}
+                `}
+                />
+              </div>
+
               {formik.touched.name && formik.errors.name && (
-                <p className="text-red-500 text-sm mt-1">{formik.errors.name}</p>
+                <p className="text-red-500 text-sm mt-2">
+                  {formik.errors.name}
+                </p>
               )}
             </div>
 
             {/* Email */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-[#111827] mb-2">Email</label>
-              <input
-                type="text"
-                className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm h-10"
-                name="email"
-                id="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-              />
+            <div className="mb-5">
+              <div className="relative">
+
+                <FiMail
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  className={`
+                  w-full
+                  pl-12
+                  pr-4
+                  py-4
+                  rounded-2xl
+                  outline-none
+                  transition-all
+                  focus:ring-4
+                  ${config.input}
+                `}
+                />
+              </div>
+
               {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
+                <p className="text-red-500 text-sm mt-2">
+                  {formik.errors.email}
+                </p>
               )}
             </div>
 
             {/* Mobile */}
-            <div className="mb-4 flex gap-2 items-center">
-              <div className="flex-1">
-                <label className="block text-sm font-semibold text-[#111827] mb-2">Mobile</label>
+            <div className="mb-5">
+              <div className="relative">
+
+                <FiPhone
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
+                />
+
                 <input
                   type="text"
-                  className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm h-10"
                   name="mobile"
-                  id="mobile"
+                  placeholder="Mobile Number"
                   value={formik.values.mobile}
                   onChange={formik.handleChange}
+                  className={`
+                  w-full
+                  pl-12
+                  pr-4
+                  py-4
+                  rounded-2xl
+                  outline-none
+                  transition-all
+                  focus:ring-4
+                  ${config.input}
+                `}
                 />
-                {formik.touched.mobile && formik.errors.mobile && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.mobile}</p>
-                )}
               </div>
+
+              {formik.touched.mobile && formik.errors.mobile && (
+                <p className="text-red-500 text-sm mt-2">
+                  {formik.errors.mobile}
+                </p>
+              )}
             </div>
 
             {/* Password */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-[#111827] mb-2">Password</label>
-              <div className="mb-4 relative">
+            <div className="mb-5">
+              <div className="relative">
+
+                <FiLock
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
+                />
+
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm h-10 pr-10"
                   name="password"
-                  id="password"
+                  placeholder="Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
+                  className={`
+                  w-full
+                  pl-12
+                  pr-12
+                  py-4
+                  rounded-2xl
+                  outline-none
+                  transition-all
+                  focus:ring-4
+                  ${config.input}
+                `}
                 />
+
                 <button
                   type="button"
-                  onClick={() => setShowPassword(p => !p)}
-                  className="bg-transparent hover:bg-transparent absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={`absolute right-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
                 >
-                  {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                  {showPassword ? (
+                    <FiEyeOff size={20} />
+                  ) : (
+                    <FiEye size={20} />
+                  )}
                 </button>
               </div>
+
               {formik.touched.password && formik.errors.password && (
-                <p className="text-red-600 text-sm mt-1">{formik.errors.password}</p>
+                <p className="text-red-500 text-sm mt-2">
+                  {formik.errors.password}
+                </p>
               )}
             </div>
 
             {/* Confirm Password */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-[#111827] mb-2">Confirm Password</label>
-              <div className="mb-4 relative">
+            <div className="mb-8">
+              <div className="relative">
+
+                <FiLock
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
+                />
+
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  className="w-full border-none rounded-full p-3 focus:outline-none shadow-sm h-10"
                   name="confirmPassword"
-                  id="confirmPassword"
+                  placeholder="Confirm Password"
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
+                  className={`
+                  w-full
+                  pl-12
+                  pr-12
+                  py-4
+                  rounded-2xl
+                  outline-none
+                  transition-all
+                  focus:ring-4
+                  ${config.input}
+                `}
                 />
+
                 <button
                   type="button"
-                  onClick={() => setShowConfirmPassword(p => !p)}
-                  className="bg-transparent hover:bg-transparent absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                  className={`absolute right-4 top-1/2 -translate-y-1/2 ${role === "agency"
+                    ? "text-gray-400"
+                    : "text-gray-500"
+                    }`}
                 >
-                  {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                  {showConfirmPassword ? (
+                    <FiEyeOff size={20} />
+                  ) : (
+                    <FiEye size={20} />
+                  )}
                 </button>
               </div>
-              {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                <p className="text-red-600 text-sm mt-1">{formik.errors.confirmPassword}</p>
-              )}
+
+              {formik.touched.confirmPassword &&
+                formik.errors.confirmPassword && (
+                  <p className="text-red-500 text-sm mt-2">
+                    {formik.errors.confirmPassword}
+                  </p>
+                )}
             </div>
 
-            <div className="flex items-center justify-between w-full gap-2">
-              {/* Sign Up Button */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-[#1E3A8A] text-white py-3 rounded-full font-semibold text-lg hover:bg-[#102467] transition disabled:opacity-60"
-              >
-                {loading ? "Signing Up..." : "Sign Up"}
-              </button>
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`
+              w-full
+              bg-gradient-to-r
+              ${config.button}
+              ${config.buttonHover}
+              text-white
+              py-4
+              rounded-2xl
+              font-semibold
+              text-lg
+              transition-all
+              duration-300
+              hover:scale-[1.02]
+              hover:shadow-2xl
+              disabled:opacity-60
+            `}
+            >
+              {loading
+                ? "Creating Account..."
+                : role === "agency"
+                  ? "Register Agency"
+                  : "Create Account"}
+            </button>
 
-              {/* Google Sign Up */}
-              {onGoogleSignUp && (
-                <div className="mt-4">
+            {/* Google */}
+            {onGoogleSignUp && (
+              <>
+                <div className="flex items-center gap-4 my-8">
+
+                  <div
+                    className={`flex-1 h-[1px] ${role === "agency"
+                      ? "bg-white/10"
+                      : "bg-gray-200"
+                      }`}
+                  />
+
+                  <span
+                    className={`text-xs tracking-[0.2em] ${config.subtext}`}
+                  >
+                    OR CONTINUE WITH
+                  </span>
+
+                  <div
+                    className={`flex-1 h-[1px] ${role === "agency"
+                      ? "bg-white/10"
+                      : "bg-gray-200"
+                      }`}
+                  />
+                </div>
+
+                <div className="flex justify-center">
                   <GoogleLogin
                     onSuccess={(credentialResponse) => {
-                      if (credentialResponse.credential && onGoogleSignUp) {
-                        onGoogleSignUp(credentialResponse.credential);
+                      if (
+                        credentialResponse.credential &&
+                        onGoogleSignUp
+                      ) {
+                        onGoogleSignUp(
+                          credentialResponse.credential
+                        );
                       }
                     }}
                     onError={() => {
@@ -211,14 +449,12 @@ const RegistrationForm = ({
                     }}
                   />
                 </div>
-              )}
-            </div>
-
+              </>
+            )}
           </form>
         </div>
       </div>
     </div>
-
   );
 };
 

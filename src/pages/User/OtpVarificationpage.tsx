@@ -101,7 +101,7 @@ const OtpVarificationpage = () => {
 
   return (
     <div>
-      <OtpVerificationForm title='Verify Email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} email={email} loading={loading} />
+      <OtpVerificationForm role='user' title='Verify Email' onSubmit={onVerifyOtp} onResendOtp={onResendOtp} email={email} loading={loading} />
     </div>
   )
 }

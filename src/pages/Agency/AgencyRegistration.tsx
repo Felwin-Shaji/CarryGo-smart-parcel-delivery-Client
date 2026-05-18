@@ -31,7 +31,7 @@ const AgencyRegistration = () => {
     };
 
     return (
-        <div><RegistrationForm title='Agency Registration' onSubmit={onSubmit} role={ROLES.AGENCY} loading={loading} /></div>
+        <div><RegistrationForm  onSubmit={onSubmit} role={ROLES.AGENCY} loading={loading} /></div>
     )
 }
 

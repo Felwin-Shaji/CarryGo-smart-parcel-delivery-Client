@@ -32,6 +32,7 @@ const AdminRoutes = () => {
           <Route path="reset-password/:token" element={<AdminResetPassword />} />
         </Route>
 
+        <Route path="" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
         <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminDashboard /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.ADMIN}><AdminProfilePage /></ProtectedRoute>} />
 

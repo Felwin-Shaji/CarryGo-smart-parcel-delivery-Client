@@ -2,94 +2,159 @@ import { useFormik } from "formik";
 import type { Roles } from "../../constants_Types/types/roles";
 import logo from "../../../assets/carrygo-logo.png";
 import { forgotPasswordSchema } from "../../../validation/forgotPassword";
-
-
+import { loginTheme } from "../../../context/loginTheme";
+import LoadingScreen from "../loading/CarryGoLoadingScreen";
 
 interface ForgotPasswordProps {
-  title: string;
-  onSubmit: (data: { email: string, role: Roles }) => void;
-  loading?: boolean;
-  role: Roles;
+    title: string;
+    onSubmit: (data: { email: string; role: Roles }) => void;
+    loading?: boolean;
+    role: Roles;
 }
 
-const ForgotPasswordForm = ({ title, onSubmit, loading, role }: ForgotPasswordProps) => {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      role
-    },
-    validationSchema: forgotPasswordSchema,
-    onSubmit: (values) => onSubmit(values),
-  });
+const ForgotPasswordForm = ({
+    title,
+    onSubmit,
+    loading,
+    role,
+}: ForgotPasswordProps) => {
 
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 font-[Inter] p-4 md:p-8">
-      <div className="flex flex-col md:flex-row bg-gray-100 rounded-2xl max-w-5xl w-full mx-auto md:rounded-tr-[60px]">
+    const theme = loginTheme[role as Roles] || loginTheme.user;
 
-        {/* Left Section - Logo */}
-        <div className="bg-gray-100 flex justify-center items-center w-full md:w-1/2 p-6 md:p-10">
-          <img
-            src={logo}
-            alt="CarryGo Logo"
-            className="max-w-[250px] md:max-w-[300px] w-full object-contain"
-          />
-        </div>
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            role,
+        },
+        validationSchema: forgotPasswordSchema,
+        onSubmit: (values) => onSubmit(values),
+    });
 
-        {/* Right Section - Forgot Form */}
-        <div className="bg-[#FACC15] w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center rounded-t-2xl md:rounded-t-none md:rounded-l-[60px] md:rounded-tr-[60px]">
-          <form
-            onSubmit={formik.handleSubmit}
-            className="w-full max-w-sm mx-auto"
-          >
-            <h2 className="text-3xl font-bold text-[#1E3A8A] mb-2 text-center md:text-left">
-              {title}
-            </h2>
-            <p className="text-sm text-[#102467] mb-6 text-center md:text-left">
-              Enter the email linked with your account to receive a reset link.
-            </p>
+    if (loading) return <LoadingScreen />;
 
-            {/* Email Field */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-[#111827] mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                className={`w-full border-none rounded-full p-3 focus:outline-none shadow-sm ${formik.touched.email && formik.errors.email ? "border-red-500" : ""
-                  }`}
-                placeholder="you@example.com"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#1E3A8A] text-white py-3 rounded-full font-semibold text-lg hover:bg-[#102467] transition disabled:opacity-60"
+    return (
+        <div
+            className={`min-h-screen bg-gradient-to-br ${theme.pageBg} flex items-center justify-center px-4 py-8 overflow-y-auto`}
+        >
+            {/* MAIN CARD */}
+            <div
+                className={`relative w-full max-w-5xl rounded-[36px] shadow-2xl overflow-hidden ${theme.cardBg} grid md:grid-cols-2`}
             >
-              {loading ? "Sending..." : "Send Reset Link"}
-            </button>
+                {/* Glow Effects */}
+                <div
+                    className={`absolute top-0 left-0 w-72 h-72 rounded-full blur-3xl ${theme.glow}`}
+                />
 
-            <p className="text-sm text-[#102467] mt-6 text-center">
-              <a
-                href="/login"
-                className="underline hover:text-[#1E3A8A]"
-              >
-                Back to Login
-              </a>
-            </p>
-          </form>
+                <div
+                    className={`absolute bottom-0 right-0 w-72 h-72 rounded-full blur-3xl ${theme.glow}`}
+                />
+
+                {/* LEFT SIDE */}
+                <div
+                    className={`hidden md:flex relative flex-col justify-center items-center bg-gradient-to-br ${theme.leftBg} p-12 overflow-hidden`}
+                >
+                    <div className="absolute inset-0 bg-black/10" />
+
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/15 border border-white/20 backdrop-blur-md text-sm font-medium mb-8 text-white">
+                            Password Recovery
+                        </div>
+
+                        <img
+                            src={logo}
+                            alt="CarryGo Logo"
+                            className="w-[240px] object-contain drop-shadow-2xl"
+                        />
+
+                        <p className="mt-6 text-white/80 text-base leading-relaxed max-w-sm">
+                            Recover your account securely and continue accessing
+                            CarryGo services.
+                        </p>
+                    </div>
+                </div>
+
+                {/* RIGHT SIDE */}
+                <div
+                    className={`${theme.cardBg} backdrop-blur-xl p-8 md:p-14 flex items-center`}
+                >
+                    <form
+                        onSubmit={formik.handleSubmit}
+                        className="w-full max-w-md mx-auto"
+                    >
+                        {/* HEADING */}
+                        <div className="mb-8">
+                            <h2
+                                className={`text-4xl font-bold ${theme.heading}`}
+                            >
+                                {title}
+                            </h2>
+
+                            <p className={`mt-3 text-base ${theme.subtext}`}>
+                                Enter the email linked with your account to
+                                receive a reset link.
+                            </p>
+                        </div>
+
+                        {/* EMAIL */}
+                        <div className="mb-8">
+                            <label
+                                className={`block text-sm font-semibold mb-2 ${theme.heading}`}
+                            >
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={`
+                                    w-full rounded-2xl p-4 outline-none transition-all duration-300
+                                    ${theme.input}
+                                `}
+                            />
+
+                            {formik.touched.email &&
+                                formik.errors.email && (
+                                    <p className="text-red-500 text-xs mt-2">
+                                        {formik.errors.email}
+                                    </p>
+                                )}
+                        </div>
+
+                        {/* BUTTON */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`
+                                w-full bg-gradient-to-r ${theme.button}
+                                ${theme.buttonHover}
+                                text-white py-4 rounded-2xl font-semibold text-lg
+                                shadow-xl hover:scale-[1.02]
+                                transition-all duration-300 disabled:opacity-60
+                            `}
+                        >
+                            {loading
+                                ? "Sending..."
+                                : "Send Reset Link"}
+                        </button>
+
+                        {/* BACK */}
+                        <div className="mt-6 text-center">
+                            <a
+                                href="/login"
+                                className={`text-sm font-semibold hover:underline ${theme.accent}`}
+                            >
+                                Back to Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ForgotPasswordForm;
