@@ -1,25 +1,21 @@
+import { useState } from "react";
+import { confirmToast } from "../../../../../shared/components/globelcomponents/confirmToast";
 import RouteMapPreview from "../../../../../shared/components/Map/RouteMapPreview";
-import type { RouteSegmentDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
+import type { RouteGroupDetailDTO, RouteSegmentDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 import { formatTime, totalDistance, totalTime } from "../utils/routeHelpers";
+import toast from "react-hot-toast";
+import { useAgencyRouteGroup } from "../../../../../Services/Agency/AgencyRouteGroup";
 
 
 interface Props {
-  detail: {
-    name: string;
-    description: string | null;
-    createdAt: string;
-    segments: RouteSegmentDTO[];
-  };
+  detail: RouteGroupDetailDTO
   segments: RouteSegmentDTO[];
   groupActive: boolean;
   onToggle: () => void;
 }
-export default function RouteSummaryHeader({
-  detail,
-  segments,
-  groupActive,
-  onToggle,
-}: Props) {
+export default function RouteSummaryHeader({ detail, segments, groupActive, onToggle, }: Props) {
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const { updateRouteGroupStatus } = useAgencyRouteGroup();
 
   const sorted = [...detail.segments].sort(
     (a, b) => a.segmentOrder - b.segmentOrder
@@ -29,6 +25,41 @@ export default function RouteSummaryHeader({
   const end = sorted[sorted.length - 1]?.destinationHubName ?? "—";
 
   const activeSegments = detail.segments.filter(s => s.isActive).length;
+
+
+  const handleToggleStatus = async () => {
+
+    try {
+
+      setUpdatingStatus(true);
+
+      await updateRouteGroupStatus(
+        detail.id,
+        !groupActive
+      );
+
+      onToggle();
+
+      toast.success(
+        groupActive
+          ? "Route group deactivated"
+          : "Route group activated"
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      toast.error(
+        "Failed to update route group status"
+      );
+
+    } finally {
+
+      setUpdatingStatus(false);
+
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 px-6 py-5 shadow-sm hover:shadow-md transition">
@@ -40,31 +71,110 @@ export default function RouteSummaryHeader({
         <div>
           <div className="flex items-center gap-3 flex-wrap">
 
-            <h1 className="text-lg font-semibold text-[#1E3A8A]">
+            <h1 className="text-lg font-bold text-[#1E3A8A]">
               {detail.name}
             </h1>
 
-            {/* STATUS */}
-            <span
-              className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${groupActive
-                ? "text-emerald-700 bg-emerald-50 border-emerald-200"
-                : "text-gray-500 bg-gray-100 border-gray-200"
-                }`}
-            >
-              {groupActive ? "Active" : "Inactive"}
-            </span>
-
             {/* TOGGLE */}
-            <button
-              onClick={onToggle}
-              className={`w-10 h-[22px] rounded-full p-0.5 flex items-center transition-colors ${groupActive ? "bg-[#1E3A8A]" : "bg-gray-300"
-                }`}
-            >
+            <div className="flex items-center gap-3">
+
+              {/* STATUS BADGE */}
               <div
-                className={`w-[18px] h-[18px] rounded-full bg-white shadow transition-transform ${groupActive ? "translate-x-[18px]" : ""
+                className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold ${groupActive
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                  : "bg-red-100 text-red-600 border border-red-200"
                   }`}
-              />
-            </button>
+              >
+
+                <div
+                  className={`h-2 w-2 rounded-full ${groupActive
+                    ? "bg-emerald-500"
+                    : "bg-red-400"
+                    }`}
+                />
+
+                {groupActive ? "Active" : "Inactive"}
+
+              </div>
+
+              {/* ACTION BUTTON */}
+              <button
+                disabled={updatingStatus}
+                onClick={() => {
+
+                  if (updatingStatus) return;
+
+                  confirmToast(
+                    groupActive
+                      ? "Deactivate this route group?"
+                      : "Activate this route group?",
+                    handleToggleStatus
+                  );
+
+                }}
+                className={`group relative flex h-10 items-center gap-2 overflow-hidden rounded-xl px-4 text-sm font-semibold text-white transition-all duration-300 border-none cursor-pointer shadow-md ${updatingStatus
+                  ? "opacity-70 cursor-not-allowed"
+                  : groupActive
+                    ? "bg-gradient-to-r from-rose-500 to-red-500 hover:shadow-red-200 hover:-translate-y-[1px]"
+                    : "bg-gradient-to-r from-[#1E3A8A] to-[#2854c5] hover:shadow-blue-200 hover:-translate-y-[1px]"
+                  }`}
+              >
+
+                {/* Glow */}
+                <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                {/* Icon */}
+                <div className="relative z-10 flex h-4 w-4 items-center justify-center rounded-full bg-white/20">
+
+                  {updatingStatus ? (
+
+                    <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
+
+                  ) : groupActive ? (
+
+                    <div className="h-2 w-2 rounded-full bg-white" />
+
+                  ) : (
+
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M12 5V19"
+                        stroke="white"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+
+                      <path
+                        d="M5 12H19"
+                        stroke="white"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+
+                  )}
+
+                </div>
+
+                {/* Text */}
+                <span className="relative z-10 tracking-wide">
+
+                  {updatingStatus
+                    ? "Updating..."
+                    : groupActive
+                      ? "Deactivate Route"
+                      : "Activate Route"}
+
+                </span>
+
+              </button>
+
+            </div>
 
           </div>
 

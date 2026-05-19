@@ -11,8 +11,6 @@ export const useAgencyRouteGroup = () => {
             data
         );
 
-        console.log(response.data.data, 'ggggggggggggggggg')
-
         return response.data.data
     }
 
@@ -32,14 +30,30 @@ export const useAgencyRouteGroup = () => {
         const response = await axiosInstance.get(
             `${API_AGENCY.ROUTE_GROUPS}/${id}`
         );
-        console.log(response.data.data, 'ddddddddddddsssssssssaaaaaaaaaaaa')
         return response.data.data
-    }
+    };
+
+
+    const updateRouteGroupStatus = async (
+        id: string,
+        isActive: boolean
+    ) => {
+
+        const response = await axiosInstance.patch(
+            `${API_AGENCY.ROUTE_GROUPS}/${id}/status`,
+            {
+                isActive
+            }
+        );
+
+        return response.data.data;
+    };
 
 
     return {
         createRouteGroup,
         getPaginatedRouteGroups,
-        getRouteGroupDetail
+        getRouteGroupDetail,
+        updateRouteGroupStatus
     }
 }
