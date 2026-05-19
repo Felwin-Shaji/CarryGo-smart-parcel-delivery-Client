@@ -1,4 +1,4 @@
-import { Clock, Route } from "lucide-react";
+import { ArrowRight, Clock3, Route, MapPin, } from "lucide-react";
 import { formatTime } from "../utils/routeHelpers";
 
 interface RouteSegmentDTO {
@@ -20,64 +20,150 @@ export function SegmentRow({
     segment: RouteSegmentDTO;
 }) {
     return (
-        <div className="flex items-start gap-3">
-
-            {/* Card */}
-            <div className="flex-1 bg-white border border-gray-100 rounded-xl px-5 py-4 mb-4 shadow-sm hover:shadow-md transition">
-
-                {/* Top Row */}
-                <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
-                            #{String(segment.segmentOrder).padStart(2, "0")}
-                        </span>
-
-                    </div>
-
+        <div
+            className="
+                group
+                rounded-2xl
+                border border-slate-200
+                bg-white
+                px-5
+                py-4
+                shadow-sm
+                transition-all duration-300
+                hover:border-blue-200
+                hover:shadow-lg
+            "
+        >
+            <div className="flex items-center gap-5">
+                {/* Segment Number */}
+                <div
+                    className="
+                        hidden sm:flex
+                        h-12 w-12 shrink-0
+                        items-center justify-center
+                        rounded-2xl
+                        bg-gradient-to-br from-blue-600 to-indigo-700
+                        text-white
+                        shadow-md
+                    "
+                >
+                    <span className="text-sm font-bold">
+                        #{String(segment.segmentOrder).padStart(2, "0")}
+                    </span>
                 </div>
 
-                {/* Hub names */}
-                <div className="flex items-center gap-3 mb-3">
-                    <span className="text-[15px] font-semibold text-[#102467]">
-                        {segment.originHubName}
-                    </span>
+                {/* Route Content */}
+                <div className="min-w-0 flex-1">
+                    {/* Route */}
+                    <div className="flex items-center gap-3">
+                        {/* From */}
+                        <div className="min-w-0 flex-1">
+                            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-1">
+                                From
+                            </p>
 
-                    <div className="flex-1 flex items-center gap-1.5">
-                        <div className="h-px flex-1 bg-gray-200" />
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                            <path
-                                d="M2 6h8M7 3l3 3-3 3"
-                                stroke="#1E3A8A"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                            <div className="flex items-center gap-2">
+                                <div className="rounded-lg bg-blue-50 p-2 text-blue-700">
+                                    <MapPin size={15} />
+                                </div>
+
+                                <h3 className="truncate text-sm font-semibold text-slate-800">
+                                    {segment.originHubName}
+                                </h3>
+                            </div>
+                        </div>
+
+                        {/* Arrow */}
+                        <div className="flex items-center gap-2 px-2">
+                            <div className="h-[2px] w-10 bg-blue-200 rounded-full" />
+
+                            <div className="rounded-full border border-blue-100 bg-blue-50 p-2 text-blue-700">
+                                <ArrowRight size={14} />
+                            </div>
+
+                            <div className="h-[2px] w-10 bg-blue-200 rounded-full" />
+                        </div>
+
+                        {/* To */}
+                        <div className="min-w-0 flex-1 text-right">
+                            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-1">
+                                To
+                            </p>
+
+                            <div className="flex items-center justify-end gap-2">
+                                <h3 className="truncate text-sm font-semibold text-slate-800">
+                                    {segment.destinationHubName}
+                                </h3>
+
+                                <div className="rounded-lg bg-indigo-50 p-2 text-indigo-700">
+                                    <MapPin size={15} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Meta */}
+                    <div className="mt-4 flex flex-wrap items-center gap-3">
+                        <div
+                            className="
+                                flex items-center gap-2
+                                rounded-xl
+                                bg-slate-50
+                                px-3 py-2
+                            "
+                        >
+                            <Route
+                                size={14}
+                                className="text-slate-500"
                             />
-                        </svg>
-                        <div className="h-px flex-1 bg-gray-200" />
-                    </div>
 
-                    <span className="text-[15px] font-semibold text-[#102467]">
-                        {segment.destinationHubName}
-                    </span>
-                </div>
+                            <span className="text-xs text-slate-500">
+                                Distance:
+                            </span>
 
-                {/* Meta */}
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Route size={11} className="text-gray-400" />
-                        Distance
-                        <span className="text-[#1E3A8A] font-semibold">
-                            {segment.distanceKm ?? "—"}
-                        </span>
-                        <span className="text-gray-400">km</span>
-                    </div>
+                            <span className="text-sm font-semibold text-slate-800">
+                                {segment.distanceKm ?? "—"} km
+                            </span>
+                        </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Clock size={11} className="text-gray-400" />
-                        Time
-                        <span className="text-[#1E3A8A] font-semibold">
-                            {formatTime(segment.estimatedTimeMinutes)}
-                        </span>
+                        <div
+                            className="
+                                flex items-center gap-2
+                                rounded-xl
+                                bg-slate-50
+                                px-3 py-2
+                            "
+                        >
+                            <Clock3
+                                size={14}
+                                className="text-slate-500"
+                            />
+
+                            <span className="text-xs text-slate-500">
+                                ETA:
+                            </span>
+
+                            <span className="text-sm font-semibold text-slate-800">
+                                {formatTime(
+                                    segment.estimatedTimeMinutes
+                                )}
+                            </span>
+                        </div>
+
+                        {/* Status */}
+                        <div
+                            className={`
+                                ml-auto rounded-full px-3 py-1 text-[11px] font-semibold
+                                ${segment.isActive
+                                    ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                                    : "bg-gray-100 text-gray-500 border border-gray-200"
+                                }
+                            `}
+                        >
+                            {segment.isActive
+                                ? "Active"
+                                : "Inactive"}
+                        </div>
                     </div>
                 </div>
             </div>

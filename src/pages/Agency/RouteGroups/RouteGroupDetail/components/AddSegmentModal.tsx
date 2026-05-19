@@ -1,30 +1,28 @@
-import { X } from "lucide-react";
-import { useState } from "react";
+import { X, Route, MapPinned, Clock3, Ruler, GitBranchPlus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { HubDropdown } from "./HubDropDown";
 import type { HubResponseDTO } from "../../../../../shared/constants_Types/types/Admin/AdminAgency.dto";
 import { useAgencyRouteSegmant } from "../../../../../Services/Agency/AgencyRouteSegmant";
-import type { CreateRouteSegmentDTO } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
-
+import type { CreateRouteSegmentDTO, RouteSegmentDTO, } from "../../../../../shared/constants_Types/types/Agency/AgencyRouteSegment.dto";
 
 interface Props {
     routeGroupId: string;
     routeGroupName: string;
     nextSegmentOrder: number;
+    segments: RouteSegmentDTO[];
     onClose: () => void;
     onCreated: () => void;
 }
-
-
 
 export default function AddSegmentModal({
     routeGroupId,
     routeGroupName,
     nextSegmentOrder,
+    segments,
     onClose,
     onCreated,
 }: Props) {
-
-    const { createRouteSegmants } = useAgencyRouteSegmant()
+    const { createRouteSegmants } = useAgencyRouteSegmant();
 
     const [originHub, setOriginHub] = useState<HubResponseDTO | null>(null);
     const [destHub, setDestHub] = useState<HubResponseDTO | null>(null);
@@ -33,24 +31,83 @@ export default function AddSegmentModal({
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
+    const lastSegment = segments[segments.length - 1];
+
+    useEffect(() => {
+        if (lastSegment) {
+            setOriginHub({
+                id: lastSegment.destinationHubId,
+                name: lastSegment.destinationHubName,
+            } as HubResponseDTO);
+        }
+    }, [lastSegment]);
+
     const handleSubmit = async () => {
-        if (!originHub) { setError("Please select an origin hub"); return; }
-        if (!destHub) { setError("Please select a destination hub"); return; }
+        if (!originHub) {
+            setError("Please select an origin hub");
+            return;
+        }
+
+        if (!destHub) {
+            setError("Please select a destination hub");
+            return;
+        }
+
         if (originHub.id === destHub.id) {
             setError("Origin and destination cannot be the same hub");
             return;
         }
+
+        if (segments.length > 0) {
+            const firstSegment = segments[0];
+
+            if (destHub.id === firstSegment.originHubId) {
+                setError(
+                    `Circular routes are not allowed. Destination hub cannot be "${firstSegment.originHubName}".`
+                );
+                return;
+            }
+        }
+
+        // Distance validation
+        if (!distanceKm.trim()) {
+            setError("Please enter the distance");
+            return;
+        }
+
+        const distance = Number(distanceKm);
+
+        if (isNaN(distance) || distance <= 0) {
+            setError("Distance must be greater than 0 km");
+            return;
+        }
+
+        // Estimated time validation
+        if (!estimatedMin.trim()) {
+            setError("Please enter the estimated time");
+            return;
+        }
+
+        const estimatedTime = Number(estimatedMin);
+
+        if (isNaN(estimatedTime) || estimatedTime <= 0) {
+            setError("Estimated time must be greater than 0 minutes");
+            return;
+        }
+
         setError("");
         setSubmitting(true);
+
         try {
             const data: CreateRouteSegmentDTO = {
                 originHubId: originHub.id,
                 destinationHubId: destHub.id,
-                distanceKm: distanceKm ? Number(distanceKm) : undefined,
-                estimatedTimeMinutes: estimatedMin ? Number(estimatedMin) : undefined,
+                distanceKm: distance,
+                estimatedTimeMinutes: estimatedTime,
                 isActive: true,
-            }
-            await createRouteSegmants(routeGroupId, data)
+            };
+
+            await createRouteSegmants(routeGroupId, data);
             onCreated();
         } catch {
             setError("Failed to add segment. Please try again.");
@@ -60,150 +117,196 @@ export default function AddSegmentModal({
     };
 
     return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl w-full max-w-[500px] shadow-xl border border-gray-200 flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 backdrop-blur-sm p-4">
+            <div className="relative flex w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl max-h-[90vh]">
+                <div className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-r from-[#1E3A8A] to-[#2563eb] px-8 py-6 text-white">
 
-                {/* ── Header ── */}
-                <div className="flex items-start justify-between px-6 py-4 border-b border-gray-100">
-                    <div>
-                        <h2 className="text-base font-bold text-[#1E3A8A]">
-                            Add Segment <span className="text-gray-300">#{nextSegmentOrder}</span>
-                        </h2>
-                        <p className="text-xs text-gray-400 mt-0.5">
-                            Define origin and destination for this route leg.
-                        </p>
-                    </div>
-                    <button
-                        onClick={onClose}
-                        className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition border-none bg-transparent cursor-pointer"
-                    >
-                        <X size={15} />
-                    </button>
-                </div>
+                    <div className="relative flex items-start justify-between">
+                        <div className="flex items-start gap-4">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm">
+                                <GitBranchPlus size={28} />
+                            </div>
 
-                {/* ── Route group pill ── */}
-                <div className="mx-6 mt-4 flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#1E3A8A] flex-shrink-0" />
-                    <span className="text-xs font-semibold text-[#1E3A8A] truncate">{routeGroupName}</span>
-                    <span className="text-xs text-blue-300 flex-shrink-0">· route group</span>
-                </div>
-
-                <div className="px-6 py-4 space-y-4">
-
-                    {/* ── Error ── */}
-                    {error && (
-                        <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
-                                <circle cx="7" cy="7" r="6" stroke="#ef4444" strokeWidth="1.3" />
-                                <path d="M7 4.5v3M7 9.5v.5" stroke="#ef4444" strokeWidth="1.3" strokeLinecap="round" />
-                            </svg>
-                            <p className="text-xs text-red-600">{error}</p>
+                            <div>
+                                <h2 className="text-2xl font-bold tracking-tight">
+                                    Add Route Segment
+                                </h2>
+                                <p className="mt-1 text-sm text-blue-100">
+                                    Segment #{nextSegmentOrder} in {routeGroupName}
+                                </p>
+                            </div>
                         </div>
+
+                        <button
+                            onClick={onClose}
+                            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white transition hover:bg-white/20 border-none cursor-pointer"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+                </div>
+
+                <div className="overflow-y-auto px-8 py-6">
+                    <div className="mb-6 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
+                        <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1E3A8A] text-white">
+                                <Route size={18} />
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+                                    Route Group
+                                </p>
+                                <p className="font-semibold text-slate-800">
+                                    {routeGroupName}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <div className="mb-4 flex items-center gap-2">
+                            <MapPinned size={16} className="text-slate-500" />
+                            <h3 className="text-sm font-semibold text-slate-700">
+                                Route Preview
+                            </h3>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                            <div
+                                className={`flex-1 rounded-xl px-4 py-3 text-center text-sm font-semibold ${originHub
+                                    ? "bg-[#1E3A8A] text-white"
+                                    : "bg-slate-200 text-slate-400"
+                                    }`}
+                            >
+                                {originHub?.name || "Origin Hub"}
+                            </div>
+
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-px w-6 bg-slate-300" />
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white border-2 border-[#1E3A8A] text-xs font-bold text-[#1E3A8A]">
+                                        {nextSegmentOrder}
+                                    </div>
+                                    <div className="h-px w-6 bg-slate-300" />
+                                </div>
+                            </div>
+
+                            <div
+                                className={`flex-1 rounded-xl px-4 py-3 text-center text-sm font-semibold ${destHub
+                                    ? "bg-amber-400 text-slate-900"
+                                    : "bg-slate-200 text-slate-400"
+                                    }`}
+                            >
+                                {destHub?.name || "Destination Hub"}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid gap-6 lg:grid-cols-2">
+                        <div className="space-y-5">
+                            <div>
+                                <HubDropdown
+                                    label="Origin Hub"
+                                    selected={originHub}
+                                    onSelect={setOriginHub}
+                                    placeholder="Select origin hub"
+                                    disabled={!!lastSegment}
+                                />
+                                {lastSegment && (
+                                    <p className="mt-2 text-xs text-blue-600">
+                                        Auto-selected from previous segment destination
+                                    </p>
+                                )}
+                            </div>
+
+                            <HubDropdown
+                                label="Destination Hub"
+                                selected={destHub}
+                                onSelect={setDestHub}
+                                placeholder="Select destination hub"
+                            />
+                        </div>
+
+                        <div className="space-y-5">
+                            <div>
+                                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                    Distance
+                                </label>
+                                <div className="relative">
+                                    <Ruler
+                                        size={16}
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                                    />
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        placeholder="Enter distance"
+                                        value={distanceKm}
+                                        onChange={(e) => setDistanceKm(e.target.value)}
+                                        className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-14 text-sm outline-none transition focus:border-[#1E3A8A] focus:ring-4 focus:ring-blue-100"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">
+                                        km
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                    Estimated Time
+                                </label>
+                                <div className="relative">
+                                    <Clock3
+                                        size={16}
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                                    />
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        placeholder="Enter time"
+                                        value={estimatedMin}
+                                        onChange={(e) => setEstimatedMin(e.target.value)}
+                                        className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-14 text-sm outline-none transition focus:border-[#1E3A8A] focus:ring-4 focus:ring-blue-100"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">
+                                        min
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="sticky bottom-0 flex items-center justify-between border-t border-slate-200 bg-slate-50 px-8 py-5">
+                    <p className="text-sm text-slate-500">
+                        Creating segment{" "}
+                        <span className="font-semibold text-slate-700">
+                            #{nextSegmentOrder}
+                        </span>
+                    </p>
+                    {error && (
+                        <p className="text-sm font-medium text-red-600">{error}</p>
                     )}
 
-                    {/* ── Hub dropdowns ── */}
-                    <HubDropdown
-                        label="Origin Hub"
-                        selected={originHub}
-                        // hubs={hubs}
-                        onSelect={setOriginHub}
-                        placeholder="Select origin hub"
-                    />
-
-                    {/* ── Route preview connector ── */}
-                    <div className="flex items-center gap-2 px-4 py-3 bg-[#eff1f7] border border-gray-200 rounded-xl">
-                        <div className={`flex-1 text-center text-xs font-semibold py-1.5 px-2 rounded-lg truncate ${originHub ? "bg-[#1E3A8A] text-white" : "bg-gray-200 text-gray-400"
-                            }`}>
-                            {originHub?.name ?? "Origin"}
-                        </div>
-
-                        <div className="flex items-center gap-1 flex-shrink-0">
-                            <div className="h-px w-3 bg-gray-300" />
-                            <div className="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[10px] font-bold text-[#1E3A8A] shadow-sm">
-                                {nextSegmentOrder}
-                            </div>
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                <path d="M1 5h8M6 2l3 3-3 3" stroke="#9ca3af" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            <div className="h-px w-3 bg-gray-300" />
-                        </div>
-
-                        <div className={`flex-1 text-center text-xs font-semibold py-1.5 px-2 rounded-lg truncate ${destHub ? "bg-[#FACC15] text-[#102467]" : "bg-gray-200 text-gray-400"
-                            }`}>
-                            {destHub?.name ?? "Destination"}
-                        </div>
-                    </div>
-
-                    <HubDropdown
-                        label="Destination Hub"
-                        selected={destHub}
-                        // hubs={hubs}
-                        onSelect={setDestHub}
-                        placeholder="Select destination hub"
-                    />
-
-                    {/* ── Distance + Time ── */}
-                    <div className="grid grid-cols-2 gap-3 pt-1">
-                        <div>
-                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">
-                                Distance
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    min={0}
-                                    placeholder="0"
-                                    value={distanceKm}
-                                    onChange={e => setDistanceKm(e.target.value)}
-                                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 pr-10 text-sm outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-blue-100 bg-white"
-                                />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400 pointer-events-none">km</span>
-                            </div>
-                        </div>
-                        <div>
-                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">
-                                Est. Time
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    min={0}
-                                    placeholder="0"
-                                    value={estimatedMin}
-                                    onChange={e => setEstimatedMin(e.target.value)}
-                                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 pr-12 text-sm outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-blue-100 bg-white"
-                                />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400 pointer-events-none">min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                {/* ── Footer ── */}
-                <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-[#eff1f7] rounded-b-2xl">
-                    <p className="text-xs text-gray-400">
-                        Segment <span className="font-semibold text-gray-600">#{nextSegmentOrder}</span> of {routeGroupName}
-                    </p>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-3">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-sm border border-gray-200 rounded-xl hover:bg-white transition font-medium text-gray-600 bg-white cursor-pointer"
+                            className="rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 cursor-pointer"
                         >
                             Cancel
                         </button>
+
                         <button
                             type="button"
                             onClick={handleSubmit}
                             disabled={submitting}
-                            className="px-5 py-2 text-sm bg-[#1E3A8A] text-white rounded-xl hover:bg-[#102467] transition font-semibold disabled:opacity-60 cursor-pointer border-none"
+                            className="rounded-2xl bg-[#1E3A8A] px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition hover:bg-[#102467] disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer border-none"
                         >
-                            {submitting ? "Adding…" : "Add Segment"}
+                            {submitting ? "Adding..." : "Add Segment"}
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     );

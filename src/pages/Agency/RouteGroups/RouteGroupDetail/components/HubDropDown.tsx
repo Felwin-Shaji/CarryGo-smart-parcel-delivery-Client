@@ -9,9 +9,10 @@ interface Props {
     selected: HubResponseDTO | null;
     onSelect: (hub: HubResponseDTO) => void;
     placeholder: string;
+    disabled?: boolean;
 }
 
-export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
+export function HubDropdown({ label, selected, onSelect, placeholder, disabled }: Props) {
 
     const { getAllHubs } = useAgency();
 
@@ -58,6 +59,7 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
     }, []);
 
     const handleToggle = () => {
+        if (disabled) return;
         setOpen(v => !v);
         setSearch("");
     };
@@ -80,7 +82,12 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
                 <button
                     type="button"
                     onClick={handleToggle}
-                    className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition text-left cursor-pointer"
+                    className={`
+                    w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition text-left
+                    ${disabled
+                            ? "cursor-not-allowed opacity-70 bg-gray-50"
+                            : "cursor-pointer"}
+                    `}
                     style={{
                         backgroundColor: "#ffffff",
                         border: open ? "1.5px solid #1E3A8A" : "1.5px solid #E5E7EB",
@@ -98,7 +105,9 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
                                     {selected.name}
                                 </p>
                                 <p className="text-[11px]" style={{ color: "#9CA3AF" }}>
-                                    {selected.address.pincode} · {selected.address.city}
+                                    {selected.address
+                                        ? `${selected.address.pincode} · ${selected.address.city}`
+                                        : "Auto-selected hub"}
                                 </p>
                             </div>
                         </>
@@ -114,7 +123,10 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
                     <ChevronDown
                         size={15}
                         style={{ color: "#9CA3AF", flexShrink: 0 }}
-                        className={`transition-transform ${open ? "rotate-180" : ""}`}
+                        className={`
+                            transition-transform
+                            ${open && !disabled ? "rotate-180" : ""}
+                        `}
                     />
                     <ChevronDown
                         size={15}
@@ -124,8 +136,13 @@ export function HubDropdown({ label, selected, onSelect, placeholder }: Props) {
 
                 {/* ── Dropdown panel ── */}
                 {open && (
-                    <div className="absolute z-[999] top-full mt-1.5 left-0 right-0 rounded-xl shadow-lg overflow-hidden"
-                        style={{ backgroundColor: "#ffffff", border: "1px solid #E5E7EB" }}>
+                    <div
+                        className="absolute z-[9999] top-full mt-1.5 left-0 right-0 rounded-xl shadow-lg"
+                        style={{
+                            backgroundColor: "#ffffff",
+                            border: "1px solid #E5E7EB",
+                        }}
+                    >
                         {/* Search input */}
                         <div className="p-2 border-b border-gray-100">
                             <div className="relative">
