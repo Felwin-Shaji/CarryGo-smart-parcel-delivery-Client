@@ -82,6 +82,12 @@ export const API_ADMIN = {
   MARK_AS_READ: "/api/admin/notifications/read",
   MARK_ALL_AS_READ: "/api/admin/notifications/read-all",
   UNREAD_COUNT: "/api/admin/notifications/unread-count",
+
+  GET_DASHBOARD: "/api/admin/dashboard",
+  GET_REVENUE_CHART: "/api/admin/revenue-chart",
+  GET_BOOKINGS_CHART: "/api/admin/bookings-chart",
+  GET_BOOKINGS_REPORT: "/api/admin/bookings-report",
+  GET_BOOKINGS_REPORT_EXPORT: "/api/admin/bookings-report/export",
 }
 
 export const API_HUB = {
