@@ -10,6 +10,7 @@ import WrokerResetPassword from "../pages/Worker/WrokerResetPassword";
 import WorkerWallet from "../pages/Worker/WorkerWallet";
 import WorkerShipmentPage from "../pages/Worker/WorkerShipment/WorkerShipmentPagee";
 import WorkerShipmentDetailsPage from "../pages/Worker/WorkerShipmentDetails/WorkerShipmentDetailsPage";
+import WorkerProfilePage from "../pages/Worker/WorkerProfilePage";
 // import { WorkerShipmentDetailsPage } from "../pages/Worker/WorkerShipmentDetails/WorkerShipmentDetailsPage";
 
 
@@ -30,6 +31,7 @@ const WorkerRoutes = () => {
                 <Route path="wallet" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerWallet /></ProtectedRoute>} />
                 <Route path="shipments" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerShipmentPage /></ProtectedRoute>} />
                 <Route path="shipments/:id" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerShipmentDetailsPage /></ProtectedRoute>} />
+                <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.WORKER}><WorkerProfilePage /></ProtectedRoute>} />
 
                 <Route path="*" element={<PageNotFound />} />
 

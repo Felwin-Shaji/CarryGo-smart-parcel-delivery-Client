@@ -178,6 +178,10 @@ export const API_WORKER = {
   MARK_AS_READ: "/api/worker/notifications/read",
   MARK_ALL_AS_READ: "/api/worker/notifications/read-all",
   UNREAD_COUNT: "/api/worker/notifications/unread-count",
+
+  GET_PROFILE: "/api/worker/profile",
+  UPDATE_PROFILE: "/api/worker/edit-profile",
+  RESET_PASSWORD: "/api/worker/reset-password",
 }
 
 export const API_CHAT = {
