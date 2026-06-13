@@ -5,7 +5,7 @@ import OtpVarificationpage from "../pages/User/OtpVarificationpage"
 import Home from "../pages/User/Home"
 import ProtectedRoute from "./ProtectedRoute"
 import PublicRoute from "./PublicRoute"
-import LandingPage from "../pages/User/LandingPage"
+import LandingPage from "../pages/User/LandingPage/LandingPage"
 import { ROLES } from "../shared/constants_Types/types/roles"
 import PageNotFound from "../pages/PageNotFound"
 import ForgotPassword from "../pages/User/ForgotPassword"
@@ -42,8 +42,8 @@ const UserRoutes = () => {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password/:token" element={<ResetPassword />} />
 
-          <Route path="" element={<LandingPage />} />
         </Route>
+          <Route path="" element={<LandingPage />} />
 
         <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile /></ProtectedRoute>} />
