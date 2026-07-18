@@ -84,7 +84,9 @@ export const DashboardLayout = ({
                             )}
 
                             {section.items.map((item, index) => {
-                                const isActive = location.pathname === item.path;
+                                const isActive =
+                                    location.pathname === item.path ||
+                                    location.pathname.startsWith(item.path + "/");
 
                                 return (
                                     <div

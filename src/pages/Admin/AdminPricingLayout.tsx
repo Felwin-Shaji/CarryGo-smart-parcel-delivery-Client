@@ -8,16 +8,6 @@ export default function AdminPricingLayout() {
       <DashboardLayout pageTitle="Pricing Management">
         <div className="container max-w-5xl space-y-8">
 
-          {/* Header Section */}
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Pricing Management
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Manage platform pricing policies for agencies and travelers.
-            </p>
-          </div>
-
           {/* Modern Tabs */}
           <div className="relative">
 
@@ -27,10 +17,9 @@ export default function AdminPricingLayout() {
               <NavLink
                 to="agency"
                 className={({ isActive }) =>
-                  `relative px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? "bg-white text-primary shadow-sm"
-                      : "text-gray-500 hover:text-gray-800"
+                  `relative px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${isActive
+                    ? "bg-white text-primary shadow-sm"
+                    : "text-gray-500 hover:text-gray-800"
                   }`
                 }
               >
@@ -40,10 +29,9 @@ export default function AdminPricingLayout() {
               <NavLink
                 to="traveler"
                 className={({ isActive }) =>
-                  `relative px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? "bg-white text-primary shadow-sm"
-                      : "text-gray-500 hover:text-gray-800"
+                  `relative px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${isActive
+                    ? "bg-white text-primary shadow-sm"
+                    : "text-gray-500 hover:text-gray-800"
                   }`
                 }
               >

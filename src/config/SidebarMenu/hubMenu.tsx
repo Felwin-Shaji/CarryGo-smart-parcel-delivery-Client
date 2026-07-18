@@ -5,7 +5,6 @@ import {
   Users,
   UserPlus,
   Truck,
-  Package,
 } from "lucide-react";
 
 import type { MenuSection } from "./adminMenu";
@@ -23,7 +22,6 @@ export const hunMenu = (kycStatus?: string): MenuSection[] => [
   {
     section: "Operations",
     items: [
-      { name: "Task Assignment", icon: <Package size={20} />, path: "/hub/field-task", disabled: kycStatus !== "APPROVED", },
       { name: "Shipments", icon: <Truck size={20} />, path: "/hub/shipments", disabled: kycStatus !== "APPROVED", },
     ],
   },

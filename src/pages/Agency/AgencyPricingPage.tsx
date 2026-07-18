@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardProvider } from "../../context/DashboardProvider";
 import { useAgencyPricing } from "../../Services/Agency/AgencyPricing";
-import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { agencyPricingSchema } from "../../validation/agencyPricingSchema";
 import type { AgencyPricingResponseDTO } from "../../shared/constants_Types/types/Agency/AgencyPricing.dto";
 import { confirmToast } from "../../shared/components/globelcomponents/confirmToast";
@@ -43,7 +42,7 @@ export default function AgencyPricingPage() {
     return (
       <DashboardProvider role="agency">
         <DashboardLayout pageTitle="Agency Pricing">
-          <LoadingScreen />
+          <AgencyPricingSkeleton />
         </DashboardLayout>
       </DashboardProvider>
     );
@@ -60,15 +59,7 @@ export default function AgencyPricingPage() {
     <DashboardProvider role="agency">
       <DashboardLayout pageTitle="Agency Pricing">
 
-        <div className="max-w-6xl mx-auto space-y-6">
-
-          {/* HEADER */}
-          <div>
-            <h1 className="text-2xl font-semibold">Agency Pricing</h1>
-            <p className="text-gray-500 text-sm">
-              Configure pricing rules used when customers book deliveries.
-            </p>
-          </div>
+        <div className="my-3  max-w-6xl mx-auto space-y-6">
 
           {pricingResponse.isOutdated && (
             <div className="border border-amber-300 bg-amber-50 rounded-lg p-4 text-sm text-amber-800">
@@ -138,6 +129,12 @@ export default function AgencyPricingPage() {
                     Pricing Configuration
                   </h3>
 
+                  <div>
+                    <p className="text-gray-500 text-sm">
+                      Configure pricing rules used when customers book deliveries.
+                    </p>
+                  </div>
+
                   {/* BASE PRICE */}
 
                   <PricingField
@@ -198,7 +195,7 @@ export default function AgencyPricingPage() {
 
                   <div className="pt-4 border-t">
 
-<ConfirmSaveButton submitLoading={submitLoading} />
+                    <ConfirmSaveButton submitLoading={submitLoading} />
 
                   </div>
 
@@ -253,10 +250,10 @@ function PricingField({
         />
 
         <ErrorMessage
-  name={name}
-  component="p"
-  className="text-red-500 text-xs"
-/>
+          name={name}
+          component="p"
+          className="text-red-500 text-xs"
+        />
 
         <span className="text-xs text-gray-500">
           {suffix}
@@ -310,5 +307,87 @@ function ConfirmSaveButton({ submitLoading }: { submitLoading: boolean }) {
     >
       {submitLoading ? "Saving..." : "Save Changes"}
     </button>
+  );
+}
+
+const Skeleton = ({ className = "" }: { className?: string }) => (
+  <div className={`animate-pulse rounded-lg bg-gray-200 ${className}`} />
+);
+
+function AgencyPricingSkeleton() {
+  return (
+    <div className="max-w-6xl mx-auto space-y-6">
+
+      {/* Header */}
+      <div>
+        <Skeleton className="h-8 w-56 mb-3" />
+        <Skeleton className="h-4 w-96" />
+      </div>
+
+      {/* Warning Banner */}
+      <div className="border rounded-lg p-4 bg-gray-50">
+        <Skeleton className="h-4 w-72 mb-2" />
+        <Skeleton className="h-4 w-full" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* Left Summary */}
+        <div className="bg-white border rounded-xl p-6 space-y-5">
+
+          <Skeleton className="h-6 w-36" />
+
+          {[1, 2, 3, 4].map((item) => (
+            <div
+              key={item}
+              className="flex justify-between items-center"
+            >
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-4 w-20" />
+            </div>
+          ))}
+        </div>
+
+        {/* Right Form */}
+        <div className="lg:col-span-2 bg-white border rounded-xl p-6 space-y-6">
+
+          <Skeleton className="h-6 w-56" />
+
+          {[1, 2, 3].map((item) => (
+            <div
+              key={item}
+              className="flex items-center justify-between border rounded-lg p-4"
+            >
+              <div>
+                <Skeleton className="h-4 w-32 mb-2" />
+                <Skeleton className="h-3 w-52" />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-10 w-32 rounded-md" />
+                <Skeleton className="h-4 w-12" />
+              </div>
+            </div>
+          ))}
+
+          {/* Policy Limits */}
+          <div className="bg-gray-50 border rounded-lg p-4 space-y-3">
+            <Skeleton className="h-4 w-40" />
+
+            <Skeleton className="h-3 w-64" />
+            <Skeleton className="h-3 w-60" />
+            <Skeleton className="h-3 w-56" />
+          </div>
+
+          {/* Save Button */}
+          <div className="border-t pt-4 flex justify-end">
+            <Skeleton className="h-10 w-36 rounded-lg" />
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
   );
 }

@@ -3,7 +3,6 @@ import { useHubProfile } from "../../../Services/Hub/HubProfile";
 import type { GetHubProfileDTO, HubResetPasswordRequestDTO } from "../../../shared/constants_Types/types/Hub/HubProfile";
 import { DashboardProvider } from "../../../context/DashboardProvider";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
-import LoadingScreen from "../../../shared/components/loading/CarryGoLoadingScreen";
 import UserEditProfileModal from "../../User/components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "../../User/components/ProfileComponents/UserResetPasswordModal";
 import ProfileSection from "../../User/components/ProfileComponents/ProfileSection";
@@ -47,7 +46,7 @@ const HubProfilePage = () => {
         return (
             <DashboardProvider role="hub">
                 <DashboardLayout pageTitle="Hub Profile">
-                    <LoadingScreen />
+                    <ProfileSkeleton />
                 </DashboardLayout>
             </DashboardProvider>
         );
@@ -166,3 +165,61 @@ const HubProfilePage = () => {
 };
 
 export default HubProfilePage;
+
+
+const Skeleton = ({ className = "" }: { className?: string }) => (
+    <div className={`animate-pulse rounded-md bg-gray-200 ${className}`} />
+);
+
+const ProfileSkeleton = () => {
+    return (
+        <main className="max-w-4xl mx-auto">
+            <section className="bg-white rounded-3xl shadow-md p-6 sm:p-8">
+
+                {/* Header */}
+                <div className="mb-10">
+                    <Skeleton className="h-8 w-52 mb-3" />
+                    <Skeleton className="h-4 w-72" />
+                </div>
+
+                <div className="space-y-10">
+
+                    {/* Admin Information */}
+                    <div>
+                        <Skeleton className="h-6 w-44 mb-2" />
+                        <Skeleton className="h-4 w-64 mb-8" />
+
+                        <div className="space-y-6">
+                            {[1, 2, 3].map((item) => (
+                                <div key={item}>
+                                    <Skeleton className="h-4 w-28 mb-2" />
+                                    <Skeleton className="h-10 w-full" />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="flex gap-3 pt-6">
+                            <Skeleton className="h-10 w-28 rounded-lg" />
+                            <Skeleton className="h-10 w-36 rounded-lg" />
+                        </div>
+                    </div>
+
+                    {/* System Details */}
+                    <div>
+                        <Skeleton className="h-6 w-40 mb-2" />
+                        <Skeleton className="h-4 w-60 mb-8" />
+
+                        <div>
+                            <Skeleton className="h-4 w-20 mb-2" />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <Skeleton className="h-4 w-64 mt-10" />
+            </section>
+        </main>
+    );
+};
+
