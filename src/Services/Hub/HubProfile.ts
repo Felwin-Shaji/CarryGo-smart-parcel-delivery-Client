@@ -13,7 +13,6 @@ export const useHubProfile = () => {
     const getHubProfile = async (): Promise<GetHubProfileDTO | null> => {
         const res = await axiosInstance.get(API_HUB.GET_PROFILE);
 
-        toast.success(res.data?.message || "Profile fetched successfully");
         return res.data.data as GetHubProfileDTO;
     };
 

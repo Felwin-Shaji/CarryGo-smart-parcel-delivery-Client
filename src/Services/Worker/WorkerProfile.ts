@@ -14,7 +14,6 @@ export const useWorkerProfile = () => {
     const getWorkerProfile = async (): Promise<GetWorkerProfileDTO | null> => {
         const res = await axiosInstance.get(API_WORKER.GET_PROFILE);
 
-        toast.success(res.data?.message || "Profile fetched successfully");
         return res.data.data as GetWorkerProfileDTO;
     };
 

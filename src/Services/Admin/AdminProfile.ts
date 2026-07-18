@@ -13,8 +13,6 @@ export const useAdminProfile = () => {
 
         const res = await axiosInstance.get(API_ADMIN.GET_PROFILE);
 
-        toast.success(res.data?.message || "Profile fetched successfully");
-
         return res.data.data as GetAdminProfileDTO;
 
 

@@ -4,9 +4,7 @@ import * as Yup from "yup";
 import type { TravelerPricingFormType } from "../../../../shared/constants_Types/types/BaseTypes/baseAdminPricinPolicy.Dto";
 import { useAdminPricingPolicy } from "../../../../Services/Admin/AdminPricingPolicy";
 import type { TravelerPricingPolicyResponseDTO } from "../../../../shared/constants_Types/types/Admin/PricingPolicy.dto";
-import { DashboardProvider } from "../../../../context/DashboardProvider";
-import { DashboardLayout } from "../../../../layouts/DashboardLayout";
-import LoadingScreen from "../../../../shared/components/loading/CarryGoLoadingScreen";
+import PricingPolicySkeleton from "./Components/PricingPolicySkeleton";
 
 const travelerPricingSchema = Yup.object({
   basePrice: Yup.number().min(0).required(),
@@ -73,13 +71,7 @@ export default function AdminTravelerPricing() {
   }, []);
 
   if (loading || !initialValues) {
-    return (
-      <DashboardProvider role="admin">
-        <DashboardLayout pageTitle="Pricing Policy">
-          <LoadingScreen />
-        </DashboardLayout>
-      </DashboardProvider>
-    );
+    return <PricingPolicySkeleton />;
   }
 
 

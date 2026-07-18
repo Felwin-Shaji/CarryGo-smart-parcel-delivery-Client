@@ -13,7 +13,6 @@ export const useAgencyProfile = () => {
     const getAgencyProfile = async (): Promise<GetAgencyProfileDTO | null> => {
         const res = await axiosInstance.get(API_AGENCY.GET_PROFILE);
 
-        toast.success(res.data?.message || "Profile fetched successfully");
         return res.data.data as GetAgencyProfileDTO;
     };
 

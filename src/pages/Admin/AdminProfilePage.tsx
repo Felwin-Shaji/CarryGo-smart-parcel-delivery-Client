@@ -5,7 +5,6 @@ import ProfileSection from "../User/components/ProfileComponents/ProfileSection"
 import ProfileField from "../User/components/ProfileComponents/ProfileField";
 import UserEditProfileModal from "../User/components/ProfileComponents/UserEditProfileModal";
 import UserResetPasswordModal from "../User/components/ProfileComponents/UserResetPasswordModal";
-import LoadingScreen from "../../shared/components/loading/CarryGoLoadingScreen";
 import { useAdminProfile } from "../../Services/Admin/AdminProfile";
 import type { AdminResetPasswordRequestDTO, GetAdminProfileDTO } from "../../shared/constants_Types/types/Admin/AdminProfile.dto";
 
@@ -43,7 +42,15 @@ const AdminProfilePage = () => {
         setResetPasswordOpen(false);
     };
 
-    if (!admin) return <LoadingScreen />;
+    if (!admin) {
+        return (
+            <DashboardProvider role="admin">
+                <DashboardLayout pageTitle="Admin Profile">
+                    <AdminProfileSkeleton />
+                </DashboardLayout>
+            </DashboardProvider>
+        )
+    };
 
     return (
         <DashboardProvider role="admin">
@@ -114,20 +121,6 @@ const AdminProfilePage = () => {
                                         value={capitalize(admin.role)}
                                     />
 
-                                    {/* <ProfileField
-                                        label="Access Level"
-                                        value={capitalize(admin.accessLevel)}
-                                        hint="Determines admin privileges"
-                                    />
-
-                                    <ProfileField
-                                        label="Last Login"
-                                        value={
-                                            admin.lastLogin
-                                                ? new Date(admin.lastLogin).toLocaleString()
-                                                : "-"
-                                        }
-                                    /> */}
                                 </ProfileSection>
 
                             </div>
@@ -145,3 +138,61 @@ const AdminProfilePage = () => {
 };
 
 export default AdminProfilePage;
+
+
+
+const Skeleton = ({ className = "" }: { className?: string }) => (
+    <div className={`animate-pulse rounded-md bg-gray-200 ${className}`} />
+);
+
+const AdminProfileSkeleton = () => {
+    return (
+        <main className="max-w-4xl mx-auto">
+            <section className="bg-white rounded-3xl shadow-md p-6 sm:p-8">
+
+                {/* Header */}
+                <div className="mb-10">
+                    <Skeleton className="h-8 w-52 mb-3" />
+                    <Skeleton className="h-4 w-72" />
+                </div>
+
+                <div className="space-y-10">
+
+                    {/* Admin Information */}
+                    <div>
+                        <Skeleton className="h-6 w-44 mb-2" />
+                        <Skeleton className="h-4 w-64 mb-8" />
+
+                        <div className="space-y-6">
+                            {[1, 2, 3].map((item) => (
+                                <div key={item}>
+                                    <Skeleton className="h-4 w-28 mb-2" />
+                                    <Skeleton className="h-10 w-full" />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="flex gap-3 pt-6">
+                            <Skeleton className="h-10 w-28 rounded-lg" />
+                            <Skeleton className="h-10 w-36 rounded-lg" />
+                        </div>
+                    </div>
+
+                    {/* System Details */}
+                    <div>
+                        <Skeleton className="h-6 w-40 mb-2" />
+                        <Skeleton className="h-4 w-60 mb-8" />
+
+                        <div>
+                            <Skeleton className="h-4 w-20 mb-2" />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <Skeleton className="h-4 w-64 mt-10" />
+            </section>
+        </main>
+    );
+};
