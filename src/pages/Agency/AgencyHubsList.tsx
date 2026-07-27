@@ -67,8 +67,8 @@ const AgencyHubsList = () => {
       setEnhancedRows(rows!);
       setLoading(false);
 
-    } catch (error: any) {
-      toast.error(error.data.messages);
+    } finally {
+      setLoading(false);
     }
   }
 

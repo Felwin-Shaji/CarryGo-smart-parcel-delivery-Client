@@ -19,6 +19,7 @@ import AgencyWallet from "../pages/Agency/AgencyWallet";
 import RouteGroupsPage from "../pages/Agency/RouteGroups/RouteGroupPage.tsx/RouteGroupsPage";
 import RouteGroupDetailPage from "../pages/Agency/RouteGroups/RouteGroupDetail/RouteGroupDetailPage";
 import AgencyHubWorkerDetailsPage from "../pages/Agency/components/AgencyHubDetails/AgencyHubWorkerDetailsPage";
+import AgencyHubResubmit from "../pages/Agency/AgencyHubResubmit/AgencyHubResubmit";
 
 const AgencyRoutes = () => {
 
@@ -43,6 +44,7 @@ const AgencyRoutes = () => {
 
         <Route path="hubs" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubsList /></ProtectedRoute>} />
         <Route path="hub/:id" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubDetailsPage /></ProtectedRoute>} />
+        <Route path="hub/:id/resubmit" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubResubmit /></ProtectedRoute>} />
         <Route path="hubs/add" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyAddHubs /></ProtectedRoute>} />
         <Route path="hub/workers/:id" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubWorkerDetailsPage /></ProtectedRoute>} />
 
