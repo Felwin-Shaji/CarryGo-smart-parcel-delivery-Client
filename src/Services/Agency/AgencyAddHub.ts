@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { API_AGENCY } from "../../shared/constants_Types/apiRoutes";
 import type { AddHubPayload } from "../../pages/Agency/AgencyAddHubs/AgencyAddHubs";
 import type { HubOtpMeta } from "../../pages/Agency/AgencyAddHubs/AddHubComponents/Step1BasicInfo";
+import type { HubResubmitPayload } from "../../pages/Agency/AgencyHubResubmit/AgencyHubResubmit";
 
 
 export const useAgencyAddHub = () => {
@@ -22,11 +23,11 @@ export const useAgencyAddHub = () => {
     */
     const checkTempStatus = async (email: string) => {
 
-            const res = await axiosInstance.get(
-                `${API_AGENCY.HUB_TEMP_STATUS}?email=${email}`
-            );
+        const res = await axiosInstance.get(
+            `${API_AGENCY.HUB_TEMP_STATUS}?email=${email}`
+        );
 
-            return res.data.data;
+        return res.data.data;
 
     };
 
@@ -142,7 +143,7 @@ export const useAgencyAddHub = () => {
                 }
             });
 
-            if(!tempHubId) return
+            if (!tempHubId) return
             fd.append("tempHubId", tempHubId ?? "");
 
             await axiosInstance.post(
@@ -162,11 +163,58 @@ export const useAgencyAddHub = () => {
         }
     };
 
+    /**
+     * Step 4: Resubmit KYC updates for a rejected hub
+     *
+     * @param formData - Modified hub details including image variant (File or URL string)
+     * @param hubId - Explicit identifier of the existing rejected hub
+     * @returns {Promise<boolean>} true if hub updates are processed successfully
+     */
+    const reSubmitHub = async (formData: HubResubmitPayload, hubId: string) => {
+
+        if (!hubId) {
+            toast.error("Hub context tracking ID is missing.");
+            return false;
+        }
+
+        const fd = new FormData();
+
+        fd.append("agencyId", formData.agencyId || "");
+        fd.append("name", formData.name || "");
+        fd.append("email", formData.email || "");
+        fd.append("mobile", formData.mobile || "");
+        fd.append("role", "hub");
+
+        fd.append("addressLine1", formData.addressLine1);
+        fd.append("city", formData.city);
+        fd.append("state", formData.state);
+        fd.append("pincode", formData.pincode);
+
+        fd.append("location_lat", formData.location_lat.toString());
+        fd.append("location_lng", formData.location_lng.toString());
+
+        if (formData.verificationImage instanceof File) {
+            fd.append("verificationImage", formData.verificationImage);
+        } else if (typeof formData.verificationImage === "string") {
+            fd.append("verificationImage", formData.verificationImage);
+        }
+
+        await axiosInstance.put(
+            `${API_AGENCY.GET_HUBS}/${hubId}/resubmit`,
+            fd,
+            { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        toast.success("Hub KYC updates submitted successfully!");
+        return true;
+    };
+
     return {
         checkTempStatus,
         tempRegister,
         verifyOtp,
         resendOtp,
         finalRegister,
+        reSubmitHub,
     };
 };

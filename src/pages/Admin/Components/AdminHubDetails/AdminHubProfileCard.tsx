@@ -8,14 +8,12 @@ export default function AdminHubProfileCard({
     loading,
     onApprove,
     onReject,
-    onResubmit,
 }: {
     role: Roles;
     hub: HubOverviewResponseDTO;
     loading: boolean;
     onApprove: () => void;
     onReject: () => void;
-    onResubmit?: () => void;
 }) {
 
     const canTakeAction =
@@ -49,26 +47,15 @@ export default function AdminHubProfileCard({
             );
         }
 
-        // AGENCY VIEW
-        if (role === "agency" && hub.kycStatus === "REJECTED") {
-            return (
-                <button
-                    onClick={onResubmit}
-                    className="px-3 py-1.5 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
-                >
-                    Resubmit KYC
-                </button>
-            );
-        }
 
         return null;
     };
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4"> 
             <AgencyHubProfilePage
                 hub={hub}
-                actions={renderActions()} // 👈 inject here
+                actions={renderActions()}
             />
         </div>
     );
