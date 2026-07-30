@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import LoginPage from "../pages/User/LoginPage"
 import RegistrationPage from "../pages/User/RegistrationPage"
 import OtpVarificationpage from "../pages/User/OtpVarificationpage"
-import Home from "../pages/User/Home"
+import Home from "../pages/User/Home/Home"
 import ProtectedRoute from "./ProtectedRoute"
 import PublicRoute from "./PublicRoute"
 import LandingPage from "../pages/User/LandingPage/LandingPage"
@@ -26,11 +26,15 @@ import BookingPaymentSuccessPage from "../pages/User/Booking/BookingPaymentSucce
 import BookingPaymentFailedPage from "../pages/User/Booking/BookingPaymentFailedPage"
 import UserTrackingPage from "../pages/User/Tracking/UserTrackingPage"
 import TravelerBookingDetails from "../pages/User/Traveler/BookingDetails/TravelerBookingDetails"
+import { About } from "../pages/User/About/AboutPage"
+import Services from "../pages/User/Service/Services"
+import Contact from "../pages/User/Contact/Contact"
+import BlogPage from "../pages/User/Blog/BlogPage"
 
 
 
 const UserRoutes = () => {
-    
+
   return (
     <>
       <title>CarryGo</title>
@@ -43,9 +47,13 @@ const UserRoutes = () => {
           <Route path="reset-password/:token" element={<ResetPassword />} />
 
         </Route>
-          <Route path="" element={<LandingPage />} />
+        <Route path="landing" element={<LandingPage />} />
+        <Route path="" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="blog" element={<BlogPage />} />
+        <Route path="services" element={<Services />} />
 
-        <Route path="home" element={<ProtectedRoute requiredRole={ROLES.USER}><Home /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.USER}><UserProfile /></ProtectedRoute>} />
         <Route path="/booking" element={<ProtectedRoute requiredRole={ROLES.USER}><UserCreateBooking /></ProtectedRoute>} />
         <Route path="/booking/:bookingId/pay" element={<ProtectedRoute requiredRole={ROLES.USER}><BookingPaymentPage /></ProtectedRoute>} />
@@ -55,6 +63,7 @@ const UserRoutes = () => {
         <Route path="/bookings/:bookingId" element={<ProtectedRoute requiredRole={ROLES.USER}><BookingDetailsPage /></ProtectedRoute>} />
 
         <Route path="/tracking/:bookingId" element={<ProtectedRoute requiredRole={ROLES.USER}><UserTrackingPage /></ProtectedRoute>} />
+        <Route path="/tracking" element={<ProtectedRoute requiredRole={ROLES.USER}><UserTrackingPage /></ProtectedRoute>} />
 
         <Route path="add-address" element={<ProtectedRoute requiredRole={ROLES.USER}><AddAddressForm /></ProtectedRoute>} />
         <Route path="addresses" element={<ProtectedRoute requiredRole={ROLES.USER}><AddressListPage /></ProtectedRoute>} />

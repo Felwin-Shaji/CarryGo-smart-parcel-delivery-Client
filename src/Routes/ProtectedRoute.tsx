@@ -60,7 +60,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
   if (requiredRole !== currentUser?.role) {
     switch (currentUser?.role) {
       case ROLES.USER:
-        return <Navigate to="/home" replace />;
+        return <Navigate to="/" replace />;
       case ROLES.AGENCY:
         return <Navigate to="/agency/dashboard" replace />;
       case ROLES.ADMIN:
