@@ -47,7 +47,7 @@ const PublicRoute: React.FC = () => {
 
   if (!isAdminRoute || !isAgencyRoute || !isHubRoute || !isWorkerRoute) {
     if (user) {
-      return <Navigate to="/home" replace />;
+      return <Navigate to="/" replace />;
     }
     return <Outlet />;
   }

@@ -58,7 +58,7 @@ const OtpVarificationpage = () => {
 
     if (role === "user") {
       dispatch(userLogin(response));
-      navigate("/home");
+      navigate("/");
     } else if (role === "agency") {
       navigate("/agency/login");
     } else {

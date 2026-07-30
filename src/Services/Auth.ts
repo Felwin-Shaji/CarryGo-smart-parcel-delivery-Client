@@ -171,12 +171,11 @@ export const useAuth = () => {
 
       if (response.data?.success) {
         const { users, accessToken } = response.data.data as LoginResponseType;
-
         toast.success(response.data.message || "Login successful");
 
         if (data.role === ROLES.USER) {
           dispatch(userLogin({ user: users, accessToken }));
-          navigate("/home");
+          navigate("/");
         } else if (data.role === ROLES.ADMIN) {
           dispatch(adminLogin({ admin: users, accessToken }));
           navigate("/admin/dashboard");
@@ -291,12 +290,9 @@ export const useAuth = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data, "22222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
 
       if (response.data?.success) {
         const { users, accessToken } = response.data.data;
-
-        console.log(response.data.data, "22222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
 
         toast.success(
           response.data.message || "Google login successful"
@@ -309,7 +305,7 @@ export const useAuth = () => {
           })
         );
 
-        navigate("/home");
+        navigate("/");
       }
     } catch (error: unknown) {
       const err = error as AxiosError<{ message?: string }>;

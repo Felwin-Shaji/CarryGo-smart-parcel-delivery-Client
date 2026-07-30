@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, Bell, Package, User, LogOut, Wallet, Car, ChevronDown } from "lucide-react";
+import { Menu, X, Bell, Package, User, LogOut, Wallet, Car, ChevronDown, TruckIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
 import { useAuth } from "../../../Services/Auth";
@@ -23,7 +23,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Home", href: "/home" },
+  { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
@@ -52,8 +52,15 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
   const LoginButton = () => (
     <button
       onClick={() => navigate("/login")}
-      className="rounded-lg bg-yellow-400 px-4 py-2 font-semibold text-[#0A2374]
-               hover:bg-yellow-300 transition"
+      className="
+        rounded-lg
+        bg-yellow-400
+        px-4 py-2
+        font-semibold
+        text-slate-950
+        transition
+        hover:bg-yellow-300
+        "
     >
       Login
     </button>
@@ -61,14 +68,14 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
 
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full bg-[#0A2374] text-white shadow-md">
+    <header className="fixed top-0 left-0 z-50 w-full bg-slate-950/95 backdrop-blur-md border-b border-slate-900 text-white shadow-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
 
         {/* Logo */}
         <div
           className="flex items-center gap-1 cursor-pointer select-none"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
         >
           <img
             src={Logo}
@@ -113,21 +120,28 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
               <div className="relative">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="relative flex items-center justify-center
-                    rounded-full
-                    text-white
+                  className="
+                    relative flex items-center justify-center
+                    rounded-lg
+                    p-2
+                    bg-transparent
+                    text-slate-300
                     transition-all duration-200
-                    hover:bg-white/10 hover:text-white"
+                    hover:bg-slate-800/70
+                    hover:text-white
+                  "
                 >
                   <Bell className="h-5 w-5" />
 
                   {unreadCount > 0 && (
                     <span
-                      className="absolute -top-1 -right-1 min-w-[20px] h-[20px]
-                        flex items-center justify-center
-                        text-[11px] font-bold
-                        bg-red-500 text-white
-                        rounded-full shadow-md"
+                      className="
+                        absolute -top-1 -right-1
+                        flex h-5 min-w-[20px] items-center justify-center
+                        rounded-full bg-red-500 px-1
+                        text-[11px] font-bold text-white
+                        shadow-md
+                      "
                     >
                       {unreadCount}
                     </span>
@@ -156,9 +170,9 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
                   >
                     {/* Avatar */}
                     <div
-                      className="flex h-9 w-9 items-center justify-center rounded-full
-               bg-yellow-400 text-[#0A2374] font-semibold text-sm
-               transition-transform duration-200 group-hover:scale-105"
+                      className="flex h-9 w-9 items-center justify-center rounded-full 
+                      bg-slate-800 border border-slate-700 text-white font-semibold text-sm
+                      transition-transform duration-200 group-hover:scale-105"
                     >
                       {user.name?.charAt(0).toUpperCase()}
                     </div>
@@ -179,6 +193,7 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
                 <DropdownItem icon={<User />} label="Profile" to="/profile" />
                 <DropdownItem icon={<Wallet />} label="Wallet" to="/wallet" />
                 <DropdownItem icon={<FaAddressBook />} label="Manage Address" to="/addresses" />
+                <DropdownItem icon={<TruckIcon />} label="Track Your Booking" to="/tracking" />
                 <DropdownSeparator />
                 <DropdownItem
                   icon={<LogOut />}
@@ -205,7 +220,7 @@ export const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="space-y-2 bg-[#0A2374] px-4 pb-4 md:hidden">
+        <div className="space-y-2 bg-slate-950/95 backdrop-blur-md border-b border-slate-900 px-4 pb-4 md:hidden">
           {navItems.map((item) => (
             <NavItem
               key={item.name}
