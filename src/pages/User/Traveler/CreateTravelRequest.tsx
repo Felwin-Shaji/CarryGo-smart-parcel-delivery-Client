@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import type { AddressUI } from "../../../context/Booking/Booking.types";
 import { useBooking } from "../../../Services/User/Booking/createBooking";
-import AddressModal from "../components/BookingComponent/BookingStepsComponents/AddressModal";
+import AddressModal from "../components/BookingComponent/BookingStepsComponents/AddressModal/AddressModal";
 import NotesSection from "./TravelerConponents/TravelRequest/NotesSection";
 import TransportPricingSection from "./TravelerConponents/TravelRequest/TransportPricingSection";
 import CapacitySection from "./TravelerConponents/TravelRequest/CapacitySection";

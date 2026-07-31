@@ -25,7 +25,7 @@ type Props = {
 
 const HubDashboardView = ({ role, hubId }: Props) => {
   const navigate = useNavigate();
-  const { summary, trend, types, shipments, fetchTrend } = useHubDashboard(hubId);
+  const { summary, trend, types, shipments, fetchTrend } = useHubDashboard(hubId, role);
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");

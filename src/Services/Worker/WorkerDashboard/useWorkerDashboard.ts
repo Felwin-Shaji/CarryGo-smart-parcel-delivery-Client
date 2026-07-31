@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useWorkerDashboardService } from "./useWorkerDashboardService";
 import type { GetParcelsResponse, GetWorkerDashboardResponseDTO, WorkerGraphPointDTO, } from "../../../shared/constants_Types/types/Worker/WorkerDashboard";
 import type { ShipmentParcelStatus } from "../../../shared/constants_Types/types/Hub/HubShipment";
+import type { Roles } from "../../../shared/constants_Types/types/roles";
 
 export interface WorkerParcelFilters {
     fromDate?: string;
     toDate?: string;
     status?: ShipmentParcelStatus;
+    role?: Roles;
 }
-export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: number, workerId?: string) => {
+export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: number, workerId?: string, role?: Roles) => {
     const service = useWorkerDashboardService();
 
     const [dashboard, setDashboard] = useState<GetWorkerDashboardResponseDTO>();
@@ -17,7 +19,7 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
     const [totalPages, setTotalPages] = useState(1);
 
     const fetchDashboard = async () => {
-        const res = await service.getDashboard(workerId);
+        const res = await service.getDashboard(role, workerId);
         console.log(res)
         setDashboard(res);
 
@@ -29,7 +31,8 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
             limit: 5,
             ...filters,
         },
-            workerId
+            role,
+            workerId,
         );
 
         setParcels(res);
@@ -38,7 +41,7 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
 
     const fetchGraph = async () => {
         try {
-            const res = await service.getGraph(filters, workerId);
+            const res = await service.getGraph(filters, role, workerId);
             console.log(res);
             setGraph(res.series);
         } catch (err) {
@@ -63,6 +66,7 @@ export const useWorkerDashboard = (filters: WorkerParcelFilters = {}, page: numb
         parcels,
         graph,
         totalPages,
-        exportParcels: service.exportParcels,
+        exportParcels: (format: "pdf" | "excel") =>
+            service.exportParcels(format, role, workerId),
     };
 };

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useBookingContext } from "../../../../context/Booking/BookingContext";
-import AddressModal from "./BookingStepsComponents/AddressModal";
-// import StepIndicator, { StepDivider } from "./BookingStepsComponents/StepIndicator";
+import AddressModal from "./BookingStepsComponents/AddressModal/AddressModal";
 import LocationBlock, { SummaryItem } from "./BookingStepsComponents/LocationBlock";
 import { useBooking } from "../../../../Services/User/Booking/createBooking";
 import type { AddressUI } from "../../../../context/Booking/Booking.types";
@@ -15,7 +14,6 @@ const BookingStepOne = () => {
     const [mapFor, setMapFor] = useState<"PICKUP" | "DELIVERY" | null>(null);
     const [savedAddresses, setSavedAddresses] = useState<AddressUI[]>([]);
     const [loadingAddresses, setLoadingAddresses] = useState(false);
-    // const [checkingService, setCheckingService] = useState(false);
 
     useEffect(() => {
         if (!mapFor) return;
@@ -38,34 +36,49 @@ const BookingStepOne = () => {
         !!state.deliveryAddress;
 
     const handleContinue = () => {
-        if (!canContinue) {
+        if (!state.pickupAddress || !state.deliveryAddress) {
             toast.error("Select pickup and delivery locations");
             return;
         }
 
-        dispatch({ type: "SET_STEP", payload: 2 });
+        const pickup = state.pickupAddress.location;
+        const delivery = state.deliveryAddress.location;
+
+        const sameLocation =
+            pickup.lat === delivery.lat &&
+            pickup.lng === delivery.lng;
+
+        if (sameLocation) {
+            toast.error("Pickup and delivery locations cannot be the same.");
+            return;
+        }
+
+        dispatch({
+            type: "SET_STEP",
+            payload: 2,
+        });
     };
 
 
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-50/80">
-{mapFor && (
-  <AddressModal
-    type={mapFor}
-    onClose={() => setMapFor(null)}
-    savedAddresses={savedAddresses}
-    loading={loadingAddresses}
-    onSelectAddress={(addr) => {
-      dispatch({
-        type: "SET_ADDRESS",
-        payload: { slot: mapFor, address: addr }
-      });
+            {mapFor && (
+                <AddressModal
+                    type={mapFor}
+                    onClose={() => setMapFor(null)}
+                    savedAddresses={savedAddresses}
+                    loading={loadingAddresses}
+                    onSelectAddress={(addr) => {
+                        dispatch({
+                            type: "SET_ADDRESS",
+                            payload: { slot: mapFor, address: addr }
+                        });
 
-      setMapFor(null);
-    }}
-  />
-)}
+                        setMapFor(null);
+                    }}
+                />
+            )}
             <BookingLayout
                 step={1}
                 title="Select Locations"
@@ -134,8 +147,8 @@ const BookingStepOne = () => {
                             onClick={handleContinue}
                             disabled={!canContinue}
                             className={`w-full mt-8 py-3 rounded-xl text-sm font-semibold transition ${canContinue
-                                    ? "bg-neutral-900 text-white hover:bg-neutral-800"
-                                    : "bg-neutral-100 text-neutral-300 cursor-not-allowed"
+                                ? "bg-neutral-900 text-white hover:bg-neutral-800"
+                                : "bg-neutral-100 text-neutral-300 cursor-not-allowed"
                                 }`}
                         >
                             Continue

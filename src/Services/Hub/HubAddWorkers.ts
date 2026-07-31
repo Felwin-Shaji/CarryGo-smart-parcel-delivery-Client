@@ -148,7 +148,7 @@ export const useHubAddWorker = () => {
         workerRole = "",
         workingStatus = ""
     }) => {
-        const res = await axiosInstance.get(API_HUB.WORKER, {
+        const res = await axiosInstance.get(API_HUB.HUB_WORKERS, {
             params: { page, limit, search, sortBy, sortOrder, blocked, kycStatus, startDate, endDate, workerRole, workingStatus }
         })
         toast.loading
@@ -158,19 +158,19 @@ export const useHubAddWorker = () => {
     }
 
     const getWorkerById = async (id: string) => {
-        const res = await axiosInstance.get(`${API_HUB.WORKER}/${id}`);
+        const res = await axiosInstance.get(`${API_HUB.HUB_WORKERS}/${id}`);
 
         return res.data.data as GetWorkerOverviewResponseDTO;
     };
 
     const getWorkerKyc = async (workerId: string) => {
-        const res = await axiosInstance.get(`${API_HUB.WORKER}/${workerId}/kyc`);
+        const res = await axiosInstance.get(`${API_HUB.HUB_WORKERS}/${workerId}/kyc`);
         return res.data.data // as 
     };
 
     const reSubmitWorkerKyc = async (workerId: string, formData: FormData) => {
         const res = await axiosInstance.patch(
-            `${API_HUB.WORKER}/${workerId}/kyc/resubmit`,
+            `${API_HUB.HUB_WORKERS}/${workerId}/kyc/resubmit`,
             formData,
             { headers: { "Content-Type": "multipart/form-data" } }
         );

@@ -23,7 +23,7 @@ export default function WorkerDashboardView({ role, workerId }: prop) {
     toDate?: string;
     status?: ShipmentParcelStatus;
   }>({});
-  const { parcels, graph, exportParcels, dashboard } = useWorkerDashboard(filters, page, workerId);
+  const { parcels, graph, exportParcels, dashboard } = useWorkerDashboard(filters, page, workerId, role);
 
 
   const handleFilterChange = (newFilters: WorkerParcelFilters) => {

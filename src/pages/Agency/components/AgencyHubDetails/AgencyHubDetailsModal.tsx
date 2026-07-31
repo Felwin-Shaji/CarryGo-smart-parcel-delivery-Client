@@ -120,7 +120,7 @@ export default function AgencyHubDetailsModal({ open, hubId }: {
                         {activeTab === "workers list" && (
                             <HubWorkersTable
                                 fetchFn={(params) =>
-                                    getHubWrokersList(hubId, params)
+                                    getHubWrokersList(hubId, "agency", params)
                                 }
                                 onRowClick={(id) => navigate(`/agency/hub/workers/${id}`)}
                             />
