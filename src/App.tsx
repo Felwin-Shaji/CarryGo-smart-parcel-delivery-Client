@@ -3,7 +3,6 @@ import './App.css'
 import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 import UserRoutes from './Routes/UserRoutes'
-import { Toaster } from 'react-hot-toast'
 import AdminRoutes from './Routes/AdminRoutes';
 import AgencyRoutes from './Routes/AgencyRoutes';
 import HubRoutes from './Routes/HubRoutes';
@@ -11,6 +10,7 @@ import ResetLinkSentPage from './pages/ResetLinkSentPage';
 import WorkerRoutes from './Routes/WorkerRoutes';
 import { ROLES } from './shared/constants_Types/types/roles';
 import { useAuthRehydration } from './hooks/useAuthRehydration';
+import AppToaster from './shared/components/Toaster/AppToaster';
 
 function App() {
 
@@ -28,7 +28,8 @@ function App() {
 
   return (
     <>
-      <Toaster toastOptions={{ style: { background: "#1E3A8A", color: "#fff" } }} />
+      <AppToaster />
+
       <Routes>
         <Route path='/*' element={<UserRoutes />} />
         <Route path='/admin/*' element={<AdminRoutes />} />

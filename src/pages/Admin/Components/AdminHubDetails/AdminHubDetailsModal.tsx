@@ -7,7 +7,7 @@ import { KYCSTATUS, ROLES, type KYCStatus } from "../../../../shared/constants_T
 import type { GetHubOverviewResponseDTO } from "../../../../shared/constants_Types/types/Agency/HubOverview.type";
 import AdminHubProfileCard from "./AdminHubProfileCard";
 import { useAdminHub } from "../../../../Services/Admin/AdminHub";
-import AgencyHubDashboard from "../../../Agency/components/AgencyHubDetails/AgencyHubDashboard";
+import { AdminHubDashboard } from "./AdminHubDashboard";
 import { SecondaryHeader } from "../../../../layouts/SecondaryHeader";
 import Breadcrumbs from "../../../../shared/components/globelcomponents/Breadcrumbs";
 import { useNavigate } from "react-router-dom";
@@ -158,7 +158,7 @@ export default function AdminHubDetailsModal({
                         <div className="bg-white p-6 rounded-3xl border shadow-sm">
                             <HubWorkersTable
                                 fetchFn={(params) =>
-                                    getHubWrokersList(hubId, params)
+                                    getHubWrokersList(hubId, "admin", params)
                                 }
                                 onRowClick={(id) => {
                                     return (navigate(`/admin/agency/${hub.agencyId}/hubs/worker/${id}`))
@@ -170,7 +170,7 @@ export default function AdminHubDetailsModal({
 
                 {/* DASHBOARD */}
                 {activeTab === "dashboard" &&
-                    <AgencyHubDashboard hubId={hub.id} />
+                    <AdminHubDashboard hubId={hub.id} />
                 }
 
             </div>

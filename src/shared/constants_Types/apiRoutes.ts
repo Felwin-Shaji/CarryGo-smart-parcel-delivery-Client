@@ -57,6 +57,17 @@ export const API_AGENCY = {
   MARK_AS_READ: "/api/agency/notifications/read",
   MARK_ALL_AS_READ: "/api/agency/notifications/read-all",
   UNREAD_COUNT: "/api/agency/notifications/unread-count",
+
+  HUB_WORKERS: "api/agency/hub",
+  GET_DASHBOARD_SUMMARY: "/api/agency/hub/dashboard/summary",
+  GET_DASHBOARD_TREND: "/api/agency/hub/dashboard/trend",
+  GET_DASHBOARD_TYPES: "/api/agency/hub/dashboard/types",
+  GET_DASHBOARD_SHIPMENTS_PREVIEW: "/api/agency/hub/dashboard/shipments-preview",
+
+  GET_WORKER_DASHBOARD: "/api/agency/hub/worker/dashboard",
+  GET_WORKER_ANALYTICS_GRAPH: "/api/agency/hub/worker/analytics/graph",
+  GET_WORKER_PARCELS: "/api/agency/hub/worker/parcels",
+  EXPORT_WORKER_PARCELS: "/api/agency/hub/worker/parcels/export",
 }
 
 
@@ -89,11 +100,28 @@ export const API_ADMIN = {
   GET_BOOKINGS_CHART: "/api/admin/bookings-chart",
   GET_BOOKINGS_REPORT: "/api/admin/bookings-report",
   GET_BOOKINGS_REPORT_EXPORT: "/api/admin/bookings-report/export",
+
+  GET_AGENCY_DASHBOARD: "/api/admin/agency/dashboard",
+  GET_AGENCY_SALES_CHART: "/api/admin/agency/dashboard/sales-chart",
+  GET_AGENCY_DELIVERIES_CHART: "/api/admin/agency/dashboard/deliveries-chart",
+  GET_AGENCY_SALES_REPORT: "/api/admin/agency/dashboard/sales-report",
+  GET_AGENCY_SALES_REPORT_EXPORT: "/api/admin/agency/dashboard/sales-report/export",
+
+  HUB_WORKERS: "api/admin/agency/hub",
+  GET_DASHBOARD_SUMMARY: "/api/admin/agency/hub/dashboard/summary",
+  GET_DASHBOARD_TREND: "/api/admin/agency/hub/dashboard/trend",
+  GET_DASHBOARD_TYPES: "/api/admin/agency/hub/dashboard/types",
+  GET_DASHBOARD_SHIPMENTS_PREVIEW: "/api/admin/agency/hub/dashboard/shipments-preview",
+
+  GET_WORKER_DASHBOARD: "/api/admin/agency/hub/worker/dashboard",
+  GET_WORKER_ANALYTICS_GRAPH: "/api/admin/agency/hub/worker/analytics/graph",
+  GET_WORKER_PARCELS: "/api/admin/agency/hub/worker/parcels",
+  EXPORT_WORKER_PARCELS: "/api/admin/agency/hub/worker/parcels/export",
 }
 
 export const API_HUB = {
   HUB: "/api/hub",
-  WORKER: "/api/hub/workers",
+  HUB_WORKERS: "/api/hub/workers",
   TEMP_WORKER_REGISTER: "/api/hub/worker/temp-register",
   WORKER_VERIFY_OTP: "/api/hub/worker/verify-otp",
   WORKER_RESEND_OTP: "/api/hub/worker/resend-otp",
@@ -122,6 +150,11 @@ export const API_HUB = {
   MARK_AS_READ: "/api/hub/notifications/read",
   MARK_ALL_AS_READ: "/api/hub/notifications/read-all",
   UNREAD_COUNT: "/api/hub/notifications/unread-count",
+
+  GET_WORKER_DASHBOARD: "/api/hub/worker/dashboard",
+  GET_WORKER_ANALYTICS_GRAPH: "/api/hub/worker/analytics/graph",
+  GET_WORKER_PARCELS: "/api/hub/worker/parcels",
+  EXPORT_WORKER_PARCELS: "/api/hub/worker/parcels/export",
 };
 
 
@@ -170,10 +203,10 @@ export const API_WORKER = {
 
   SHIPMENTS: "/api/worker/shipments",
 
-  GET_DASHBOARD: "/api/worker/dashboard",
-  GET_ANALYTICS_GRAPH: "/api/worker/analytics/graph",
-  GET_PARCELS: "/api/worker/parcels",
-  EXPORT_PARCELS: "/api/worker/parcels/export",
+  GET_WORKER_DASHBOARD: "/api/worker/dashboard",
+  GET_WORKER_ANALYTICS_GRAPH: "/api/worker/analytics/graph",
+  GET_WORKER_PARCELS: "/api/worker/parcels",
+  EXPORT_WORKER_PARCELS: "/api/worker/parcels/export",
 
   GET_ALL: "/api/worker/notifications",
   MARK_AS_READ: "/api/worker/notifications/read",

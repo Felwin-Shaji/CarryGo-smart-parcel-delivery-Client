@@ -27,7 +27,6 @@ export const useAuthRehydration = (role: Roles) => {
                     // Attach auth to socket
                     socket.auth = {
                         token: accessToken,
-                        userId: user.id,
                     };
 
                     //  Connect only if not already connected

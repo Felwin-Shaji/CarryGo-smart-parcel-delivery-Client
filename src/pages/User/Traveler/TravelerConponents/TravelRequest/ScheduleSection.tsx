@@ -21,6 +21,7 @@ const ScheduleSection = () => {
             type="datetime-local"
             name="departureAt"
             className="w-full border rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            min={new Date().toISOString().slice(0, 16)}
           />
 
           <ErrorMessage
@@ -40,6 +41,7 @@ const ScheduleSection = () => {
             type="datetime-local"
             name="arrivalAt"
             className="w-full border rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            min={new Date().toISOString().slice(0, 16)}
           />
 
           <ErrorMessage

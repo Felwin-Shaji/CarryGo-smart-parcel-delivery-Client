@@ -68,7 +68,7 @@ const BookingStepTwo = () => {
     };
 
     fetchAgencies();
-  }, [state.pickupAddress, state.deliveryAddress ]);
+  }, [state.pickupAddress, state.deliveryAddress]);
 
   /**
    * Fetch Travelers (lazy load)
@@ -76,7 +76,6 @@ const BookingStepTwo = () => {
   useEffect(() => {
     if (tab !== "TRAVELERS") return;
     if (state.serviceableTravelers?.length) return;
-    console.log(tab, 'llllllllllllllllllllllllllllllllllll"ssssssssssssssssssssssssssssssssssssssssssss')
 
     const fetchTravelers = async () => {
       if (!state.pickupAddress?.location || !state.deliveryAddress?.location)
@@ -166,7 +165,16 @@ const BookingStepTwo = () => {
         step={2}
         title="Choose Service"
         description="Select the courier service for delivery."
-        left={<NoServiceAvailable />}
+        left={
+          <>
+            <PartnerTabs
+              tab={tab}
+              setTab={setTab}
+            />
+
+            <NoServiceAvailable />
+          </>
+        }
         right={
           <BookingOverview
             pickup={state.pickupAddress?.formattedAddress}

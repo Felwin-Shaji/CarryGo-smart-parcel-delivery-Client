@@ -14,11 +14,11 @@ export const useAdminUser = () => {
         return response.data.data as UserWithKYCResponseDTO;
     };
 
-    const updateUserKycStatus = async (userId: string, kycStatus: string, reason?: string) => {
+    const updateUserKycStatus = async (userId: string, kycStatus: string, rejectReason?: string) => {
 
         const response = await axqiosInstance.patch(
             `${API_ADMIN.GET_USERS}/${userId}/kyc-status`,
-            { kycStatus, reason }
+            { kycStatus, rejectReason }
         )
 
         return response.data.data as { success: boolean; message: string };

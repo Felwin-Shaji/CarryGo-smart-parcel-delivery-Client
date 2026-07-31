@@ -54,7 +54,7 @@ export default function MapLocationPicker({ onSelect, position }: Props) {
     };
 
     return (
-        <div className="w-full h-[350px] rounded-xl overflow-hidden border shadow">
+        <div className="w-full h-full rounded-xl overflow-hidden border shadow">
             <MapContainer
                 center={marker ? marker : [10.457738, 76.288194]}
                 zoom={marker ? 10 : 5}
