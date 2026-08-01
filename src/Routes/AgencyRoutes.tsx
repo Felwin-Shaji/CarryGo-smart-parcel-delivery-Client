@@ -14,7 +14,7 @@ import AgencyResetPassword from "../pages/Agency/AgencyResetPassword";
 import AgencyPricingPage from "../pages/Agency/AgencyPricingPage";
 import AgencyProfilePage from "../pages/Agency/AgencyProfilePage";
 import AgencyHubDetailsPage from "../pages/Agency/AgencyHubDetailsPage";
-import AgencyLandingPage from "../pages/Agency/AgencyLandingPage";
+import AgencyLandingPage from "../pages/Agency/AgencyLanding/AgencyLandingPage";
 import AgencyWallet from "../pages/Agency/AgencyWallet";
 import RouteGroupsPage from "../pages/Agency/RouteGroups/RouteGroupPage.tsx/RouteGroupsPage";
 import RouteGroupDetailPage from "../pages/Agency/RouteGroups/RouteGroupDetail/RouteGroupDetailPage";
@@ -28,7 +28,6 @@ const AgencyRoutes = () => {
       <title>CarryGo-Agency</title>
       <Routes>
         <Route element={<PublicRoute />}>
-          <Route path="" element={<AgencyLandingPage />} />
 
           <Route path="registration" element={<AgencyRegistration />} />
           <Route path="verify-otp" element={<AgencyOtpVarification />} />
@@ -38,9 +37,11 @@ const AgencyRoutes = () => {
           <Route path="reset-password/:token" element={<AgencyResetPassword />} />
         </Route>
 
+        <Route path="" element={<AgencyLandingPage />} />
+
         <Route path="dashboard" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyDashboard /></ProtectedRoute>} />
         <Route path="profile" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyProfilePage /></ProtectedRoute>} />
-    
+
 
         <Route path="hubs" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubsList /></ProtectedRoute>} />
         <Route path="hub/:id" element={<ProtectedRoute requiredRole={ROLES.AGENCY}><AgencyHubDetailsPage /></ProtectedRoute>} />

@@ -24,7 +24,7 @@ export const useHubShipment = () => {
     };
 
     const getWorkers = async (): Promise<WorkerForShipment[]> => {
-        const res = await axiosInstance.get(`${API_HUB.WORKER}`);
+        const res = await axiosInstance.get(`${API_HUB.HUB_WORKERS}`);
         return res.data.data.data;
     };
 
